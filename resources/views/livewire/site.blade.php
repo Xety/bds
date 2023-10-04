@@ -10,8 +10,8 @@ new class extends Component
 
     public function mount():void
     {
-        $this->sites = auth()->user()->sites()->pluck('name', 'id')->toArray();
-        $this->current_site_id = auth()->user()->current_site_id;
+        $this->sites = auth()->user()->sites()->orderBy('name')->pluck('name', 'id')->toArray();
+        $this->current_site_id = session('current_site_id');
     }
 
     public function updatedCurrentSiteId()
@@ -38,7 +38,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <select wire:model.live="current_site_id" name="current_site_id" class="select select-md w-full font-bold">
+    <select wire:model.live="current_site_id" name="current_site_id" class="select w-full font-bold">
         @foreach($sites as $siteId => $siteName)
             <option  value="{{ $siteId }}">{{$siteName}}</option>
         @endforeach

@@ -18,7 +18,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                'selvah': ['Myriad Pro Regular'],
+                'bds': ['Myriad Pro Regular'],
             },
             animation: {
                 'ringing': 'ringing 2s ease 1s infinite'

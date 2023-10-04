@@ -6,7 +6,7 @@
             <x-form.text wire:model="search" placeholder="Rechercher des Utilisateurs..." class="lg:max-w-lg" />
         </div>
         <div class="mb-4">
-            @canany(['delete'], \Selvah\Models\User::class)
+            @canany(['delete'], \BDS\Models\User::class)
                 <div class="dropdown lg:dropdown-end">
                     <label tabindex="0" class="btn btn-neutral m-1">
                         Actions
@@ -15,7 +15,7 @@
                         </svg>
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
-                        @can('delete', \Selvah\Models\Incident::class)
+                        @can('delete', \BDS\Models\Incident::class)
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <i class="fa-solid fa-trash-can"></i> Supprimer
@@ -26,7 +26,7 @@
                 </div>
             @endcanany
 
-            @can('create', \Selvah\Models\User::class)
+            @can('create', \BDS\Models\User::class)
                 <a href="#" wire:click.prevent="create" class="btn btn-success gap-2">
                     <i class="fa-solid fa-plus"></i>
                     Nouvel Utilisateur
@@ -37,14 +37,14 @@
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @canany(['delete'], \Selvah\Models\User::class)
+            @canany(['delete'], \BDS\Models\User::class)
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model="selectPage" />
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \Selvah\Models\User::class)
+            @can('update', \BDS\Models\User::class)
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
@@ -78,14 +78,14 @@
 
             @forelse($users as $user)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->getKey() }}">
-                    @canany(['delete'], \Selvah\Models\User::class)
+                    @canany(['delete'], \BDS\Models\User::class)
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model="selected" value="{{ $user->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @endcanany
-                    @can('update', \Selvah\Models\User::class)
+                    @can('update', \BDS\Models\User::class)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $user->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier cet utilisateur">
                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -189,7 +189,7 @@
                 @if ($model->trashed())
                     <div>
                         <x-alert type="error" class="max-w-lg mb-4" title="Attention">
-                            <span class="font-bold">Cet utiliseur à été supprimé le {{ $model->deleted_at->translatedFormat( 'D j M Y à H:i') }} par {{ $model->deletedUser->username }}.</span><br> Vous devez le restaurer avant de faire une modification de cet utilisateur.
+                            <span class="font-bold">Cet utilisateur a été supprimé le {{ $model->deleted_at->translatedFormat( 'D j M Y à H:i') }} par {{ $model->deletedUser->username }}.</span><br> Vous devez le restaurer avant de faire une modification de cet utilisateur.
                         </x-alert>
                     </div>
                 @endif
@@ -208,7 +208,7 @@
                 </x-form.select>
 
                 <div class="modal-action">
-                    @if ($model->trashed() && auth()->user()->can('restore', \Selvah\Models\User::class))
+                    @if ($model->trashed() && auth()->user()->can('restore', \BDS\Models\User::class))
                         <button type="button" wire:click='restore()' class="btn btn-info gap-2">
                             <i class="fa-solid fa-lock-open"></i> Restaurer
                         </button>

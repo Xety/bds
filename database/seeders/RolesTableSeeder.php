@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class RolesTableSeeder extends Seeder
@@ -15,39 +16,135 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
-            'name' => 'Administrateur',
-            'site_id' => null
-        ]);
+        DB::table('roles')->delete();
 
-        Role::create([
-            'name' => 'Responsable Beaune',
-            'site_id' => null
-        ]);
-
-        Role::create([
-            'name' => 'Responsable Crissey',
-            'site_id' => null
-        ]);
-
-        Role::create([
-            'name' => 'Responsable Chalon Nord',
-            'site_id' => null
-        ]);
-
-        Role::create([
-            'name' => 'Assistant(e) Qualité',
-            'site_id' => null
-        ]);
-
-        Role::create([
-            'name' => 'Opérateur',
-            'site_id' => null
-        ]);
-
-        Role::create([
-            'name' => 'Saisonnier',
-            'site_id' => null
-        ]);
+        DB::table('roles')->insert(array (
+            array (
+                'id' => 1,
+                'name' => 'Administrateur',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #ef3c3c;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 2,
+                'name' => 'Responsable Selvah',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #14e8e1;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 3,
+                'name' => 'Responsable Selvah Adjoint',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #5ccc5c;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 4,
+                'name' => 'Assistant(e) Qualité',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #ffca00;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 5,
+                'name' => 'Opérateur',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 6,
+                'name' => 'Saisonnier',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 7,
+                'name' => 'Responsable Extrusel',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #14e8e1;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 8,
+                'name' => 'Responsable Extrusel Adjoint',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #5ccc5c;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 9,
+                'name' => 'Responsable Beaune',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #14e8e1;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 10,
+                'name' => 'Responsable Bligny sur Ouche',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #14e8e1;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 11,
+                'name' => 'Responsable Gergy',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #14e8e1;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 12,
+                'name' => 'Responsable Meursanges',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #14e8e1;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 13,
+                'name' => 'Responsable Chalon Nord',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #14e8e1;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+            array (
+                'id' => 14,
+                'name' => 'Responsable Crissey',
+                'created_at' => '2023-08-15 09:46:14',
+                'css' => 'font-weight: bold; color: #14e8e1;',
+                'description' => NULL,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
+        ));
     }
 }

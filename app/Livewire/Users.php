@@ -67,8 +67,8 @@ class Users extends Component
     public array $allowedFields = [
         'id',
         'username',
-        'first_name',
-        'last_name',
+        /*'first_name',
+        'last_name',*/
         'email',
         'last_login',
         'created_at'
@@ -172,8 +172,8 @@ class Users extends Component
         return [
             'model.username' => 'required|regex:/^[\w.]*$/|min:5|max:30|unique:users,username,' . $this->model->id,
             'model.email' => 'required|email|unique:users,email,' . $this->model->id,
-            'model.first_name' => 'required',
-            'model.last_name' => 'required',
+            /*'model.first_name' => 'required',
+            'model.last_name' => 'required',*/
             'rolesSelected' => 'required'
         ];
     }

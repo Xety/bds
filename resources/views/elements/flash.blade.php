@@ -2,13 +2,13 @@
     @if(Session::has($type))
 
         <?php
-        $dismiss = '<button type="button" class="absolute right-2 top-2 h-5 w-5" data-dismiss-target="#alert-selvah" aria-label="Close">
+        $dismiss = '<button type="button" class="absolute right-2 top-2 h-5 w-5" data-dismiss-target="#alert-bds" aria-label="Close">
             <span class="sr-only">Dismiss</span>
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
           </button>';
           ?>
 
-        <div id="alert-selvah" class="absolute right-0 md:right-5 top-20 flex w-full max-w-sm animate-bounceInDown ml-3 overflow-hidden rounded-lg shadow-md bg-white dark:bg-base-300 z-50">
+        <div id="alert-bds" class="absolute right-0 md:right-5 top-20 flex w-full max-w-sm animate-bounceInDown ml-3 overflow-hidden rounded-lg shadow-md bg-white dark:bg-base-300 z-50">
 
             @if ($type == "danger")
             <div class="flex items-center justify-center w-14 bg-red-500">

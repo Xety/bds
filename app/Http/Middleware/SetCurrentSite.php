@@ -17,8 +17,14 @@ class SetCurrentSite
     public function handle(Request $request, Closure $next): mixed
     {
         if (!empty(auth()->user())) {
+            $siteId = auth()->user()->current_site_id;
+
+            if (is_null(auth()->user()->current_site_id)) {
+                $siteId = auth()->user()->getFirstSiteId();
+            }
+
             session()->put([
-                'current_site_id' => auth()->user()->current_site_id == null ? 4 : auth()->user()->current_site_id
+                'current_site_id' => $siteId
             ]);
         }
 

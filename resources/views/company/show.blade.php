@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="w-full 2xl:w-2/3">
-                    <h1 class="text-2xl font-selvah pb-2 mx-5 2xl:border-dotted 2xl:border-b 2xl:border-slate-500">
+                    <h1 class="text-2xl font-bds pb-2 mx-5 2xl:border-dotted 2xl:border-b 2xl:border-slate-500">
                         {{ $company->name }}
                     </h1>
                     <p class="hidden 2xl:block py-2 mx-5 text-gray-400">
@@ -37,7 +37,7 @@
                     <div class="font-bold text-2xl">
                         {{ $company->maintenances->count() }}
                     </div>
-                    <p class="text-muted font-selvah uppercase">
+                    <p class="text-muted font-bds uppercase">
                         Maintenance(s)
                     </p>
                 </div>

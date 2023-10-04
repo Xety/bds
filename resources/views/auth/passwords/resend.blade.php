@@ -15,14 +15,11 @@
         <div class="flex flex-wrap">
             <div class="flex flex-col w-full max-w-full px-3 mx-auto lg:mx-0 shrink-0 md:flex-0 md:w-7/12 lg:w-5/12 xl:w-4/12">
                 <div class="flex flex-col items-center">
-                    <img src="{{ asset('images/logos/selvah_570x350.png') }}" alt="Selvah Logo" class="inline-block mb-5" width="250px">
-                    <h1 class="text-4xl font-selvah text-center mb-2">
-                        SELVAH
-                    </h1>
+                    <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="{{ config('bds.info.full_name') }} Logo" class="inline-block mb-5" width="200px">
 
-                    <h2 class="text-xl text-center">
+                    <h1 class="text-xl text-center">
                         Renvoyer le lien de configuration de votre mot de passe
-                    </h2>
+                    </h1>
                     <p class="text-gray-500 text-center">
                         Vous devez impérativement configurer votre mot de passe avant de pouvoir vous connecter pour la première fois à votre compte.
                     </p>
@@ -59,7 +56,7 @@
                 <div class="relative flex flex-col justify-center h-full px-24 m-4 bg-cover bg-center rounded-xl bg-[url('/images/login/moissonneuse.jpg')]">
                     <span class="absolute top-0 left-0 w-full h-full bg-cover rounded-xl opacity-60 bg-gradient-to-tl from-blue-500 to-cyan-700"></span>
                     <div class="relative z-30">
-                        <h2 class="text-4xl mt-12 font-bold text-white font-selvah">"Société pour l’Extrusion de Légumineuses Valorisées en Alimentation Humaine"</h2>
+                        <h2 class="text-4xl mt-12 font-bold text-white font-bds">"Société pour l’Extrusion de Légumineuses Valorisées en Alimentation Humaine"</h2>
                         <p class="text-xl text-white ">Acteur majeur dans le développement de protéines végétales.</p>
                     </div>
                 </div>

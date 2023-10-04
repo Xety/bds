@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="w-full">
-                            <h1 class="text-2xl xl:text-4xl font-selvah pb-2 mx-5 xl:border-dotted xl:border-b xl:border-slate-500">
+                            <h1 class="text-2xl xl:text-4xl font-bds pb-2 mx-5 xl:border-dotted xl:border-b xl:border-slate-500">
                                 {{ $material->name }}
                             </h1>
                             <p class="hidden xl:block py-2 mx-5 text-gray-400">
@@ -179,7 +179,7 @@
                             <div class="text-muted text-xl">
                                 Zone
                             </div>
-                            <p class="font-bold font-selvah uppercase text-primary">
+                            <p class="font-bold font-bds uppercase text-primary">
                                 {{ $material->zone->name }}
                             </p>
                         </div>
@@ -193,7 +193,7 @@
                             <div class="font-bold text-2xl">
                                  {{ $material->incident_count }}
                             </div>
-                            <p class="text-muted font-selvah uppercase">
+                            <p class="text-muted font-bds uppercase">
                                 Incident(s)
                             </p>
                         </div>
@@ -207,7 +207,7 @@
                             <div class="font-bold text-2xl">
                                 {{ $material->maintenance_count }}
                             </div>
-                            <p class="text-muted font-selvah uppercase">
+                            <p class="text-muted font-bds uppercase">
                                 Maintenance(s)
                             </p>
                         </div>
@@ -221,7 +221,7 @@
                             <div class="font-bold text-2xl">
                                 {{ $material->part_count }}
                             </div>
-                            <p class="text-muted font-selvah uppercase">
+                            <p class="text-muted font-bds uppercase">
                                 Pièce(s) Détachée(s)
                             </p>
                         </div>
@@ -235,7 +235,7 @@
                             <div class="font-bold text-2xl">
                                 {{ $material->cleaning_count }}
                             </div>
-                            <p class="text-muted font-selvah uppercase">
+                            <p class="text-muted font-bds uppercase">
                                 Nettoyage(s)
                             </p>
                         </div>
@@ -249,7 +249,7 @@
                             <div class="font-bold text-2xl">
                                 {{ $material->qrcode_flash_count }}
                             </div>
-                            <p class="text-muted font-selvah uppercase">
+                            <p class="text-muted font-bds uppercase">
                                 Nombre de flash QR Code
                             </p>
                         </div>

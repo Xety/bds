@@ -10,7 +10,7 @@
 
 <section class="m-3 lg:m-10">
     <hgroup class="text-center px-5 pb-5">
-        <h1 class="text-4xl font-selvah">
+        <h1 class="text-4xl font-bds">
             <i class="fa-solid fa-briefcase"></i> Gestion des Entreprises
         </h1>
         <p class="text-gray-400 ">

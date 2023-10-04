@@ -11,7 +11,8 @@ return [
     | All informations related to the site.
     */
     'info' => [
-        'full_name' => 'Coopérative Bourgogne du Sud'
+        'full_name' => 'Coopérative Bourgogne du Sud',
+        'site_description' => 'Site de gestion interne de la Coopérative Bourgogne du Sud, Extrusel et Selvah.'
     ],
 
     /*

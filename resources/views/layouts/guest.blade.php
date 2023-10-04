@@ -1,7 +1,7 @@
 <!--
 Conçu et développé par Emeric Fèvre.
 
-@2023 Selvah, Tous droits réservés.
+@2023 Coopérative Bourgogne du Sud, Tous droits réservés.
 -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
@@ -67,7 +67,7 @@ Conçu et développé par Emeric Fèvre.
 
         <!-- CSRF JS Token -->
         <script type="text/javascript">
-            window.Selvah = {!! json_encode(['csrfToken' => csrf_token()]) !!}
+            window.BDS = {!! json_encode(['csrfToken' => csrf_token()]) !!}
         </script>
 
         @vite('resources/js/bds.js')

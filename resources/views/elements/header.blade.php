@@ -1,17 +1,26 @@
 <header>
     <!-- Navbar -->
-    <nav class="navbar bg-base-100 dark:bg-base-300 dark:text-slate-300">
+    <nav class="navbar bg-base-100 dark:bg-base-300 dark:text-slate-300 lg:pr-5">
             <div class="navbar-start lg:hidden">
                 <label for="bds-drawer" class="btn btn-square btn-ghost">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-8 w-8 stroke-current md:h-6 md:w-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </label>
             </div>
             <div class="navbar-start hidden lg:flex justify-start">
-                <img src="{{ asset('images/logos/alliance_bfc.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="block h-12">
+                <img class="block dark:hidden h-12" src="{{ asset('images/logos/alliance_bfc.png') }}" alt="Alliance BFC Logo">
+                <img class="hidden dark:block h-12" src="{{ asset('images/logos/alliance_bfc_blanc.png') }}" alt="Alliance BFC Logo">
             </div>
             <div class="navbar-center lg:hidden">
-                <a class="font-light text-3xl font-selvah" href="{{ route('dashboard.index') }}">
-                    <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="block mx-auto w-20">
+                <a class="font-light text-3xl font-bds text-center" href="{{ route('dashboard.index') }}">
+                    @if (session('current_site_id') == 2)
+                        <img src="{{ asset('images/logos/selvah_570x350.png') }}" alt="Selvah Logo" class="inline-block w-20">
+                        <span class="block">SELVAH</span>
+                    @elseif (session('current_site_id') == 3)
+                        <img src="{{ asset('images/logos/extrusel_166x110.png') }}" alt="Extrusel Logo" class="inline-block w-24">
+                        <span class="block">EXTRUSEL</span>
+                    @else
+                        <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
+                    @endif
                 </a>
             </div>
             <div class="navbar-start hidden lg:block"></div>

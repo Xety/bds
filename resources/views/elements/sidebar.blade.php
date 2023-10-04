@@ -4,8 +4,16 @@
     <div class="menu w-80 min-h-full bg-neutral dark:bg-base-300 text-neutral-content dark:text-slate-300">
         <ul>
             <li class="hidden lg:block">
-                <a class="flex flex-col items-center font-light text-3xl font-selvah  hover:!bg-transparent focus:!bg-transparent active:!bg-transparent" href="{{ route('dashboard.index') }}">
-                    <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
+                <a class="flex flex-col items-center font-light text-3xl font-bds  hover:!bg-transparent focus:!bg-transparent active:!bg-transparent" href="{{ route('dashboard.index') }}">
+                    @if (session('current_site_id') == 2)
+                        <img src="{{ asset('images/logos/selvah_570x350.png') }}" alt="Selvah Logo" class="inline-block w-20">
+                        <span class="block">SELVAH</span>
+                    @elseif (session('current_site_id') == 3)
+                        <img src="{{ asset('images/logos/extrusel_166x110.png') }}" alt="Extrusel Logo" class="inline-block w-24">
+                        <span class="block">EXTRUSEL</span>
+                    @else
+                        <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
+                    @endif
                 </a>
             </li>
             <li class="lg:hidden">
@@ -20,6 +28,11 @@
 
                     </label>
                 </div>
+            </li>
+
+            <li class="lg:hidden items-center">
+                {{-- Select Site --}}
+                <livewire:site />
             </li>
         </ul>
 

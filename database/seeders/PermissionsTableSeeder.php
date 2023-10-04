@@ -171,14 +171,14 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'generateQrCode material',
+                'name' => 'generate-qrcode material',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut générer des QRCode pour les matériels.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'scanQrCode material',
+                'name' => 'scan-qrcode material',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut scanner des QRCode pour les matériels.',
                 'created_at' => now(),

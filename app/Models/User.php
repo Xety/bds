@@ -25,6 +25,9 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @property $current_site_id
+ */
 class User extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
@@ -159,6 +162,16 @@ class User extends Model implements
     public function deletedUser(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'deleted_user_id')->withTrashed();
+    }
+
+    public function getFirstSiteId()
+    {
+        $id = $this->sites()->first()?->id;
+
+        if (is_null($id)) {
+            return null;
+        }
+        return $id;
     }
 
     /**

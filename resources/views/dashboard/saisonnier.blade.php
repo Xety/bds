@@ -14,7 +14,7 @@
             <div class="relative p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300 text-center bg-[url('/images/bds/bds.jpg')] bg-center bg-cover bg-no-repeat">
                 <span class="absolute top-0 left-0 w-full h-full bg-repeat rounded-xl opacity-40 bg-[url('/images/bds/overlay.png')]"></span>
                 <span class="absolute top-0 left-0 w-full h-full bg-cover rounded-xl opacity-40 bg-gradient-to-tl from-gray-900 to-gray-900"></span>
-                <h1 class="relative text-5xl mb-4 text-base-100 dark:text-primary-content uppercase font-selvah z-1">
+                <h1 class="relative text-5xl mb-4 text-base-100 dark:text-primary-content uppercase font-bds z-1">
                     Bienvenue<br>
                     à la<br>
                     <img src="{{ asset('images/logos/bds_blanc2.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-28 relative z-1 mb-4 mt-4">
