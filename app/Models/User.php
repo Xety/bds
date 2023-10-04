@@ -40,6 +40,15 @@ class User extends Model implements
     use SoftDeletes;
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'account'
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -110,6 +119,16 @@ class User extends Model implements
 
         // Find the first record, or abort
         return $query->firstOrFail();
+    }
+
+    /**
+     * Get the account for the user.
+     *
+     * @return HasOne
+     */
+    public function account(): HasOne
+    {
+        return $this->hasOne(Account::class);
     }
 
     /**
