@@ -8,7 +8,7 @@ jobs:
     test:
         runs-on: ${{ matrix.os }}
         env:
-          DB_DATABASE: selvah_test
+          DB_DATABASE: bds_test
           DB_USERNAME: admin
           DB_PASSWORD: rootpass
         strategy:
@@ -23,7 +23,7 @@ jobs:
                 image: mysql:latest
                 env:
                     MYSQL_ALLOW_EMPTY_PASSWORD: yes
-                    MYSQL_DATABASE: selvah_test
+                    MYSQL_DATABASE: bds_test
                     MYSQL_HOST: 127.0.0.1
                     MYSQL_USER: admin
                     MYSQL_PASSWORD: rootpass
