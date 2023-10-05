@@ -3,7 +3,7 @@
 
     <div class="flex flex-col lg:flex-row gap-6 justify-between">
         <div class="flex flex-col lg:flex-row  gap-4 mb-2">
-            <x-form.text wire:model.live="filters.search" placeholder="Rechercher des Nettoyages..." class="lg:max-w-lg" />
+            <x-form.text wire:model.live.debounce.250ms="filters.search" placeholder="Rechercher des Nettoyages..." class="lg:max-w-lg" />
             <button type="button" wire:click="$toggle('showFilters')" class="btn">
                 <i class="fa-solid fa-magnifying-glass"></i>@if ($showFilters) Cacher la @endif Recherche Avancée @if (!$showFilters)... @endif
             </button>

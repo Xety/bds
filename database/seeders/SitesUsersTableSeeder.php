@@ -372,7 +372,25 @@ class SitesUsersTableSeeder extends Seeder
             // Christophe.G
             [
                 'user_id' => 7,
-                'site_id' => 2,
+                'site_id' => 6,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 7,
+                'site_id' => 7,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 7,
+                'site_id' => 21,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 7,
+                'site_id' => 30,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

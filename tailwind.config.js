@@ -19,6 +19,7 @@ export default {
         extend: {
             fontFamily: {
                 'bds': ['Myriad Pro Regular'],
+                'racing': ['Racing Sans One'],
             },
             animation: {
                 'ringing': 'ringing 2s ease 1s infinite'

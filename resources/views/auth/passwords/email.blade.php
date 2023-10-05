@@ -49,15 +49,7 @@
                 </div>
             </div>
 
-            <div class="absolute top-0 right-0 flex-col justify-center hidden w-6/12 h-full max-w-full px-3 pr-0 my-auto text-center flex-0 lg:flex">
-                <div class="relative flex flex-col justify-center h-full px-24 m-4 bg-cover bg-center rounded-xl bg-[url('/images/login/moissonneuse.jpg')]">
-                    <span class="absolute top-0 left-0 w-full h-full bg-cover rounded-xl opacity-60 bg-gradient-to-tl from-blue-500 to-cyan-700"></span>
-                    <div class="relative z-30">
-                        <h2 class="text-4xl mt-12 font-bold text-white font-bds">"Société pour l’Extrusion de Légumineuses Valorisées en Alimentation Humaine"</h2>
-                        <p class="text-xl text-white ">Acteur majeur dans le développement de protéines végétales.</p>
-                    </div>
-                </div>
-            </div>
+            <x-auth.aside />
         </div>
     </div>
 </section>

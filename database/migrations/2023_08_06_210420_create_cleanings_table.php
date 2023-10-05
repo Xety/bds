@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('cleanings', function (Blueprint $table) {
             $table->id();
             $table->mediumText('description')->nullable();
+            $table->float('selvah_ph_test_water', 2, 1)->nullable();
+            $table->float('selvah_ph_test_water_after_cleaning', 2, 1)->nullable();
             $table->enum('type', ['daily', 'weekly', 'bimonthly', 'monthly', 'quarterly', 'biannual', 'annual', 'casual'])
                 ->default('daily');
             $table->integer('edit_count')->default(0);

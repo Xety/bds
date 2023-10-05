@@ -11,6 +11,13 @@
     src: local('Myriad Pro Regular'), url('../../public/fonts/MyriadPro-Regular.woff') format('woff');
 }
 
+@font-face {
+    font-family: 'Racing Sans One';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Racing Sans One'), url('../../public/fonts/RacingSansOne-Regular.ttf') format('ttf');
+}
+
 /**
  * Checkbox
  */

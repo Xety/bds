@@ -41,7 +41,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
     public function run()
     {
         // Administrateur Role
-        $role = Role::findByName('Administrateur');
+        $role = Role::findByName('Développeur');
         $role->syncPermissions([
             // Role
             'viewAny role',

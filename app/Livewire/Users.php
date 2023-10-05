@@ -39,7 +39,7 @@ class Users extends Component
      *
      * @var string
      */
-    public string $sortDirection = 'desc';
+    public string $sortDirection = 'asc';
 
     /**
      * The string to search.
@@ -53,10 +53,10 @@ class Users extends Component
      *
      * @var string[]
      */
-    protected $queryString = [
+    protected array $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
-        'search' => ['except' => '', 'as' => 's']
+        'search' => ['as' => 's']
     ];
 
     /**
@@ -105,7 +105,7 @@ class Users extends Component
      * Number of rows displayed on a page.
      * @var int
      */
-    public int $perPage = 10;
+    public int $perPage = 15;
 
     /**
      * The selected roles for the editing an user or the new user.
@@ -119,7 +119,7 @@ class Users extends Component
      *
      * @var string[]
      */
-    protected $validationAttributes = [
+    protected array $validationAttributes = [
         'username' => 'nom d\'utilisateur',
         'first_name' => 'prénom',
         'last_name' => 'nom',
@@ -209,7 +209,14 @@ class Users extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = User::query()
-            ->with('roles')
+            ->withCount('roles')
+            ->orderByDesc('roles_count')
+            //->with('roles')
+            /*->orderBy('roles', function($query){
+
+                return $query->roles()->count();
+
+            })*/
             ->search('username', $this->search)
             ->withTrashed();
 
