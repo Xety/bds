@@ -178,6 +178,7 @@ class Zones extends Component
     {
         $query = Zone::query()
             ->with('materials')
+            ->whereRelation('site', 'id', session('current_site_id'))
             /*->withCount(['materials as incidentsCount' => function ($query) {
                 $query->select(DB::raw('SUM(incident_count)'));
             }])
