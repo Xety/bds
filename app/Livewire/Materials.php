@@ -310,6 +310,7 @@ class Materials extends Component
     {
         $query = Material::query()
             ->with('zone', 'user')
+            ->whereRelation('zone.site', 'id', session('current_site_id'))
             ->when($this->filters['creator'], fn($query, $creator) => $query->where('user_id', $creator))
             ->when($this->filters['zone'], fn($query, $material) => $query->where('zone_id', $material))
             ->when($this->filters['created-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))

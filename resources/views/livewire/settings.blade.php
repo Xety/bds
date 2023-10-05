@@ -6,7 +6,7 @@
             <x-form.text wire:model="search" placeholder="Rechercher des paramètres..." class="lg:max-w-lg" />
         </div>
         <div class="mb-4">
-            @canany(['delete'], \Selvah\Models\Setting::class)
+            @canany(['delete'], \BDS\Models\Setting::class)
                 <div class="dropdown lg:dropdown-end">
                     <label tabindex="0" class="btn btn-neutral m-1">
                         Actions
@@ -15,7 +15,7 @@
                         </svg>
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
-                        @can('delete', \Selvah\Models\Setting::class)
+                        @can('delete', \BDS\Models\Setting::class)
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <i class="fa-solid fa-trash-can"></i> Supprimer
@@ -26,7 +26,7 @@
                 </div>
             @endcanany
 
-            @can('create', \Selvah\Models\Setting::class)
+            @can('create', \BDS\Models\Setting::class)
                 <a href="#" wire:click.prevent="create" class="btn btn-success gap-2">
                     <i class="fa-solid fa-plus"></i>
                     Nouveau Paramètre
@@ -37,14 +37,14 @@
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @canany(['delete'], \Selvah\Models\Setting::class)
+            @canany(['delete'], \BDS\Models\Setting::class)
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model="selectPage" />
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \Selvah\Models\Setting::class)
+            @can('update', \BDS\Models\Setting::class)
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
@@ -75,14 +75,14 @@
 
             @forelse($settings as $setting)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $setting->getKey() }}">
-                    @canany(['delete'], \Selvah\Models\Setting::class)
+                    @canany(['delete'], \BDS\Models\Setting::class)
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model="selected" value="{{ $setting->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @endcanany
-                    @can('update', \Selvah\Models\Setting::class)
+                    @can('update', \BDS\Models\Setting::class)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $setting->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier ce paramètre">
                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -185,7 +185,7 @@
                         </label>
                 </div>
 
-                @foreach (\Selvah\Models\Setting::TYPES as $key => $value)
+                @foreach (\BDS\Models\Setting::TYPES as $key => $value)
                     <x-form.radio wire:model="type" value="{{ $key }}" name="type">
                         {{ $value }}
                     </x-form.radio>

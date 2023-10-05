@@ -126,13 +126,6 @@ class Cleanings extends Component
     ];
 
     /**
-     * The model used in the component.
-     *
-     * @var Cleaning|array
-     */
-    //public Cleaning|array $model = [];
-
-    /**
      * Used to show the Edit/Create modal.
      *
      * @var bool
