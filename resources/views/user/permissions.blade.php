@@ -21,7 +21,7 @@
         <div class="grid grid-cols-12 gap-6 mb-7">
             <div class="col-span-12 shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
 
-                <ul class="menu menu-xs bg-base-200 rounded-lg max-w-xs w-full">
+                <ul class="menu menu-xs bg-base-200 rounded-lg w-full">
                     @foreach($sites as $site)
                         <li>
                             <details>
@@ -45,12 +45,26 @@
                                             <ul>
                                                 @foreach($user->roles as $role)
                                                     <li>
-                                                        <a>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                                                            </svg>
-                                                            {{ $role->name }}
-                                                        </a>
+                                                        <details>
+                                                            <summary>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                                                                </svg>
+                                                                {{ $role->name }}
+                                                            </summary>
+                                                            <ul>
+                                                                @foreach($role->permissions as $permission)
+                                                                        <li>
+                                                                            <a>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z" />
+                                                                                </svg>
+                                                                                {{ $permission->name }}
+                                                                            </a>
+                                                                        </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </details>
                                                     </li>
                                                 @endforeach
                                             </ul>

@@ -193,14 +193,14 @@ class User extends Model implements
         setPermissionsTeamId($team_id_to_be_restored);
     }
 
-    public function roles_all(): BelongsToMany
+    public function rolesAll(): BelongsToMany
     {
         return $this->morphToMany(
-            config('permission.models.role'),
+            \Spatie\Permission\Models\Role::class,
             'model',
-            config('permission.table_names.model_has_roles'),
-            config('permission.column_names.model_morph_key'),
-            PermissionRegistrar::$pivotRole
+            'model_has_roles',
+            'model_id',
+            'role_id'
         );
     }
 }

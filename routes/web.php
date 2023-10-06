@@ -121,14 +121,14 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('users', [BDS\Http\Controllers\UserController::class, 'index'])
         ->name('users.index');
-    /*Route::get('users/{user}', [BDS\Http\Controllers\UserController::class, 'show'])
+    Route::get('users/permissions', [BDS\Http\Controllers\UserController::class, 'permissions'])
+        ->name('users.permissions');
+    Route::get('users/{user}', [BDS\Http\Controllers\UserController::class, 'show'])
         ->name('users.show')
         ->missing(function (Request $request) {
             return Redirect::back()
                 ->with('danger', "Cet utilisateur n'existe pas ou à été supprimé !");
-        });*/
-    Route::get('users/permissions', [BDS\Http\Controllers\UserController::class, 'permissions'])
-        ->name('users.permissions');
+        });
 
     /*
     |--------------------------------------------------------------------------
