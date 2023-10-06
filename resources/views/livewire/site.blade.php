@@ -5,8 +5,9 @@ use Livewire\Volt\Component;
 
 new class extends Component
 {
-    public $sites;
-    public $current_site_id;
+    public array $sites = [];
+
+    public ?int $current_site_id = null;
 
     public function mount():void
     {
@@ -27,8 +28,6 @@ new class extends Component
         session()->put([
             'current_site_id' => $newSiteId
         ]);
-        //setPermissionsTeamId(session('current_site_id'));
-        //app(\Spatie\Permission\PermissionRegistrar::class)->setPermissionsTeamId(session('current_site_id'));
 
         $user->current_site_id = $newSiteId;
         $user->save();

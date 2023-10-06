@@ -18,7 +18,7 @@
 <div
     x-data="{ value: @entangle($attributes->wire('model')) }"
     x-on:change="value = $event.target.value"
-    x-init="flatpickr($refs.input, {disableMobile: true, enableTime: true, dateFormat: 'd-m-Y H:i', time_24hr: true, monthSelectorType: 'static', prevArrow: '{{ "<svg class=\"fill-current\" width=\"7\" height=\"11\" viewBox=\"0 0 7 11\"><path d=\"M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z\" /></svg>" }}', nextArrow: '{{ "<svg class=\"fill-current\" width=\"7\" height=\"11\" viewBox=\"0 0 7 11\"><path d=\"M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z\" /></svg>" }}', defaultDate: '{{ $value ? $value : \Carbon\Carbon::now()->format('d-m-Y H:i') }}' })"
+    x-init="flatpickr($refs.input, {disableMobile: true, enableTime: true, dateFormat: 'd-m-Y H:i', time_24hr: true, monthSelectorType: 'static', prevArrow: '{{ "<svg class=\"fill-current\" width=\"7\" height=\"11\" viewBox=\"0 0 7 11\"><path d=\"M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z\" /></svg>" }}', nextArrow: '{{ "<svg class=\"fill-current\" width=\"7\" height=\"11\" viewBox=\"0 0 7 11\"><path d=\"M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z\" /></svg>" }}', defaultDate: '{{ $value ? $value : '' }}' })"
     class="form-control w-full"
 >
     @if ($label !== false)
@@ -43,15 +43,14 @@
 
     @if ($join == true)
         <div class="join">
-            <button class="btn btn-disabled join-item"><i class="{{ $joinIcon }} dark:text-current"></i></button>
+            <button class="btn btn-xs btn-disabled join-item"><i class="{{ $joinIcon }} dark:text-current"></i></button>
     @endif
 
     <input
         {{ $attributes->whereDoesntStartWith('wire:model') }}
         x-ref="input"
-        x-bind:value="value"
         type="text"
-        {{ $attributes->merge(['class' => $hasError ? 'input input-bordered input-error join-item w-full' : 'input input-bordered join-item w-full']) }}
+        {{ $attributes->merge(['class' => $hasError ? 'input input-xs input-bordered input-error join-item w-full' : 'input input-xs input-bordered join-item w-full']) }}
         value="{{ $value ? $value : old($name) }}"
     />
 

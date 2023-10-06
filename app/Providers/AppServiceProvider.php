@@ -42,11 +42,6 @@ class AppServiceProvider extends ServiceProvider
         // Set the default locale of the application.
         App::setLocale(config('app.locale'));
 
-        // Builder
-        Builder::macro('search', function ($field, $string) {
-            return $string ? $this->where($field, 'like', '%' . $string . '%') : $this;
-        });
-
         // Pagination
         Paginator::defaultView('vendor.pagination.tailwind');
 

@@ -3,20 +3,16 @@
 namespace BDS\Livewire\Forms;
 
 use BDS\Models\Cleaning;
-use Livewire\Attributes\Rule;
 use Livewire\Form;
 
 class CleaningForm extends Form
 {
     public ?Cleaning $cleaning;
 
-    //#[Rule('required|exists:materials,id', as: 'matériel')]
     public ?int $material_id = null;
 
-    //#[Rule('nullable')]
     public ?string $description = null;
 
-    //#[Rule('required')]
     public ?string $type = null;
 
     public function setCleaning(Cleaning $cleaning)

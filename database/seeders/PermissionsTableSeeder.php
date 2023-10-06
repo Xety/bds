@@ -129,6 +129,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'search user',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut rechercher d\'autre utilisateurs.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'viewAny material',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut voir les matériels.',

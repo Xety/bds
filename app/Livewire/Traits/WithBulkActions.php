@@ -9,23 +9,23 @@ trait WithBulkActions
     /**
      * Whatever the current page of rows are all selected or not.
      *
-     * @var false
+     * @var bool
      */
-    public $selectPage = false;
+    public bool $selectPage = false;
 
     /**
      * Whatever the user has selected all rows or not.
      *
      * @var bool
      */
-    public $selectAll = false;
+    public bool $selectAll = false;
 
     /**
      * The id array of selected rows.
      *
      * @var array
      */
-    public $selected = [];
+    public array $selected = [];
 
     /**
      * If the selectAll is true, we need to select (and check the checkbox) of all rows
@@ -97,7 +97,7 @@ trait WithBulkActions
      */
     public function getSelectedRowsQueryProperty()
     {
-        return $this->model->unless($this->selectAll, fn($query) => $query->whereKey($this->selected));
+        return app($this->model)->unless($this->selectAll, fn($query) => $query->whereKey($this->selected));
     }
 
     /**
@@ -107,7 +107,7 @@ trait WithBulkActions
      */
     public function deleteSelected(): void
     {
-        $this->authorize('delete', $this->model);
+        $this->authorize('delete', app($this->model));
 
         $deleteCount = $this->selectedRowsQuery->count();
 
@@ -115,7 +115,7 @@ trait WithBulkActions
             return;
         }
 
-        if ($this->model->destroy($this->selectedRowsQuery->get()->pluck('id')->toArray())) {
+        if (app($this->model)->destroy($this->selectedRowsQuery->get()->pluck('id')->toArray())) {
             $this->fireFlash('delete', 'success', '', [$deleteCount]);
             $this->reset('selected');
 

@@ -176,8 +176,8 @@ class Permissions extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Permission::query()
-            ->search('name', $this->search);
+        $query = Permission::query();
+            //->search('name', $this->search);
 
         return $this->applySorting($query);
     }

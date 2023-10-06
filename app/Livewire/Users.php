@@ -3,16 +3,21 @@
 namespace BDS\Livewire;
 
 use BDS\Events\Auth\RegisteredEvent;
+use BDS\Livewire\Forms\UserForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
+use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithFlash;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
+use BDS\Models\Site;
 use BDS\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
@@ -22,10 +27,25 @@ class Users extends Component
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
+    use WithFilters;
     use WithFlash;
     use WithPagination;
     use WithPerPagePagination;
     use WithSorting;
+
+    /**
+     * Bind the main model used in the component to be used in traits.
+     *
+     * @var string
+     */
+    public string $model = User::class;
+
+    /**
+     * The form used to create/update a user.
+     *
+     * @var UserForm
+     */
+    public UserForm $form;
 
     /**
      * The field to sort by.
@@ -42,13 +62,6 @@ class Users extends Component
     public string $sortDirection = 'asc';
 
     /**
-     * The string to search.
-     *
-     * @var string
-     */
-    public string $search = '';
-
-    /**
      * Used to update in URL the query string.
      *
      * @var string[]
@@ -56,7 +69,23 @@ class Users extends Component
     protected array $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
-        'search' => ['as' => 's']
+        'filters',
+    ];
+
+    /**
+     * Filters used for advanced search.
+     *
+     * @var array
+     */
+    public array $filters = [
+        'username' => '',
+        'first_name' => '',
+        'last_name' => '',
+        'email' => '',
+        'role' => '',
+        'is_deleted' => '',
+        'created-min' => '',
+        'created-max' => '',
     ];
 
     /**
@@ -67,19 +96,12 @@ class Users extends Component
     public array $allowedFields = [
         'id',
         'username',
-        /*'first_name',
-        'last_name',*/
+        'first_name',
+        'last_name',
         'email',
         'last_login',
         'created_at'
     ];
-
-    /**
-     * The model used in the component.
-     *
-     * @var User
-     */
-    public User $model;
 
     /**
      * Used to show the Edit/Create modal.
@@ -108,22 +130,18 @@ class Users extends Component
     public int $perPage = 15;
 
     /**
-     * The selected roles for the editing an user or the new user.
-     *
-     * @var array
-     */
-    public array $rolesSelected = [];
-
-    /**
      * Translated attribute used in failed messages.
      *
      * @var string[]
      */
     protected array $validationAttributes = [
-        'username' => 'nom d\'utilisateur',
-        'first_name' => 'prénom',
-        'last_name' => 'nom',
-        'rolesSelected' => 'rôles'
+        'form.username' => 'nom d\'utilisateur',
+        'form.first_name' => 'prénom',
+        'form.last_name' => 'nom',
+        'form.email' => 'email',
+        'form.office_phone' => 'téléphone bureau',
+        'form.cell_phone' => 'téléphone portable',
+        'form.rolesSelected' => 'rôles'
     ];
 
     /**
@@ -157,9 +175,9 @@ class Users extends Component
      */
     public function mount(): void
     {
-        $this->model = $this->makeBlankModel();
-
         $this->applySortingOnMount();
+
+        $this->applyFilteringOnMount();
     }
 
     /**
@@ -170,22 +188,17 @@ class Users extends Component
     public function rules(): array
     {
         return [
-            'model.username' => 'required|regex:/^[\w.]*$/|min:5|max:30|unique:users,username,' . $this->model->id,
-            'model.email' => 'required|email|unique:users,email,' . $this->model->id,
-            /*'model.first_name' => 'required',
-            'model.last_name' => 'required',*/
-            'rolesSelected' => 'required'
+            'form.username' => 'required|regex:/^[\w.]*$/|min:4|max:40|unique:users,username,' . $this->form->user?->id,
+            'form.email' => 'required|email|unique:users,email,' . $this->form->user?->id,
+            'form.first_name' => 'required|min:2',
+            'form.last_name' => 'required|min:2',
+            'form.rolesSelected' => 'required'
         ];
     }
 
-    /**
-     * Create a blank model and return it.
-     *
-     * @return User
-     */
-    public function makeBlankModel(): User
+    public function generateUsername():void
     {
-        return User::make();
+        $this->form->username = $this->form->first_name . '.' . substr($this->form->last_name, 0, 1);
     }
 
     /**
@@ -197,7 +210,8 @@ class Users extends Component
     {
         return view('livewire.users', [
             'users' => $this->rows,
-            'roles' => Role::pluck('name', 'id')->toArray()
+            'roles' => Role::pluck('name', 'id')->toArray(),
+            'site' => Site::find(session('current_site_id'))
         ]);
     }
 
@@ -210,15 +224,29 @@ class Users extends Component
     {
         $query = User::query()
             ->withCount('roles')
-            ->orderByDesc('roles_count')
-            //->with('roles')
-            /*->orderBy('roles', function($query){
+            ->orderByDesc('roles_count');
 
-                return $query->roles()->count();
+        if (Auth::user()->can('search', User::class)) {
+            $query->when($this->filters['username'], fn($query, $search) => $query->where('username', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['first_name'], fn($query, $search) => $query->where('first_name', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['last_name'], fn($query, $search) => $query->where('last_name', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['email'], fn($query, $search) => $query->where('email', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['is_deleted'], function($query, $deleted) {
+                    if ($deleted === 'yes') {
+                        return $query->whereNotNull('deleted_at');
+                    }
+                    return $query->whereNull('deleted_at');
 
-            })*/
-            ->search('username', $this->search)
-            ->withTrashed();
+                })
+                ->when($this->filters['role'], function ($query, $search) {
+                    return $query->whereHas('roles', function ($partQuery) use ($search) {
+                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                    });
+                })
+                ->when($this->filters['created-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                ->when($this->filters['created-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+        }
+        $query->withTrashed();
 
         return $this->applySorting($query);
     }
@@ -247,11 +275,8 @@ class Users extends Component
         $this->isCreating = true;
         $this->useCachedRows();
 
-        // Reset the model to a blank model before showing the creating modal.
-        if ($this->model->getKey()) {
-            $this->model = $this->makeBlankModel();
-            $this->rolesSelected = [];
-        }
+        $this->form->reset();
+
         $this->showModal = true;
     }
 
@@ -270,11 +295,10 @@ class Users extends Component
         $this->isCreating = false;
         $this->useCachedRows();
 
-        // Set the model to the user we want to edit.
-        if ($this->model->isNot($user)) {
-            $this->model = $user;
-            $this->rolesSelected = $user->roles->pluck('id')->toArray();
-        }
+        $roles = $user->roles->pluck('id')->toArray();
+
+        $this->form->setUser($user, $roles);
+
         $this->showModal = true;
     }
 
@@ -289,17 +313,18 @@ class Users extends Component
 
         $this->validate();
 
-        if ($this->model->save()) {
-            $this->model->syncRoles($this->rolesSelected);
+        $model = $this->isCreating ? $this->form->store() : $this->form->update();
 
-            if ($this->isCreating === true) {
-                event(new RegisteredEvent($this->model));
-            }
-
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$this->model->username]);
+        if ($model) {
+            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$model->getKey()]);
         } else {
             $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
         }
+
+        if ($this->isCreating === true) {
+            event(new RegisteredEvent($model));
+        }
+
         $this->showModal = false;
     }
 
@@ -312,8 +337,8 @@ class Users extends Component
     {
         $this->authorize('restore', User::class);
 
-        if ($this->model->restore()) {
-            $this->fireFlash('restore', 'success','', [$this->model->username]);
+        if ($this->form->user->restore()) {
+            $this->fireFlash('restore', 'success','', [$this->form->user->username]);
         } else {
             $this->fireFlash('restore', 'danger');
         }

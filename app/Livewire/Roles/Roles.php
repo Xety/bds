@@ -188,8 +188,8 @@ class Roles extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Role::query()
-            ->search('name', $this->search);
+        $query = Role::query();
+            //->search('name', $this->search);
 
         return $this->applySorting($query);
     }

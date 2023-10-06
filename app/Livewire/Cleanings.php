@@ -32,7 +32,11 @@ class Cleanings extends Component
     use WithPerPagePagination;
     use WithSorting;
 
-
+    /**
+     * The form used to create/update a cleaning.
+     *
+     * @var CleaningForm
+     */
     public CleaningForm $form;
 
     /**
@@ -197,7 +201,7 @@ class Cleanings extends Component
     public function rules(): array
     {
         return [
-            'form.material_id' => 'required|exists:materials,id', // MATERIAL_ID MUST BE IN THE RIGHT SITE
+            'form.material_id' => 'required|exists:materials,id',
             'form.description' => 'nullable',
             'form.type' => 'required|in:' . collect(Cleaning::TYPES)->keys()->implode(','),
         ];

@@ -50,7 +50,7 @@ trait UserPresenter
     {
         return Attribute::make(
             get: function (mixed $value, array $attributes) {
-                $fullName = $this->account?->first_name . ' ' . $this->account?->last_name;
+                $fullName = $this->first_name . ' ' . $this->last_name;
 
                 if (empty(trim($fullName))) {
                     return $this->username;

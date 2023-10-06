@@ -23,9 +23,9 @@ class Site extends Model
      *
      * @return HasMany
      */
-    public function cleanings(): HasMany
+    public function zones(): HasMany
     {
-        return $this->hasMany(Cleaning::class);
+        return $this->hasMany(Zone::class);
     }
 
     /**

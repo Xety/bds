@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique()->index();
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password')->nullable();
+            $table->string('office_phone')->nullable();
+            $table->string('cell_phone')->nullable();
             $table->rememberToken();
             $table->unsignedBigInteger('current_site_id')->nullable();
             $table->integer('cleaning_count')->default(0);

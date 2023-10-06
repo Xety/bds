@@ -43,15 +43,6 @@ class User extends Model implements
     use SoftDeletes;
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = [
-        'account'
-    ];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -122,16 +113,6 @@ class User extends Model implements
 
         // Find the first record, or abort
         return $query->firstOrFail();
-    }
-
-    /**
-     * Get the account for the user.
-     *
-     * @return HasOne
-     */
-    public function account(): HasOne
-    {
-        return $this->hasOne(Account::class);
     }
 
     /**
@@ -210,5 +191,16 @@ class User extends Model implements
         }
 
         setPermissionsTeamId($team_id_to_be_restored);
+    }
+
+    public function roles_all(): BelongsToMany
+    {
+        return $this->morphToMany(
+            config('permission.models.role'),
+            'model',
+            config('permission.table_names.model_has_roles'),
+            config('permission.column_names.model_morph_key'),
+            PermissionRegistrar::$pivotRole
+        );
     }
 }
