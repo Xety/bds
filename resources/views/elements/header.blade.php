@@ -13,11 +13,16 @@
             <div class="navbar-center lg:hidden">
                 <a class="font-light text-3xl font-bds text-center" href="{{ route('dashboard.index') }}">
                     @if (session('current_site_id') == 2)
-                        <img src="{{ asset('images/logos/selvah_570x350.png') }}" alt="Selvah Logo" class="inline-block w-20">
+                        <img src="{{ asset('images/logos/selvah.png') }}" alt="Selvah Logo" class="inline-block w-20">
                         <span class="block">SELVAH</span>
                     @elseif (session('current_site_id') == 3)
-                        <img src="{{ asset('images/logos/extrusel_166x110.png') }}" alt="Extrusel Logo" class="inline-block w-24">
+                        <img src="{{ asset('images/logos/extrusel.png') }}" alt="Extrusel Logo" class="inline-block w-24">
                         <span class="block">EXTRUSEL</span>
+                    @elseif (session('current_site_id') == 4)
+                        <img src="{{ asset('images/logos/moulin_jannet.png') }}" alt="Moulin Jannet Logo" class="inline-block w-16">
+                    @elseif (session('current_site_id') == 51)
+                        <img src="{{ asset('images/logos/bfc_val_union.png') }}" alt="BFC Val Union Logo" class="inline-block dark:hidden h-14">
+                        <img src="{{ asset('images/logos/bfc_val_union_blanc.png') }}" alt="BFC Val Union Logo" class="hidden dark:inline-block h-14">
                     @else
                         <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
                     @endif

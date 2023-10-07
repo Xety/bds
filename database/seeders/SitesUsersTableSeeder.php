@@ -316,6 +316,12 @@ class SitesUsersTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+            [
+                'user_id' => 1,
+                'site_id' => 51,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
 
             // Franck.L
             [
@@ -365,6 +371,12 @@ class SitesUsersTableSeeder extends Seeder
             [
                 'user_id' => 6,
                 'site_id' => 3,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 6,
+                'site_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

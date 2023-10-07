@@ -6,11 +6,15 @@
             <li class="hidden lg:block">
                 <a class="flex flex-col items-center font-light text-3xl font-bds  hover:!bg-transparent focus:!bg-transparent active:!bg-transparent" href="{{ route('dashboard.index') }}">
                     @if (session('current_site_id') == 2)
-                        <img src="{{ asset('images/logos/selvah_570x350.png') }}" alt="Selvah Logo" class="inline-block w-20">
+                        <img src="{{ asset('images/logos/selvah.png') }}" alt="Selvah Logo" class="inline-block w-20">
                         <span class="block">SELVAH</span>
                     @elseif (session('current_site_id') == 3)
-                        <img src="{{ asset('images/logos/extrusel_166x110.png') }}" alt="Extrusel Logo" class="inline-block w-24">
+                        <img src="{{ asset('images/logos/extrusel.png') }}" alt="Extrusel Logo" class="inline-block w-24">
                         <span class="block">EXTRUSEL</span>
+                    @elseif (session('current_site_id') == 4)
+                        <img src="{{ asset('images/logos/moulin_jannet.png') }}" alt="Moulin Jannet Logo" class="inline-block w-20">
+                    @elseif (session('current_site_id') == 51)
+                        <img src="{{ asset('images/logos/bfc_val_union_blanc.png') }}" alt="BFC Val Union Logo" class="inline-block h-20">
                     @else
                         <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
                     @endif

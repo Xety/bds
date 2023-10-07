@@ -367,6 +367,13 @@ class SitesTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ),
+            array (
+                'id' => 51,
+                'name' => 'Val Union',
+                'zone_count' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
+            ),
         ));
     }
 }

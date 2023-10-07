@@ -25,9 +25,6 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 
-/**
- * @property $current_site_id
- */
 class User extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
@@ -183,24 +180,13 @@ class User extends Model implements
 
         $sites = Arr::wrap($sites);
 
-        $team_id_to_be_restored = getPermissionsTeamId();
+        $teamId = getPermissionsTeamId();
 
         foreach ($sites as $site) {
             setPermissionsTeamId($site);
             $this->assignRole($roles);
         }
 
-        setPermissionsTeamId($team_id_to_be_restored);
-    }
-
-    public function rolesAll(): BelongsToMany
-    {
-        return $this->morphToMany(
-            \Spatie\Permission\Models\Role::class,
-            'model',
-            'model_has_roles',
-            'model_id',
-            'role_id'
-        );
+        setPermissionsTeamId($teamId);
     }
 }
