@@ -87,7 +87,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="my-auto font-bold">
+                <div class="my-auto font-bold min-w-fit">
                     {{ Auth::user()->full_name }}
                 </div>
             </div>

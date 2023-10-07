@@ -2,6 +2,7 @@
 
 namespace BDS\Http\Controllers;
 
+use BDS\Models\Site;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use BDS\Models\Material;
@@ -50,5 +51,12 @@ class MaterialController extends Controller
             'material.show',
             compact('breadcrumbs', 'material', 'cleanings')
         );
+    }
+
+    public function arbre()
+    {
+        return view('material.arbre', [
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
     }
 }

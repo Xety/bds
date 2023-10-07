@@ -23,8 +23,9 @@ return new class extends Migration
             $table->rememberToken();
             $table->unsignedBigInteger('current_site_id')->nullable();
             $table->integer('cleaning_count')->default(0);
+            $table->timestamp('end_employment_contract')->nullable();
             $table->ipAddress('last_login_ip')->nullable();
-            $table->dateTime('last_login_date')->nullable();
+            $table->timestamp('last_login_date')->nullable();
             $table->timestamp('password_setup_at')->nullable();
             $table->bigInteger('deleted_user_id')->unsigned()->nullable()->index();
 

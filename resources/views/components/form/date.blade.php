@@ -43,14 +43,14 @@
 
     @if ($join == true)
         <div class="join">
-            <button class="btn btn-xs btn-disabled join-item"><i class="{{ $joinIcon }} dark:text-current"></i></button>
+            <button class="btn {{ $attributes->has('data-class-join') ? $attributes->get('data-class-join') : '' }} btn-disabled join-item"><i class="{{ $joinIcon }} dark:text-current"></i></button>
     @endif
 
     <input
+        {{ $attributes->merge(['class' => $hasError ? 'input input-bordered input-error join-item w-full' : 'input input-bordered join-item w-full']) }}
         {{ $attributes->whereDoesntStartWith('wire:model') }}
         x-ref="input"
         type="text"
-        {{ $attributes->merge(['class' => $hasError ? 'input input-xs input-bordered input-error join-item w-full' : 'input input-xs input-bordered join-item w-full']) }}
         value="{{ $value ? $value : old($name) }}"
     />
 

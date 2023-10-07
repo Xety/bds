@@ -100,7 +100,8 @@ class Users extends Component
         'last_name',
         'email',
         'last_login',
-        'created_at'
+        'created_at',
+        'deleted_at'
     ];
 
     /**
@@ -192,11 +193,18 @@ class Users extends Component
             'form.email' => 'required|email|unique:users,email,' . $this->form->user?->id,
             'form.first_name' => 'required|min:2',
             'form.last_name' => 'required|min:2',
-            'form.rolesSelected' => 'required'
+            'form.end_employment_contract' => 'nullable|date_format:"d-m-Y H:i"',
         ];
     }
 
-    public function generateUsername():void
+    /**
+     * Function to generate the username based on the first_name and last_name fields.
+     *
+     * Format : Emeric.F
+     *
+     * @return void
+     */
+    public function generateUsername(): void
     {
         $this->form->username = $this->form->first_name . '.' . substr($this->form->last_name, 0, 1);
     }
@@ -208,9 +216,16 @@ class Users extends Component
      */
     public function render(): View
     {
+        // Select only the roles attached to this site or the roles without assigned site_id.
+        $rolesIds = Role::where('site_id', session('current_site_id'))
+            ->orWhereNull('site_id')
+            ->select('id')
+            ->pluck('id')
+            ->toArray();
+
         return view('livewire.users', [
             'users' => $this->rows,
-            'roles' => Role::pluck('name', 'id')->toArray(),
+            'roles' => Role::whereIn('id', $rolesIds)->pluck('name', 'id')->toArray(),
             'site' => Site::find(session('current_site_id'))
         ]);
     }
@@ -338,6 +353,12 @@ class Users extends Component
         $this->authorize('restore', User::class);
 
         if ($this->form->user->restore()) {
+            if (!is_null($this->form->user->end_employment_contract)) {
+                // Reset the date to null to prevent an automatic delete.
+                $this->form->user->end_employment_contract = null;
+                $this->form->end_employment_contract = null;
+                $this->form->user->save();
+            }
             $this->fireFlash('restore', 'success','', [$this->form->user->username]);
         } else {
             $this->fireFlash('restore', 'danger');

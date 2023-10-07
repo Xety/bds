@@ -37,7 +37,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <select wire:model.live="current_site_id" name="current_site_id" class="select w-full font-bold">
+    <select wire:model.live="current_site_id" name="current_site_id" class="select font-bold min-w-fit">
         @foreach($sites as $siteId => $siteName)
             <option  value="{{ $siteId }}">{{$siteName}}</option>
         @endforeach

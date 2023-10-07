@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire\Traits;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
 trait WithBulkActions
@@ -23,9 +24,9 @@ trait WithBulkActions
     /**
      * The id array of selected rows.
      *
-     * @var array
+     * @var array|Collection
      */
-    public array $selected = [];
+    public array|Collection $selected = [];
 
     /**
      * If the selectAll is true, we need to select (and check the checkbox) of all rows

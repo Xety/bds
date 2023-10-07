@@ -51,9 +51,9 @@
             <x-table.heading sortable wire:click="sortBy('last_name')" :direction="$sortField === 'last_name' ? $sortDirection : null">Nom</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('email')" :direction="$sortField === 'email' ? $sortDirection : null">Email</x-table.heading>
             <x-table.heading>Rôles</x-table.heading>
-            <x-table.heading>Supprimé</x-table.heading>
+            <x-table.heading class="min-w-[120px]" sortable wire:click="sortBy('deleted_at')" :direction="$sortField === 'deleted_at' ? $sortDirection : null">Supprimé</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('last_login')" :direction="$sortField === 'last_login' ? $sortDirection : null">Dernière connexion</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
+            <x-table.heading class="min-w-[140px]" sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
         </x-slot>
 
         <x-slot name="body">
@@ -90,8 +90,8 @@
                     </x-table.cell>
                     <x-table.cell></x-table.cell>
                     <x-table.cell>
-                        <x-form.date class="input input-xs input-bordered join-item w-full mb-2" wire:model.live.debounce.250ms="filters.created-min" :join="true" :joinIcon="'fa-solid fa-calendar'" placeholder="Date minimum de création" />
-                        <x-form.date wire:model.live.debounce.250ms="filters.created-max" :join="true" :joinIcon="'fa-solid fa-calendar'" placeholder="Date maximum de création" />
+                        <x-form.date class="input-xs" data-class-join="btn-xs mb-2" wire:model.live.debounce.250ms="filters.created-min" :join="true" :joinIcon="'fa-solid fa-calendar'" placeholder="Date minimum de création" />
+                        <x-form.date class="input-xs" data-class-join="btn-xs" wire:model.live.debounce.250ms="filters.created-max" :join="true" :joinIcon="'fa-solid fa-calendar'" placeholder="Date maximum de création" />
                     </x-table.cell>
                 </x-table.row>
             @endcan
@@ -149,7 +149,7 @@
                                 {{ $role->name }}
                             </span>
                         @empty
-                            Cet utilisateur n'a pas de rôle.
+                            Cet utilisateur n'a pas de rôle pour le site {{ $site->name }}.
                         @endforelse
                     </x-table.cell>
                     <x-table.cell>
@@ -229,8 +229,21 @@
                 @if ($form->user?->trashed())
                     <div>
                         <x-alert type="error" class="max-w-lg mb-4" title="Attention">
-                            <span class="font-bold">Cet utilisateur a été supprimé le {{ $form->user->deleted_at->translatedFormat( 'D j M Y à H:i') }} par {{ $form->user->deletedUser->full_name }}.</span>
-                            <br> Vous devez le restaurer avant de faire une modification de cet utilisateur.
+                            <span class="font-bold">Cet utilisateur a été supprimé le {{ $form->user->deleted_at->translatedFormat( 'D j M Y à H:i') }} par
+                                @if(is_null($form->user->deletedUser))
+                                    l'application de manière automatisée.</span> La date de fin de contrat était le {{ $form->user->end_employment_contract->translatedFormat( 'D j M Y à H:i') }}
+                                @else
+                                    {{ $form->user->deletedUser->full_name }}.</span>
+                                @endif
+                            <br> Vous devez le restaurer avant de faire une modification de cet utilisateur. @if(!is_null($form->user->end_employment_contract)) <span class="font-bold">La restauration du compte va réinitialiser la date de fin de contrat.</span> @endif
+                        </x-alert>
+                    </div>
+                @endif
+
+                @if($isCreating)
+                    <div>
+                        <x-alert type="warning" class="max-w-lg mb-4" title="Attention">
+                            La création d'un compte utilisateur lui donnera automatiquement l'autorisation d'accès au site <span class="font-bold">{{ $site->name }}</span> et ce même sans rôle assigné à l'utilisateur.
                         </x-alert>
                     </div>
                 @endif
@@ -259,6 +272,9 @@
                     <option  value="{{ $roleId }}">{{$roleName}}</option>
                     @endforeach
                 </x-form.select>
+
+                @php $message = "Vous pouvez renseigner une date de fin de contrat pour l'utilisateur, ce qui aura pour conséquence de <span class=\"font-bold\">désactiver son compte automatiquement à cette date</span>. (Très utile pour les saisonniers)";@endphp
+                <x-form.date wire:model="form.end_employment_contract" name="form.end_employment_contract" label="Date de fin de contrat" placeholder="Date de fin de contract..." :info="true" :infoText="$message" />
 
                 <div class="modal-action">
                     @if ($form->user?->trashed() && auth()->user()->can('restore', \BDS\Models\User::class))

@@ -21,6 +21,8 @@ class UserForm extends Form
 
     public ?string $cell_phone = null;
 
+    public ?string $end_employment_contract = null;
+
     /**
      * The selected roles for the edited user.
      *
@@ -39,6 +41,7 @@ class UserForm extends Form
         $this->email = $user->email;
         $this->office_phone = $user->office_phone;
         $this->cell_phone = $user->cell_phone;
+        $this->end_employment_contract = $user->end_employment_contract;
     }
 
     /**
@@ -54,9 +57,13 @@ class UserForm extends Form
             'last_name',
             'email',
             'office_phone',
-            'cell_phone'
+            'cell_phone',
+            'end_employment_contract'
         ]));
+        // Link the new user to the current site.
+        $user->sites()->attach(session('current_site_id'));
 
+        // Link the selected roles to the user in the current site.
         $user->syncRoles($this->rolesSelected);
 
         return $user;
@@ -75,7 +82,8 @@ class UserForm extends Form
             'last_name',
             'email',
             'office_phone',
-            'cell_phone'
+            'cell_phone',
+            'end_employment_contract'
         ]));
 
         $user->syncRoles($this->rolesSelected);

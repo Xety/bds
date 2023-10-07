@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->command('users:deactivate')->everyFifteenMinutes();
 
         if ($this->app->environment('production')) {
             // Backup Database

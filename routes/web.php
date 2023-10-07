@@ -189,6 +189,8 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('materials', [BDS\Http\Controllers\MaterialController::class, 'index'])
         ->name('materials.index');
+    Route::get('materials/arbre', [BDS\Http\Controllers\MaterialController::class, 'arbre'])
+        ->name('materials.arbre');
     Route::get('materials/{material}', [BDS\Http\Controllers\MaterialController::class, 'show'])
         ->name('materials.show')
         ->missing(function (Request $request) {

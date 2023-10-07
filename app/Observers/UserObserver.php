@@ -12,8 +12,10 @@ class UserObserver
      */
     public function deleting(User $user): void
     {
-        $user->deleted_user_id = Auth::id();
-        $user->save();
+        if (auth()->user()) {
+            $user->deleted_user_id = Auth::id();
+            $user->save();
+        }
     }
 
     /**
