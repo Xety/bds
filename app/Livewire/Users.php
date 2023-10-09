@@ -310,7 +310,7 @@ class Users extends Component
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $roles = $user->roles->pluck('id')->toArray();
+        $roles = $user->roles()->pluck('id')->toArray();
 
         $this->form->setUser($user, $roles);
 

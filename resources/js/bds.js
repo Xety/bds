@@ -69,7 +69,7 @@ const app = createApp({
         stylesheet.href = "./assets/flatpickr_" + theme + ".css";
     }
 });
-app.mount("#bds-vue");
+//app.mount("#bds-vue");
 
 // Set the datetime picker locale to french
 flatpickr.localize(French);

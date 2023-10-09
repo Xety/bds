@@ -13,7 +13,7 @@ class ForgotPasswordControllerTest extends TestCase
 
     public function test_can_send_reset_link_email(): void
     {
-        $response = $this->post('/password/email', ['email' => 'emeric@xetaravel.com']);
+        $response = $this->post('/password/email', ['email' => 'emeric@bds.com']);
         $response->assertStatus(302);
         $response->assertSessionHas('success');
     }

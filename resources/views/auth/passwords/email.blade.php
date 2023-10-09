@@ -21,8 +21,8 @@
                         Réinitialiser votre mot de passe
                     </h1>
 
-                    <x-form.form method="post" action="{{ route('auth.password.email') }}" class="w-full">
-                        <x-form.email name="email" label="Email" placeholder="Votre Email..." value="{{ old('email') }}" required />
+                    <x-form method="post" action="{{ route('auth.password.email') }}" class="w-full">
+                        <x-input label="Email" name="email" placeholder="Votre Email..." type="email" value="{{ old('email') }}" required />
 
                         <div class="form-control items-center my-2">
                             {!! NoCaptcha::display() !!}
@@ -34,12 +34,9 @@
                         </div>
 
                         <div class="text-center mb-3">
-                            <button type="submit" class="btn btn-primary gap-2">
-                                <i class="fa-solid fa-paper-plane"></i>
-                                Envoyer le lien
-                            </button>
+                            <x-button label="Envoyer le lien" class="btn btn-primary gap-2" type="submit" icon="fas-paper-plane" />
                         </div>
-                    </x-form.form>
+                    </x-form>
 
                     <div class="text-center">
                         <a class="link link-hover link-primary mr-2" href="{{ route('auth.login') }}">

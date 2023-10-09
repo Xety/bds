@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Controllers;
 
+use BDS\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Selvah\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 

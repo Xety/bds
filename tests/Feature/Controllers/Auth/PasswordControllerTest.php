@@ -1,14 +1,14 @@
 <?php
 namespace Tests\Feature\Controllers\Auth;
 
+use BDS\Models\User;
+use BDS\Notifications\Auth\RegisteredNotification;
+use BDS\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
-use Selvah\Models\User;
-use Selvah\Notifications\Auth\RegisteredNotification;
-use Selvah\Providers\RouteServiceProvider;
 use Tests\TestCase;
 
 class PasswordControllerTest extends TestCase
@@ -24,7 +24,7 @@ class PasswordControllerTest extends TestCase
             Carbon::now()->addMinutes(Config::get('auth.password_setup.timeout', 1440)),
             [
                 'id' => 1,
-                'hash' => sha1('emeric@xetaravel.com2'),
+                'hash' => sha1('emeric@bds.com'),
             ]
         );
         $response = $this->get($url);
@@ -95,7 +95,7 @@ class PasswordControllerTest extends TestCase
         Notification::fake();
 
         $response = $this->post('password/resend', [
-            'email' => 'emeric@xetaravel.com'
+            'email' => 'emeric@bds.com'
         ]);
 
         $response->assertSessionHasNoErrors();

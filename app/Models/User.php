@@ -26,6 +26,7 @@ use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
+ * @property string $username
  * @property string $first_name
  * @property string $last_name
  * @property string $email
@@ -54,6 +55,7 @@ class User extends Model implements
      */
     protected $fillable = [
         'username',
+        'password',
         'first_name',
         'last_name',
         'email',

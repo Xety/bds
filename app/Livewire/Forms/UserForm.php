@@ -23,25 +23,32 @@ class UserForm extends Form
 
     public ?string $end_employment_contract = null;
 
-    /**
-     * The selected roles for the edited user.
-     *
-     * @var array
-     */
     public array $rolesSelected = [];
 
     public function setUser(User $user, array $roles): void
     {
-        $this->user = $user;
+        //$this->user = $user;
 
-        $this->rolesSelected = $roles;
+        $this->fill([
+            'user' => $user,
+            'rolesSelected' => $roles,
+            'username' => $user->username,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'office_phone' => $user->office_phone,
+            'cell_phone' => $user->cell_phone,
+            'end_employment_contract' => $user->end_employment_contract
+        ]);
+
+        /*$this->rolesSelected = $roles;
         $this->username = $user->username;
         $this->first_name = $user->first_name;
         $this->last_name = $user->last_name;
         $this->email = $user->email;
         $this->office_phone = $user->office_phone;
         $this->cell_phone = $user->cell_phone;
-        $this->end_employment_contract = $user->end_employment_contract;
+        $this->end_employment_contract = $user->end_employment_contract;*/
     }
 
     /**

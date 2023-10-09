@@ -5,14 +5,16 @@ import forms from '@tailwindcss/forms';
 export default {
     darkMode: ['class', '[data-theme="dark"]'],
     content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
         "./app/**/*.php",
-        "./config/*.php"
+        "./config/*.php",
+        './resources/views/**/*.blade.php',
+        "./resources/js/**/*.js",
+        "./resources/js/Components/**/*.vue",
+        './storage/framework/views/*.php',
+        //'./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+
+        // Add mary
+        "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
     ],
 
     theme: {
@@ -54,22 +56,27 @@ export default {
             {
                 light: {
                     ...require("daisyui/src/theming/themes")["[data-theme=light]"],
-                    primary: "#34b1c3",
+                    // Primary
+                    "primary": "#2e73b9",
+                    "primary-focus": "#23568b",
+                    "primary-content": "#ffffff",
+
                     "--rounded-box": "0.375rem",
                     "--rounded-btn": "0.25rem",
                     "--bc": "215 19% 35%",
-                    "--pf": "188 59% 42%",
-                    "--pc": "0 0% 100%"
                 }
             },
             {
                 dark: {
                     ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
-                    primary: "#34b1c3",
+                    // Primary
+                    "primary": "#2e73b9",
+                    "primary-focus": "#23568b",
+                    "primary-content": "#ffffff",
+
                     "--rounded-box": "0.375rem",
                     "--rounded-btn": "0.25rem",
                     "--bc": "213 27% 84%",
-                    "--pf": "188 59% 42%"
                 }
             }
         ],

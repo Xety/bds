@@ -169,7 +169,6 @@ return [
         BDS\Providers\AuthServiceProvider::class,
         // BDS\Providers\BroadcastServiceProvider::class,
         BDS\Providers\EventServiceProvider::class,
-        BDS\Providers\MenuServiceProvider::class,
         BDS\Providers\RouteServiceProvider::class,
         BDS\Providers\VoltServiceProvider::class,
     ])->toArray(),

@@ -3,7 +3,7 @@ namespace Tests\Feature\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Selvah\Models\User;
+use BDS\Models\User;
 
 class MaterialControllerTest extends TestCase
 {

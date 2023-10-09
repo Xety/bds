@@ -11,7 +11,6 @@ Conçu et développé par Emeric Fèvre.
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <!-- <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}"> -->
 
         <!-- Title -->
         <title>{{ config('app.title') . ' - ' . config('bds.info.full_name') }}</title>
@@ -19,25 +18,29 @@ Conçu et développé par Emeric Fèvre.
         <!-- Meta -->
         @stack('meta')
 
+        <!-- Flatpickr -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/flatpickr_default.css') }}" id="flatpickrCssFile" />
+
         <script type="text/javascript">
             /**
              * Dark Mode
              * On page load or when changing themes, best to add inline in `head` to avoid FOUC
              */
-            if (localStorage.getItem('nightMode') === 'true' ||
-                (!('nightMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-            ) {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
                 document.documentElement.dataset.theme = "dark";
-                localStorage.setItem("nightMode", 'true');
+                localStorage.setItem('theme', 'dark');
+                // Change the flatpickr theme to dark.
+                document.getElementById('flatpickrCssFile').href = '{{ asset('/assets/flatpickr_dark.css') }}';
+            } else {
+                localStorage.theme = 'light';
+                document.documentElement.classList.remove('dark');
+                document.documentElement.dataset.theme = 'light';
             }
         </script>
 
-        <!-- Flatpickr -->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/flatpickr_default.css') }}" />
-
         <!-- Embed Styles -->
         @stack('style')
-        @livewireStyles
 
         <!-- Styles -->
         @vite('resources/css/bds.css')
@@ -48,7 +51,7 @@ Conçu et développé par Emeric Fèvre.
         <!-- Embed Scripts -->
         @stack('scriptsTop')
     </head>
-    <body>
+    <body">
 
         <div id="bds-vue">
 
@@ -87,10 +90,9 @@ Conçu et développé par Emeric Fèvre.
         </script>
 
         @vite('resources/js/bds.js')
-        @livewireScripts
         <!-- Change Livewire expiration message -->
         <script type="text/javascript">
-            Livewire.hook('request', ({ fail }) => {
+            window.Livewire.hook('request', ({ fail }) => {
                 fail(({ status, preventDefault }) => {
                     if (status === 419) {
                         preventDefault()
@@ -102,7 +104,7 @@ Conçu et développé par Emeric Fèvre.
                 })
             })
 
-            Livewire.on('alert', () => {
+            window.Livewire.on('alert', () => {
                 document.querySelectorAll('[data-dismiss-target]').forEach(triggerEl => {
                     const targetEl = document.querySelector(triggerEl.getAttribute('data-dismiss-target'))
 

@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Controllers\Auth;
 
+use BDS\Models\User;
+use BDS\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Selvah\Models\User;
-use Selvah\Providers\RouteServiceProvider;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase

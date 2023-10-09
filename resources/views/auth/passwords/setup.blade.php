@@ -16,22 +16,17 @@
                         Créer le mot de passe
                     </h1>
                     <p class="text-gray-500">
-                        Votre compte vient d'être créé, vous devez créer un mot de passe avant de pouvoir vous connecter avec votre compte.
+                        Votre compte vient d'être créé, vous devez choisir un mot de passe avant de pouvoir vous connecter avec votre compte.
                     </p>
 
-                    <x-form.form method="post" action="{{ route('auth.password.create', ['hash' => $hash, 'id' => $id]) }}" class="w-full">
+                    <x-form method="post" action="{{ route('auth.password.create', ['hash' => $hash, 'id' => $id]) }}" class="w-full">
+                        <x-input label="Mot de Passe" name="password" placeholder="Mot de passe..." type="password" autocomplete="new-password" required />
+                        <x-input label="Mot de Passe confirmation" name="password_confirmation" placeholder="Mot de passe confirmation..." type="password" autocomplete="new-password" required />
 
-                        <x-form.password name="password" label="Mot de Passe" placeholder="Mot de passe..." required autocomplete="new-password"/>
-
-                        <x-form.password name="password_confirmation" label="Mot de Passe confirmation" placeholder="Mot de passe confirmation..." required  autocomplete="new-password"/>
-
-                        <div class="text-center my-3">
-                            <button type="submit" class="btn btn-primary gap-2">
-                                <i class="fa-solid fa-right-to-bracket"></i>
-                                Créer le mot de passe
-                            </button>
+                        <div class="text-center mb-3">
+                            <x-button label="Créer le mot de passe" class="btn btn-primary gap-2" type="submit" icon="fas-right-to-bracket" />
                         </div>
-                    </x-form.form>
+                    </x-form>
 
                     <div class="text-center">
                         <a class="link link-hover link-primary mr-2" href="{{ route('auth.login') }}">

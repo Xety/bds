@@ -4,6 +4,7 @@ namespace BDS\Livewire\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
+use JetBrains\PhpStorm\NoReturn;
 
 trait WithBulkActions
 {
