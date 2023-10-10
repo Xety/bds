@@ -18,7 +18,33 @@
 
                 <ul class="max-h-[350px] overflow-y-scroll">
                     @forelse($notifications as $notification)
-                        <livewire:users.notifications-items :$notification :key="$notification->id" />
+                        <li class="hover:bg-slate-200 flex items-center rounded mb-3 mr-2 pt-2 dark:hover:bg-slate-700" wire:key="{{ $notification->id }}">
+                            <div class="indicator w-full">
+                                <a @if($notification->read_at == null) wire:mouseover.prevent="markAsRead('{{ $notification->id }}')" @endif  class="p-3 flex items-center">
+                                    <!-- Icon -->
+                                    @if($notification->type == \BDS\Notifications\Cleaning\AlertNotification::class)
+                                        <x-icon name="fas-broom" class="h-10 w-10 text-warning mr-3"></x-icon>
+                                    @elseif($notification->type == \BDS\Notifications\Part\AlertNotification::class)
+                                        <x-icon name="fas-puzzle-piece" class="h-10 w-10 text-violet-500 mr-3"></x-icon>
+                                    @else
+                                        <x-icon name="fas-triangle-exclamation" class="h-10 w-10 text-primary mr-3"></x-icon>
+                                    @endif
+
+
+                                    <!-- Message -->
+                                    <span class="w-full">{!! vsprintf($notification->data['message'], $notification->data['message_key']) !!}</span>
+
+                                    <!-- Badge new -->
+                                    @if($notification->read_at == null)
+                                        <span wire class="badge badge-sm indicator-item badge-primary right-3">New</span>
+                                    @endif
+
+                                </a>
+                            </div>
+                            <a wire:click="remove('{{ $notification->id }}')" class="cursor-pointer tooltip tooltip-left" data-tip="Supprimer la notification">
+                                <x-icon name="fas-trash" class="h-6 w-6 text-error mr-3"></x-icon>
+                            </a>
+                        </li>
                     @empty
                         <li>
                             <p class="m-2 text-center">

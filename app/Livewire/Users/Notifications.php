@@ -1,63 +1,106 @@
 <?php
-
 namespace BDS\Livewire\Users;
 
-use Livewire\Attributes\Modelable;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Reactive;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Livewire\Component;
 
 class Notifications extends Component
 {
-    public $notifications;
+    /**
+     * All notifications from the user.
+     *
+     * @var DatabaseNotificationCollection
+     */
+    public DatabaseNotificationCollection $notifications;
 
+    /**
+     * Whatever the user has un-read notifications.
+     *
+     * @var bool
+     */
     public bool $hasUnreadNotifications = false;
 
-    #[Modelable]
+    /**
+     * The number of un-red notifications.
+     *
+     * @var int
+     */
     public int $unreadNotificationsCount = 0;
 
-
-    public function mount()
+    /**
+     * The mount function.
+     *
+     * @return void
+     */
+    public function mount(): void
     {
         $this->fetchData();
     }
 
-    public function render()
+    /**
+     * The render function.
+     *
+     * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     */
+    public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.users.notifications');
     }
 
-
-    #[On('remove-notification')]
-    public function remove($notificationId): void
+    /**
+     * Remove a notification by its id.
+     *
+     * @param string $notificationId The id of the notification to remove.
+     *
+     * @return void
+     */
+    public function remove(string $notificationId): void
     {
         $notification = auth()->user()->notifications()
             ->where('id', $notificationId)
             ->first();
+
+        // That means the notification id has been modified in front-end.
+        if (!$notification) {
+            return;
+        }
 
         $notification->delete();
 
         $this->fetchData();
     }
 
-    public function isNotRead($notificationId)
-    {
-        $notification = $this->notifications->firstWhere('id', $notificationId);
-
-        return $notification->read_at !== null;
-    }
-
+    /**
+     * Mark the notification as read by its id.
+     *
+     * @param string $notificationId The id of the notification to mark as read.
+     *
+     * @return void
+     */
     public function markAsRead(string $notificationId): void
     {
         $notification = auth()->user()->notifications()
             ->where('id', $notificationId)
             ->first();
 
+        // That means the notification id has been modified in front-end.
+        if (!$notification) {
+            return;
+        }
+
         $notification->markAsRead();
 
         $this->fetchData();
     }
 
+    /**
+     * Mark all notifications from the user as read.
+     *
+     * @return void
+     */
     public function markAllNotificationsAsRead(): void
     {
         auth()->user()->unreadNotifications->markAsRead();
@@ -67,6 +110,11 @@ class Notifications extends Component
         $this->hasUnreadNotifications = false;
     }
 
+    /**
+     * Used to refresh the notifications and the unread count.
+     *
+     * @return void
+     */
     private function fetchData(): void
     {
         $this->notifications = auth()->user()->notifications;
