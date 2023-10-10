@@ -173,11 +173,13 @@
                     {!! $isCreating ? 'Créer un Paramètre' : 'Editer le Paramètre' !!}
                 </h3>
 
-                <x-form.text wire:model="model.name" wire:keyup='generateName' name="model.name" label="Nom" placeholder="Nom..." />
+                {{$form->name}}
 
-                <x-form.text wire:model="slug" id="slug" name="slug" label="Slug" disabled />
+                <x-form.text wire:model.live="form.name" wire:keyup='generateName' name="form.name" label="Nom" placeholder="Nom..." />
 
-                <x-form.text wire:model.defer="value" id="value" name="value" label="Valeur" placeholder="Valeur..." />
+                <x-form.text wire:model.live="slug" id="slug" name="slug" label="Slug" disabled />
+
+                <x-form.text wire:model="value" id="value" name="value" label="Valeur" placeholder="Valeur..." />
 
                 <div class="form-control w-full max-w-xs">
                         <label class="label" for="type">
@@ -186,12 +188,12 @@
                 </div>
 
                 @foreach (\BDS\Models\Setting::TYPES as $key => $value)
-                    <x-form.radio wire:model="type" value="{{ $key }}" name="type">
+                    <x-form.radio wire:model.live="type" value="{{ $key }}" name="type">
                         {{ $value }}
                     </x-form.radio>
                 @endforeach
 
-                <x-form.textarea wire:model.defer="model.description" name="model.description" label="Description" placeholder="Description..." />
+                <x-form.textarea wire:model="form.description" name="form.description" label="Description" placeholder="Description..." />
 
                 <div class="modal-action">
                     <button type="submit" class="btn btn-success gap-2">

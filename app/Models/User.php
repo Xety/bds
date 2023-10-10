@@ -25,15 +25,6 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 
-/**
- * @property string $username
- * @property string $first_name
- * @property string $last_name
- * @property string $email
- * @property string $office_phone
- * @property string $cell_phone
- * @property string $end_employment_contract
- */
 class User extends Model implements
     AuthenticatableContract,
     AuthorizableContract,

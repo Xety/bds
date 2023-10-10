@@ -75,7 +75,7 @@ class Settings extends Component
      *
      * @var Setting
      */
-    public Setting $model;
+    public Setting $form;
 
     /**
      * Used to show the Edit/Create modal.
@@ -164,7 +164,7 @@ class Settings extends Component
      */
     public function mount(): void
     {
-        $this->model = $this->makeBlankModel();
+        $this->form = $this->makeBlankModel();
 
         $this->applySortingOnMount();
     }
@@ -177,7 +177,7 @@ class Settings extends Component
     public function rules(): array
     {
         return [
-            'model.name' => 'required|unique:settings,name,' . $this->model->id,
+            'model.name' => 'required|unique:settings,name,' . $this->form->id,
             'value' => 'required',
             'type' => 'required|in:' . collect(Setting::TYPES)->keys()->implode(','),
             'model.description' => 'required|min:5|max:150',
@@ -201,7 +201,7 @@ class Settings extends Component
      */
     public function generateName(): void
     {
-        $this->slug = Str::slug($this->model->name, '.');
+        $this->slug = Str::slug($this->form->name, '.');
     }
 
     /**
@@ -223,8 +223,7 @@ class Settings extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Setting::query()
-            ->search('name', $this->search);
+        $query = Setting::query();
 
         return $this->applySorting($query);
     }
@@ -254,8 +253,8 @@ class Settings extends Component
         $this->useCachedRows();
 
         // Reset the model to a blank model before showing the creating modal.
-        if ($this->model->getKey()) {
-            $this->model = $this->makeBlankModel();
+        if ($this->form->getKey()) {
+            $this->form = $this->makeBlankModel();
             $this->value = '';
             $this->type = 'value_bool';
             //Reset the slug too.
@@ -280,10 +279,10 @@ class Settings extends Component
         $this->useCachedRows();
 
         // Set the model to the setting we want to edit.
-        if ($this->model->isNot($setting)) {
-            $this->model = $setting;
-            $this->type = $this->model->type;
-            $this->value = $this->model->value;
+        if ($this->form->isNot($setting)) {
+            $this->form = $setting;
+            $this->type = $this->form->type;
+            $this->value = $this->form->value;
             $this->generateName();
         }
         $this->showModal = true;
@@ -296,18 +295,18 @@ class Settings extends Component
      */
     public function save(): void
     {
-        $this->model->name = $this->slug;
+        $this->form->name = $this->slug;
 
         $this->authorize($this->isCreating ? 'create' : 'update', Setting::class);
 
         $this->validate();
 
-        $this->model = Setting::castValue($this->value, $this->type, $this->model);
+        $this->form = Setting::castValue($this->value, $this->type, $this->form);
 
-        unset($this->model->type, $this->model->value);
+        unset($this->form->type, $this->form->value);
 
-        if ($this->model->save()) {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$this->model->name]);
+        if ($this->form->save()) {
+            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$this->form->name]);
         } else {
             $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
         }

@@ -52,7 +52,7 @@
                 <x-theme-toggle />
 
                 {{-- User Notifications Menu --}}
-                <x-notifications/>
+                <livewire:users.notifications />
 
                 {{-- User Avatar and Menu --}}
                 <x-dropdown right class=" w-52">
