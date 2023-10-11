@@ -18,9 +18,14 @@
 
                 <ul class="max-h-[350px] overflow-y-scroll">
                     @forelse($notifications as $notification)
-                        <li class="hover:bg-slate-200 flex items-center rounded mb-3 mr-2 pt-2 dark:hover:bg-slate-700" wire:key="{{ $notification->id }}">
+                        <li class="flex items-center rounded mb-3 mr-2 pt-2 hover:bg-slate-200 dark:hover:hover:bg-base-content/10" wire:key="{{ $notification->id }}">
                             <div class="indicator w-full">
-                                <a @if($notification->read_at == null) wire:mouseover.prevent="markAsRead('{{ $notification->id }}')" @endif  class="p-3 flex items-center">
+                                <!-- URL -->
+                                <a
+                                    @if($notification->read_at == null) wire:mouseover.prevent="markAsRead('{{ $notification->id }}')" @endif
+                                    class="p-3 flex items-center"
+                                    href="{{ $notification->data['url'] }}"
+                                >
                                     <!-- Icon -->
                                     @if($notification->type == \BDS\Notifications\Cleaning\AlertNotification::class)
                                         <x-icon name="fas-broom" class="h-10 w-10 text-warning mr-3"></x-icon>
@@ -41,6 +46,7 @@
 
                                 </a>
                             </div>
+                            <!-- Delete icon -->
                             <a wire:click="remove('{{ $notification->id }}')" class="cursor-pointer tooltip tooltip-left" data-tip="Supprimer la notification">
                                 <x-icon name="fas-trash" class="h-6 w-6 text-error mr-3"></x-icon>
                             </a>
@@ -58,9 +64,8 @@
                 @if($hasUnreadNotifications && $notifications->isNotEmpty())
                     <div class="mb-1">
                         <div class="divider my-0"></div>
-
                         <button wire:click="markAllNotificationsAsRead" class="btn btn-primary btn-block" type="button">
-                            Marquer toutes les notifications comme lues
+                            <x-icon name="fas-check" class="h-6 w-6"></x-icon> Marquer toutes les <br> notifications comme lues
                         </button>
                     </div>
                 @endif
