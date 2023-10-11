@@ -2,6 +2,7 @@
 
 namespace BDS\View\Components;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
 class Icon extends Component
@@ -27,7 +28,7 @@ class Icon extends Component
 
                     {{ $attributes->class([
                             'inline',
-                            'w-5 h-5' => !Str::contains($attributes->get('class'), ['w-', 'h-'])
+                            'w-5 h-5' => !\Illuminate\Support\Str::contains($attributes->get('class'), ['w-', 'h-'])
                         ]) }}
                 />
             HTML;

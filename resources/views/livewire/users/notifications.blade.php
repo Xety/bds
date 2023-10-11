@@ -48,7 +48,7 @@
                             </div>
                             <!-- Delete icon -->
                             <a wire:click="remove('{{ $notification->id }}')" class="cursor-pointer tooltip tooltip-left" data-tip="Supprimer la notification">
-                                <x-icon name="fas-trash" class="h-6 w-6 text-error mr-3"></x-icon>
+                                <x-icon name="fas-trash-can" class="h-6 w-6 text-error mr-3"></x-icon>
                             </a>
                         </li>
                     @empty

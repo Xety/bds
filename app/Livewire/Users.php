@@ -99,7 +99,7 @@ class Users extends Component
         'first_name',
         'last_name',
         'email',
-        'last_login',
+        'last_login_date',
         'created_at',
         'deleted_at'
     ];

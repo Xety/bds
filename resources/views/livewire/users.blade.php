@@ -15,7 +15,8 @@
                         @can('delete', \BDS\Models\User::class)
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
-                                    <i class="fa-solid fa-trash-can"></i> Supprimer
+                                    <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                                    Supprimer
                                 </button>
                             </li>
                         @endcan
@@ -26,7 +27,7 @@
         <div class="mb-4">
             @can('create', \BDS\Models\User::class)
                 <a href="#" wire:click.prevent="create" class="btn btn-success gap-2">
-                    <i class="fa-solid fa-plus"></i>
+                    <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon>
                     Nouvel Utilisateur
                 </a>
             @endcan
@@ -52,7 +53,7 @@
             <x-table.heading sortable wire:click="sortBy('email')" :direction="$sortField === 'email' ? $sortDirection : null">Email</x-table.heading>
             <x-table.heading>Rôles</x-table.heading>
             <x-table.heading class="min-w-[120px]" sortable wire:click="sortBy('deleted_at')" :direction="$sortField === 'deleted_at' ? $sortDirection : null">Supprimé</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('last_login')" :direction="$sortField === 'last_login' ? $sortDirection : null">Dernière connexion</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('last_login_date')" :direction="$sortField === 'last_login_date' ? $sortDirection : null">Dernière connexion</x-table.heading>
             <x-table.heading class="min-w-[140px]" sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
         </x-slot>
 
@@ -103,7 +104,7 @@
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $users->count() }}</strong> utilisateur(s), voulez-vous tous les sélectionner <strong>{{ $users->total() }}</strong>?</span>
                                 <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                    <x-icon name="fas-check" class="h-5 w-5"></x-icon>
                                     Tout sélectionner
                                 </button>
                             </div>
@@ -126,7 +127,7 @@
                     @can('update', \BDS\Models\User::class)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $user->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier cet utilisateur">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                                <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon>
                             </a>
                         </x-table.cell>
                     @endcan
@@ -207,7 +208,7 @@
                 @endif
                 <div class="modal-action">
                     <button type="submit" class="btn btn-error gap-2" @if (empty($selected)) disabled @endif>
-                        <i class="fa-solid fa-trash-can"></i>
+                        <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
                         Supprimer
                     </button>
                     <label for="deleteModal" class="btn btn-neutral">Fermer</label>
@@ -279,11 +280,16 @@
                 <div class="modal-action">
                     @if ($form->user?->trashed() && auth()->user()->can('restore', \BDS\Models\User::class))
                         <button type="button" wire:click='restore()' class="btn btn-info gap-2">
-                            <i class="fa-solid fa-lock-open"></i> Restaurer
+                            <x-icon name="fas-lock-open" class="h-5 w-5"></x-icon>
+                            Restaurer
                         </button>
                     @else
                         <button type="submit" class="btn btn-success gap-2">
-                            {!! $isCreating ? '<i class="fa-solid fa-plus"></i> Créer' : '<i class="fa-solid fa-pen-to-square"></i> Editer' !!}
+                            @if($isCreating)
+                                <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                            @else
+                                <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                            @endif
                         </button>
                     @endif
 
