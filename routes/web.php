@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
-use Selvah\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,26 +92,6 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('/', [BDS\Http\Controllers\DashboardController::class, 'index'])
         ->name('dashboard.index');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Notifications Routes
-    |--------------------------------------------------------------------------
-    */
-    Route::get('api/notifications', [BDS\Http\Controllers\API\NotificationController::class,'index'])
-        ->name('notifications.index');
-    Route::post(
-        'api/notifications/markAsRead',
-        [BDS\Http\Controllers\API\NotificationController::class,'markAsRead']
-    )->name('notifications.markasread');
-    Route::post(
-        'api/notifications/markAllAsRead',
-        [BDS\Http\Controllers\API\NotificationController::class, 'markAllAsRead']
-    )->name('notifications.markallasread');
-    Route::delete(
-        'api/notifications/delete/{slug?}',
-        [BDS\Http\Controllers\API\NotificationController::class, 'delete']
-    )->name('notifications.delete');
 
     /*
     |--------------------------------------------------------------------------

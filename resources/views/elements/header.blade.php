@@ -37,8 +37,10 @@
 
             {{-- Notifications --}}
             <div class="navbar-end lg:hidden">
-                <x-notifications/>
+                {{-- User Notifications Menu --}}
+                <livewire:users.notifications />
             </div>
+
 
             <div class="navbar-end hidden lg:flex justify-end gap-2">
                 {{-- Select Site --}}

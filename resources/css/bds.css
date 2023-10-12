@@ -199,6 +199,7 @@ details > summary::-webkit-details-marker {
 
 .flatpickr-months .flatpickr-month,
 .flatpickr-weekdays,
+.flatpickr-current-month .flatpickr-monthDropdown-months,
 span.flatpickr-weekday {
     @apply bg-primary text-primary-content;
 }

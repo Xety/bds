@@ -84,8 +84,8 @@ class Users extends Component
         'email' => '',
         'role' => '',
         'is_deleted' => '',
-        'created-min' => '',
-        'created-max' => '',
+        'created_min' => '',
+        'created_max' => '',
     ];
 
     /**
@@ -120,6 +120,7 @@ class Users extends Component
 
     /**
      * Used to set the modal to Create action (true) or Edit action (false).
+     *
      * @var bool
      */
     public bool $isCreating = false;
@@ -133,7 +134,7 @@ class Users extends Component
     /**
      * Translated attribute used in failed messages.
      *
-     * @var string[]
+     * @var array
      */
     protected array $validationAttributes = [
         'form.username' => 'nom d\'utilisateur',
@@ -225,7 +226,7 @@ class Users extends Component
 
         return view('livewire.users', [
             'users' => $this->rows,
-            'roles' => Role::whereIn('id', $rolesIds)->pluck('name', 'id')->toArray(),
+            'roles' => Role::whereIn('id', $rolesIds)->select(['id', 'name'])->orderBy('name')->get()->toArray(),
             'site' => Site::find(session('current_site_id'))
         ]);
     }
@@ -238,8 +239,8 @@ class Users extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = User::query()
-            ->withCount('roles')
-            ->orderByDesc('roles_count');
+            ->with('roles');
+            //->orderByDesc('roles_count');
 
         if (Auth::user()->can('search', User::class)) {
             $query->when($this->filters['username'], fn($query, $search) => $query->where('username', 'LIKE', '%' . $search . '%'))
@@ -251,15 +252,14 @@ class Users extends Component
                         return $query->whereNotNull('deleted_at');
                     }
                     return $query->whereNull('deleted_at');
-
                 })
                 ->when($this->filters['role'], function ($query, $search) {
                     return $query->whereHas('roles', function ($partQuery) use ($search) {
                         $partQuery->where('name', 'LIKE', '%' . $search . '%');
                     });
                 })
-                ->when($this->filters['created-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-                ->when($this->filters['created-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+                ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
         $query->withTrashed();
 

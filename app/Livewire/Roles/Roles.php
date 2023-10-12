@@ -50,9 +50,9 @@ class Roles extends Component
     /**
      * Used to update in URL the query string.
      *
-     * @var string[]
+     * @var array
      */
-    protected $queryString = [
+    protected array $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
         'search' => ['except' => '', 'as' => 's']

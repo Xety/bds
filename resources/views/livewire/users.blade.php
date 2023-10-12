@@ -26,10 +26,10 @@
         </div>
         <div class="mb-4">
             @can('create', \BDS\Models\User::class)
-                <a href="#" wire:click.prevent="create" class="btn btn-success gap-2">
+                <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon>
                     Nouvel Utilisateur
-                </a>
+                </x-button>
             @endcan
         </div>
     </div>
@@ -68,31 +68,48 @@
                     @endcan
                     <x-table.cell></x-table.cell>
                     <x-table.cell>
-                        <x-form.text wire:model.live.debounce.250ms="filters.username" class="" />
+                        <x-input wire:model.live.debounce.250ms="filters.username" name="filters.username" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-form.text wire:model.live.debounce.250ms="filters.first_name" class="" />
+                        <x-input wire:model.live.debounce.250ms="filters.first_name" name="filters.first_name" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-form.text wire:model.live.debounce.250ms="filters.last_name" class="" />
+                        <x-input wire:model.live.debounce.250ms="filters.last_name" name="filters.last_name" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-form.text wire:model.live.debounce.250ms="filters.email" class="" />
+                        <x-input wire:model.live.debounce.250ms="filters.email" name="filters.email" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-form.text wire:model.live.debounce.250ms="filters.role" class="" />
+                        <x-input wire:model.live.debounce.250ms="filters.role" name="filters.role" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-form.select wire:model.live.debounce.250ms="filters.is_deleted">
-                            <option value="">Tous</option>
-                            <option  value="yes">Oui</option>
-                            <option  value="no">Non</option>
-                        </x-form.select>
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary"
+                            wire:model.live="filters.is_deleted"
+                            name="filters.is_deleted"
+                        />
                     </x-table.cell>
                     <x-table.cell></x-table.cell>
                     <x-table.cell>
-                        <x-form.date class="input-xs" data-class-join="btn-xs mb-2" wire:model.live.debounce.250ms="filters.created-min" :join="true" :joinIcon="'fa-solid fa-calendar'" placeholder="Date minimum de création" />
-                        <x-form.date class="input-xs" data-class-join="btn-xs" wire:model.live.debounce.250ms="filters.created-max" :join="true" :joinIcon="'fa-solid fa-calendar'" placeholder="Date maximum de création" />
+                        <x-datepicker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
+                        <x-datepicker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
                     </x-table.cell>
                 </x-table.row>
             @endcan
@@ -103,10 +120,10 @@
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $users->count() }}</strong> utilisateur(s), voulez-vous tous les sélectionner <strong>{{ $users->total() }}</strong>?</span>
-                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
+                                <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
                                     <x-icon name="fas-check" class="h-5 w-5"></x-icon>
                                     Tout sélectionner
-                                </button>
+                                </x-button>
                             </div>
                         @else
                             <span>Vous sélectionnez actuellement <strong>{{ $users->total() }}</strong> utilisateur(s).</span>
@@ -189,7 +206,7 @@
 
 
     <!-- Delete Users Modal -->
-    <form wire:submit.prevent="deleteSelected">
+    <form>
         <input type="checkbox" id="deleteModal" class="modal-toggle" wire:model.live="showDeleteModal" />
         <label for="deleteModal" class="modal cursor-pointer">
             <label class="modal-box relative">
@@ -207,10 +224,10 @@
                     </p>
                 @endif
                 <div class="modal-action">
-                    <button type="submit" class="btn btn-error gap-2" @if (empty($selected)) disabled @endif>
+                    <x-button class="btn btn-error gap-2" type="button" wire:click="deleteSelected" spinner :disabled="empty($selected)">
                         <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
                         Supprimer
-                    </button>
+                    </x-button>
                     <label for="deleteModal" class="btn btn-neutral">Fermer</label>
                 </div>
             </label>
@@ -218,7 +235,7 @@
     </form>
 
     <!-- Edit Users Modal -->
-    <form wire:submit.prevent="save">
+    <form>
         <input type="checkbox" id="editModal" class="modal-toggle" wire:model.live="showModal" />
         <label for="editModal" class="modal cursor-pointer">
             <label class="modal-box relative">
@@ -249,18 +266,18 @@
                     </div>
                 @endif
 
-                <x-form.text wire:model="form.username" name="form.username" label="Nom d'Utilisateur" placeholder="Nom d'Utilisateur..." disabled />
+                <x-input wire:model="form.username" name="form.username" label="Nom d'Utilisateur" placeholder="Nom d'Utilisateur..." type="text" disabled />
 
-                <x-form.text wire:model="form.first_name" name="form.first_name" label="Prénom" placeholder="Prénom..." wire:keyup.debounce.250ms="generateUsername()" />
-                <x-form.text wire:model="form.last_name" name="form.last_name" label="Nom" placeholder="Nom..." wire:keyup.debounce.250ms="generateUsername()" />
+                <x-input wire:model="form.first_name" name="form.first_name" label="Prénom" placeholder="Prénom..." wire:keyup.debounce.250ms="generateUsername()" type="text" />
+                <x-input wire:model="form.last_name" name="form.last_name" label="Nom" placeholder="Nom..." wire:keyup.debounce.250ms="generateUsername()" type="text" />
 
-                <x-form.email wire:model="form.email" name="form.email" label="Email" placeholder="Email..." />
+                <x-input wire:model="form.email" name="form.email" label="Email" placeholder="Email..." type="email" />
 
                 @php $message = "Uniquement si vous disposez d'un téléphone à votre bureau.";@endphp
-                <x-form.text wire:model="form.office_phone" name="form.office_phone" label="Téléphone bureau" placeholder="Téléphone bureau" :info="true" :infoText="$message" />
+                <x-input wire:model="form.office_phone" name="form.office_phone" label="Téléphone bureau" placeholder="Téléphone bureau" :label-info="$message" type="text" />
 
                 @php $message = "Uniquement un numéro de téléphone portable utilisé dans le cadre professionnel.";@endphp
-                <x-form.text wire:model="form.cell_phone" name="form.cell_phone" label="Téléphone portable" placeholder="Téléphone portable" :info="true" :infoText="$message" />
+                <x-input wire:model="form.cell_phone" name="form.cell_phone" label="Téléphone portable" placeholder="Téléphone portable" :label-info="$message" type="text" />
 
                 <div>
                     <x-alert type="info" class="max-w-lg mt-4" title="Information">
@@ -268,29 +285,33 @@
                     </x-alert>
                 </div>
                 @php $message = "Sélectionnez le/les rôle(s) de l'utilisateur.";@endphp
-                <x-form.select wire:model="form.rolesSelected" name="form.rolesSelected"  label="Rôles" multiple :info="true" :infoText="$message">
-                    @foreach($roles as $roleId => $roleName)
-                    <option  value="{{ $roleId }}">{{$roleName}}</option>
-                    @endforeach
-                </x-form.select>
+                <x-select
+                    :options="$roles"
+                    class="select-primary"
+                    wire:model="form.rolesSelected"
+                    name="form.rolesSelected"
+                    label="Rôles"
+                    :label-info="$message"
+                    multiple
+                />
 
                 @php $message = "Vous pouvez renseigner une date de fin de contrat pour l'utilisateur, ce qui aura pour conséquence de <span class=\"font-bold\">désactiver son compte automatiquement à cette date</span>. (Très utile pour les saisonniers)";@endphp
-                <x-form.date wire:model="form.end_employment_contract" name="form.end_employment_contract" label="Date de fin de contrat" placeholder="Date de fin de contract..." :info="true" :infoText="$message" />
+                <x-datepicker wire:model="form.end_employment_contract" name="form.end_employment_contract" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Date de fin de contrat" placeholder="Date de fin de contract..." />
 
                 <div class="modal-action">
                     @if ($form->user?->trashed() && auth()->user()->can('restore', \BDS\Models\User::class))
-                        <button type="button" wire:click='restore()' class="btn btn-info gap-2">
+                        <x-button class="btn btn-info gap-2" type="button" wire:click="restore" spinner>
                             <x-icon name="fas-lock-open" class="h-5 w-5"></x-icon>
                             Restaurer
-                        </button>
+                        </x-button>
                     @else
-                        <button type="submit" class="btn btn-success gap-2">
+                        <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
                             @if($isCreating)
                                 <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
                             @else
                                 <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
                             @endif
-                        </button>
+                        </x-button>
                     @endif
 
                     <label for="editModal" class="btn btn-neutral">Fermer</label>

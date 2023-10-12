@@ -10,8 +10,8 @@
 
     <section class="m-3 lg:m-10">
         <hgroup class="text-center px-5 pb-5">
-            <h1 class="text-4xl font-xetaravel">
-                <i class="fa-solid fa-users"></i> Gestion des Utilisateurs
+            <h1 class="text-4xl font-bds">
+                <x-icon name="fas-users-gear" class="inline h-12 w-12"></x-icon> Gestion des Utilisateurs
             </h1>
             <p class="text-gray-400 ">
                 Gérer les utilisateurs du site.

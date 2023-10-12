@@ -1,13 +1,10 @@
 <div>
     @include('elements.flash')
 
-    <div class="flex flex-col lg:flex-row gap-6 justify-between">
-        <div class="mb-4 w-full lg:w-auto lg:min-w-[350px]">
-            <x-form.text wire:model="search" placeholder="Rechercher des Rôles..." class="lg:max-w-lg" />
-        </div>
-        <div class="mb-4">
+    <div class="flex flex-col lg:flex-row gap-4 justify-between">
+        <div>
             @canany(['delete'], \Spatie\Permission\Models\Role::class)
-                <div class="dropdown lg:dropdown-end">
+                <div class="dropdown">
                     <label tabindex="0" class="btn btn-neutral m-1">
                         Actions
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill align-bottom" viewBox="0 0 16 16">
@@ -18,19 +15,21 @@
                         @can('delete', \Spatie\Permission\Models\Role::class)
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
-                                    <i class="fa-solid fa-trash-can"></i> Supprimer
+                                    <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                                    Supprimer
                                 </button>
                             </li>
                         @endcan
                     </ul>
                 </div>
             @endcanany
-
+        </div>
+        <div class="mb-4">
             @can('create', \Spatie\Permission\Models\Role::class)
-                <a href="#" wire:click.prevent="create" class="btn btn-success gap-2">
-                    <i class="fa-solid fa-plus"></i>
+                <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
+                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                     Nouveau Rôle
-                </a>
+                </x-button>
             @endcan
         </div>
     </div>
@@ -40,7 +39,7 @@
             @canany(['delete'], \Spatie\Permission\Models\Role::class)
                 <x-table.heading>
                     <label>
-                        <input type="checkbox" class="checkbox" wire:model="selectPage" />
+                        <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
             @endcanany
@@ -58,11 +57,11 @@
                     <x-table.cell colspan="6">
                         @unless ($selectAll)
                             <div>
-                                <span>Vous avez sélectionné <strong>{{ $roles->count() }}</strong> rôle(s), voulez-vous tous les selectionner <strong>{{ $roles->total() }}</strong>?</span>
-                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                <span>Vous avez sélectionné <strong>{{ $roles->count() }}</strong> rôle(s), voulez-vous tous les sélectionner <strong>{{ $roles->total() }}</strong>?</span>
+                                <x-button type="button" wire:click="setSelectAll" class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
+                                    <x-icon name="fas-check" class="h-5 w-5"></x-icon>
                                     Tout sélectionner
-                                </button>
+                                </x-button>
                             </div>
                         @else
                             <span>Vous sélectionnez actuellement <strong>{{ $roles->total() }}</strong> rôle(s).</span>

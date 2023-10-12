@@ -2,9 +2,11 @@
 
 namespace BDS\Livewire\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\NoReturn;
+use Livewire\Attributes\Reactive;
 
 trait WithBulkActions
 {
@@ -87,7 +89,7 @@ trait WithBulkActions
      *
      * @return void
      */
-    public function selectAll(): void
+    public function setSelectAll(): void
     {
         $this->selectAll = true;
     }
@@ -95,9 +97,9 @@ trait WithBulkActions
     /**
      * Get all select rows by their id, preparing for deleting them.
      *
-     * @return mixed
+     * @eturn Builder
      */
-    public function getSelectedRowsQueryProperty()
+    public function getSelectedRowsQueryProperty() : Builder
     {
         return app($this->model)->unless($this->selectAll, fn($query) => $query->whereKey($this->selected));
     }

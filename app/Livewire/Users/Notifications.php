@@ -118,7 +118,13 @@ class Notifications extends Component
     private function fetchData(): void
     {
         $this->notifications = auth()->user()->notifications;
-        $this->unreadNotificationsCount = auth()->user()->unreadNotifications->count();
+
+        // Filter only the unread notifications
+        $unreadNotifications = $this->notifications->filter(function($notification) {
+            return $notification->read_at == null;
+        });
+        $this->unreadNotificationsCount = $unreadNotifications->count();
+
         $this->hasUnreadNotifications = $this->unreadNotificationsCount > 0;
     }
 }
