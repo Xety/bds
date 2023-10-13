@@ -15,16 +15,29 @@ class CleaningForm extends Form
 
     public ?string $type = null;
 
-    public function setCleaning(Cleaning $cleaning)
+    /**
+     * Set the model and all his fields.
+     *
+     * @param Cleaning $cleaning
+     *
+     * @return void
+     */
+    public function setCleaning(Cleaning $cleaning): void
     {
-        $this->cleaning = $cleaning;
-
-        $this->material_id = $cleaning->material_id;
-        $this->description = $cleaning->description;
-        $this->type = $cleaning->type;
+        $this->fill([
+            'cleaning' => $cleaning,
+            'material_id' => $cleaning->material_id,
+            'description' => $cleaning->description,
+            'type' => $cleaning->type
+        ]);
     }
 
-    public function store()
+    /**
+     * Function to store the model.
+     *
+     * @return Cleaning
+     */
+    public function store(): Cleaning
     {
         return Cleaning::create($this->only([
             'material_id',
@@ -33,7 +46,12 @@ class CleaningForm extends Form
         ]));
     }
 
-    public function update()
+    /**
+     * Function to update the model and return it after.
+     *
+     * @return Cleaning
+     */
+    public function update(): Cleaning
     {
         return tap($this->cleaning)->update($this->only([
             'material_id',

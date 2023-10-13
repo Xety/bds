@@ -49,6 +49,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'create role',
             'update role',
             'delete role',
+            'search role',
 
             // Permission
             'viewAny permission',
@@ -56,6 +57,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'create permission',
             'update permission',
             'delete permission',
+            'search permission',
 
             // User
             'viewAny user',

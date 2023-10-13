@@ -18,6 +18,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
@@ -192,8 +193,8 @@ class Users extends Component
         return [
             'form.username' => 'required|regex:/^[\w.]*$/|min:4|max:40|unique:users,username,' . $this->form->user?->id,
             'form.email' => 'required|email|unique:users,email,' . $this->form->user?->id,
-            'form.first_name' => 'required|min:2',
-            'form.last_name' => 'required|min:2',
+            'form.first_name' => 'required|min:2|alpha_num',
+            'form.last_name' => 'required|min:2|alpha_num',
             'form.end_employment_contract' => 'nullable|date_format:"d-m-Y H:i"',
         ];
     }
@@ -207,7 +208,7 @@ class Users extends Component
      */
     public function generateUsername(): void
     {
-        $this->form->username = $this->form->first_name . '.' . substr($this->form->last_name, 0, 1);
+        $this->form->username = Str::slug(Str::replace(' ', '', strtolower(trim($this->form->first_name)  . '.' . trim($this->form->last_name))), '.');
     }
 
     /**
@@ -331,7 +332,7 @@ class Users extends Component
         $model = $this->isCreating ? $this->form->store() : $this->form->update();
 
         if ($model) {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$model->getKey()]);
+            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$model->full_name]);
         } else {
             $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
         }

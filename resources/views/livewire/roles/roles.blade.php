@@ -52,6 +52,27 @@
         </x-slot>
 
         <x-slot name="body">
+            @can('search', \BDS\Models\Role::class)
+                <x-table.row wire:key="row-message">
+                    @can('delete', \BDS\Models\Role::class)
+                        <x-table.cell></x-table.cell>
+                    @endcan
+                    @can('update', \BDS\Models\Role::class)
+                        <x-table.cell></x-table.cell>
+                    @endcan
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.name" name="filters.name" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.description" name="filters.description" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-datepicker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
+                        <x-datepicker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
+                    </x-table.cell>
+                </x-table.row>
+            @endcan
+
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
                     <x-table.cell colspan="6">
@@ -75,14 +96,14 @@
                     @canany(['delete'], \Spatie\Permission\Models\Role::class)
                         <x-table.cell>
                             <label>
-                                <input type="checkbox" class="checkbox" wire:model="selected" value="{{ $role->getKey() }}" />
+                                <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $role->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @endcanany
                     @can('update', \Spatie\Permission\Models\Role::class)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $role->getKey() }})" class="tooltip tooltip-right" data-tip="Editer ce rôle">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                                <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
                     @endcan
@@ -112,8 +133,8 @@
 
 
     <!-- Delete Roles Modal -->
-    <form wire:submit.prevent="deleteSelected">
-        <input type="checkbox" id="deleteModal" class="modal-toggle" wire:model="showDeleteModal" />
+    <form>
+        <input type="checkbox" id="deleteModal" class="modal-toggle" wire:model.live="showDeleteModal" />
         <label for="deleteModal" class="modal cursor-pointer">
             <label class="modal-box relative">
                 <label for="deleteModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
@@ -130,10 +151,10 @@
                     </p>
                 @endif
                 <div class="modal-action">
-                    <button type="submit" class="btn btn-neutral btn-error gap-2" @if (empty($selected)) disabled @endif>
-                        <i class="fa-solid fa-trash-can"></i>
+                    <x-button class="btn btn-error gap-2" type="button" wire:click="deleteSelected" spinner :disabled="empty($selected)">
+                        <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
                         Supprimer
-                    </button>
+                    </x-button>
                     <label for="deleteModal" class="btn btn-neutral">Fermer</label>
                 </div>
             </label>
@@ -141,8 +162,8 @@
     </form>
 
     <!-- Edit Role Modal -->
-    <form wire:submit.prevent="save">
-        <input type="checkbox" id="editModal" class="modal-toggle" wire:model="showModal" />
+    <form>
+        <input type="checkbox" id="editModal" class="modal-toggle" wire:model.live="showModal" />
         <label for="editModal" class="modal cursor-pointer">
             <label class="modal-box relative">
                 <label for="editModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
@@ -150,22 +171,32 @@
                     {!! $isCreating ? 'Créer un Rôle' : 'Editer le Rôle' !!}
                 </h3>
 
-                <x-form.text wire:model="model.name" id="name" name="model.name" label="Nom" placeholder="Nom..." />
+                <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
 
-                <x-form.text wire:model="model.css" name="model.css" label="CSS" />
+                <x-input wire:model="form.css" name="form.css" label="CSS" type="text" />
 
-                <x-form.select size="8" wire:model="permissionsSelected" name="permissionsSelected"  label="Permissions" multiple>
-                    @foreach($permissions as $permissionId => $permissionName)
-                    <option  value="{{ $permissionId }}">{{$permissionName}}</option>
-                    @endforeach
-                </x-form.select>
+                @php $message = "Sélectionnez la/les permissions(s) du rôle.";@endphp
+                <x-select
+                    :options="$permissions"
+                    class="select-primary"
+                    wire:model="form.permissions"
+                    name="form.permissions"
+                    label="Permissions"
+                    :label-info="$message"
+                    size="15"
+                    multiple
+                />
 
-                <x-form.textarea wire:model="model.description" name="model.description" label="Description" placeholder="Description..." />
+                <x-textarea wire:model="form.description" name="form.description" label="Description" placeholder="Description..." rows="3" />
 
                 <div class="modal-action">
-                    <button type="submit" class="btn btn-success gap-2">
-                        {!! $isCreating ? '<i class="fa-solid fa-plus"></i> Créer' : '<i class="fa-solid fa-pen-to-square"></i> Editer' !!}
-                    </button>
+                    <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
+                        @if($isCreating)
+                            <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                        @else
+                            <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                        @endif
+                    </x-button>
                     <label for="editModal" class="btn btn-neutral">Fermer</label>
                 </div>
             </label>

@@ -25,10 +25,16 @@ class UserForm extends Form
 
     public array $rolesSelected = [];
 
+    /**
+     * Set the model and all his fields.
+     *
+     * @param User $user The user model.
+     * @param array $roles All roles of the user.
+     *
+     * @return void
+     */
     public function setUser(User $user, array $roles): void
     {
-        //$this->user = $user;
-
         $this->fill([
             'user' => $user,
             'rolesSelected' => $roles,
@@ -40,19 +46,10 @@ class UserForm extends Form
             'cell_phone' => $user->cell_phone,
             'end_employment_contract' => $user->end_employment_contract
         ]);
-
-        /*$this->rolesSelected = $roles;
-        $this->username = $user->username;
-        $this->first_name = $user->first_name;
-        $this->last_name = $user->last_name;
-        $this->email = $user->email;
-        $this->office_phone = $user->office_phone;
-        $this->cell_phone = $user->cell_phone;
-        $this->end_employment_contract = $user->end_employment_contract;*/
     }
 
     /**
-     * Function to store the user.
+     * Function to store the model.
      *
      * @return User
      */
@@ -77,7 +74,7 @@ class UserForm extends Form
     }
 
     /**
-     * Function to update the user.
+     * Function to update the model.
      *
      * @return User
      */

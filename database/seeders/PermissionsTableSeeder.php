@@ -52,6 +52,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'search role',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut rechercher un rôle.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'viewAny permission',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut voir les permissions.',
@@ -83,6 +90,13 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'delete permission',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut supprimer une permission.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'search permission',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut rechercher une permission.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

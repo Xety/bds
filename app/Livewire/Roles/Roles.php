@@ -2,15 +2,20 @@
 
 namespace BDS\Livewire\Roles;
 
+use BDS\Livewire\Forms\RoleForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
+use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithFlash;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
+use BDS\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Permission;
@@ -21,24 +26,39 @@ class Roles extends Component
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
+    use WithFilters;
     use WithFlash;
     use WithPagination;
     use WithPerPagePagination;
     use WithSorting;
 
     /**
+     * Bind the main model used in the component to be used in traits.
+     *
+     * @var string
+     */
+    public string $model = Role::class;
+
+    /**
+     * The form used to create/update a user.
+     *
+     * @var RoleForm
+     */
+    public RoleForm $form;
+
+    /**
      * The field to sort by.
      *
      * @var string
      */
-    public string $sortField = 'created_at';
+    public string $sortField = 'name';
 
     /**
      * The direction of the ordering.
      *
      * @var string
      */
-    public string $sortDirection = 'desc';
+    public string $sortDirection = 'asc';
 
     /**
      * The string to search.
@@ -55,7 +75,19 @@ class Roles extends Component
     protected array $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
-        'search' => ['except' => '', 'as' => 's']
+        'filters',
+    ];
+
+    /**
+     * Filters used for advanced search.
+     *
+     * @var array
+     */
+    public array $filters = [
+        'name' => '',
+        'description' => '',
+        'created_min' => '',
+        'created_max' => ''
     ];
 
     /**
@@ -69,13 +101,6 @@ class Roles extends Component
         'description',
         'created_at'
     ];
-
-    /**
-     * The model used in the component.
-     *
-     * @var Role
-     */
-    public Role $model;
 
     /**
      * Used to show the Edit/Create modal.
@@ -102,13 +127,6 @@ class Roles extends Component
      * @var int
      */
     public int $perPage = 25;
-
-    /**
-     * The selected permissions for the editing role or the new role.
-     *
-     * @var array
-     */
-    public array $permissionsSelected = [];
 
     /**
      * Flash messages for the model.
@@ -138,34 +156,24 @@ class Roles extends Component
      */
     public function mount(): void
     {
-        $this->model = $this->makeBlankModel();
-
         $this->applySortingOnMount();
+
+        $this->applyFilteringOnMount();
     }
 
     /**
      * Rules used for validating the model.
      *
-     * @return string[]
+     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'model.name' => 'required|min:2|max:50|unique:roles,name,' . $this->model->id,
-            'model.description' => 'required|min:5|max:150',
-            'model.css' => 'string',
-            'permissionsSelected' => 'required'
+            'form.name' => 'required|min:2|max:50|unique:roles,name,' . $this->form->role?->id,
+            'form.description' => 'max:350',
+            'form.css' => 'string',
+            'form.permissions' => 'required'
         ];
-    }
-
-    /**
-     * Create a blank model and return it.
-     *
-     * @return Role
-     */
-    public function makeBlankModel(): Role
-    {
-        return Role::make();
     }
 
     /**
@@ -173,11 +181,11 @@ class Roles extends Component
      *
      * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('livewire.roles.roles', [
             'roles' => $this->rows,
-            'permissions' => Permission::pluck('name', 'id')->toArray()
+            'permissions' => Permission::query()->select(['id', 'name'])->orderBy('name')->get()->toArray(),
         ]);
     }
 
@@ -189,7 +197,13 @@ class Roles extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Role::query();
-            //->search('name', $this->search);
+
+        if (Auth::user()->can('search', Role::class)) {
+            $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+        }
 
         return $this->applySorting($query);
     }
@@ -218,11 +232,8 @@ class Roles extends Component
         $this->isCreating = true;
         $this->useCachedRows();
 
-        // Reset the model to a blank model before showing the creating modal.
-        if ($this->model->getKey()) {
-            $this->model = $this->makeBlankModel();
-            $this->permissionsSelected = [];
-        }
+        $this->form->reset();
+
         $this->showModal = true;
     }
 
@@ -242,10 +253,10 @@ class Roles extends Component
         $this->useCachedRows();
 
         // Set the model to the role we want to edit and set the related permissions.
-        if ($this->model->isNot($role)) {
-            $this->model = $role;
-            $this->permissionsSelected = $role->permissions->pluck('id')->toArray();
-        }
+        $permissions = $role->permissions()->pluck('id')->toArray();
+
+        $this->form->setRole($role, $permissions);
+
         $this->showModal = true;
     }
 
@@ -260,10 +271,10 @@ class Roles extends Component
 
         $this->validate();
 
-        if ($this->model->save()) {
-            $this->model->syncPermissions($this->permissionsSelected);
+        $model = $this->isCreating ? $this->form->store() : $this->form->update();
 
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$this->model->name]);
+        if ($model) {
+            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$model->name]);
         } else {
             $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
         }

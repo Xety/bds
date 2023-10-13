@@ -78,7 +78,7 @@
 
             @canany(['viewAny role', 'viewAny permission'])
                 <x-menu-separator  />
-                <x-menu-sub title="Roles & Permissions" icon="fas-users">
+                <x-menu-sub title="Roles & Permissions" icon="fas-shield-alt">
                     @can('viewAny', \BDS\Models\Role::class)
                         <x-menu-item title="Gérer les Roles" icon="fas-user-tie" link="{{ route('roles.roles.index') }}" wire:navigate />
                     @endcan
