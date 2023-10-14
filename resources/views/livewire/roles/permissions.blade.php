@@ -1,13 +1,10 @@
 <div>
     @include('elements.flash')
 
-    <div class="flex flex-col lg:flex-row gap-6 justify-between">
-        <div class="mb-4 w-full lg:w-auto lg:min-w-[350px]">
-            <x-form.text wire:model="search" placeholder="Rechercher des Permissions..." class="lg:max-w-lg" />
-        </div>
-        <div class="mb-4">
+    <div class="flex flex-col lg:flex-row gap-4 justify-between">
+        <div>
             @canany(['delete'], \Spatie\Permission\Models\Permission::class)
-                <div class="dropdown lg:dropdown-end">
+                <div class="dropdown">
                     <label tabindex="0" class="btn btn-neutral m-1">
                         Actions
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill align-bottom" viewBox="0 0 16 16">
@@ -15,21 +12,25 @@
                         </svg>
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
-                        <li>
-                            <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
-                                <i class="fa-solid fa-trash-can"></i> Supprimer
-                            </button>
-                        </li>
+                        @can('delete', \Spatie\Permission\Models\Permission::class)
+                            <li>
+                                <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
+                                    <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                                    Supprimer
+                                </button>
+                            </li>
+                        @endcan
                     </ul>
                 </div>
             @endcanany
-
+        </div>
+        <div class="mb-4">
             @can('create', \Spatie\Permission\Models\Permission::class)
-                <a href="#" wire:click.prevent="create" class="btn btn-success gap-2">
-                    <i class="fa-solid fa-plus"></i>
+                <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
+                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                     Nouvelle Permission
-                </a>
-            @endif
+                </x-button>
+            @endcan
         </div>
     </div>
 
@@ -38,7 +39,7 @@
             @canany(['delete'], \Spatie\Permission\Models\Permission::class)
                 <x-table.heading>
                     <label>
-                        <input type="checkbox" class="checkbox" wire:model="selectPage" />
+                        <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
             @endcanany
@@ -74,14 +75,14 @@
                     @canany(['delete'], \Spatie\Permission\Models\Permission::class)
                         <x-table.cell>
                             <label>
-                                <input type="checkbox" class="checkbox" wire:model="selected" value="{{ $permission->getKey() }}" />
+                                <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $permission->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @endcanany
                     @can('update', \Spatie\Permission\Models\Permission::class)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $permission->getKey() }})" class="tooltip tooltip-right" data-tip="Editer cette permission">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                                <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
                     @endcan
@@ -156,9 +157,13 @@
                 <x-form.textarea wire:model="model.description" name="model.description" label="Description" placeholder="Description..." />
 
                 <div class="modal-action">
-                    <button type="submit" class="btn btn-success gap-2">
-                        {!! $isCreating ? '<i class="fa-solid fa-plus"></i> Créer' : '<i class="fa-solid fa-pen-to-square"></i> Editer' !!}
-                    </button>
+                    <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
+                        @if($isCreating)
+                            <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                        @else
+                            <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                        @endif
+                    </x-button>
                     <label for="editModal" class="btn btn-neutral">Fermer</label>
                 </div>
             </label>

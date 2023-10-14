@@ -107,7 +107,7 @@
                             </a>
                         </x-table.cell>
                     @endcan
-                    <x-table.cell class="font-bold" style="{{ $role->css }}">
+                    <x-table.cell class="font-bold" style="color:{{ $role->color }};">
                         {{ $role->name }}
                     </x-table.cell>
                     <x-table.cell>
@@ -173,7 +173,7 @@
 
                 <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
 
-                <x-input wire:model="form.css" name="form.css" label="CSS" type="text" />
+                <x-input wire:model="form.color" name="form.color" label="Couleur" placeholder="#dddddd" type="text" />
 
                 @php $message = "Sélectionnez la/les permissions(s) du rôle.";@endphp
                 <x-select

@@ -129,6 +129,18 @@ class Roles extends Component
     public int $perPage = 25;
 
     /**
+     * Translated attribute used in failed messages.
+     *
+     * @var array
+     */
+    protected array $validationAttributes = [
+        'form.name' => 'nom',
+        'form.description' => 'description',
+        'form.color' => 'couleur',
+        'form.permissions' => 'permissions'
+    ];
+
+    /**
      * Flash messages for the model.
      *
      * @var array
@@ -171,7 +183,7 @@ class Roles extends Component
         return [
             'form.name' => 'required|min:2|max:50|unique:roles,name,' . $this->form->role?->id,
             'form.description' => 'max:350',
-            'form.css' => 'string',
+            'form.color' => 'min:7|max:9',
             'form.permissions' => 'required'
         ];
     }

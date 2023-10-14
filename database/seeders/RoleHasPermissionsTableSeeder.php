@@ -112,7 +112,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         $role->syncPermissions($this->responsablePermissions);
 
         // Responsable Selvah Adjoint
-        $role = Role::findByName('Responsable Selvah Adjoint');
+        $role = Role::findByName('Responsable Adjoint Selvah');
         $role->syncPermissions($this->responsablePermissions);
 
         // Assistant(e) Qualité
@@ -167,7 +167,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         $role->syncPermissions($this->responsablePermissions);
 
         // Responsable Extrusel Adjoint
-        $role = Role::findByName('Responsable Extrusel Adjoint');
+        $role = Role::findByName('Responsable Adjoint Extrusel');
         $role->syncPermissions($this->responsablePermissions);
 
         // Responsable Beaune

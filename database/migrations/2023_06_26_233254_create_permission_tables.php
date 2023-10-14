@@ -43,7 +43,7 @@ return new class extends Migration
             }
             $table->string('name', 125);       // For MySQL 8.0 use string('name', 125);
             $table->string('description')->nullable();
-            $table->text('css')->nullable();
+            $table->string('color', 7)->nullable();
             $table->string('guard_name', 125); // For MySQL 8.0 use string('guard_name', 125);
             $table->timestamps();
             if ($teams || config('permission.testing')) {
@@ -68,8 +68,12 @@ return new class extends Migration
                 $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
                 $table->index($columnNames['team_foreign_key'], 'model_has_permissions_team_foreign_key_index');
 
-                $table->primary([$columnNames['team_foreign_key'], PermissionRegistrar::$pivotPermission, $columnNames['model_morph_key'], 'model_type'],
-                    'model_has_permissions_permission_model_type_primary');
+                $table->primary([
+                    //$columnNames['team_foreign_key'],
+                    PermissionRegistrar::$pivotPermission,
+                    $columnNames['model_morph_key'],
+                    'model_type'
+                ], 'model_has_permissions_permission_model_type_primary');
             } else {
                 $table->primary([PermissionRegistrar::$pivotPermission, $columnNames['model_morph_key'], 'model_type'],
                     'model_has_permissions_permission_model_type_primary');

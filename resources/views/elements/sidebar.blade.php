@@ -76,15 +76,19 @@
                 </x-menu-sub>
             @endcan
 
-            @canany(['viewAny role', 'viewAny permission'])
+            @canany(['viewAny role', 'viewAny permission', 'viewAny direct permission'])
                 <x-menu-separator  />
-                <x-menu-sub title="Roles & Permissions" icon="fas-shield-alt">
+                <x-menu-sub title="Rôles & Permissions" icon="fas-shield-alt">
                     @can('viewAny', \BDS\Models\Role::class)
-                        <x-menu-item title="Gérer les Roles" icon="fas-user-tie" link="{{ route('roles.roles.index') }}" wire:navigate />
+                        <x-menu-item title="Gérer les Rôles" icon="fas-user-tie" link="{{ route('roles.roles.index') }}" wire:navigate />
                     @endcan
 
                     @can('viewAny', \BDS\Models\Permission::class)
                         <x-menu-item title="Gérer les Permissions" icon="fas-user-shield" link="{{ route('roles.permissions.index') }}" wire:navigate />
+                    @endcan
+
+                    @can('viewAny', \BDS\Models\Permission::class)
+                        <x-menu-item title="Gérer les Permissions Directes" icon="fas-user-shield" link="{{ route('roles.permissions.index') }}" wire:navigate />
                     @endcan
 
                     <x-menu-item title="Voir l'arbre des Permissions" icon="fas-folder-tree" link="{{ route('users.permissions') }}" wire:navigate />
@@ -93,8 +97,8 @@
 
             @can('viewAny', \BDS\Models\Setting::class)
                 <x-menu-separator  />
-                <x-menu-sub title="Paramètres" icon="fas-users">
-                    <x-menu-item title="Gérer les Paramètres" icon="fas-users-gear" link="{{ route('settings.index') }}" />
+                <x-menu-sub title="Paramètres" icon="fas-cog">
+                    <x-menu-item title="Gérer les Paramètres" icon="fas-cog" link="{{ route('settings.index') }}" />
                 </x-menu-sub>
             @endcan
 

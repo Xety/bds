@@ -13,7 +13,7 @@ class RoleForm extends Form
 
     public ?string $description = null;
 
-    public ?string $css = null;
+    public ?string $color = null;
 
     public array $permissions = [];
 
@@ -23,7 +23,7 @@ class RoleForm extends Form
             'role' => $role,
             'name' => $role->name,
             'description' => $role->description,
-            'css' => $role->css,
+            'color' => $role->color,
             'permissions' => $permissions
         ]);
     }
@@ -38,11 +38,8 @@ class RoleForm extends Form
         $role = Role::create($this->only([
             'name',
             'description',
-            'css'
+            'color'
         ]));
-        // Link the new user to the current site.
-        $role->sites()->attach(session('current_site_id'));
-
         // Link the selected roles to the user in the current site.
         $role->syncPermissions($this->permissions);
 
@@ -59,7 +56,7 @@ class RoleForm extends Form
         $role = tap($this->role)->update($this->only([
             'name',
             'description',
-            'css'
+            'color'
         ]));
         $role->syncPermissions($this->permissions);
 

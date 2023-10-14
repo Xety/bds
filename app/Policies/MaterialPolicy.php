@@ -1,5 +1,4 @@
 <?php
-
 namespace BDS\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;

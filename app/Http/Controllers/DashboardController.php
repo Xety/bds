@@ -2,6 +2,7 @@
 
 namespace BDS\Http\Controllers;
 
+use BDS\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -20,6 +21,13 @@ class DashboardController extends Controller
 
         $breadcrumbs = $this->breadcrumbs;
         array_push($viewDatas, 'breadcrumbs');
+
+        //ini_set('max_execution_time', 600);
+
+        //$users = User::factory()->count(250)->create();
+        /*foreach ($users as $user) {
+            $user->save();
+        }*/
 
         // If the user is a Saisonnier, render directly.
         if (Auth::user()->hasRole('Saisonnier')) {

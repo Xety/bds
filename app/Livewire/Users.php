@@ -208,7 +208,10 @@ class Users extends Component
      */
     public function generateUsername(): void
     {
-        $this->form->username = Str::slug(Str::replace(' ', '', strtolower(trim($this->form->first_name)  . '.' . trim($this->form->last_name))), '.');
+        $firstName = Str::slug(trim($this->form->first_name), '');
+        $lastName = Str::slug(trim($this->form->last_name), '');
+
+        $this->form->username = $firstName . '.' . $lastName;
     }
 
     /**

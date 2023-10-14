@@ -359,6 +359,13 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'bypass login',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut bypass la désactivation de la page connexion.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
 
         DB::table('permissions')->insert($permissions);

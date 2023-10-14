@@ -50,7 +50,8 @@ new class extends Component
         $user->current_site_id = $newSiteId;
         $user->save();
 
-        $this->redirect(route('dashboard.index'));
+        $this->route = url()->previous();
+        $this->redirect($this->route);
     }
 }; ?>
 
