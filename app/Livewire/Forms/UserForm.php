@@ -23,7 +23,7 @@ class UserForm extends Form
 
     public ?string $end_employment_contract = null;
 
-    public array $rolesSelected = [];
+    public array $roles = [];
 
     /**
      * Set the model and all his fields.
@@ -37,7 +37,7 @@ class UserForm extends Form
     {
         $this->fill([
             'user' => $user,
-            'rolesSelected' => $roles,
+            'roles' => $roles,
             'username' => $user->username,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
@@ -68,7 +68,7 @@ class UserForm extends Form
         $user->sites()->attach(session('current_site_id'));
 
         // Link the selected roles to the user in the current site.
-        $user->syncRoles($this->rolesSelected);
+        $user->syncRoles($this->roles);
 
         return $user;
     }
@@ -90,7 +90,7 @@ class UserForm extends Form
             'end_employment_contract'
         ]));
 
-        $user->syncRoles($this->rolesSelected);
+        $user->syncRoles($this->roles);
 
         return $user;
     }

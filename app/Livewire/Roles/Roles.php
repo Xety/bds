@@ -263,7 +263,9 @@ class Roles extends Component
      */
     public function save(): void
     {
-        $this->authorize($this->isCreating ? 'create' : 'update', Role::class);
+        $this->isCreating ?
+            $this->authorize('create', Role::class) :
+            $this->authorize('update', $this->form->role);
 
         $this->validate();
 

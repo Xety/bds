@@ -35,20 +35,26 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, ?User $model = null): bool
     {
-        // Give update access to all users, remove to only allow created user,
-        // false to not allow any update.
+        // First check if user can update any user and a user has been provided
+        if($user->can('update user') && !is_null($model)) {
+            // Check if the user level is superior or equal to the other user level he wants to edit.
+            return $user->level() >= $model->level();
+        }
         return $user->can('update user');
-
-        //return $user->id === $user->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete(User $user, ?User $model = null): bool
     {
+        // First check if user can delete any user and a user has been provided
+        if($user->can('delete user') && !is_null($model)) {
+            // Check if the user level is superior or equal to the other user level he wants to edit.
+            return $user->level() >= $model->level();
+        }
         return $user->can('delete user');
     }
 

@@ -34,13 +34,15 @@
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @canany(['delete'], \BDS\Models\Role::class)
+            @can('delete', \BDS\Models\Role::class)
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
-            @endcanany
+            @else
+                <x-table.heading></x-table.heading>
+            @endcan
             @can('update', \BDS\Models\Role::class)
                 <x-table.heading>Actions</x-table.heading>
             @endcan
@@ -55,9 +57,13 @@
                 <x-table.row>
                     @can('delete', \BDS\Models\Role::class)
                         <x-table.cell></x-table.cell>
+                    @else
+                        <x-table.cell></x-table.cell>
                     @endcan
                     @can('update', \BDS\Models\Role::class)
                         <x-table.cell></x-table.cell>
+                        @else
+                            <x-table.cell></x-table.cell>
                     @endcan
                     <x-table.cell>
                         <x-input wire:model.live.debounce.250ms="filters.name" name="filters.name" type="text" />
@@ -96,7 +102,7 @@
 
             @forelse($roles as $role)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $role->getKey() }}">
-                    @canany(['delete'], $role)
+                    @can('delete', $role)
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $role->getKey() }}" />
@@ -104,7 +110,7 @@
                         </x-table.cell>
                     @else
                         <x-table.cell></x-table.cell>
-                    @endcanany
+                    @endcan
                     @can('update', $role)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $role->getKey() }})" class="tooltip tooltip-right" data-tip="Editer ce rôle">

@@ -171,11 +171,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('materials/arbre', [BDS\Http\Controllers\MaterialController::class, 'arbre'])
         ->name('materials.arbre');
     Route::get('materials/{material}', [BDS\Http\Controllers\MaterialController::class, 'show'])
-        ->name('materials.show')
-        ->missing(function (Request $request) {
+        ->name('materials.show');
+        /*->missing(function (Request $request) {
             return Redirect::back()
                 ->error("Ce matériel n'existe pas ou à été supprimé !");
-        });
+        });*/
 
     /*
     |--------------------------------------------------------------------------

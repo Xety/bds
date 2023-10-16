@@ -4,9 +4,9 @@ namespace BDS\Livewire;
 
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
-use BDS\Livewire\Traits\WithFlash;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
+use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Setting;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -21,10 +21,10 @@ class Settings extends Component
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
-    use WithFlash;
     use WithPagination;
     use WithPerPagePagination;
     use WithSorting;
+    use WithToast;
 
     /**
      * The field to sort by.

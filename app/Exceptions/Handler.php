@@ -5,7 +5,12 @@ namespace BDS\Exceptions;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Str;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -19,6 +24,27 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param $request
+     * @param Throwable $e
+     * @return JsonResponse|RedirectResponse|Response|\Symfony\Component\HttpFoundation\Response
+     * @throws Throwable
+     */
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof ModelNotFoundException) {
+            return back()->with('toasts', [[
+                'type' => 'error',
+                'duration' => 4000,
+                'message' =>"Cette donnée n'existe pas ou a été supprimée !"
+            ]]);
+        }
+
+        return parent::render($request, $e);
+    }
 
     /**
      * Register the exception handling callbacks for the application.
@@ -35,10 +61,6 @@ class Handler extends ExceptionHandler
             if ($e->getPrevious() instanceof AuthorizationException) {
                 return back()->error("Vous n'avez pas l'autorisation d'accéder à cette page !");
             }
-
-        /*if ($e instanceof ModelNotFoundException) {
-                return redirect()->back()->with('danger', "Cet enregistrement n'existe pas ou a été supprimé !");
-            }*/
         });
     }
 }

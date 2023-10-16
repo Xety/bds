@@ -181,7 +181,7 @@ class Users extends Component
             'form.email' => 'required|email|unique:users,email,' . $this->form->user?->id,
             'form.first_name' => 'required|min:2|alpha_num',
             'form.last_name' => 'required|min:2|alpha_num',
-            'form.end_employment_contract' => 'nullable|date_format:"d-m-Y H:i"',
+            'form.end_employment_contract' => 'nullable|date_format:"d-m-Y H:i"'
         ];
     }
 
@@ -210,6 +210,7 @@ class Users extends Component
         // Select only the roles attached to this site or the roles without assigned site_id.
         $rolesIds = Role::where('site_id', session('current_site_id'))
             ->orWhereNull('site_id')
+            ->where('level', '<=', auth()->user()->level())
             ->select('id')
             ->pluck('id')
             ->toArray();
@@ -229,8 +230,8 @@ class Users extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = User::query()
-            ->with('roles');
-            //->orderByDesc('roles_count');
+            ->withCount('roles')
+            ->orderByDesc('roles_count');
 
         if (Auth::user()->can('search', User::class)) {
             $query->when($this->filters['username'], fn($query, $search) => $query->where('username', 'LIKE', '%' . $search . '%'))
@@ -295,7 +296,7 @@ class Users extends Component
      */
     public function edit(User $user): void
     {
-        $this->authorize('update', User::class);
+        $this->authorize('update', $user);
 
         $this->isCreating = false;
         $this->useCachedRows();
@@ -314,7 +315,9 @@ class Users extends Component
      */
     public function save(): void
     {
-        $this->authorize($this->isCreating ? 'create' : 'update', User::class);
+        $this->isCreating ?
+            $this->authorize('create', User::class) :
+            $this->authorize('update', $this->form->user);
 
         $this->validate();
 

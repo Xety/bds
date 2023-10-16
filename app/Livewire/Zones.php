@@ -4,15 +4,14 @@ namespace BDS\Livewire;
 
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
-use BDS\Livewire\Traits\WithFlash;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
+use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Zone;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -21,10 +20,10 @@ class Zones extends Component
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
-    use WithFlash;
     use WithPagination;
     use WithPerPagePagination;
     use WithSorting;
+    use WithToast;
 
     /**
      * The field to sort by.

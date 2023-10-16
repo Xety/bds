@@ -17,9 +17,9 @@ class QrCodeModal extends Component
     /**
      * Used to update in URL the query string.
      *
-     * @var string[]
+     * @var array
      */
-    protected $queryString = [
+    protected array $queryString = [
         'type' => ['except' => ''],
         'qrcode' => ['except' => ''],
         'qrcodeid' => ['except' => '']

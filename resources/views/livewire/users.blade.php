@@ -34,16 +34,19 @@
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @can('delete', \BDS\Models\User::class)
-                <x-table.heading>
+            <x-table.heading>
+                @can('delete', \BDS\Models\User::class)
                     <label>
                         <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
-                </x-table.heading>
-            @endcan
-            @can('update', \BDS\Models\User::class)
-                <x-table.heading>Actions</x-table.heading>
-            @endcan
+                @endcan
+            </x-table.heading>
+            <x-table.heading>
+                @can('update', \BDS\Models\User::class)
+                    Actions
+                @endcan
+            </x-table.heading>
+
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('username')" :direction="$sortField === 'username' ? $sortDirection : null">Nom d'Utilisateur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('first_name')" :direction="$sortField === 'first_name' ? $sortDirection : null">Prénom</x-table.heading>
@@ -57,13 +60,9 @@
 
         <x-slot name="body">
             @can('search', \BDS\Models\User::class)
-                <x-table.row wire:key="row-message">
-                    @can('delete', \BDS\Models\User::class)
-                        <x-table.cell></x-table.cell>
-                    @endcan
-                    @can('update', \BDS\Models\User::class)
-                        <x-table.cell></x-table.cell>
-                    @endcan
+                <x-table.row>
+                    <x-table.cell></x-table.cell>
+                    <x-table.cell></x-table.cell>
                     <x-table.cell></x-table.cell>
                     <x-table.cell>
                         <x-input wire:model.live.debounce.250ms="filters.username" name="filters.username" type="text" />
@@ -132,20 +131,20 @@
 
             @forelse($users as $user)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->getKey() }}">
-                    @canany(['delete'], \BDS\Models\User::class)
-                        <x-table.cell>
+                    <x-table.cell>
+                        @can('delete', $user)
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $user->getKey() }}" />
                             </label>
-                        </x-table.cell>
-                    @endcanany
-                    @can('update', \BDS\Models\User::class)
-                        <x-table.cell>
+                        @endcan
+                    </x-table.cell>
+                    <x-table.cell>
+                        @can('update', $user)
                             <a href="#" wire:click.prevent="edit({{ $user->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier cet utilisateur">
                                 <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon>
                             </a>
-                        </x-table.cell>
-                    @endcan
+                        @endcan
+                    </x-table.cell>
                     <x-table.cell>{{ $user->getKey() }}</x-table.cell>
                     <x-table.cell>
                         <a href="{{ route('users.show', $user) }}" class="text-primary font-bold">
@@ -204,33 +203,27 @@
 
 
     <!-- Delete Users Modal -->
-    <form>
-        <input type="checkbox" id="deleteModal" class="modal-toggle" wire:model.live="showDeleteModal" />
-        <label for="deleteModal" class="modal cursor-pointer">
-            <label class="modal-box relative">
-                <label for="deleteModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="font-bold text-lg">
-                    Supprimer les Utilisateurs
-                </h3>
-                @if (empty($selected))
-                    <p class="my-7">
-                        Vous n'avez sélectionné aucun utilisateur à supprimer.
-                    </p>
-                @else
-                    <p class="my-7">
-                        Voulez-vous vraiment supprimer ces utilisateurs ? <span class="font-bold text-red-500 block">Cette opération va désactiver la connexion aux comptes sélectionnés.</span>
-                    </p>
-                @endif
-                <div class="modal-action">
-                    <x-button class="btn btn-error gap-2" type="button" wire:click="deleteSelected" spinner :disabled="empty($selected)">
-                        <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
-                        Supprimer
-                    </x-button>
-                    <label for="deleteModal" class="btn btn-neutral">Fermer</label>
-                </div>
-            </label>
-        </label>
-    </form>
+    <x-modal wire:model="showDeleteModal" title="Supprimer les Utilisateurs">
+        @if (empty($selected))
+            <p class="my-7">
+                Vous n'avez sélectionné aucune permission à supprimer.
+            </p>
+        @else
+            <p class="my-7">
+                Êtes-vous sûr de vouloir supprimer ces utilisateurs ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
+            </p>
+        @endif
+
+        <x-slot:actions>
+            <x-button class="btn btn-error gap-2" type="button" wire:click="deleteSelected" spinner :disabled="empty($selected)">
+                <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                Supprimer
+            </x-button>
+            <x-button @click="$wire.showDeleteModal = false" class="btn btn-neutral">
+                Fermer
+            </x-button>
+        </x-slot:actions>
+    </x-modal>
 
     <!-- Edit Users Modal -->
     <form>
@@ -286,7 +279,7 @@
                 <x-select
                     :options="$roles"
                     class="select-primary"
-                    wire:model="form.rolesSelected"
+                    wire:model="form.roles"
                     name="form.rolesSelected"
                     label="Rôles"
                     :label-info="$message"
