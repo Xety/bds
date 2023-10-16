@@ -5,8 +5,8 @@ namespace BDS\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use BDS\Policies\PermissionPolicy;
 use BDS\Policies\RolePolicy;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use BDS\Models\Permission;
+use BDS\Models\Role;
 
 class AuthServiceProvider extends ServiceProvider
 {

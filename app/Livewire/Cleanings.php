@@ -6,9 +6,9 @@ use BDS\Livewire\Forms\CleaningForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithFilters;
-use BDS\Livewire\Traits\WithFlash;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
+use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Cleaning;
 use BDS\Models\Material;
 use BDS\Models\User;
@@ -19,7 +19,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Cleanings extends Component
 {
@@ -27,10 +26,9 @@ class Cleanings extends Component
     use WithBulkActions;
     use WithCachedRows;
     use WithFilters;
-    use WithFlash;
-    use WithPagination;
     use WithPerPagePagination;
     use WithSorting;
+    use WithToast;
 
     /**
      * The form used to create/update a cleaning.
@@ -116,15 +114,15 @@ class Cleanings extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "Le nettoyage n°<b>%s</b> a été créé avec succès !",
+            'success' => "Le nettoyage n°<b>:id</b> a été créé avec succès !",
             'danger' => "Une erreur s'est produite lors de la création du nettoyage !"
         ],
         'update' => [
-            'success' => "Le nettoyage n°<b>%s</b> a été édité avec succès !",
+            'success' => "Le nettoyage n°<b>:id</b> a été édité avec succès !",
             'danger' => "Une erreur s'est produite lors de l'édition du nettoyage !"
         ],
         'delete' => [
-            'success' => "<b>%s</b> nettoyage(s) ont été supprimé(s) avec succès !",
+            'success' => "<b>:count</b> nettoyage(s) ont été supprimé(s) avec succès !",
             'danger' => "Une erreur s'est produite lors de la suppression des nettoyages !"
         ]
     ];
@@ -187,10 +185,6 @@ class Cleanings extends Component
 
             $this->create();
         }
-
-        $this->applySortingOnMount();
-
-        $this->applyFilteringOnMount();
     }
 
     /**
@@ -221,7 +215,7 @@ class Cleanings extends Component
                     $query->select('id', 'name');
                 }])
                 ->whereRelation('zone.site', 'id', session('current_site_id'))
-                ->select('id', 'name', 'zone_id')
+                ->select(['id', 'name', 'zone_id'])
                 ->orderBy('zone_id')
                 ->get()
                 ->toArray(),
@@ -327,11 +321,8 @@ class Cleanings extends Component
 
         $model = $this->isCreating ? $this->form->store() : $this->form->update();
 
-        if ($model) {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$model->getKey()]);
-        } else {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
-        }
+        $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['id' => $model->getKey()]);
+
         $this->showModal = false;
     }
 }

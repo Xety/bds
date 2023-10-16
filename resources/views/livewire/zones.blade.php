@@ -1,6 +1,4 @@
 <div>
-    @include('elements.flash')
-
     <div class="flex flex-col lg:flex-row gap-6 justify-between">
         <div class="mb-4 w-full lg:w-auto lg:min-w-[350px]">
             <x-form.text wire:model="search" placeholder="Rechercher des Zones..." class="lg:max-w-lg" />

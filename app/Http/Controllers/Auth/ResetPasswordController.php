@@ -65,6 +65,6 @@ class ResetPasswordController extends Controller
     protected function sendResetResponse($response): RedirectResponse
     {
         return redirect($this->redirectPath())
-            ->with('success', 'Votre mot de passe a été réinitialisé !');
+            ->success('Votre mot de passe a été réinitialisé !');
     }
 }

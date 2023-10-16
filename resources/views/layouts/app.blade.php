@@ -51,7 +51,7 @@ Conçu et développé par Emeric Fèvre.
         <!-- Embed Scripts -->
         @stack('scriptsTop')
     </head>
-    <body">
+    <body>
 
         <div id="bds-vue">
 
@@ -62,9 +62,6 @@ Conçu et développé par Emeric Fèvre.
                 <div class="drawer-content flex flex-col">
                     <!-- Header -->
                     @include('elements.header')
-
-                    <!-- Flash Messages -->
-                    @include('elements.flash')
 
                     <main class="shadow-inner bg-slate-100 dark:bg-base-100">
                         <!-- Content -->
@@ -90,32 +87,27 @@ Conçu et développé par Emeric Fèvre.
         </script>
 
         @vite('resources/js/bds.js')
+
         <!-- Change Livewire expiration message -->
         <script type="text/javascript">
-            window.Livewire.hook('request', ({ fail }) => {
-                fail(({ status, preventDefault }) => {
-                    if (status === 419) {
-                        preventDefault()
+            document.addEventListener('livewire:init', () => {
+                Livewire.hook('request', ({fail}) => {
+                    fail(({status, preventDefault}) => {
+                        if (status === 419) {
+                            preventDefault()
 
-                        confirm('Cette page a expirée.') && window.location.reload()
+                            confirm('Cette page a expirée.') && window.location.reload()
 
-                        return false
-                    }
-                })
-            })
-
-            window.Livewire.on('alert', () => {
-                document.querySelectorAll('[data-dismiss-target]').forEach(triggerEl => {
-                    const targetEl = document.querySelector(triggerEl.getAttribute('data-dismiss-target'))
-
-                    new Dismiss(targetEl, {
-                        triggerEl
+                            return false
+                        }
                     })
-                })
-            })
+                });
+            });
         </script>
 
         <!-- Embed Scripts -->
         @stack('scripts')
+
+        <x-toaster-hub />
     </body>
 </html>

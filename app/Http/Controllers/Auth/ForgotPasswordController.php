@@ -77,6 +77,6 @@ class ForgotPasswordController extends Controller
     {
         return redirect()
             ->route('auth.login')
-            ->with('success', 'Nous vous avons envoyé votre lien de réinitialisation de mot de passe par e-mail !');
+            ->success('Nous vous avons envoyé votre lien de réinitialisation de mot de passe par e-mail !');
     }
 }

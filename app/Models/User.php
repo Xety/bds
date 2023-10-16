@@ -22,7 +22,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use BDS\Http\Controllers\Auth\Traits\MustSetupPassword;
 use BDS\Models\Presenters\UserPresenter;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -194,5 +193,15 @@ class User extends Model implements
         }
 
         setPermissionsTeamId($teamId);
+    }
+
+    /**
+     * Get role level of a user.
+     *
+     * @return int
+     */
+    public function level(): int
+    {
+        return ($role = $this->roles->sortByDesc('level')->first()) ? $role->level : 0;
     }
 }

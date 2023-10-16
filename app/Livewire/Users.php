@@ -7,11 +7,12 @@ use BDS\Livewire\Forms\UserForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithFilters;
-use BDS\Livewire\Traits\WithFlash;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
-use BDS\Models\Site;
+use BDS\Livewire\Traits\WithToast;
 use BDS\Models\User;
+use BDS\Models\Role;
+use BDS\Models\Site;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -20,8 +21,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Component;
-use Livewire\WithPagination;
-use Spatie\Permission\Models\Role;
 
 class Users extends Component
 {
@@ -29,10 +28,9 @@ class Users extends Component
     use WithBulkActions;
     use WithCachedRows;
     use WithFilters;
-    use WithFlash;
-    use WithPagination;
     use WithPerPagePagination;
     use WithSorting;
+    use WithToast;
 
     /**
      * Bind the main model used in the component to be used in traits.
@@ -154,34 +152,22 @@ class Users extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "L'utilisateur <b>%s</b> a été créé avec succès !",
-            'danger' => "Une erreur s'est produite lors de la création de l'utilisateur !"
+            'success' => "L'utilisateur <b>:name</b> a été créé avec succès !",
+            'error' => "Une erreur s'est produite lors de la création de l'utilisateur !"
         ],
         'update' => [
-            'success' => "L'utilisateur <b>%s</b> a été édité avec succès !",
-            'danger' => "Une erreur s'est produite lors de l'édition de l'utilisateur !"
+            'success' => "L'utilisateur <b>:name</b> a été édité avec succès !",
+            'error' => "Une erreur s'est produite lors de l'édition de l'utilisateur !"
         ],
         'delete' => [
-            'success' => "<b>%s</b> utilisateur(s) ont été supprimé(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression des utilisateurs !"
+            'success' => "<b>:count</b> utilisateur(s) ont été supprimé(s) avec succès !",
+            'error' => "Une erreur s'est produite lors de la suppression des utilisateurs !"
         ],
         'restore' => [
-            'success' => "L'utilisateur <b>%s</b> a été restauré avec succès !",
-            'danger' => "Une erreur s'est produite lors de la restauration de l'utilisateur !"
+            'success' => "L'utilisateur <b>:name</b> a été restauré avec succès !",
+            'error' => "Une erreur s'est produite lors de la restauration de l'utilisateur !"
         ]
     ];
-
-    /**
-     * The Livewire Component constructor.
-     *
-     * @return void
-     */
-    public function mount(): void
-    {
-        $this->applySortingOnMount();
-
-        $this->applyFilteringOnMount();
-    }
 
     /**
      * Rules used for validating the model.
@@ -334,11 +320,7 @@ class Users extends Component
 
         $model = $this->isCreating ? $this->form->store() : $this->form->update();
 
-        if ($model) {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$model->full_name]);
-        } else {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
-        }
+        $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['name' => $model->full_name]);
 
         if ($this->isCreating === true) {
             event(new RegisteredEvent($model));
@@ -356,16 +338,15 @@ class Users extends Component
     {
         $this->authorize('restore', User::class);
 
-        if ($this->form->user->restore()) {
-            if (!is_null($this->form->user->end_employment_contract)) {
-                // Reset the date to null to prevent an automatic delete.
-                $this->form->user->end_employment_contract = null;
-                $this->form->end_employment_contract = null;
-                $this->form->user->save();
-            }
-            $this->fireFlash('restore', 'success','', [$this->form->user->username]);
-        } else {
-            $this->fireFlash('restore', 'danger');
+        $this->form->user->restore();
+
+        // Reset the date to null to prevent an automatic delete.
+        if (!is_null($this->form->user->end_employment_contract)) {
+            $this->form->end_employment_contract = null;
+
+            $this->form->user->end_employment_contract = null;
+            $this->form->user->save();
         }
+        $this->success($this->flashMessages['restore']['success'], ['name' => $this->form->user->full_name]);
     }
 }

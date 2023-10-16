@@ -1,6 +1,4 @@
 <div>
-    @include('elements.flash')
-
     <div class="flex flex-col lg:flex-row gap-6 justify-between">
         <div class="flex flex-col lg:flex-row  gap-4 mb-2">
             <x-form.text wire:model.live.debounce.250ms="filters.search" placeholder="Rechercher des Nettoyages..." class="lg:max-w-lg" />

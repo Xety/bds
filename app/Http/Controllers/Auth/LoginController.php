@@ -9,15 +9,13 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Masmerise\Toaster\Toaster;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
-    public $layout = 'layouts.default';
-
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -76,8 +74,8 @@ class LoginController extends Controller
         $user = User::where($this->username(), $request->{$this->username()})->first();
         if (!config('settings.user.login.enabled') && !$user->hasPermissionTo('bypass login')) {
             return redirect()
-                    ->back()
-                ->with('danger', 'Le système de connexion est actuellement désactivé, veuillez ressayer plus tard.');
+                ->route('auth.login')
+                ->error('Le système de connexion est actuellement désactivé, veuillez ressayer plus tard.');
         }
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -116,10 +114,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, User $user)
     {
-        $request->session()->flash(
-            'success',
-            'Bon retour <strong>' . e($user->full_name) . '</strong> ! Vous êtes connecté avec succès !'
-        );
+        Toaster::success("Bon retour <b>{$user->full_name}</b> ! Vous êtes connecté avec succès !");
     }
 
     /**
@@ -132,6 +127,6 @@ class LoginController extends Controller
     protected function loggedOut(Request $request)
     {
         return redirect(route('auth.login'))
-            ->with('success', 'Vous êtes déconnecté, à bientôt !');
+            ->success('Vous êtes déconnecté, à bientôt !');
     }
 }

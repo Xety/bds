@@ -120,17 +120,12 @@ trait WithBulkActions
         }
 
         if (app($this->model)->destroy($this->selectedRowsQuery->get()->pluck('id')->toArray())) {
-            $this->fireFlash('delete', 'success', '', [$deleteCount]);
+            $this->success($this->flashMessages['delete']['success'], ['count' => $deleteCount]);
             $this->reset('selected');
 
             redirect(request()->header('Referer')); // Fix when deleting users to refresh the page so we can restore the users
         } else {
-            if (Session::has('delete.error')) {
-                $this->fireFlash('custom', 'danger', Session::get('delete.error'));
-            } else {
-                $this->fireFlash('delete', 'danger');
-            }
-
+            $this->error($this->flashMessages['delete']['error']);
         }
         $this->showDeleteModal = false;
     }

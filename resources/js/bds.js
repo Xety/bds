@@ -1,5 +1,5 @@
 import './bootstrap';
-import Dismiss from './libs/dismiss.js'
+import '../../vendor/masmerise/livewire-toaster/resources/js';
 import flatpickr from "flatpickr";
 import { French } from "flatpickr/dist/l10n/fr.js";
 import print from 'print-js';
@@ -7,10 +7,6 @@ import print from 'print-js';
 
 // Set the datetime picker locale to french
 flatpickr.localize(French);
-
-export default {
-    Dismiss
-}
 
  // Scroll to Top
 let buttonBackToTop = document.getElementById('btn-back-to-top');

@@ -2,12 +2,8 @@
 namespace Database\Factories;
 
 use BDS\Models\User;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\PermissionRegistrar;
 
 class UserFactory extends Factory
 {

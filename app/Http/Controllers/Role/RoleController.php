@@ -6,7 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use BDS\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
-use Spatie\Permission\Models\Role;
+use BDS\Models\Role;
 
 class RoleController extends Controller
 {

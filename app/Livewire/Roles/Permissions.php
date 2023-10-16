@@ -1,36 +1,52 @@
 <?php
-
 namespace BDS\Livewire\Roles;
 
+use BDS\Livewire\Forms\PermissionForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
-use BDS\Livewire\Traits\WithFlash;
+use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
+use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Permission;
+use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\WithPagination;
-use Spatie\Permission\Models\Permission;
 
 class Permissions extends Component
 {
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
-    use WithFlash;
-    use WithPagination;
+    use WithFilters;
     use WithPerPagePagination;
     use WithSorting;
+    use WithToast;
+
+    /**
+     * Bind the main model used in the component to be used in traits.
+     *
+     * @var string
+     */
+    public string $model = Permission::class;
+
+    /**
+     * The form used to create/update a user.
+     *
+     * @var PermissionForm
+     */
+    public PermissionForm $form;
 
     /**
      * The field to sort by.
      *
      * @var string
      */
-    public string $sortField = 'id';
+    public string $sortField = 'name';
 
     /**
      * The direction of the ordering.
@@ -54,7 +70,19 @@ class Permissions extends Component
     protected $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
-        'search' => ['except' => '', 'as' => 's']
+        'filters',
+    ];
+
+    /**
+     * Filters used for advanced search.
+     *
+     * @var array
+     */
+    public array $filters = [
+        'name' => '',
+        'description' => '',
+        'created_min' => '',
+        'created_max' => ''
     ];
 
     /**
@@ -68,13 +96,6 @@ class Permissions extends Component
         'description',
         'created_at'
     ];
-
-    /**
-     * The model used in the component.
-     *
-     * @var Permission
-     */
-    public Permission $model;
 
     /**
      * Used to show the Edit/Create modal.
@@ -103,58 +124,46 @@ class Permissions extends Component
     public int $perPage = 25;
 
     /**
+     * Translated attribute used in failed messages.
+     *
+     * @var array
+     */
+    protected array $validationAttributes = [
+        'form.name' => 'nom',
+        'form.description' => 'description'
+    ];
+
+    /**
      * Flash messages for the model.
      *
      * @var array
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "La permission <b>%s</b> a été créé avec succès !",
-            'danger' => "Une erreur s'est produite lors de la création de la permission !"
+            'success' => "La permission <b>:name</b> a été créé avec succès !",
+            'error' => "Une erreur s'est produite lors de la création de la permission !"
         ],
         'update' => [
-            'success' => "La permission <b>%s</b> a été édité avec succès !",
-            'danger' => "Une erreur s'est produite lors de l'édition de la permission !"
+            'success' => "La permission <b>:name</b> a été édité avec succès !",
+            'error' => "Une erreur s'est produite lors de l'édition de la permission !"
         ],
         'delete' => [
-            'success' => "<b>%s</b> permission(s) ont été supprimé(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression des permissions !"
+            'success' => "<b>:count</b> permission(s) ont été supprimé(s) avec succès !",
+            'error' => "Une erreur s'est produite lors de la suppression des permissions !"
         ]
     ];
 
     /**
-     * The Livewire Component constructor.
-     *
-     * @return void
-     */
-    public function mount(): void
-    {
-        $this->model = $this->makeBlankModel();
-
-        $this->applySortingOnMount();
-    }
-
-    /**
      * Rules used for validating the model.
      *
-     * @return string[]
+     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'model.name' => 'required|min:5|max:30|unique:permissions,name,' . $this->model->id,
-            'model.description' => 'required|min:5|max:150'
+            'form.name' => 'required|min:5|max:30|unique:permissions,name,' . $this->form->permission?->id,
+            'form.description' => 'required|min:5|max:150'
         ];
-    }
-
-    /**
-     * Create a blank model and return it.
-     *
-     * @return Permission
-     */
-    public function makeBlankModel(): Permission
-    {
-        return Permission::make();
     }
 
     /**
@@ -162,7 +171,7 @@ class Permissions extends Component
      *
      * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('livewire.roles.permissions', [
             'permissions' => $this->rows
@@ -177,7 +186,13 @@ class Permissions extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Permission::query();
-            //->search('name', $this->search);
+
+        if (Auth::user()->can('search', Permission::class)) {
+            $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+        }
 
         return $this->applySorting($query);
     }
@@ -195,7 +210,7 @@ class Permissions extends Component
     }
 
     /**
-     * Create a blank model and assign it to the model. (Used in create modal)
+     * Reset all fields to the form.
      *
      * @return void
      */
@@ -206,10 +221,8 @@ class Permissions extends Component
         $this->isCreating = true;
         $this->useCachedRows();
 
-        // Reset the model to a blank model before showing the creating modal.
-        if ($this->model->getKey()) {
-            $this->model = $this->makeBlankModel();
-        }
+        $this->form->reset();
+
         $this->showModal = true;
     }
 
@@ -228,10 +241,8 @@ class Permissions extends Component
         $this->isCreating = false;
         $this->useCachedRows();
 
-        // Set the model to the permission we want to edit.
-        if ($this->model->isNot($permission)) {
-            $this->model = $permission;
-        }
+        $this->form->setPermission($permission);
+
         $this->showModal = true;
     }
 
@@ -242,19 +253,14 @@ class Permissions extends Component
      */
     public function save(): void
     {
-        if ($this->isCreating === true) {
-            $this->authorize('create', Permission::class);
-        } else {
-            $this->authorize('update', $this->model);
-        }
+        $this->authorize($this->isCreating ? 'create' : 'update', Permission::class);
 
         $this->validate();
 
-        if ($this->model->save()) {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$this->model->name]);
-        } else {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
-        }
+        $model = $this->isCreating ? $this->form->store() : $this->form->update();
+
+        $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['name' => $model->name]);
+
         $this->showModal = false;
     }
 }

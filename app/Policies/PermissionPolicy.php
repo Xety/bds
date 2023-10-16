@@ -2,7 +2,7 @@
 namespace BDS\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Spatie\Permission\Models\Permission;
+use BDS\Models\Permission;
 use BDS\Models\User;
 
 class PermissionPolicy

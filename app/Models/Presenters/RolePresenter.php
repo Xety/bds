@@ -1,0 +1,30 @@
+<?php
+namespace BDS\Models\Presenters;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
+trait RolePresenter
+{
+    /**
+     * The default color used for role without color.
+     *
+     * @var string
+     */
+    protected string $defaultColor = 'hsl(var(--bc) / var(--tw-text-opacity, 1))';
+
+    /**
+     * Get the color of the role.
+     *
+     * @return Attribute
+     */
+    protected function formattedColor(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $color = $this->color ?: $this->defaultColor;
+
+                return 'color:' . $color . ';';
+            }
+        );
+    }
+}

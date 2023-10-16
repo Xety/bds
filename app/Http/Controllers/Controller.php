@@ -5,6 +5,7 @@ namespace BDS\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Masmerise\Toaster\Toastable;
 use Xety\Breadcrumbs\Breadcrumbs;
 
 class Controller extends BaseController

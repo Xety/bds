@@ -15,7 +15,7 @@
                     <h1 class="text-xl">
                         Créer le mot de passe
                     </h1>
-                    <p class="text-gray-500">
+                    <p class="text-gray-500 dark:text-base-content">
                         Votre compte vient d'être créé, vous devez choisir un mot de passe avant de pouvoir vous connecter avec votre compte.
                     </p>
 

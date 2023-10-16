@@ -2,7 +2,7 @@
 namespace BDS\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Spatie\Permission\Models\Role;
+use BDS\Models\Role;
 use BDS\Models\User;
 
 class RolePolicy
@@ -36,20 +36,24 @@ class RolePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, ?Role $role = null): bool
     {
-        // Give update access to all roles, remove to only allow created role,
-        // false to not allow any update.
+        // First check if user can update any role and a role has been provided
+        if($user->can('update role') && !is_null($role)) {
+            // Check if the user level is superior or equal to the role level he wants to edit.
+            return $user->level() >= $role->level;
+        }
         return $user->can('update role');
-
-        //return $user->id === $role->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete(User $user, ?Role $role = null): bool
     {
+        if($user->can('delete role') && !is_null($role)) {
+            return $user->level() >= $role->level;
+        }
         return $user->can('delete role');
     }
 

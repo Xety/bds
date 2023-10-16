@@ -3,7 +3,7 @@
 namespace BDS\Livewire\Forms;
 
 use Livewire\Form;
-use Spatie\Permission\Models\Role;
+use BDS\Models\Role;
 
 class RoleForm extends Form
 {
@@ -15,6 +15,8 @@ class RoleForm extends Form
 
     public ?string $color = null;
 
+    public ?int $level = null;
+
     public array $permissions = [];
 
     public function setRole(Role $role, array $permissions): void
@@ -24,6 +26,7 @@ class RoleForm extends Form
             'name' => $role->name,
             'description' => $role->description,
             'color' => $role->color,
+            'level' => $role->level,
             'permissions' => $permissions
         ]);
     }
@@ -38,7 +41,8 @@ class RoleForm extends Form
         $role = Role::create($this->only([
             'name',
             'description',
-            'color'
+            'color',
+            'level'
         ]));
         // Link the selected roles to the user in the current site.
         $role->syncPermissions($this->permissions);
@@ -56,7 +60,8 @@ class RoleForm extends Form
         $role = tap($this->role)->update($this->only([
             'name',
             'description',
-            'color'
+            'color',
+            'level'
         ]));
         $role->syncPermissions($this->permissions);
 

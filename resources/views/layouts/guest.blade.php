@@ -11,7 +11,6 @@ Conçu et développé par Emeric Fèvre.
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <!-- <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">-->
 
         <!-- Title -->
         <title>{{ config('app.title') . ' - ' . config('bds.info.full_name') }}</title>
@@ -24,11 +23,14 @@ Conçu et développé par Emeric Fèvre.
              * Dark Mode
              * On page load or when changing themes, best to add inline in `head` to avoid FOUC
              */
-            if (localStorage.getItem('nightMode') == 'true' ||
-                (!('nightMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-            ) {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
                 document.documentElement.dataset.theme = "dark";
-                localStorage.setItem("nightMode", true);
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.theme = 'light';
+                document.documentElement.classList.remove('dark');
+                document.documentElement.dataset.theme = 'light';
             }
         </script>
 
@@ -49,21 +51,13 @@ Conçu et développé par Emeric Fèvre.
 
             <div class="drawer-content flex flex-col overflow-hidden">
 
-                <!-- Flash Messages -->
-                @include('elements.flash')
-
                 <main>
                     <!-- Content -->
                     @yield('content')
                 </main>
 
-
             </div>
         </div>
-
-
-        <!-- Scroll to Top button -->
-        <x-scrolltotop />
 
         <!-- CSRF JS Token -->
         <script type="text/javascript">
@@ -71,8 +65,11 @@ Conçu et développé par Emeric Fèvre.
         </script>
 
         @vite('resources/js/bds.js')
+        @livewireScripts
 
         <!-- Embed Scripts -->
         @stack('scripts')
+
+        <x-toaster-hub />
     </body>
 </html>

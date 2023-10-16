@@ -106,7 +106,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('users.show')
         ->missing(function (Request $request) {
             return Redirect::back()
-                ->with('danger', "Cet utilisateur n'existe pas ou à été supprimé !");
+                ->error("Cet utilisateur n'existe pas ou à été supprimé !");
         });
 
     /*
@@ -144,7 +144,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('sites.show')
         ->missing(function (Request $request) {
             return Redirect::back()
-                ->with('danger', "Ce site n'existe pas ou à été supprimé !");
+                ->error("Ce site n'existe pas ou à été supprimé !");
         });
 
     /*
@@ -158,7 +158,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('zones.show')
         ->missing(function (Request $request) {
             return Redirect::back()
-                ->with('danger', "Cette zone n'existe pas ou à été supprimée !");
+                ->error("Cette zone n'existe pas ou à été supprimée !");
         });
 
     /*
@@ -174,7 +174,7 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('materials.show')
         ->missing(function (Request $request) {
             return Redirect::back()
-                ->with('danger', "Ce matériel n'existe pas ou à été supprimé !");
+                ->error("Ce matériel n'existe pas ou à été supprimé !");
         });
 
     /*

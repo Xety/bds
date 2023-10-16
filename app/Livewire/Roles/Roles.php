@@ -1,15 +1,15 @@
 <?php
-
 namespace BDS\Livewire\Roles;
 
 use BDS\Livewire\Forms\RoleForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithFilters;
-use BDS\Livewire\Traits\WithFlash;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
-use BDS\Models\User;
+use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Permission;
+use BDS\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -17,9 +17,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\WithPagination;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class Roles extends Component
 {
@@ -27,10 +24,9 @@ class Roles extends Component
     use WithBulkActions;
     use WithCachedRows;
     use WithFilters;
-    use WithFlash;
-    use WithPagination;
     use WithPerPagePagination;
     use WithSorting;
+    use WithToast;
 
     /**
      * Bind the main model used in the component to be used in traits.
@@ -51,21 +47,14 @@ class Roles extends Component
      *
      * @var string
      */
-    public string $sortField = 'name';
+    public string $sortField = 'level';
 
     /**
      * The direction of the ordering.
      *
      * @var string
      */
-    public string $sortDirection = 'asc';
-
-    /**
-     * The string to search.
-     *
-     * @var string
-     */
-    public string $search = '';
+    public string $sortDirection = 'desc';
 
     /**
      * Used to update in URL the query string.
@@ -86,6 +75,8 @@ class Roles extends Component
     public array $filters = [
         'name' => '',
         'description' => '',
+        'level_min' => '',
+        'level_max' => '',
         'created_min' => '',
         'created_max' => ''
     ];
@@ -99,6 +90,7 @@ class Roles extends Component
         'id',
         'name',
         'description',
+        'level',
         'created_at'
     ];
 
@@ -137,6 +129,7 @@ class Roles extends Component
         'form.name' => 'nom',
         'form.description' => 'description',
         'form.color' => 'couleur',
+        'form.level' => 'niveau',
         'form.permissions' => 'permissions'
     ];
 
@@ -147,31 +140,18 @@ class Roles extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "Le role <b>%s</b> a été créé avec succès !",
-            'danger' => "Une erreur s'est produite lors de la création du rôle !"
+            'success' => "Le role <b>:name</b> a été créé avec succès !",
+            'error' => "Une erreur s'est produite lors de la création du rôle !"
         ],
         'update' => [
-            'success' => "Le rôle <b>%s</b> a été édité avec succès !",
-            'danger' => "Une erreur s'est produite lors de l'édition du rôle !"
+            'success' => "Le rôle <b>:name</b> a été édité avec succès !",
+            'error' => "Une erreur s'est produite lors de l'édition du rôle !"
         ],
         'delete' => [
-            'success' => "<b>%s</b> rôle(s) ont été supprimé(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression des rôles !"
+            'success' => "<b>:count</b> rôle(s) ont été supprimé(s) avec succès !",
+            'error' => "Une erreur s'est produite lors de la suppression des rôles !"
         ]
     ];
-
-
-    /**
-     * The Livewire Component constructor.
-     *
-     * @return void
-     */
-    public function mount(): void
-    {
-        $this->applySortingOnMount();
-
-        $this->applyFilteringOnMount();
-    }
 
     /**
      * Rules used for validating the model.
@@ -183,7 +163,9 @@ class Roles extends Component
         return [
             'form.name' => 'required|min:2|max:50|unique:roles,name,' . $this->form->role?->id,
             'form.description' => 'max:350',
-            'form.color' => 'min:7|max:9',
+            'form.color' => 'nullable|min:7|max:9',
+            // Prevent the user to make any role level bigger than his max level
+            'form.level' => 'required|integer|min:1|max:' . auth()->user()->level(),
             'form.permissions' => 'required'
         ];
     }
@@ -213,6 +195,8 @@ class Roles extends Component
         if (Auth::user()->can('search', Role::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['level_min'], fn($query, $search) => $query->where('level', '>=', $search))
+                ->when($this->filters['level_max'], fn($query, $search) => $query->where('level', '<=', $search))
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
@@ -259,7 +243,7 @@ class Roles extends Component
      */
     public function edit(Role $role): void
     {
-        $this->authorize('update', Role::class);
+        $this->authorize('update', $role);
 
         $this->isCreating = false;
         $this->useCachedRows();
@@ -285,11 +269,8 @@ class Roles extends Component
 
         $model = $this->isCreating ? $this->form->store() : $this->form->update();
 
-        if ($model) {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success', '', [$model->name]);
-        } else {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
-        }
+        $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['name' => $model->name]);
+
         $this->showModal = false;
     }
 }

@@ -28,12 +28,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function (\Exception $e) {
             // Error 419 csrf token expiration error
             if ($e->getPrevious() instanceof TokenMismatchException) {
-                return back()->with('danger', "Vous avez mis trop de temps à valider le formulaire ! C'est l'heure de prendre un café !");
+                return back()->error("Vous avez mis trop de temps à valider le formulaire ! C'est l'heure de prendre un café !");
             };
 
             // Error 403 Access unauthorized
             if ($e->getPrevious() instanceof AuthorizationException) {
-                return back()->with('danger', "Vous n'avez pas l'autorisation d'accéder à cette page !");
+                return back()->error("Vous n'avez pas l'autorisation d'accéder à cette page !");
             }
 
         /*if ($e instanceof ModelNotFoundException) {

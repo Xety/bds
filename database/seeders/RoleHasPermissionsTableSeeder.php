@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
+use BDS\Models\Role;
 
 class RoleHasPermissionsTableSeeder extends Seeder
 {

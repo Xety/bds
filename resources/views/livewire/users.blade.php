@@ -1,6 +1,4 @@
 <div>
-    @include('elements.flash')
-
     <div class="flex flex-col lg:flex-row gap-4 justify-between">
         <div>
             @canany(['delete'], \BDS\Models\User::class)
@@ -150,9 +148,9 @@
                     @endcan
                     <x-table.cell>{{ $user->getKey() }}</x-table.cell>
                     <x-table.cell>
-                        <span class="text-primary">
+                        <a href="{{ route('users.show', $user) }}" class="text-primary font-bold">
                             {{ $user->username }}
-                        </span>
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
                         {{ $user->first_name }}
@@ -163,7 +161,7 @@
                     <x-table.cell>{{ $user->email }}</x-table.cell>
                     <x-table.cell>
                         @forelse ($user->roles as $role)
-                            <span class="block font-bold" style="color:{{ $role->color }};">
+                            <span class="block font-bold" style="{{ $role->formatted_color }};">
                                 {{ $role->name }}
                             </span>
                         @empty

@@ -166,7 +166,6 @@ class Settings extends Component
     {
         $this->form = $this->makeBlankModel();
 
-        $this->applySortingOnMount();
     }
 
     /**

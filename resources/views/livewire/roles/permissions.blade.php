@@ -1,9 +1,7 @@
 <div>
-    @include('elements.flash')
-
     <div class="flex flex-col lg:flex-row gap-4 justify-between">
         <div>
-            @canany(['delete'], \Spatie\Permission\Models\Permission::class)
+            @canany(['delete'], \BDS\Models\Permission::class)
                 <div class="dropdown">
                     <label tabindex="0" class="btn btn-neutral m-1">
                         Actions
@@ -12,7 +10,7 @@
                         </svg>
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
-                        @can('delete', \Spatie\Permission\Models\Permission::class)
+                        @can('delete', \BDS\Models\Permission::class)
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
@@ -25,7 +23,7 @@
             @endcanany
         </div>
         <div class="mb-4">
-            @can('create', \Spatie\Permission\Models\Permission::class)
+            @can('create', \BDS\Models\Permission::class)
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                     Nouvelle Permission
@@ -36,14 +34,14 @@
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @canany(['delete'], \Spatie\Permission\Models\Permission::class)
+            @canany(['delete'], \BDS\Models\Permission::class)
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \Spatie\Permission\Models\Permission::class)
+            @can('update', \BDS\Models\Permission::class)
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
@@ -52,16 +50,37 @@
         </x-slot>
 
         <x-slot name="body">
+            @can('search', \BDS\Models\Permission::class)
+                <x-table.row>
+                    @can('delete', \BDS\Models\Permission::class)
+                        <x-table.cell></x-table.cell>
+                    @endcan
+                    @can('update', \BDS\Models\Permission::class)
+                        <x-table.cell></x-table.cell>
+                    @endcan
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.name" name="filters.name" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.description" name="filters.description" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-datepicker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
+                        <x-datepicker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
+                    </x-table.cell>
+                </x-table.row>
+            @endcan
+
             @if ($selectPage)
-                <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="6">
+                <x-table.row>
+                    <x-table.cell colspan="5">
                         @unless ($selectAll)
                             <div>
-                                <span>Vous avez sélectionné <strong>{{ $permissions->count() }}</strong> permission(s), voulez-vous tous les selectionner <strong>{{ $permissions->total() }}</strong>?</span>
-                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                <span>Vous avez sélectionné <strong>{{ $permissions->count() }}</strong> permission(s), voulez-vous tous les sélectionner <strong>{{ $permissions->total() }}</strong>?</span>
+                                <x-button type="button" wire:click="setSelectAll" class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
+                                    <x-icon name="fas-check" class="h-5 w-5"></x-icon>
                                     Tout sélectionner
-                                </button>
+                                </x-button>
                             </div>
                         @else
                             <span>Vous sélectionnez actuellement <strong>{{ $permissions->total() }}</strong> permission(s).</span>
@@ -72,14 +91,14 @@
 
             @forelse($permissions as $permission)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $permission->getKey() }}">
-                    @canany(['delete'], \Spatie\Permission\Models\Permission::class)
+                    @canany(['delete'], \BDS\Models\Permission::class)
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $permission->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @endcanany
-                    @can('update', \Spatie\Permission\Models\Permission::class)
+                    @can('update', \BDS\Models\Permission::class)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $permission->getKey() }})" class="tooltip tooltip-right" data-tip="Editer cette permission">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
@@ -94,11 +113,13 @@
                     <x-table.cell>
                         {{ $permission->description }}
                     </x-table.cell>
-                    <x-table.cell class="capitalize">{{ $permission->created_at?->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
+                    <x-table.cell class="capitalize">
+                        {{ $permission->created_at?->translatedFormat( 'D j M Y H:i') }}
+                    </x-table.cell>
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="6">
+                    <x-table.cell colspan="5">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucune permission trouvée...</span>
                         </div>
@@ -114,60 +135,47 @@
 
 
     <!-- Delete Permissions Modal -->
-    <form wire:submit.prevent="deleteSelected">
-        <input type="checkbox" id="deleteModal" class="modal-toggle" wire:model="showDeleteModal" />
-        <label for="deleteModal" class="modal cursor-pointer">
-            <label class="modal-box relative">
-                <label for="deleteModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="font-bold text-lg">
-                    Supprimer les Permissions
-                </h3>
-                @if (empty($selected))
-                    <p class="my-7">
-                        Vous n'avez sélectionné aucune permission à supprimer.
-                    </p>
-                @else
-                    <p class="my-7">
-                       Êtes-vous sûr de vouloir supprimer ces permissions ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
-                    </p>
-                @endif
-                <div class="modal-action">
-                    <button type="submit" class="btn btn-error gap-2" @if (empty($selected)) disabled @endif>
-                        <i class="fa-solid fa-trash-can"></i>
-                        Supprimer
-                    </button>
-                    <label for="deleteModal" class="btn btn-neutral">Fermer</label>
-                </div>
-            </label>
-        </label>
-    </form>
+    <x-modal wire:model="showDeleteModal" title="Supprimer les Permissions">
+        @if (empty($selected))
+            <p class="my-7">
+                Vous n'avez sélectionné aucune permission à supprimer.
+            </p>
+        @else
+            <p class="my-7">
+                Êtes-vous sûr de vouloir supprimer ces permissions ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
+            </p>
+        @endif
+
+        <x-slot:actions>
+            <x-button class="btn btn-error gap-2" type="button" wire:click="deleteSelected" spinner :disabled="empty($selected)">
+                <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                Supprimer
+            </x-button>
+            <x-button @click="$wire.showDeleteModal = false" class="btn btn-neutral">
+                Fermer
+            </x-button>
+        </x-slot:actions>
+    </x-modal>
 
     <!-- Edit Permission Modal -->
-    <form wire:submit.prevent="save">
-        <input type="checkbox" id="editModal" class="modal-toggle" wire:model="showModal" />
-        <label for="editModal" class="modal cursor-pointer">
-            <label class="modal-box relative">
-                <label for="editModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="font-bold text-lg">
-                    {!! $isCreating ? 'Créer une Permission' : 'Editer la Permission' !!}
-                </h3>
+    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer une Permission' : 'Editer la Permission' }}">
 
-                <x-form.text wire:model="model.name" id="name" name="model.name" label="Nom" placeholder="Nom..." />
+        <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
 
-                <x-form.textarea wire:model="model.description" name="model.description" label="Description" placeholder="Description..." />
+        <x-textarea wire:model="form.description" name="form.description" label="Description" placeholder="Description..." rows="3" />
 
-                <div class="modal-action">
-                    <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
-                        @if($isCreating)
-                            <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
-                        @else
-                            <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
-                        @endif
-                    </x-button>
-                    <label for="editModal" class="btn btn-neutral">Fermer</label>
-                </div>
-            </label>
-        </label>
-    </form>
+        <x-slot:actions>
+            <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
+                @if($isCreating)
+                    <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                @else
+                    <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                @endif
+            </x-button>
+            <x-button @click="$wire.showModal = false" class="btn btn-neutral">
+                Fermer
+            </x-button>
+        </x-slot:actions>
+    </x-modal>
 
 </div>

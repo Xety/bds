@@ -4,7 +4,7 @@ namespace BDS\Livewire;
 
 use BDS\Models\Site;
 use Livewire\Component;
-use Spatie\Permission\Models\Role;
+use BDS\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 class ListSitesWithUsers extends Component

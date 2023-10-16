@@ -4,7 +4,7 @@ namespace BDS\Http\Controllers\Role;
 
 use Illuminate\View\View;
 use BDS\Http\Controllers\Controller;
-use Spatie\Permission\Models\Permission;
+use BDS\Models\Permission;
 
 class PermissionController extends Controller
 {

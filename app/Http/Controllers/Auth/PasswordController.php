@@ -51,7 +51,7 @@ class PasswordController extends Controller
         if ($user->hasSetupPassword()) {
             return redirect()
                 ->route('auth.login')
-                ->with('danger', 'Vous avez déjà configuré votre compte');
+                ->error('Vous avez déjà configuré votre compte');
         }
 
         return $request->user() && $request->user()->hasSetupPassword()
@@ -81,14 +81,14 @@ class PasswordController extends Controller
         $request->validate($this->rules());
 
         if (!$user->markPasswordAsSetup($request)) {
-            return back()->with('danger', 'Une erreur est survenue lors de la sauvegarde de votre mot de passe.');
+            return back()->error('Une erreur est survenue lors de la sauvegarde de votre mot de passe.');
         }
 
         // Login the user
         Auth::login($user);
 
         return redirect(route('dashboard.index'))
-                ->with('success', "Votre mot de passe a bien été créé et vous êtes maintenant connecté à votre compte !");
+                ->success('Votre mot de passe a bien été créé et vous êtes maintenant connecté à votre compte !');
     }
 
     /**
@@ -128,13 +128,13 @@ class PasswordController extends Controller
         if ($user->hasSetupPassword()) {
             return redirect()
                 ->route('auth.login')
-                ->with('danger', 'Ce compte est déjà configuré !');
+                ->error('Ce compte est déjà configuré !');
         }
 
         $user->sendEmailRegisteredNotification();
 
         return redirect()
             ->route('auth.login')
-            ->with('success', 'Nous vous avons renvoyé votre lien de configuration de votre mot de passe par e-mail !');
+            ->success('Nous vous avons renvoyé votre lien de configuration de votre mot de passe par e-mail !');
     }
 }
