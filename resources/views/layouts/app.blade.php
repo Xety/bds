@@ -18,8 +18,11 @@ Conçu et développé par Emeric Fèvre.
         <!-- Meta -->
         @stack('meta')
 
-        <!-- Flatpickr -->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/assets/flatpickr_default.css') }}" id="flatpickrCssFile" />
+
+        @persist('Flatpickr')
+            <!-- Flatpickr -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('/assets/flatpickr_default.css') }}" id="flatpickrCssFile" />
+        @endpersist
 
         <script type="text/javascript">
             /**

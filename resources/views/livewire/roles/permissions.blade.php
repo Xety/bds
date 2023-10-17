@@ -59,14 +59,14 @@
                         <x-table.cell></x-table.cell>
                     @endcan
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.name" name="filters.name" type="text" />
+                        <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.description" name="filters.description" type="text" />
+                        <x-input wire:model.live.debounce.400ms="filters.description" name="filters.description" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-datepicker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
-                        <x-datepicker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
+                        <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
+                        <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
                     </x-table.cell>
                 </x-table.row>
             @endcan

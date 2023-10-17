@@ -107,8 +107,8 @@
                     </x-table.cell>
                     <x-table.cell></x-table.cell>
                     <x-table.cell>
-                        <x-datepicker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
-                        <x-datepicker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
+                        <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
+                        <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
                     </x-table.cell>
                 </x-table.row>
             @endcan
@@ -314,7 +314,7 @@
                 @endcan
 
                 @php $message = "Vous pouvez renseigner une date de fin de contrat pour l'utilisateur, ce qui aura pour conséquence de <span class=\"font-bold\">désactiver son compte automatiquement à cette date</span>. (Très utile pour les saisonniers)";@endphp
-                <x-datepicker wire:model="form.end_employment_contract" name="form.end_employment_contract" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Date de fin de contrat" placeholder="Date de fin de contract..." />
+                <x-date-picker wire:model="form.end_employment_contract" name="form.end_employment_contract" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Date de fin de contrat" placeholder="Date de fin de contract..." />
 
                 <div class="modal-action">
                     @if ($form->user?->trashed() && auth()->user()->can('restore', \BDS\Models\User::class))

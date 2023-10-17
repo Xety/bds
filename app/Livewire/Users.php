@@ -209,23 +209,24 @@ class Users extends Component
     public function render(): View
     {
         // Select only the roles attached to this site or the roles without assigned site_id.
-        $rolesIds = Role::where('site_id', session('current_site_id'))
+        $roles = Role::where('site_id', session('current_site_id'))
             ->orWhereNull('site_id')
             ->where('level', '<=', auth()->user()->level())
-            ->select('id')
-            ->pluck('id')
+            ->select(['id', 'name'])
+            ->orderBy('name')
+            ->get()
             ->toArray();
 
         // Select all permissions except `bypass login` who is assigned to the `site_id` 0.
-        $permissionsIds = Permission::where('name', '<>', 'bypass login')
-            ->select('id')
-            ->pluck('id')
+        $permissions = Permission::where('name', '<>', 'bypass login')->select(['id', 'name', 'description'])
+            ->orderBy('name')
+            ->get()
             ->toArray();
 
         return view('livewire.users', [
             'users' => $this->rows,
-            'roles' => Role::whereIn('id', $rolesIds)->select(['id', 'name'])->orderBy('name')->get()->toArray(),
-            'permissions' => Permission::whereIn('id', $permissionsIds)->select(['id', 'name', 'description'])->orderBy('name')->get()->toArray(),
+            'roles' => $roles,
+            'permissions' => $permissions,
             'site' => Site::find(session('current_site_id'))
         ]);
     }

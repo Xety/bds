@@ -177,6 +177,7 @@ class Roles extends Component
      */
     public function render(): View
     {
+
         return view('livewire.roles.roles', [
             'roles' => $this->rows,
             'permissions' => Permission::query()->select(['id', 'name'])->orderBy('name')->get()->toArray(),

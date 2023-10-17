@@ -52,4 +52,12 @@ class PermissionPolicy
     {
         return $user->can('delete permission');
     }
+
+    /**
+     * Determine whether the user can search in the model.
+     */
+    public function search(User $user): bool
+    {
+        return $user->can('search permission');
+    }
 }

@@ -236,7 +236,7 @@ class Permissions extends Component
      */
     public function edit(Permission $permission): void
     {
-        $this->authorize('update', $permission);
+        $this->authorize('update', Permission::class);
 
         $this->isCreating = false;
         $this->useCachedRows();

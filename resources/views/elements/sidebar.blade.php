@@ -36,7 +36,7 @@
         {{-- Sidebar Menu --}}
         <x-menu activate-by-route>
             <x-menu-sub :title="auth()->user()->hasRole('Saisonnier') ? 'Bienvenue' : 'Administration'" icon="bxs-dashboard">
-                <x-menu-item title="Tableau de bord" icon="fas-gauge" link="{{ route('dashboard.index') }}" />
+                <x-menu-item title="Tableau de bord" icon="fas-gauge" link="{{ route('dashboard.index') }}" wire:navigate />
             </x-menu-sub>
 
             @can('viewAny', \BDS\Models\Cleaning::class)
@@ -72,7 +72,7 @@
             @can('viewAny', \BDS\Models\User::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Utilisateurs" icon="fas-users">
-                    <x-menu-item title="Gérer les Utilisateurs" icon="fas-users-gear" link="{{ route('users.index') }}" />
+                    <x-menu-item title="Gérer les Utilisateurs" icon="fas-users-gear" link="{{ route('users.index') }}" wire:navigate />
                 </x-menu-sub>
             @endcan
 
@@ -94,7 +94,7 @@
             @can('viewAny', \BDS\Models\Setting::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Paramètres" icon="fas-cog">
-                    <x-menu-item title="Gérer les Paramètres" icon="fas-cog" link="{{ route('settings.index') }}" />
+                    <x-menu-item title="Gérer les Paramètres" icon="fas-cog" link="{{ route('settings.index') }}" wire:navigate />
                 </x-menu-sub>
             @endcan
 
