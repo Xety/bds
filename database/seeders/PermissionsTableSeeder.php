@@ -143,6 +143,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'assign-direct-permission user',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut assigner des permissions directs à un utilisateur.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'search user',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut rechercher d\'autre utilisateurs.',

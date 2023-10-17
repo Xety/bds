@@ -73,4 +73,12 @@ class UserPolicy
     {
         return $user->can('search user');
     }
+
+    /**
+     * Determine whether the user can assign direct permission the model.
+     */
+    public function assignDirectPermission(User $user): bool
+    {
+        return $user->can('assign-direct-permission user');
+    }
 }

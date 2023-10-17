@@ -17,8 +17,10 @@ class Select extends Component
         public ?string $hint = null,
         public ?string $placeholder = null,
         public ?bool $inline = false,
+        public ?bool $tip = false,
         public ?string $optionValue = 'id',
         public ?string $optionLabel = 'name',
+        public ?string $optionTip = 'description',
         public Collection|array $options = new Collection(),
     ) {
         $this->uuid = md5(serialize($this));
@@ -80,7 +82,9 @@ class Select extends Component
                         @endif
 
                         @foreach ($options as $option)
-                            <option value="{{ $option[$optionValue] }}" @if(isset($option['disabled'])) disabled @endif>{{ $option[$optionLabel] }}</option>
+                            <option value="{{ $option[$optionValue] }}" @if(isset($option['disabled'])) disabled @endif @if($tip) class="block text-left tooltip" data-tip="{{ $option[$optionTip] }}" @endif>
+                                {{ $option[$optionLabel] }}
+                            </option>
                         @endforeach
                     </select>
 

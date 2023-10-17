@@ -25,19 +25,25 @@ class UserForm extends Form
 
     public array $roles = [];
 
+    public array $permissions = [];
+
+    public ?int $current_site_id = null;
+
     /**
      * Set the model and all his fields.
      *
      * @param User $user The user model.
      * @param array $roles All roles of the user.
+     * @param array $permissions All permissions of the user.
      *
      * @return void
      */
-    public function setUser(User $user, array $roles): void
+    public function setUser(User $user, array $roles, array $permissions): void
     {
         $this->fill([
             'user' => $user,
             'roles' => $roles,
+            'permissions' => $permissions,
             'username' => $user->username,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
@@ -55,6 +61,9 @@ class UserForm extends Form
      */
     public function store(): User
     {
+        // Set the current site id to the new user so he will log in to the right site the first time.
+        $this->current_site_id = getPermissionsTeamId();
+
         $user = User::create($this->only([
             'username',
             'first_name',
@@ -62,13 +71,19 @@ class UserForm extends Form
             'email',
             'office_phone',
             'cell_phone',
-            'end_employment_contract'
+            'end_employment_contract',
+            'current_site_id'
         ]));
         // Link the new user to the current site.
         $user->sites()->attach(session('current_site_id'));
 
         // Link the selected roles to the user in the current site.
         $user->syncRoles($this->roles);
+
+        // Link the selected permissions to the user in the current site.
+        if (auth()->user()->can('assignDirectPermission', User::class)) {
+            $user->syncPermissions($this->permissions);
+        }
 
         return $user;
     }
@@ -91,6 +106,10 @@ class UserForm extends Form
         ]));
 
         $user->syncRoles($this->roles);
+
+        if (auth()->user()->can('assignDirectPermission', User::class)) {
+            $user->syncPermissions($this->permissions);
+        }
 
         return $user;
     }

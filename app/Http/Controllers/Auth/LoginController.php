@@ -72,6 +72,9 @@ class LoginController extends Controller
 
         // Check if the login is not disabled, if yes check if the user is allowed to bypass it.
         $user = User::where($this->username(), $request->{$this->username()})->first();
+        // Set the Team id to 0 since bypass login is assigned to the team 0 (trick)
+        // The team id will be changed after login anyway with the middleware to $user->getFirstSiteId()
+        setPermissionsTeamId(0);
         if (!config('settings.user.login.enabled') && !$user->hasPermissionTo('bypass login')) {
             return redirect()
                 ->route('auth.login')

@@ -87,10 +87,6 @@
                         <x-menu-item title="Gérer les Permissions" icon="fas-user-shield" link="{{ route('roles.permissions.index') }}" wire:navigate />
                     @endcan
 
-                    @can('viewAny', \BDS\Models\Permission::class)
-                        <x-menu-item title="Gérer les Permissions Directes" icon="fas-user-shield" link="{{ route('roles.permissions.index') }}" wire:navigate />
-                    @endcan
-
                     <x-menu-item title="Voir l'arbre des Permissions" icon="fas-folder-tree" link="{{ route('users.permissions') }}" wire:navigate />
                 </x-menu-sub>
             @endcanany

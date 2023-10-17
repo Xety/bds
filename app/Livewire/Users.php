@@ -10,6 +10,7 @@ use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Permission;
 use BDS\Models\User;
 use BDS\Models\Role;
 use BDS\Models\Site;
@@ -215,9 +216,16 @@ class Users extends Component
             ->pluck('id')
             ->toArray();
 
+        // Select all permissions except `bypass login` who is assigned to the `site_id` 0.
+        $permissionsIds = Permission::where('name', '<>', 'bypass login')
+            ->select('id')
+            ->pluck('id')
+            ->toArray();
+
         return view('livewire.users', [
             'users' => $this->rows,
             'roles' => Role::whereIn('id', $rolesIds)->select(['id', 'name'])->orderBy('name')->get()->toArray(),
+            'permissions' => Permission::whereIn('id', $permissionsIds)->select(['id', 'name', 'description'])->orderBy('name')->get()->toArray(),
             'site' => Site::find(session('current_site_id'))
         ]);
     }
@@ -230,6 +238,7 @@ class Users extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = User::query()
+            ->with('permissions')
             ->withCount('roles')
             ->orderByDesc('roles_count');
 
@@ -302,8 +311,9 @@ class Users extends Component
         $this->useCachedRows();
 
         $roles = $user->roles()->pluck('id')->toArray();
+        $permissions = $user->permissions()->pluck('id')->toArray();
 
-        $this->form->setUser($user, $roles);
+        $this->form->setUser($user, $roles, $permissions);
 
         $this->showModal = true;
     }

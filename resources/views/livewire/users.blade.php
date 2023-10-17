@@ -53,6 +53,7 @@
             <x-table.heading sortable wire:click="sortBy('last_name')" :direction="$sortField === 'last_name' ? $sortDirection : null">Nom</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('email')" :direction="$sortField === 'email' ? $sortDirection : null">Email</x-table.heading>
             <x-table.heading>Rôles</x-table.heading>
+            <x-table.heading>Direct Permissions</x-table.heading>
             <x-table.heading class="min-w-[120px]" sortable wire:click="sortBy('deleted_at')" :direction="$sortField === 'deleted_at' ? $sortDirection : null">Supprimé</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('last_login_date')" :direction="$sortField === 'last_login_date' ? $sortDirection : null">Dernière connexion</x-table.heading>
             <x-table.heading class="min-w-[140px]" sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
@@ -78,6 +79,9 @@
                     </x-table.cell>
                     <x-table.cell>
                         <x-input wire:model.live.debounce.250ms="filters.role" name="filters.role" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.permission" name="filters.permission" type="text" />
                     </x-table.cell>
                     <x-table.cell>
                         @php
@@ -166,6 +170,9 @@
                         @empty
                             Cet utilisateur n'a pas de rôle pour le site {{ $site->name }}.
                         @endforelse
+                    </x-table.cell>
+                    <x-table.cell>
+                        @if ($user->permissions->isNotEmpty()) Oui @else Non @endif
                     </x-table.cell>
                     <x-table.cell>
                         @if ($user->deleted_at)
@@ -280,11 +287,33 @@
                     :options="$roles"
                     class="select-primary"
                     wire:model="form.roles"
-                    name="form.rolesSelected"
+                    name="form.roles"
                     label="Rôles"
                     :label-info="$message"
+                    size="10"
                     multiple
                 />
+
+                @can('assignDirectPermission', \BDS\Models\User::class)
+                    <div>
+                        <x-alert type="info" class="max-w-lg mt-4" title="Information">
+                            La ou les permission(s) sélectionnée(s) seront appliquée(s) <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
+                            <span class="block font-bold">Note: Privilégiez toujours les rôles aux permissions directs dans la mesure du possible.</span>
+                        </x-alert>
+                    </div>
+                    @php $message = "Sélectionnez la/les permission(s) direct(s) de l'utilisateur.";@endphp
+                    <x-select
+                        :options="$permissions"
+                        class="select-primary tooltip tooltip-top"
+                        wire:model="form.permissions"
+                        name="form.permissions"
+                        label="Permissions direct"
+                        tip
+                        :label-info="$message"
+                        size="10"
+                        multiple
+                    />
+                @endcan
 
                 @php $message = "Vous pouvez renseigner une date de fin de contrat pour l'utilisateur, ce qui aura pour conséquence de <span class=\"font-bold\">désactiver son compte automatiquement à cette date</span>. (Très utile pour les saisonniers)";@endphp
                 <x-datepicker wire:model="form.end_employment_contract" name="form.end_employment_contract" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Date de fin de contrat" placeholder="Date de fin de contract..." />

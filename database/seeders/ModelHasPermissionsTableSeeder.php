@@ -16,6 +16,6 @@ class ModelHasPermissionsTableSeeder extends Seeder
     public function run()
     {
         $user = User::where('email', 'e.fevre@bds.coop')->first();
-        $user->givePermissionTo('bypass login');
+        $user->assignPermissionsToSites('bypass login', 0);
     }
 }

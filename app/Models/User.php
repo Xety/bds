@@ -2,6 +2,7 @@
 
 namespace BDS\Models;
 
+use BackedEnum;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -53,7 +54,8 @@ class User extends Model implements
         'email',
         'office_phone',
         'cell_phone',
-        'end_employment_contract'
+        'end_employment_contract',
+        'current_site_id'
     ];
 
     /**
@@ -138,6 +140,22 @@ class User extends Model implements
     }
 
     /**
+     * Get the direct permissions for the user.
+     *
+     * @return BelongsToMany
+     */
+    public function permissionsWithoutSite(): BelongsToMany
+    {
+        return $this->morphToMany(
+            config('permission.models.permission'),
+            'model',
+            config('permission.table_names.model_has_permissions'),
+            config('permission.column_names.model_morph_key'),
+            PermissionRegistrar::$pivotPermission
+        );
+    }
+
+    /**
      * Get the user that deleted the user.
      *
      * @return HasOne
@@ -147,7 +165,12 @@ class User extends Model implements
         return $this->hasOne(User::class, 'id', 'deleted_user_id')->withTrashed();
     }
 
-    public function getFirstSiteId()
+    /**
+     * Return the first site id of the user or null if no site.
+     *
+     * @return null|int
+     */
+    public function getFirstSiteId(): ?int
     {
         $id = $this->sites()->first()?->id;
 
@@ -172,12 +195,12 @@ class User extends Model implements
     /**
      * Function to assign the given roles to the given sites
      *
-     * @param \BackedEnum|int|array|string|Collection|Role $roles
+     * @param BackedEnum|int|array|string|Collection|Role $roles
      * @param array|int $sites
      *
      * @return void
      */
-    public function assignRolesToSites(\BackedEnum|Collection|int|array|string|Role $roles, array|int $sites): void
+    public function assignRolesToSites(BackedEnum|Collection|int|array|string|Role $roles, array|int $sites): void
     {
         if (! PermissionRegistrar::$teams) {
             return;
@@ -196,7 +219,33 @@ class User extends Model implements
     }
 
     /**
-     * Get role level of a user.
+     * Function to assign the given roles to the given sites
+     *
+     * @param BackedEnum|int|array|string|Collection|Permission $permissions
+     * @param array|int $sites
+     *
+     * @return void
+     */
+    public function assignPermissionsToSites(BackedEnum|Collection|int|array|string|Permission $permissions, array|int $sites): void
+    {
+        if (! PermissionRegistrar::$teams) {
+            return;
+        }
+
+        $sites = Arr::wrap($sites);
+
+        $teamId = getPermissionsTeamId();
+
+        foreach ($sites as $site) {
+            setPermissionsTeamId($site);
+            $this->givePermissionTo($permissions);
+        }
+
+        setPermissionsTeamId($teamId);
+    }
+
+    /**
+     * Get the role level of the user.
      *
      * @return int
      */

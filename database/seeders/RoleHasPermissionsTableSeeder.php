@@ -67,6 +67,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete user',
             'restore user',
             'search user',
+            'assign-direct-permission user',
 
             // Setting
             'viewAny setting',
