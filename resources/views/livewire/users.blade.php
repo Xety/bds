@@ -80,9 +80,7 @@
                     <x-table.cell>
                         <x-input wire:model.live.debounce.250ms="filters.role" name="filters.role" type="text" />
                     </x-table.cell>
-                    <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.permission" name="filters.permission" type="text" />
-                    </x-table.cell>
+                    <x-table.cell></x-table.cell>
                     <x-table.cell>
                         @php
                             $options = [

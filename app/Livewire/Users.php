@@ -143,7 +143,7 @@ class Users extends Component
         'form.email' => 'email',
         'form.office_phone' => 'téléphone bureau',
         'form.cell_phone' => 'téléphone portable',
-        'form.rolesSelected' => 'rôles'
+        'form.roles' => 'rôles'
     ];
 
     /**

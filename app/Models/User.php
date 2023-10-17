@@ -156,6 +156,29 @@ class User extends Model implements
     }
 
     /**
+     * A model may have multiple roles.
+     */
+    public function rolesWithoutSite(): BelongsToMany
+    {
+        $relation = $this->morphToMany(
+            config('permission.models.role'),
+            'model',
+            config('permission.table_names.model_has_roles'),
+            config('permission.column_names.model_morph_key'),
+            PermissionRegistrar::$pivotRole
+        );
+
+        return $relation;
+
+        /*return $relation->wherePivot(PermissionRegistrar::$teamsKey, 'sites.id')
+            ->where(function ($q) {
+                $teamField = config('permission.table_names.roles').'.'.PermissionRegistrar::$teamsKey;
+                $q->whereNull($teamField)
+                    ->orWhere($teamField, 'sites.id');
+            });*/
+    }
+
+    /**
      * Get the user that deleted the user.
      *
      * @return HasOne
