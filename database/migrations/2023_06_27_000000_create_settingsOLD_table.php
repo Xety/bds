@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        /*Schema::create('settings', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('name')->unique()->index();
             $table->unsignedInteger('value_int')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->integer('last_updated_user_id')->unsigned()->nullable()->index();
             $table->timestamps();
-        });
+        });*/
     }
 
     /**

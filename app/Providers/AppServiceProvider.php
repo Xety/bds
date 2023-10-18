@@ -54,27 +54,5 @@ class AppServiceProvider extends ServiceProvider
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
         });
-
-        // Set the all Settings in the config array.
-        if (App::environment() !== 'testing' && Schema::hasTable('settings')) {
-            $settings = Setting::all([
-                'name',
-                'value_int',
-                'value_str',
-                'value_bool',
-            ])
-            ->keyBy('name') // key every setting by its name
-            ->transform(function ($setting) {
-                return $setting->value; // return only the value
-            })
-            ->toArray();
-
-            $array = [];
-            // Convert the `dot` syntax to array.
-            foreach ($settings as $setting => $value) {
-                data_set($array, $setting, $value);
-            }
-            config(['settings' => $array]);
-        }
     }
 }
