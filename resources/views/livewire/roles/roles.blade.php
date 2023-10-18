@@ -187,11 +187,12 @@
         @php $message = "Sélectionnez la/les permissions(s) du rôle.";@endphp
         <x-select
             :options="$permissions"
-            class="select-primary"
+            class="select-primary tooltip tooltip-top"
             wire:model="form.permissions"
             name="form.permissions"
             label="Permissions"
             :label-info="$message"
+            tip
             size="15"
             multiple
         />

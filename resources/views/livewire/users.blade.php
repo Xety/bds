@@ -306,8 +306,8 @@
                         wire:model="form.permissions"
                         name="form.permissions"
                         label="Permissions direct"
-                        tip
                         :label-info="$message"
+                        tip
                         size="10"
                         multiple
                     />

@@ -177,10 +177,15 @@ class Roles extends Component
      */
     public function render(): View
     {
+        // Select all permissions except `bypass login` who is assigned to the `site_id` 0.
+        $permissions = Permission::where('name', '<>', 'bypass login')->select(['id', 'name', 'description'])
+            ->orderBy('name')
+            ->get()
+            ->toArray();
 
         return view('livewire.roles.roles', [
             'roles' => $this->rows,
-            'permissions' => Permission::query()->select(['id', 'name'])->orderBy('name')->get()->toArray(),
+            'permissions' => $permissions,
         ]);
     }
 
