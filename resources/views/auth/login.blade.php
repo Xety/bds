@@ -28,7 +28,7 @@
                         <x-input label="Email" name="email" placeholder="Votre Email..." type="email" value="{{ old('email') }}" required />
                         <x-input label="Mot de Passe" name="password" placeholder="Votre mot de passe..." type="password" required />
 
-                        <x-checkbox label="Se souvenir de moi" name="remember" />
+                        <x-checkbox text="Se souvenir de moi" name="remember" />
 
                         <div class="text-center mb-3">
                             <x-button label="Connexion" class="btn btn-primary gap-2" type="submit" icon="fas-right-to-bracket" />

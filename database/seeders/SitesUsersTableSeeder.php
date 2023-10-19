@@ -2,11 +2,17 @@
 
 namespace Database\Seeders;
 
+use BDS\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class SitesUsersTableSeeder extends Seeder
 {
+    protected array $allSites = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
+    ];
+
     /**
      * Run the database seeds.
      *
@@ -14,414 +20,43 @@ class SitesUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $sites = [
-            // Emeric.F
-            [
-                'user_id' => 1,
-                'site_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 3,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 4,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 5,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 6,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 7,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 8,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 9,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 10,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 11,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 12,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 13,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 14,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 15,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 16,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 17,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 18,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 19,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 20,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 21,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 22,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 23,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 24,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 25,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 26,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 27,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 28,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 29,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 30,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 31,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 32,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 33,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 34,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 35,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 36,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 37,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 38,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 39,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 40,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 41,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 42,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 43,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 44,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 45,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 46,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 47,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 48,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 49,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 50,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 1,
-                'site_id' => 51,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+        $user = User::where('email', 'e.fevre@bds.coop')->first();
+        $user->sites()->sync($this->allSites);
 
-            // Franck.L
-            [
-                'user_id' => 2,
-                'site_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 2,
-                'site_id' => 3,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+        $user = User::where('email', 'f.lequeu@bds.coop')->first();
+        $user->sites()->sync([2, 3]);
 
-            // Anthony.M
-            [
-                'user_id' => 3,
-                'site_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+        $user = User::where('email', 'a.moindrot@bds.coop')->first();
+        $user->sites()->sync([2]);
 
-            // JeanMichel.B
-            [
-                'user_id' => 4,
-                'site_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+        $user = User::where('email', 'jm.briset@bds.coop')->first();
+        $user->sites()->sync([2]);
 
-            // Alexis.B
-            [
-                'user_id' => 5,
-                'site_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+        $user = User::where('email', 'a.bert@bds.coop')->first();
+        $user->sites()->sync([2]);
 
-            // Charline.B
-            [
-                'user_id' => 6,
-                'site_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 6,
-                'site_id' => 3,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 6,
-                'site_id' => 4,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+        $user = User::where('email', 'c.brocot@bds.coop')->first();
+        $user->sites()->sync([2, 3, 4]);
 
-            // Christophe.G
-            [
-                'user_id' => 7,
-                'site_id' => 6,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 7,
-                'site_id' => 7,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 7,
-                'site_id' => 21,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 7,
-                'site_id' => 30,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+        $user = User::where('email', 'c.gateau@bds.coop')->first();
+        $user->sites()->sync([6, 7, 21, 30]);
 
-            // Fabrice.R
-            [
-                'user_id' => 8,
-                'site_id' => 11,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'user_id' => 8,
-                'site_id' => 15,
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-        ];
+        $user = User::where('email', 'f.rossignol@bds.coop')->first();
+        $user->sites()->sync([11, 15]);
 
-        DB::table('site_user')->insert($sites);
+        $user = User::where('email', 'y.joly@bds.coop')->first();
+        $user->sites()->sync($this->allSites);
+
+        $user = User::where('email', 'b.combemorel@bds.coop')->first();
+        $user->sites()->sync($this->allSites);
+
+        $user = User::where('email', 'r.husmann@bds.coop')->first();
+        $user->sites()->sync($this->allSites);
+
+        $user = User::where('email', 'jl.fargere@bds.coop')->first();
+        $user->sites()->sync($this->allSites);
+
+        $user = User::where('email', 's.seraut@bds.coop')->first();
+        $user->sites()->sync($this->allSites);
     }
 }

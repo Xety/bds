@@ -7,7 +7,26 @@ use BDS\Models\Role;
 
 class RoleHasPermissionsTableSeeder extends Seeder
 {
-    protected $responsablePermissions = [
+    protected array $directeurGeneralPermissions = [
+        // Zone
+        'viewAny zone',
+        'view zone',
+        'create zone',
+        'update zone',
+
+        // Material
+        'viewAny material',
+        'view material',
+        'generate-qrcode material',
+        'scan-qrcode material',
+
+        // Cleaning
+        'viewAny cleaning',
+        'view cleaning',
+        'export cleaning',
+    ];
+
+    protected array $responsablePermissions = [
         // Zone
         'viewAny zone',
         'view zone',
@@ -31,6 +50,123 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'create cleaning',
         'update cleaning',
         'delete cleaning',
+    ];
+
+    protected array $responsableMaintenancePermissions = [
+        // Zone
+        'viewAny zone',
+        'view zone',
+        'create zone',
+        'update zone',
+        'delete zone',
+
+        // Material
+        'viewAny material',
+        'view material',
+        'create material',
+        'update material',
+        'delete material',
+        'generate-qrcode material',
+        'scan-qrcode material'
+    ];
+
+    protected array $operateurSelvahPermissions = [
+        // Zone
+        'viewAny zone',
+        'view zone',
+
+        // Material
+        'viewAny material',
+        'view material',
+        'scan-qrcode material',
+
+        // Cleaning
+        'viewAny cleaning',
+        'view cleaning',
+        'create cleaning',
+        'update cleaning',
+    ];
+
+    protected array $operateurExtruselPermissions = [
+        // Zone
+        'viewAny zone',
+        'view zone',
+
+        // Material
+        'viewAny material',
+        'view material',
+        'scan-qrcode material',
+
+        // Cleaning
+        'viewAny cleaning',
+        'view cleaning',
+        'create cleaning',
+        'update cleaning',
+    ];
+
+    protected array $operateurMaintenancePermissions = [
+        // Zone
+        'viewAny zone',
+        'view zone',
+
+        // Material
+        'viewAny material',
+        'view material',
+        'scan-qrcode material',
+    ];
+
+    protected array $responsableQualite = [
+        // Zone
+        'viewAny zone',
+        'view zone',
+
+        // Material
+        'viewAny material',
+        'view material',
+        'scan-qrcode material',
+
+        // Cleaning
+        'viewAny cleaning',
+        'view cleaning',
+        'export cleaning',
+        'create cleaning',
+        'update cleaning',
+    ];
+
+    protected array $assistanteQualiteFiliale = [
+        // Zone
+        'viewAny zone',
+        'view zone',
+
+        // Material
+        'viewAny material',
+        'view material',
+        'scan-qrcode material',
+
+        // Cleaning
+        'viewAny cleaning',
+        'view cleaning',
+        'export cleaning',
+        'create cleaning',
+        'update cleaning',
+    ];
+
+    protected array $assistanteQualiteBourgogneduSud = [
+        // Zone
+        'viewAny zone',
+        'view zone',
+
+        // Material
+        'viewAny material',
+        'view material',
+        'scan-qrcode material',
+
+        // Cleaning
+        'viewAny cleaning',
+        'view cleaning',
+        'export cleaning',
+        'create cleaning',
+        'update cleaning',
     ];
 
     /**
@@ -108,91 +244,68 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete cleaning',
         ]);
 
+        // Directeur Général
+        $role = Role::findByName('Directeur Général');
+        $role->syncPermissions($this-> directeurGeneralPermissions);
+
+        // Directeur Général Adjoint
+        $role = Role::findByName('Directeur Général Adjoint');
+        $role->syncPermissions($this-> directeurGeneralPermissions);
+
         // Responsable Selvah
-        $role = Role::findByName('Responsable Selvah');
+        $role = Role::where('name', 'Responsable Selvah')->first();
         $role->syncPermissions($this->responsablePermissions);
 
         // Responsable Selvah Adjoint
-        $role = Role::findByName('Responsable Adjoint Selvah');
+        $role = Role::where('name', 'Responsable Adjoint Selvah')->first();
         $role->syncPermissions($this->responsablePermissions);
 
-        // Assistant(e) Qualité
-        $role = Role::findByName('Assistant(e) Qualité');
-        $role->syncPermissions([
-            // Zone
-            'viewAny zone',
-            'view zone',
-
-            // Material
-            'viewAny material',
-            'view material',
-            'scan-qrcode material',
-
-            // Cleaning
-            'viewAny cleaning',
-            'view cleaning',
-            'export cleaning',
-            'create cleaning',
-            'update cleaning',
-        ]);
-
-        // Opérateur
-        $role = Role::findByName('Opérateur');
-        $role->syncPermissions([
-            // Zone
-            'viewAny zone',
-            'view zone',
-
-            // Material
-            'viewAny material',
-            'view material',
-            'scan-qrcode material',
-
-            // Cleaning
-            'viewAny cleaning',
-            'view cleaning',
-            'create cleaning',
-            'update cleaning',
-        ]);
-
-        // Saisonnier
-        $role = Role::findByName('Saisonnier');
-        $role->syncPermissions([
-            // Cleaning
-            'viewAny cleaning',
-            'create cleaning',
-        ]);
+        // Opérateur Selvah
+        $role = Role::where('name', 'Opérateur Selvah')->first();
+        $role->syncPermissions($this->operateurSelvahPermissions);
 
         // Responsable Extrusel
-        $role = Role::findByName('Responsable Extrusel');
+        $role = Role::where('name', 'Responsable Extrusel')->first();
         $role->syncPermissions($this->responsablePermissions);
 
         // Responsable Extrusel Adjoint
-        $role = Role::findByName('Responsable Adjoint Extrusel');
+        $role = Role::where('name', 'Responsable Adjoint Extrusel')->first();
         $role->syncPermissions($this->responsablePermissions);
 
-        // Responsable Beaune
-        $role = Role::findByName('Responsable Beaune');
+        // Opérateur Extrusel
+        $role = Role::where('name', 'Opérateur Extrusel')->first();
+        $role->syncPermissions($this->operateurExtruselPermissions);
+
+        // Responsable Silo
+        $role = Role::findByName('Responsable Silo');
         $role->syncPermissions($this->responsablePermissions);
 
-        // Responsable Bligny sur Ouche
-        $role = Role::findByName('Responsable Bligny sur Ouche');
-        $role->syncPermissions($this->responsablePermissions);
+        // Responsable Qualité
+        $role = Role::findByName('Responsable Qualité');
+        $role->syncPermissions($this->responsableQualite);
 
-        // Responsable Gergy
-        $role = Role::findByName('Responsable Gergy');
-        $role->syncPermissions($this->responsablePermissions);
+        // Assistant(e) Qualité Filiale
+        $role = Role::findByName('Assistant(e) Qualité Filiale');
+        $role->syncPermissions($this->assistanteQualiteFiliale);
 
-        // Responsable Meursanges
-        $role = Role::findByName('Responsable Meursanges');
-        $role->syncPermissions($this->responsablePermissions);
+        // Assistant(e) Qualité Bourgogne du Sud
+        $role = Role::findByName('Assistant(e) Qualité Bourgogne du Sud');
+        $role->syncPermissions($this->assistanteQualiteBourgogneduSud);
 
-        // Responsable Chalon Nord
-        $role = Role::findByName('Responsable Chalon Nord');
-        $role->syncPermissions($this->responsablePermissions);
+        // Saisonnier Bourgogne du Sud
+        $role = Role::findByName('Saisonnier Bourgogne du Sud');
+        $role->syncPermissions([
+            // Cleaning
+            'viewAny cleaning',
+            'create cleaning',
+        ]);
 
-        // Responsable Crissey
-        $role = Role::findByName('Responsable Crissey');
-        $role->syncPermissions($this->responsablePermissions);
+        // Responsable Maintenance
+        $role = Role::findByName('Responsable Maintenance');
+        $role->syncPermissions($this->responsableMaintenancePermissions);
+
+        // Opérateur Maintenance
+        $role = Role::findByName('Opérateur Maintenance');
+        $role->syncPermissions($this->operateurMaintenancePermissions);
     }
 }

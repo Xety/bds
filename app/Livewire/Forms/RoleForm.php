@@ -17,9 +17,13 @@ class RoleForm extends Form
 
     public ?int $level = null;
 
+    public ?int $site_id = null;
+
+    public ?bool $site = false;
+
     public array $permissions = [];
 
-    public function setRole(Role $role, array $permissions): void
+    public function setRole(Role $role, array $permissions, bool $site = false): void
     {
         $this->fill([
             'role' => $role,
@@ -27,7 +31,8 @@ class RoleForm extends Form
             'description' => $role->description,
             'color' => $role->color,
             'level' => $role->level,
-            'permissions' => $permissions
+            'site' => !is_null($role->site_id) ? true : false,
+            'permissions' => $permissions,
         ]);
     }
 
@@ -38,11 +43,16 @@ class RoleForm extends Form
      */
     public function store(): Role
     {
+        $this->fill([
+            'site_id' => $this->site === true ? getPermissionsTeamId() : null,
+        ]);
+
         $role = Role::create($this->only([
             'name',
             'description',
             'color',
-            'level'
+            'level',
+            'site_id'
         ]));
         // Link the selected roles to the user in the current site.
         $role->syncPermissions($this->permissions);
@@ -57,11 +67,16 @@ class RoleForm extends Form
      */
     public function update(): Role
     {
+        $this->fill([
+            'site_id' => $this->site === true ? getPermissionsTeamId() : null,
+        ]);
+
         $role = tap($this->role)->update($this->only([
             'name',
             'description',
             'color',
-            'level'
+            'level',
+            'site_id'
         ]));
         $role->syncPermissions($this->permissions);
 

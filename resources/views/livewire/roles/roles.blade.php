@@ -181,8 +181,11 @@
         @php $message = "La couleur doit être en format hexadécimal et est utilisée sur tout le site pour colorer le nom du rôle.";@endphp
         <x-input wire:model="form.color" name="form.color" label="Couleur" placeholder="#dddddd" type="text" :label-info="$message" />
 
-        @php $message = "Le niveau du rôle désigne l'importance du rôle.";@endphp
+        @php $message = "Le niveau du rôle désigne l'importance du rôle. <br> Nb : L'importance d'un rôle sert lors de l'édition d'un rôle/utilisateur, afin d'éviter qu'un utilisateur avec un niveau de 10 puisse éditer un rôle/utilisateur de niveau supérieur à 10.";@endphp
         <x-input wire:model="form.level" name="form.level" label="Niveau" placeholder="10" type="number" min="0" max="100" :label-info="$message" />
+
+        @php $message = "L'assignation du rôle permet d'attribuer ce rôle au site <i>$site->name</i> et donc de pouvoir le voir et l'assigner uniquement sur le site <i>$site->name</i>.";@endphp
+        <x-checkbox wire:model="form.site" name="form.site" label="Assignation du rôle" text="Assigner uniquement sur le site {{ $site->name }}"  class="pt-4" :label-info="$message" />
 
         @php $message = "Sélectionnez la/les permissions(s) du rôle.";@endphp
         <x-select

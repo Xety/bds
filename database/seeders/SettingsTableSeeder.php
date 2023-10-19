@@ -16,8 +16,10 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        // Settings for all sites.
-        for ($i = 1; $i < 52; $i++) {
+        // Settings for all sites except Verdun Siège.
+        for ($i = 2; $i < 52; $i++) {
+            Settings::setTeamId($i)->set('zone.create.enabled', true);
+            Settings::setTeamId($i)->set('site.create.enabled', true);
             Settings::setTeamId($i)->set('cleaning.create.enabled', true);
         }
 

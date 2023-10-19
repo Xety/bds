@@ -149,9 +149,22 @@
                     </x-table.cell>
                     <x-table.cell>{{ $user->getKey() }}</x-table.cell>
                     <x-table.cell>
-                        <a href="{{ route('users.show', $user) }}" class="text-primary font-bold">
-                            {{ $user->username }}
-                        </a>
+                        <div class="flex items-center space-x-3">
+                            <div class="tooltip" data-tip="{{ $user->online ? $user->full_name.' est en ligne' : $user->full_name.' est hors ligne' }}" >
+                                <div class="avatar {{ $user->online ? 'online' : 'offline' }}">
+                                    <div class="mask mask-squircle w-12 h-12 {{ $user->online ? 'tooltip' : '' }}">
+                                        <img src="{{ asset($user->avatar) }}" alt="Avatar de {{ $user->full_name }}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-primary font-bold">
+                                    <a href="{{ route('users.show', $user) }}" class="text-primary font-bold">
+                                        {{ $user->username }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </x-table.cell>
                     <x-table.cell>
                         {{ $user->first_name }}

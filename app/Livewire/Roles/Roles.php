@@ -10,6 +10,7 @@ use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Permission;
 use BDS\Models\Role;
+use BDS\Models\Site;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -17,6 +18,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Spatie\Permission\PermissionRegistrar;
 
 class Roles extends Component
 {
@@ -186,6 +188,7 @@ class Roles extends Component
         return view('livewire.roles.roles', [
             'roles' => $this->rows,
             'permissions' => $permissions,
+            'site' => Site::find(session('current_site_id'))
         ]);
     }
 
@@ -196,7 +199,8 @@ class Roles extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Role::query();
+        $query = Role::whereNull(PermissionRegistrar::$teamsKey)
+            ->orWhere(PermissionRegistrar::$teamsKey, getPermissionsTeamId());
 
         if (Auth::user()->can('search', Role::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
