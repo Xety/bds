@@ -48,12 +48,9 @@
             </x-table.heading>
 
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('username')" :direction="$sortField === 'username' ? $sortDirection : null">Nom d'Utilisateur</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('first_name')" :direction="$sortField === 'first_name' ? $sortDirection : null">Prénom</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('last_name')" :direction="$sortField === 'last_name' ? $sortDirection : null">Nom</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('email')" :direction="$sortField === 'email' ? $sortDirection : null">Email</x-table.heading>
             <x-table.heading>Rôles</x-table.heading>
-            <x-table.heading>Direct Permissions</x-table.heading>
             <x-table.heading class="min-w-[120px]" sortable wire:click="sortBy('deleted_at')" :direction="$sortField === 'deleted_at' ? $sortDirection : null">Supprimé</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('last_login_date')" :direction="$sortField === 'last_login_date' ? $sortDirection : null">Dernière connexion</x-table.heading>
             <x-table.heading class="min-w-[140px]" sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
@@ -66,13 +63,7 @@
                     <x-table.cell></x-table.cell>
                     <x-table.cell></x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.username" name="filters.username" type="text" />
-                    </x-table.cell>
-                    <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.first_name" name="filters.first_name" type="text" />
-                    </x-table.cell>
-                    <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.last_name" name="filters.last_name" type="text" />
+                        <x-input wire:model.live.debounce.250ms="filters.name" name="filters.name" type="text" />
                     </x-table.cell>
                     <x-table.cell>
                         <x-input wire:model.live.debounce.250ms="filters.email" name="filters.email" type="text" />
@@ -80,7 +71,6 @@
                     <x-table.cell>
                         <x-input wire:model.live.debounce.250ms="filters.role" name="filters.role" type="text" />
                     </x-table.cell>
-                    <x-table.cell></x-table.cell>
                     <x-table.cell>
                         @php
                             $options = [
@@ -115,7 +105,7 @@
 
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="11">
+                    <x-table.cell colspan="10">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $users->count() }}</strong> utilisateur(s), voulez-vous tous les sélectionner <strong>{{ $users->total() }}</strong>?</span>
@@ -149,10 +139,11 @@
                     </x-table.cell>
                     <x-table.cell>{{ $user->getKey() }}</x-table.cell>
                     <x-table.cell>
+                        @php $online = $user->online; @endphp
                         <div class="flex items-center space-x-3">
-                            <div class="tooltip" data-tip="{{ $user->online ? $user->full_name.' est en ligne' : $user->full_name.' est hors ligne' }}" >
-                                <div class="avatar {{ $user->online ? 'online' : 'offline' }}">
-                                    <div class="mask mask-squircle w-12 h-12 {{ $user->online ? 'tooltip' : '' }}">
+                            <div class="tooltip" data-tip="{{ $online ? $user->full_name.' est en ligne' : $user->full_name.' est hors ligne' }}" >
+                                <div class="avatar {{ $online ? 'online' : 'offline' }}">
+                                    <div class="mask mask-squircle w-12 h-12 {{ $online ? 'tooltip' : '' }}">
                                         <img src="{{ asset($user->avatar) }}" alt="Avatar de {{ $user->full_name }}"/>
                                     </div>
                                 </div>
@@ -160,17 +151,11 @@
                             <div>
                                 <div class="text-primary font-bold">
                                     <a href="{{ route('users.show', $user) }}" class="text-primary font-bold">
-                                        {{ $user->username }}
+                                        {{ $user->full_name }}
                                     </a>
                                 </div>
                             </div>
                         </div>
-                    </x-table.cell>
-                    <x-table.cell>
-                        {{ $user->first_name }}
-                    </x-table.cell>
-                    <x-table.cell>
-                        {{ $user->last_name }}
                     </x-table.cell>
                     <x-table.cell>{{ $user->email }}</x-table.cell>
                     <x-table.cell>
@@ -181,9 +166,6 @@
                         @empty
                             Cet utilisateur n'a pas de rôle pour le site {{ $site->name }}.
                         @endforelse
-                    </x-table.cell>
-                    <x-table.cell>
-                        @if ($user->permissions->isNotEmpty()) Oui @else Non @endif
                     </x-table.cell>
                     <x-table.cell>
                         @if ($user->deleted_at)
@@ -205,7 +187,7 @@
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="11">
+                    <x-table.cell colspan="9">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucun utilisateur trouvé...</span>
                         </div>
@@ -224,7 +206,7 @@
     <x-modal wire:model="showDeleteModal" title="Supprimer les Utilisateurs">
         @if (empty($selected))
             <p class="my-7">
-                Vous n'avez sélectionné aucune permission à supprimer.
+                Vous n'avez sélectionné aucun utilisateur à supprimer.
             </p>
         @else
             <p class="my-7">
@@ -244,111 +226,95 @@
     </x-modal>
 
     <!-- Edit Users Modal -->
-    <form>
-        <input type="checkbox" id="editModal" class="modal-toggle" wire:model.live="showModal" />
-        <label for="editModal" class="modal cursor-pointer">
-            <label class="modal-box relative">
-                <label for="editModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="font-bold text-lg">
-                    {!! $isCreating ? 'Créer un Utilisateur' : 'Editer l\'Utilisateur' !!}
-                </h3>
-
-                @if ($form->user?->trashed())
-                    <div>
-                        <x-alert type="error" class="max-w-lg mb-4" title="Attention">
+    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Utilisateur' : 'Editer l\'Utilisateur' }}">
+        @if ($form->user?->trashed())
+            <div>
+                <x-alert type="error" class="max-w-lg mb-4" title="Attention">
                             <span class="font-bold">Cet utilisateur a été supprimé le {{ $form->user->deleted_at->translatedFormat( 'D j M Y à H:i') }} par
                                 @if(is_null($form->user->deletedUser))
                                     l'application de manière automatisée.</span> La date de fin de contrat était le {{ $form->user->end_employment_contract->translatedFormat( 'D j M Y à H:i') }}
-                                @else
-                                    {{ $form->user->deletedUser->full_name }}.</span>
-                                @endif
-                            <br> Vous devez le restaurer avant de faire une modification de cet utilisateur. @if(!is_null($form->user->end_employment_contract)) <span class="font-bold">La restauration du compte va réinitialiser la date de fin de contrat.</span> @endif
-                        </x-alert>
-                    </div>
-                @endif
-
-                @if($isCreating)
-                    <div>
-                        <x-alert type="warning" class="max-w-lg mb-4" title="Attention">
-                            La création d'un compte utilisateur lui donnera automatiquement l'autorisation d'accès au site <span class="font-bold">{{ $site->name }}</span> et ce même sans rôle assigné à l'utilisateur.
-                        </x-alert>
-                    </div>
-                @endif
-
-                <x-input wire:model="form.username" name="form.username" label="Nom d'Utilisateur" placeholder="Nom d'Utilisateur..." type="text" disabled />
-
-                <x-input wire:model="form.first_name" name="form.first_name" label="Prénom" placeholder="Prénom..." wire:keyup.debounce.250ms="generateUsername()" type="text" />
-                <x-input wire:model="form.last_name" name="form.last_name" label="Nom" placeholder="Nom..." wire:keyup.debounce.250ms="generateUsername()" type="text" />
-
-                <x-input wire:model="form.email" name="form.email" label="Email" placeholder="Email..." type="email" />
-
-                @php $message = "Uniquement si vous disposez d'un téléphone à votre bureau.";@endphp
-                <x-input wire:model="form.office_phone" name="form.office_phone" label="Téléphone bureau" placeholder="Téléphone bureau" :label-info="$message" type="text" />
-
-                @php $message = "Uniquement un numéro de téléphone portable utilisé dans le cadre professionnel.";@endphp
-                <x-input wire:model="form.cell_phone" name="form.cell_phone" label="Téléphone portable" placeholder="Téléphone portable" :label-info="$message" type="text" />
-
-                <div>
-                    <x-alert type="info" class="max-w-lg mt-4" title="Information">
-                        Le ou les rôle(s) sélectionné(s) seront appliqué <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
-                    </x-alert>
-                </div>
-                @php $message = "Sélectionnez le/les rôle(s) de l'utilisateur.";@endphp
-                <x-select
-                    :options="$roles"
-                    class="select-primary"
-                    wire:model="form.roles"
-                    name="form.roles"
-                    label="Rôles"
-                    :label-info="$message"
-                    size="10"
-                    multiple
-                />
-
-                @can('assignDirectPermission', \BDS\Models\User::class)
-                    <div>
-                        <x-alert type="info" class="max-w-lg mt-4" title="Information">
-                            La ou les permission(s) sélectionnée(s) seront appliquée(s) <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
-                            <span class="block font-bold">Note: Privilégiez toujours les rôles aux permissions directs dans la mesure du possible.</span>
-                        </x-alert>
-                    </div>
-                    @php $message = "Sélectionnez la/les permission(s) direct(s) de l'utilisateur.";@endphp
-                    <x-select
-                        :options="$permissions"
-                        class="select-primary tooltip tooltip-top"
-                        wire:model="form.permissions"
-                        name="form.permissions"
-                        label="Permissions direct"
-                        :label-info="$message"
-                        tip
-                        size="10"
-                        multiple
-                    />
-                @endcan
-
-                @php $message = "Vous pouvez renseigner une date de fin de contrat pour l'utilisateur, ce qui aura pour conséquence de <span class=\"font-bold\">désactiver son compte automatiquement à cette date</span>. (Très utile pour les saisonniers)";@endphp
-                <x-date-picker wire:model="form.end_employment_contract" name="form.end_employment_contract" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Date de fin de contrat" placeholder="Date de fin de contract..." />
-
-                <div class="modal-action">
-                    @if ($form->user?->trashed() && auth()->user()->can('restore', \BDS\Models\User::class))
-                        <x-button class="btn btn-info gap-2" type="button" wire:click="restore" spinner>
-                            <x-icon name="fas-lock-open" class="h-5 w-5"></x-icon>
-                            Restaurer
-                        </x-button>
                     @else
-                        <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
-                            @if($isCreating)
-                                <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
-                            @else
-                                <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
-                            @endif
-                        </x-button>
+                        {{ $form->user->deletedUser->full_name }}.</span>
                     @endif
+                    <br> Vous devez le restaurer avant de faire une modification de cet utilisateur. @if(!is_null($form->user->end_employment_contract)) <span class="font-bold">La restauration du compte va réinitialiser la date de fin de contrat.</span> @endif
+                </x-alert>
+            </div>
+        @endif
 
-                    <label for="editModal" class="btn btn-neutral">Fermer</label>
-                </div>
-            </label>
-        </label>
-    </form>
+        @if($isCreating)
+            <div>
+                <x-alert type="warning" class="max-w-lg mb-4" title="Attention">
+                    La création d'un compte utilisateur lui donnera automatiquement l'autorisation d'accès au site <span class="font-bold">{{ $site->name }}</span> et ce même sans rôle assigné à l'utilisateur.
+                </x-alert>
+            </div>
+        @endif
+
+        <x-input wire:model="form.username" name="form.username" label="Nom d'Utilisateur" placeholder="Nom d'Utilisateur..." type="text" disabled />
+
+        <x-input wire:model="form.first_name" name="form.first_name" label="Prénom" placeholder="Prénom..." wire:keyup.debounce.250ms="generateUsername()" type="text" />
+        <x-input wire:model="form.last_name" name="form.last_name" label="Nom" placeholder="Nom..." wire:keyup.debounce.250ms="generateUsername()" type="text" />
+
+        <x-input wire:model="form.email" name="form.email" label="Email" placeholder="Email..." type="email" />
+
+        @php $message = "Uniquement si vous disposez d'un téléphone à votre bureau.";@endphp
+        <x-input wire:model="form.office_phone" name="form.office_phone" label="Téléphone bureau" placeholder="Téléphone bureau" :label-info="$message" type="text" />
+
+        @php $message = "Uniquement un numéro de téléphone portable utilisé dans le cadre professionnel.";@endphp
+        <x-input wire:model="form.cell_phone" name="form.cell_phone" label="Téléphone portable" placeholder="Téléphone portable" :label-info="$message" type="text" />
+
+        <div>
+            <x-alert type="info" class="max-w-lg mt-4" title="Information">
+                Le ou les rôle(s) sélectionné(s) seront appliqué <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
+            </x-alert>
+        </div>
+        @php $message = "Sélectionnez le/les rôle(s) de l'utilisateur.";@endphp
+        <x-select
+            :options="$roles"
+            class="select-primary"
+            wire:model="form.roles"
+            name="form.roles"
+            label="Rôles"
+            :label-info="$message"
+            size="10"
+            multiple
+        />
+
+        @can('assignDirectPermission', \BDS\Models\User::class)
+            <div>
+                <x-alert type="info" class="max-w-lg mt-4" title="Information">
+                    La ou les permission(s) sélectionnée(s) seront appliquée(s) <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
+                    <span class="block font-bold">Note: Privilégiez toujours les rôles aux permissions directs dans la mesure du possible.</span>
+                </x-alert>
+            </div>
+            @php $message = "Sélectionnez la/les permission(s) direct(s) de l'utilisateur.";@endphp
+            <x-select
+                :options="$permissions"
+                class="select-primary tooltip tooltip-top"
+                wire:model="form.permissions"
+                name="form.permissions"
+                label="Permissions direct"
+                :label-info="$message"
+                tip
+                size="10"
+                multiple
+            />
+        @endcan
+
+        @php $message = "Vous pouvez renseigner une date de fin de contrat pour l'utilisateur, ce qui aura pour conséquence de <span class=\"font-bold\">désactiver son compte automatiquement à cette date</span>. (Très utile pour les saisonniers)";@endphp
+        <x-date-picker wire:model="form.end_employment_contract" name="form.end_employment_contract" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Date de fin de contrat" placeholder="Date de fin de contract..." />
+
+        <x-slot:actions>
+            <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
+                @if($isCreating)
+                    <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                @else
+                    <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                @endif
+            </x-button>
+            <x-button @click="$wire.showModal = false" class="btn btn-neutral">
+                Fermer
+            </x-button>
+        </x-slot:actions>
+    </x-modal>
 
 </div>

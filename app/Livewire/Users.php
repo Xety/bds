@@ -78,9 +78,7 @@ class Users extends Component
      * @var array
      */
     public array $filters = [
-        'username' => '',
-        'first_name' => '',
-        'last_name' => '',
+        'name' => '',
         'email' => '',
         'role' => '',
         'is_deleted' => '',
@@ -95,8 +93,6 @@ class Users extends Component
      */
     public array $allowedFields = [
         'id',
-        'username',
-        'first_name',
         'last_name',
         'email',
         'last_login_date',
@@ -211,7 +207,7 @@ class Users extends Component
         // Select only the roles attached to this site or the roles without assigned site_id.
         $roles = Role::where('site_id', session('current_site_id'))
             ->orWhereNull('site_id')
-            ->where('level', '<=', auth()->user()->level())
+            ->where('level', '<=', auth()->user()->level)
             ->select(['id', 'name'])
             ->orderBy('name')
             ->get()
@@ -239,14 +235,10 @@ class Users extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = User::query()
-            ->with('permissions')
-            ->withCount('roles')
-            ->orderByDesc('roles_count');
+            ->with('roles');
 
         if (Auth::user()->can('search', User::class)) {
-            $query->when($this->filters['username'], fn($query, $search) => $query->where('username', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['first_name'], fn($query, $search) => $query->where('first_name', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['last_name'], fn($query, $search) => $query->where('last_name', 'LIKE', '%' . $search . '%'))
+            $query->when($this->filters['name'], fn($query, $search) => $query->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['email'], fn($query, $search) => $query->where('email', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['is_deleted'], function($query, $deleted) {
                     if ($deleted === 'yes') {
@@ -262,6 +254,10 @@ class Users extends Component
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
+        $query->when($this->sortField == 'created_at', function ($query) {
+            return $query->withCount('roles')
+                ->orderByDesc('roles_count');
+        });
         $query->withTrashed();
 
         return $this->applySorting($query);

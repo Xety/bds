@@ -41,7 +41,11 @@ class RolePolicy
         // First check if user can update any role and a role has been provided
         if($user->can('update role') && !is_null($role)) {
             // Check if the user level is superior or equal to the role level he wants to edit.
-            return $user->level() >= $role->level;
+            if ($user->level >= $role->level) {
+                // Check that the user is not trying to update a role from another site where he does not have access
+                return $role->site_id === null || $role->site_id === getPermissionsTeamId();
+            }
+            return false;
         }
         return $user->can('update role');
     }
@@ -52,7 +56,7 @@ class RolePolicy
     public function delete(User $user, ?Role $role = null): bool
     {
         if($user->can('delete role') && !is_null($role)) {
-            return $user->level() >= $role->level;
+            return $user->level >= $role->level;
         }
         return $user->can('delete role');
     }

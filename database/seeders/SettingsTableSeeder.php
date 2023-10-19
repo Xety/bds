@@ -16,6 +16,9 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
+        // Settings without site assigned to.
+        /*Settings::set('user.login.enabled', true);
+
         // Settings for all sites except Verdun Siège.
         for ($i = 2; $i < 52; $i++) {
             Settings::setTeamId($i)->set('zone.create.enabled', true);
@@ -26,7 +29,7 @@ class SettingsTableSeeder extends Seeder
         // Setting for Selvah
         $selvah = Site::where('name', 'Selvah')->first();
         Settings::setTeamId($selvah->id)->set('production.objective.delivered', '310270');
-        Settings::setTeamId($selvah->id)->set('production.objective.todo', '715520');
+        Settings::setTeamId($selvah->id)->set('production.objective.todo', '715520');*/
 
     }
 }

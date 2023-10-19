@@ -41,15 +41,27 @@ trait UserPresenter
     }
 
     /**
+     * Get the max role level of the user.
+     *
+     * @return Attribute
+     */
+    protected function level(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => ($role = $this->roles->sortByDesc('level')->first()) ? $role->level : 0
+        );
+    }
+
+    /**
      * Get the account full name. Return the username if the user
      * has not set his first name and last name.
      *
      * @return Attribute
      */
-    public function fullName(): Attribute
+    protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: function (mixed $value, array $attributes) {
+            get: function () {
                 $fullName = $this->first_name . ' ' . $this->last_name;
 
                 if (empty(trim($fullName))) {
@@ -62,7 +74,7 @@ trait UserPresenter
     }
 
     /**
-     * Get the material show url.
+     * Get the user show url.
      *
      * @return string
      */

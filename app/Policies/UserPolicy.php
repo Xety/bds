@@ -40,7 +40,7 @@ class UserPolicy
         // First check if user can update any user and a user has been provided
         if($user->can('update user') && !is_null($model)) {
             // Check if the user level is superior or equal to the other user level he wants to edit.
-            return $user->level() >= $model->level();
+            return $user->level >= $model->level;
         }
         return $user->can('update user');
     }
@@ -53,7 +53,7 @@ class UserPolicy
         // First check if user can delete any user and a user has been provided
         if($user->can('delete user') && !is_null($model)) {
             // Check if the user level is superior or equal to the other user level he wants to edit.
-            return $user->level() >= $model->level();
+            return $user->level >= $model->level;
         }
         return $user->can('delete user');
     }

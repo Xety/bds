@@ -16,7 +16,7 @@
                         Connexion
                     </h1>
 
-                    @if(!config('settings.user.login.enabled'))
+                    @if(!settings()->setTeamId(null)->get('user.login.enabled'))
                         <div>
                             <x-alert type="error" title="Information" class="max-w-lg mb-4">
                                 Le système de connexion est actuellement désactivé, si vous n'avez pas l'autorisation de vous connecter, veuillez ressayer plus tard.

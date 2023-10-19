@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
-use Illuminate\Support\Str;
 use Throwable;
 
 class Handler extends ExceptionHandler

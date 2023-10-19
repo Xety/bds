@@ -147,7 +147,7 @@ return [
     | - \Rawilk\Settings\Support\KeyGenerators\Md5KeyGenerator (default)
     |
     */
-    'key_generator' => \Rawilk\Settings\Support\KeyGenerators\Md5KeyGenerator::class,
+    'key_generator' => \Rawilk\Settings\Support\KeyGenerators\ReadableKeyGenerator::class,
 
     /*
     |--------------------------------------------------------------------------

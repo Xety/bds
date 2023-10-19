@@ -132,6 +132,8 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('settings', [BDS\Http\Controllers\SettingController::class, 'index'])
         ->name('settings.index');
+    Route::put('settings', [BDS\Http\Controllers\SettingController::class, 'update'])
+        ->name('settings.update');
 
     /*
     |--------------------------------------------------------------------------

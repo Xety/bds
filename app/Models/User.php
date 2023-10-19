@@ -68,7 +68,10 @@ class User extends Model implements
         'full_name',
 
         // Session Model
-        'online'
+        'online',
+
+        // Role Model
+        'level'
     ];
 
     /**
@@ -265,15 +268,5 @@ class User extends Model implements
         }
 
         setPermissionsTeamId($teamId);
-    }
-
-    /**
-     * Get the role level of the user.
-     *
-     * @return int
-     */
-    public function level(): int
-    {
-        return ($role = $this->roles->sortByDesc('level')->first()) ? $role->level : 0;
     }
 }

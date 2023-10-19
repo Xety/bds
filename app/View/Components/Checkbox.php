@@ -10,6 +10,7 @@ class Checkbox extends Component
         public ?string $label = null,
         public ?string $labelInfo = null,
         public ?string $text = null,
+        public ?bool $checked = false,
         public ?bool $right = false,
         public ?bool $tight = false
     ) {
@@ -60,7 +61,7 @@ class Checkbox extends Component
                         </span>
                     @endif
 
-                    <input type="checkbox" {{ $attributes->whereDoesntStartWith('class') }} {{ $attributes->class(['checkbox checkbox-primary']) }}  />
+                    <input type="checkbox" {{ $attributes->whereDoesntStartWith('class') }} {{ $attributes->class(['checkbox checkbox-primary']) }} @if($checked) checked @endif  />
 
                     @if(!$right)
                         {{ $text }}
