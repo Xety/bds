@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use BDS\Models\Setting;
 use BDS\Models\Site;
 use Illuminate\Database\Seeder;
-use Rawilk\Settings\Facades\Settings;
 
 class SettingsTableSeeder extends Seeder
 {
@@ -17,19 +17,49 @@ class SettingsTableSeeder extends Seeder
     public function run()
     {
         // Settings without site assigned to.
-        /*Settings::set('user.login.enabled', true);
+        Setting::create([
+            'key' => 'user.login.enabled',
+            'site_id' => null,
+            'value' => true,
+            'description' => 'Active/Désactive le système de connexion.'
+        ]);
+        Setting::create([
+            'key' => 'site.create.enabled',
+            'site_id' => null,
+            'value' => true,
+            'description' => 'Active/Désactive le système de création de site.'
+        ]);
 
         // Settings for all sites except Verdun Siège.
         for ($i = 2; $i < 52; $i++) {
-            Settings::setTeamId($i)->set('zone.create.enabled', true);
-            Settings::setTeamId($i)->set('site.create.enabled', true);
-            Settings::setTeamId($i)->set('cleaning.create.enabled', true);
+            Setting::create([
+                'key' => 'zone.create.enabled',
+                'site_id' => $i,
+                'value' => true,
+                'description' => 'Active/Désactive le système de création de zone.'
+            ]);
+            Setting::create([
+                'key' => 'cleaning.create.enabled',
+                'site_id' => $i,
+                'value' => true,
+                'description' => 'Active/Désactive le système de création de nettoyage.'
+            ]);
         }
 
         // Setting for Selvah
         $selvah = Site::where('name', 'Selvah')->first();
-        Settings::setTeamId($selvah->id)->set('production.objective.delivered', '310270');
-        Settings::setTeamId($selvah->id)->set('production.objective.todo', '715520');*/
+        Setting::create([
+            'key' => 'production.objective.delivered',
+            'site_id' => $selvah->id,
+            'value' => 310270,
+            'description' => 'Quantité de la production livré.'
+        ]);
+        Setting::create([
+            'key' => 'production.objective.todo',
+            'site_id' => $selvah->id,
+            'value' => 715520,
+            'description' => 'Quantité de production à faire.'
+        ]);
 
     }
 }

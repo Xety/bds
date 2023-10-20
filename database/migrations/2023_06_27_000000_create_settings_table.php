@@ -14,16 +14,24 @@ return new class extends Migration
      */
     public function up()
     {
-        /*Schema::create('settings', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('name')->unique()->index();
-            $table->unsignedInteger('value_int')->nullable();
-            $table->text('value_str')->nullable();
-            $table->boolean('value_bool')->nullable();
+            $table->unsignedBigInteger('site_id')->nullable();
+            $table->string('key')->index();
+            $table->longText('value')->nullable();
             $table->string('description')->nullable();
-            $table->integer('last_updated_user_id')->unsigned()->nullable()->index();
+            $table->unsignedBigInteger('last_updated_user_id')->nullable()->index();
             $table->timestamps();
-        });*/
+        });
+
+        Schema::table('settings', function (Blueprint $table) {
+            $table->index('site_id', 'settings_site_id_index');
+            $table->unique([
+                'key',
+                'site_id',
+            ], 'settings_key_site_id_unique');
+
+        });
     }
 
     /**

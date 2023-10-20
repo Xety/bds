@@ -8,8 +8,22 @@
 </hgroup>
 
 <x-form method="put" action="{{ route('settings.update') }}" class="w-full">
+    @php $message = "Cocher pour activer le système de connexion au site. <br><b>Quand le système de connexion est désactivé, uniquement les personnes disposant de la permission direct <code class=\"text-neutral-content bg-[color:#1f2937] rounded-sm py-0.5 px-2\">bypass login</code> pourront ce connecter.</b>";@endphp
+    <x-checkbox
+        name="user_login_enabled"
+        label="Activation du système de connexion"
+        text="Activer le système de connexion sur le site"
+        :checked="settings()->setTeamId(null)->get('user.login.enabled')"
+        :label-info="$message"
+    />
 
-    <x-checkbox name="user.login.enabled" label="Activer la connexion" text="Activer la connexion sur le site" :checked="settings()->setTeamId(null)->get('user.login.enabled')" />
+    <x-checkbox
+        name="site_create_enabled"
+        label="Activation de la création des Sites"
+        text="Activer la création des Sites"
+        :checked="settings()->setTeamId(session('current_site_id'))->get('site.create.enabled')"
+        :label-info="$message"
+    />
 
     <div class="text-center mb-3">
         <x-button label="Sauvegarder" class="btn btn-primary gap-2" type="submit" icon="fas-floppy-disk" />

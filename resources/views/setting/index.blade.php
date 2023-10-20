@@ -13,6 +13,9 @@
             <div class="col-span-12 lg:col-span-6 shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                 @include('setting.partials.update-general-setting')
             </div>
+            <div class="col-span-12 lg:col-span-6 shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                @include('setting.partials.update-site-setting')
+            </div>
         </div>
     </section>
 @endsection
