@@ -19,7 +19,11 @@ return new class extends Migration
             $table->unsignedBigInteger('site_id')->nullable();
             $table->string('key')->index();
             $table->longText('value')->nullable();
-            $table->string('description')->nullable();
+            $table->string('model_type')->nullable();
+            $table->unsignedBigInteger('model_id')->nullable();
+            $table->text('text')->nullable();
+            $table->text('label')->nullable();
+            $table->text('label_info')->nullable();
             $table->unsignedBigInteger('last_updated_user_id')->nullable()->index();
             $table->timestamps();
         });
@@ -30,6 +34,7 @@ return new class extends Migration
                 'key',
                 'site_id',
             ], 'settings_key_site_id_unique');
+            $table->index(['model_id', 'model_type'], 'settings_model_id_model_type_index');
 
         });
     }

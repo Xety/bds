@@ -75,7 +75,7 @@ class LoginController extends Controller
         // Set the Team id to 0 since bypass login is assigned to the team 0 (trick)
         // The team id will be changed after login anyway with the middleware to $user->getFirstSiteId()
         setPermissionsTeamId(0);
-        if (!config('settings.user.login.enabled') && !$user->hasPermissionTo('bypass login')) {
+        if (!settings('app_login_enabled') && !$user->hasPermissionTo('bypass login')) {
             return redirect()
                 ->route('auth.login')
                 ->error('Le système de connexion est actuellement désactivé, veuillez ressayer plus tard.');

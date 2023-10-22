@@ -3,6 +3,7 @@
 namespace BDS\Models;
 
 use BDS\Models\Presenters\SettingPresenter;
+use Illuminate\Database\Eloquent\Builder;
 
 class Setting extends Model
 {
@@ -11,19 +12,26 @@ class Setting extends Model
     protected $fillable = [
         'site_id',
         'key',
-        'value'
+        'value',
+        'model_type',
+        'model_id',
+        'text',
+        'label',
+        'label_info',
+        'last_updated_user_id'
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    /*protected $casts = [
-        'value' => 'array'
-    ];*/
+    public function scopeGenerals(Builder $query): void
+    {
+        $query->whereNull('site_id')
+            ->whereNull('model_type')
+            ->whereNull('model_id');
+    }
 
-    /*protected $appends = [
-        'value_unserialize',
-    ];*/
+    public function scopeSites(Builder $query): void
+    {
+        $query->where('site_id', session('current_site_id'))
+            ->whereNull('model_type')
+            ->whereNull('model_id');
+    }
 }

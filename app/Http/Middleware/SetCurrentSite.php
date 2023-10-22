@@ -4,7 +4,6 @@ namespace BDS\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Rawilk\Settings\Facades\Settings;
 
 class SetCurrentSite
 {
@@ -13,6 +12,7 @@ class SetCurrentSite
      *
      * @param  Request  $request
      * @param  Closure  $next
+     *
      * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
@@ -27,8 +27,8 @@ class SetCurrentSite
             session()->put([
                 'current_site_id' => $siteId
             ]);
-            // Set the team id for the settings too.
-            Settings::setTeamId($siteId);
+            // Set the site id for the settings too.
+            //settings()->setSiteId($siteId);
         }
 
         return $next($request);

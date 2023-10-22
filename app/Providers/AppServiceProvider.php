@@ -2,8 +2,10 @@
 
 namespace BDS\Providers;
 
+use BDS\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
@@ -54,5 +56,24 @@ class AppServiceProvider extends ServiceProvider
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
         });
+
+        $settings = Setting::all([
+                'site_id',
+                'key',
+                'value',
+            ])
+            //->keyBy('key') // key every setting by its name
+            /*->transform(function ($setting) {
+                return $setting->value; // return only the value
+            })*/
+            ->toArray();
+
+        // Register the Settings class
+        $this->app->singleton(Settings::class, function (Application $app) {
+            return new Settings($app['cache.store']);
+        });
+
+       //dd($settings);
+
     }
 }

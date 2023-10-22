@@ -3,19 +3,18 @@
 namespace BDS\Models\Presenters;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Rawilk\Settings\Support\ValueSerializers\ValueSerializer;
 
 trait SettingPresenter
 {
-    /*protected function value(): Attribute
+    public function value(): Attribute
     {
         return Attribute::make(
             get: fn (string $value) => unserialize($value),
-            set: fn (string $value) => serialize($value)
+            set: fn (mixed $value) => serialize($value),
         );
-    }*/
+    }
 
-    public function getValueAttribute($value)
+    /*public function getValueAttribute($value)
     {
         return unserialize($value);
     }
@@ -23,7 +22,7 @@ trait SettingPresenter
     public function setValueAttribute($value)
     {
         $this->attributes['value'] = serialize($value);
-    }
+    }*/
 
     /**
      * Attribute the value regardless to the type.

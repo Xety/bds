@@ -31,10 +31,6 @@ class MenuItem extends Component
         $link = url($this->link ?? '');
         $route = url(Route::current()->uri());
 
-        //var_dump(Str::startsWith($route, $link));
-
-        //return Str::startsWith($route, $link);
-
         return $route === $link;
     }
 

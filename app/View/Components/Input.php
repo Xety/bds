@@ -86,7 +86,9 @@ class Input extends Component
                     <!-- INPUT -->
                     <input
                         id="{{ $uuid }}"
-                        placeholder = "{{ $attributes->whereStartsWith('placeholder')->first() }} "
+                        @if($attributes->has('placeholder'))
+                            placeholder = "{{ $attributes->whereStartsWith('placeholder')->first() }} "
+                        @endif
 
                         @if($money)
                             :value="display"

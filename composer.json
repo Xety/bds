@@ -19,7 +19,6 @@
         "mallardduck/blade-boxicons": "^2.4",
         "masmerise/livewire-toaster": "^2.0",
         "owenvoke/blade-fontawesome": "^2.4",
-        "rawilk/laravel-settings": "^3.1",
         "saade/blade-iconsax": "^1.1",
         "spatie/laravel-backup": "^8.1",
         "spatie/laravel-permission": "^5.10",
@@ -41,6 +40,9 @@
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
         "psr-4": {
             "BDS\\": "app/",
             "Database\\Factories\\": "database/factories/",

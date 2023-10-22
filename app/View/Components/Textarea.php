@@ -57,7 +57,9 @@ class Textarea extends Component
                 <div class="flex-1 relative">
                     <!-- INPUT -->
                     <textarea
-                        placeholder = "{{ $attributes->whereStartsWith('placeholder')->first() }} "
+                        @if($attributes->has('placeholder'))
+                            placeholder = "{{ $attributes->whereStartsWith('placeholder')->first() }} "
+                        @endif
 
                         {{
                             $attributes
@@ -68,7 +70,7 @@ class Textarea extends Component
                                 'textarea-error' => $errors->has($modelName())
                             ])
                         }}
-                    ></textarea>
+                    >{{ $slot }}</textarea>
 
                     <!-- INLINE LABEL -->
                     @if($label && $inline)
