@@ -45,7 +45,7 @@ class User extends Model implements
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
         'username',
@@ -78,7 +78,7 @@ class User extends Model implements
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -88,7 +88,7 @@ class User extends Model implements
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'password_setup_at' => 'datetime',
@@ -154,6 +154,16 @@ class User extends Model implements
     }
 
     /**
+     * Get the user that deleted the user.
+     *
+     * @return HasOne
+     */
+    public function deletedUser(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'deleted_user_id')->withTrashed();
+    }
+
+    /**
      * Get the direct permissions for the user.
      *
      * @return BelongsToMany
@@ -167,39 +177,6 @@ class User extends Model implements
             config('permission.column_names.model_morph_key'),
             PermissionRegistrar::$pivotPermission
         );
-    }
-
-    /**
-     * A model may have multiple roles.
-     */
-    public function rolesWithoutSite(): BelongsToMany
-    {
-        $relation = $this->morphToMany(
-            config('permission.models.role'),
-            'model',
-            config('permission.table_names.model_has_roles'),
-            config('permission.column_names.model_morph_key'),
-            PermissionRegistrar::$pivotRole
-        );
-
-        return $relation;
-
-        /*return $relation->wherePivot(PermissionRegistrar::$teamsKey, 'sites.id')
-            ->where(function ($q) {
-                $teamField = config('permission.table_names.roles').'.'.PermissionRegistrar::$teamsKey;
-                $q->whereNull($teamField)
-                    ->orWhere($teamField, 'sites.id');
-            });*/
-    }
-
-    /**
-     * Get the user that deleted the user.
-     *
-     * @return HasOne
-     */
-    public function deletedUser(): HasOne
-    {
-        return $this->hasOne(User::class, 'id', 'deleted_user_id')->withTrashed();
     }
 
     /**

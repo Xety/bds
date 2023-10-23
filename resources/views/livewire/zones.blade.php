@@ -1,11 +1,8 @@
 <div>
-    <div class="flex flex-col lg:flex-row gap-6 justify-between">
-        <div class="mb-4 w-full lg:w-auto lg:min-w-[350px]">
-            <x-form.text wire:model="search" placeholder="Rechercher des Zones..." class="lg:max-w-lg" />
-        </div>
-        <div class="mb-4">
-            @canany(['delete'], \Selvah\Models\Zone::class)
-                <div class="dropdown lg:dropdown-end">
+    <div class="flex flex-col lg:flex-row gap-4 justify-between">
+        <div>
+            @canany(['delete'], \BDS\Models\Zone::class)
+                <div class="dropdown">
                     <label tabindex="0" class="btn btn-neutral m-1">
                         Actions
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill align-bottom" viewBox="0 0 16 16">
@@ -13,49 +10,67 @@
                         </svg>
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
-                        @can('delete', \Selvah\Models\Zone::class)
+                        @can('delete', \BDS\Models\Zone::class)
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
-                                    <i class="fa-solid fa-trash-can"></i> Supprimer
+                                    <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                                    Supprimer
                                 </button>
                             </li>
                         @endcan
                     </ul>
                 </div>
             @endcanany
-
-            @can('create', \Selvah\Models\Zone::class)
-                <a href="#" wire:click.prevent="create" class="btn btn-success gap-2">
-                    <i class="fa-solid fa-plus"></i>
+        </div>
+        <div class="mb-4">
+            @can('create', \BDS\Models\Zone::class)
+                <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
+                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                     Nouvelle Zone
-                </a>
-            @endif
+                </x-button>
+            @endcan
         </div>
     </div>
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @canany(['delete'], \Selvah\Models\Zone::class)
+            @canany(['delete'], \BDS\Models\Zone::class)
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model="selectPage" />
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \Selvah\Models\Zone::class)
+            @can('update', \BDS\Models\Zone::class)
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_count')" :direction="$sortField === 'material_count' ? $sortDirection : null">Nombre de Matériels</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('incidentsCount')" :direction="$sortField === 'incidentsCount' ? $sortDirection : null">Nombre d'incidents</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('maintenancesCount')" :direction="$sortField === 'maintenancesCount' ? $sortDirection : null">Nombre de maintenances</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
         </x-slot>
 
         <x-slot name="body">
+            @can('search', \BDS\Models\Zone::class)
+                <x-table.row>
+                    @can('delete', \BDS\Models\Zone::class)
+                        <x-table.cell></x-table.cell>
+                    @endcan
+                    @can('update', \BDS\Models\Zone::class)
+                        <x-table.cell></x-table.cell>
+                    @endcan
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
+                        <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
+                    </x-table.cell>
+                </x-table.row>
+            @endcan
+
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="6">
+                    <x-table.cell colspan="4">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $zones->count() }}</strong> zone(s), voulez-vous tous les sélectionner <strong>{{ $zones->total() }}</strong>?</span>
@@ -73,17 +88,17 @@
 
             @forelse($zones as $zone)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $zone->getKey() }}">
-                    @canany(['delete'], \Selvah\Models\Zone::class)
+                    @canany(['delete'], \BDS\Models\Zone::class)
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model="selected" value="{{ $zone->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @endcanany
-                    @can('update', \Selvah\Models\Zone::class)
+                    @can('update', \BDS\Models\Zone::class)
                          <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $zone->getKey() }})" class="tooltip tooltip-right" data-tip="Editer cette zone">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                                <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
                     @endcan
@@ -95,19 +110,13 @@
                     <x-table.cell class="prose">
                         <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">{{ $zone->material_count }}</code>
                     </x-table.cell>
-                    <x-table.cell class="prose">
-                        <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">{{ $zone->incidentsCount }}</code>
-                    </x-table.cell>
-                    <x-table.cell class="prose">
-                        <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">{{ $zone->maintenancesCount }}</code>
-                    </x-table.cell>
                     <x-table.cell class="capitalize">
                         {{ $zone->created_at->translatedFormat( 'D j M Y H:i') }}
                     </x-table.cell>
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="6">
+                    <x-table.cell colspan="5">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucune zone trouvée...</span>
                         </div>
@@ -123,54 +132,44 @@
 
 
     <!-- Delete Zones Modal -->
-    <form wire:submit.prevent="deleteSelected">
-        <input type="checkbox" id="deleteModal" class="modal-toggle" wire:model="showDeleteModal" />
-        <label for="deleteModal" class="modal cursor-pointer">
-            <label class="modal-box relative">
-                <label for="deleteModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="font-bold text-lg">
-                    Supprimer les Zones
-                </h3>
-                @if (empty($selected))
-                    <p class="my-7">
-                        Vous n'avez sélectionné aucune zone à supprimer.
-                    </p>
-                @else
-                    <p class="my-7">
-                       Êtes-vous sûr de vouloir supprimer ces zones ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
-                    </p>
-                @endif
-                <div class="modal-action">
-                    <button type="submit" class="btn btn-error gap-2" @if (empty($selected)) disabled @endif>
-                        <i class="fa-solid fa-trash-can"></i>
-                        Supprimer
-                    </button>
-                    <label for="deleteModal" class="btn btn-neutral">Fermer</label>
-                </div>
-            </label>
-        </label>
-    </form>
+    <x-modal wire:model="showDeleteModal" title="Supprimer les Zones">
+        @if (empty($selected))
+            <p class="my-7">
+                Vous n'avez sélectionné aucune permission à supprimer.
+            </p>
+        @else
+            <p class="my-7">
+                Êtes-vous sûr de vouloir supprimer ces zones ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
+            </p>
+        @endif
+
+        <x-slot:actions>
+            <x-button class="btn btn-error gap-2" type="button" wire:click="deleteSelected" spinner :disabled="empty($selected)">
+                <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                Supprimer
+            </x-button>
+            <x-button @click="$wire.showDeleteModal = false" class="btn btn-neutral">
+                Fermer
+            </x-button>
+        </x-slot:actions>
+    </x-modal>
 
     <!-- Create/Edit Zone Modal -->
-    <form wire:submit.prevent="save">
-        <input type="checkbox" id="editModal" class="modal-toggle" wire:model="showModal" />
-        <label for="editModal" class="modal cursor-pointer">
-            <label class="modal-box relative">
-                <label for="editModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="font-bold text-lg">
-                    {!! $isCreating ? 'Créer une Zone' : 'Editer la Zone' !!}
-                </h3>
+    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer une Zone' : 'Editer la Zone' }}">
 
-                <x-form.text wire:model.defer="model.name" id="name" name="model.name" label="Nom" placeholder="Nom..." />
+        <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
 
-                <div class="modal-action">
-                    <button type="submit" class="btn btn-success gap-2">
-                        {!! $isCreating ? '<i class="fa-solid fa-plus"></i> Créer' : '<i class="fa-solid fa-pen-to-square"></i> Editer' !!}
-                    </button>
-                    <label for="editModal" class="btn btn-neutral">Fermer</label>
-                </div>
-            </label>
-        </label>
-    </form>
-
+        <x-slot:actions>
+            <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
+                @if($isCreating)
+                    <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                @else
+                    <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                @endif
+            </x-button>
+            <x-button @click="$wire.showModal = false" class="btn btn-neutral">
+                Fermer
+            </x-button>
+        </x-slot:actions>
+    </x-modal>
 </div>

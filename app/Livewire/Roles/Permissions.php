@@ -56,13 +56,6 @@ class Permissions extends Component
     public string $sortDirection = 'asc';
 
     /**
-     * The string to search.
-     *
-     * @var string
-     */
-    public string $search = '';
-
-    /**
      * Used to update in URL the query string.
      *
      * @var array

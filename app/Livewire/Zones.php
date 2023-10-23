@@ -2,16 +2,19 @@
 
 namespace BDS\Livewire;
 
+use BDS\Livewire\Forms\ZoneForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Zone;
+use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -24,6 +27,20 @@ class Zones extends Component
     use WithPerPagePagination;
     use WithSorting;
     use WithToast;
+
+    /**
+     * Bind the main model used in the component to be used in traits.
+     *
+     * @var string
+     */
+    public string $model = Zone::class;
+
+    /**
+     * The form used to create/update a user.
+     *
+     * @var ZoneForm
+     */
+    public ZoneForm $form;
 
     /**
      * The field to sort by.
@@ -40,13 +57,6 @@ class Zones extends Component
     public string $sortDirection = 'desc';
 
     /**
-     * The string to search.
-     *
-     * @var string
-     */
-    public string $search = '';
-
-    /**
      * Used to update in URL the query string.
      *
      * @var string[]
@@ -54,7 +64,18 @@ class Zones extends Component
     protected $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
-        'search' => ['except' => '', 'as' => 's']
+        'filters',
+    ];
+
+    /**
+     * Filters used for advanced search.
+     *
+     * @var array
+     */
+    public array $filters = [
+        'name' => '',
+        'created_min' => '',
+        'created_max' => ''
     ];
 
     /**
@@ -68,13 +89,6 @@ class Zones extends Component
         'material_count',
         'created_at'
     ];
-
-    /**
-     * The model used in the component.
-     *
-     * @var Zone
-     */
-    public Zone $model;
 
     /**
      * Used to show the Edit/Create modal.
@@ -103,36 +117,33 @@ class Zones extends Component
     public int $perPage = 25;
 
     /**
+     * Translated attribute used in failed messages.
+     *
+     * @var array
+     */
+    protected array $validationAttributes = [
+        'form.name' => 'nom',
+    ];
+
+    /**
      * Flash messages for the model.
      *
      * @var array
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "La zone <b>%s</b> a été créée avec succès !",
+            'success' => "La zone <b>:name</b> a été créée avec succès !",
             'danger' => "Une erreur s'est produite lors de la création de la zone !"
         ],
         'update' => [
-            'success' => "La zone <b>%s</b> a été éditée avec succès !",
+            'success' => "La zone <b>:name</b> a été éditée avec succès !",
             'danger' => "Une erreur s'est produite lors de l'édition de la zone !"
         ],
         'delete' => [
-            'success' => "<b>%s</b> zone(s) ont été supprimée(s) avec succès !",
+            'success' => "<b>:count</b> zone(s) ont été supprimée(s) avec succès !",
             'danger' => "Une erreur s'est produite lors de la suppression des zones !"
         ]
     ];
-
-    /**
-     * The Livewire Component constructor.
-     *
-     * @return void
-     */
-    public function mount(): void
-    {
-        $this->model = $this->makeBlankModel();
-
-        $this->applySortingOnMount();
-    }
 
     /**
      * Rules used for validating the model.
@@ -142,18 +153,8 @@ class Zones extends Component
     public function rules(): array
     {
         return [
-            'model.name' => 'required|min:2|max:150|unique:zones,name,' . $this->model->id
+            'form.name' => 'required|min:2|max:150|unique:zones,name,' . $this->form->zone?->id
         ];
-    }
-
-    /**
-     * Create a blank model and return it.
-     *
-     * @return Zone
-     */
-    public function makeBlankModel(): Zone
-    {
-        return Zone::make();
     }
 
     /**
@@ -176,7 +177,7 @@ class Zones extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Zone::query()
-            ->with('materials')
+            ->with('site', 'materials')
             ->whereRelation('site', 'id', session('current_site_id'));
             /*->withCount(['materials as incidentsCount' => function ($query) {
                 $query->select(DB::raw('SUM(incident_count)'));
@@ -185,6 +186,11 @@ class Zones extends Component
                 $query->select(DB::raw('SUM(maintenance_count)'));
             }])*/
             //->search('name', $this->search);
+        if (Auth::user()->can('search', Zone::class)) {
+            $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+        }
 
         return $this->applySorting($query);
     }
@@ -213,10 +219,8 @@ class Zones extends Component
         $this->isCreating = true;
         $this->useCachedRows();
 
-        // Reset the model to a blank model before showing the creating modal.
-        if ($this->model->getKey()) {
-            $this->model = $this->makeBlankModel();
-        }
+        $this->form->reset();
+
         $this->showModal = true;
     }
 
@@ -235,10 +239,8 @@ class Zones extends Component
         $this->isCreating = false;
         $this->useCachedRows();
 
-        // Set the model to the zone we want to edit.
-        if ($this->model->isNot($zone)) {
-            $this->model = $zone;
-        }
+        $this->form->setZone($zone);
+
         $this->showModal = true;
     }
 
@@ -253,11 +255,10 @@ class Zones extends Component
 
         $this->validate();
 
-        if ($this->model->save()) {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'success','', [$this->model->name]);
-        } else {
-            $this->fireFlash($this->isCreating ? 'create' : 'update', 'danger');
-        }
+        $model = $this->isCreating ? $this->form->store() : $this->form->update();
+
+        $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['name' => $model->name]);
+
         $this->showModal = false;
     }
 }

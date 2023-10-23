@@ -50,6 +50,20 @@ class Settings
     }
 
     /**
+     * Remove the specified key.
+     *
+     * @param string $key The key to flush.
+     *
+     * @return bool
+     */
+    public function remove(string $key): bool
+    {
+        $cacheKey = $this->getCacheKey(key: $key);
+
+        return $this->cache->forget($cacheKey);
+    }
+
+    /**
      * Set the site id to the settings.
      *
      * @param int|string|null|Model $id
@@ -66,7 +80,6 @@ class Settings
 
         return $this;
     }
-
 
     /**
      * Set the context to the setting.
@@ -93,6 +106,21 @@ class Settings
         $this->context = [
             'model_type' => $context['type'] ?? null,
             'model_id' => $context['id'] ?? null
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Reset the context.
+     *
+     * @return $this
+     */
+    public function withoutContext(): self
+    {
+        $this->context = [
+            'model_type' => null,
+            'model_id' => null
         ];
 
         return $this;

@@ -53,7 +53,7 @@ class MenuItem extends Component
                         <a
                             {{
                                 $attributes->class([
-                                    "flex items-center gap-4 menu-link",
+                                    "flex items-center gap-4",
                                     "mary-active-menu $activeBgColor $activeColor" => ($active || ($activateByRoute && $routeMatches()))
                                 ])
                             }}

@@ -3,12 +3,13 @@
 namespace BDS\Http\Controllers;
 
 use BDS\Models\Repositories\SettingRepository;
+use BDS\Models\Setting;
 use BDS\Models\Site;
 use BDS\Models\Validators\SettingValidator;
+use BDS\Settings\Settings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use BDS\Models\Setting;
 
 class SettingController extends Controller
 {
@@ -46,13 +47,23 @@ class SettingController extends Controller
         return view('setting.index', compact('breadcrumbs', 'site', 'settingsGenerals', 'settingsSites'));
     }
 
-    public function update(Request $request)
+    /**
+     * Update the settings.
+     *
+     * @param Settings $settings
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function update(Settings $settings, Request $request)
     {
+        $this->authorize('update', Setting::class);
+
         $type = $request->input('type');
 
         return match ($type) {
-            'sites' => $this->updateSites($request),
-            'generals' => $this->updateGenerals($request),
+            'sites' => $this->updateSites($settings, $request),
+            'generals' => $this->updateGenerals($settings, $request),
             default => back()
                 ->withInput()
                 ->with('danger', 'Type Invalide.'),
@@ -62,14 +73,15 @@ class SettingController extends Controller
     /**
      * Handle a sites settings update.
      *
+     * @param Settings $settings
      * @param Request $request
      *
      * @return RedirectResponse
      */
-    protected function updateSites(Request $request): RedirectResponse
+    protected function updateSites(Settings $settings, Request $request): RedirectResponse
     {
         $validated = SettingValidator::validateSites($request->all())->validate();
-        $updated = SettingRepository::update($validated, $request->input('type'));
+        $updated = SettingRepository::update($settings, $validated, $request->input('type'));
 
         if (!$updated) {
             return redirect()
@@ -80,5 +92,29 @@ class SettingController extends Controller
         return redirect()
             ->back()
             ->success('Les paramètres de sites ont bien été mis à jour !');
+    }
+
+    /**
+     * Handle a sites settings update.
+     *
+     * @param Settings $settings
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    protected function updateGenerals(Settings $settings, Request $request): RedirectResponse
+    {
+        $validated = SettingValidator::validateGenerals($request->all())->validate();
+        $updated = SettingRepository::update($settings, $validated, $request->input('type'));
+
+        if (!$updated) {
+            return redirect()
+                ->back()
+                ->error('Erreur lors de la sauvegarde des paramètres généraux !');
+        }
+
+        return redirect()
+            ->back()
+            ->success('Les paramètres généraux ont bien été mis à jour !');
     }
 }
