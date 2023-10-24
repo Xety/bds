@@ -111,15 +111,23 @@ trait WithBulkActions
      */
     public function deleteSelected(): void
     {
-        $this->authorize('delete', app($this->model));
+        $models = collect($this->selectedRowsQuery->get()->pluck('id')->toArray());
 
-        $deleteCount = $this->selectedRowsQuery->count();
+        $deleteCount = $models->count();
 
         if ($deleteCount <= 0) {
             return;
         }
 
-        if (app($this->model)->destroy($this->selectedRowsQuery->get()->pluck('id')->toArray())) {
+        // For each id, we fetch the model and check the permission related to the model.
+        // If one fail, then they all won't be deleted.
+        $models->each(function ($id) {
+            $model = app($this->model)->where('id', $id)->first();
+
+            $this->authorize('delete', $model);
+        });
+
+        if (app($this->model)->destroy($models->toArray())) {
             $this->success($this->flashMessages['delete']['success'], ['count' => $deleteCount]);
             $this->reset('selected');
 

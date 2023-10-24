@@ -36,13 +36,14 @@ class ZonePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, ?Zone $zone = null): bool
     {
-        // Give update access to all zones, remove to only allow created zone,
-        // false to not allow any update.
+        // First check if user can update any zone and a $zone has been provided
+        if($user->can('update zone') && !is_null($zone)) {
+            // Check that the user is not trying to update a zone from another site where he does not have access
+            return $zone->site_id === null || $zone->site_id === getPermissionsTeamId();
+        }
         return $user->can('update zone');
-
-        //return $user->id === $zone->user_id;
     }
 
     /**

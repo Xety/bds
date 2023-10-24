@@ -56,7 +56,10 @@ class RolePolicy
     public function delete(User $user, ?Role $role = null): bool
     {
         if($user->can('delete role') && !is_null($role)) {
-            return $user->level >= $role->level;
+            if ($user->level >= $role->level) {
+                return $role->site_id === null || $role->site_id === getPermissionsTeamId();
+            }
+            return false;
         }
         return $user->can('delete role');
     }
