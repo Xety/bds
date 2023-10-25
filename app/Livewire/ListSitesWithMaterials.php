@@ -16,7 +16,7 @@ class ListSitesWithMaterials extends Component
     public function render()
     {
         //dd( auth()->user()->sites()->allRelatedIds()->toArray());
-        $sites = Site::with('zones', 'zones.materials')
+        $sites = Site::with('zones', 'zones.materials', 'zones.children')
             ->whereIn('id', auth()->user()->sites()->allRelatedIds()->toArray())
             ->orderBy('name')
             ->get();

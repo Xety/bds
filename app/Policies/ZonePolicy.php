@@ -49,8 +49,11 @@ class ZonePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete(User $user, ?Zone $zone = null): bool
     {
+        if($user->can('delete zone') && !is_null($zone)) {
+            return $zone->site_id === null || $zone->site_id === getPermissionsTeamId();
+        }
         return $user->can('delete zone');
     }
 }

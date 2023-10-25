@@ -25,7 +25,7 @@ class Site extends Model
      */
     public function zones(): HasMany
     {
-        return $this->hasMany(Zone::class);
+        return $this->hasMany(Zone::class)->whereNull('parent_id');
     }
 
     /**

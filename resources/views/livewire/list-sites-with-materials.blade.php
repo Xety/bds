@@ -4,43 +4,13 @@
             <li>
                 <details>
                     <summary>
-                        <i class="fa-solid fa-map-location-dot"></i>
+                        <x-icon name="fas-map-marker-alt" class="h-4 w-4"></x-icon>
                         {{ $site->name }}
                     </summary>
 
                     <ul>
-                        @foreach($site->zones as $zone)
-                            <li>
-                                <details>
-                                    <summary>
-                                        <i class="fa-solid fa-coins"></i>
-                                        {{ $zone->name }}
-                                    </summary>
-                                    <ul>
-                                        @foreach($zone->materials as $material)
-                                            <li>
-                                                <details>
-                                                    <summary>
-                                                        <i class="fa-solid fa-microchip"></i>
-                                                        {{ $material->name }}
-                                                    </summary>
-                                                    <ul>
-                                                        <li>
-                                                            <a>
-                                                                <i class="fa-solid fa-broom"></i>
-                                                                Nettoyages Total : {{ $material->cleaning_count }}
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </details>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </details>
-                            </li>
-                        @endforeach
+                        @include('livewire.list-sites-with-material-recursive', ['zones' => $site->zones])
                     </ul>
-
                 </details>
             </li>
         @endforeach

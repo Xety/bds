@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->integer('material_count')->default(0);
             $table->timestamps();
         });
@@ -25,6 +26,11 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->unique(['site_id', 'name'], 'zones_site_name_primary');
+
+            $table->foreign('parent_id')
+                ->references('id')
+                ->on('zones')
+                ->onDelete('cascade');
         });
     }
 

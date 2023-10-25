@@ -32,4 +32,34 @@ class Zone extends Model
     {
         return $this->belongsTo(Site::class);
     }
+
+    /**
+     * Get the parent that owns the zone.
+     *
+     * @return BelongsTo
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Zone::class, 'parent_id');
+    }
+
+    /**
+     * Get the direct sub-zone for the zone.
+     *
+     * @return HasMany
+     */
+    public function children(): HasMany
+    {
+        return $this->hasMany(Zone::class, 'parent_id');
+    }
+
+    /**
+     * Get all the sub-zone recursively for the zone.
+     *
+     * @return HasMany
+     */
+    public function descendants(): HasMany
+    {
+        return $this->children()->with('descendants');
+    }
 }
