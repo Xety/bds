@@ -66,7 +66,7 @@ class MaterialPolicy
      */
     public function generateQrCode(User $user): bool
     {
-        return $user->can('generateQrCode material');
+        return $user->can('generate-qrcode material');
     }
 
     /**
@@ -74,6 +74,6 @@ class MaterialPolicy
      */
     public function scanQrCode(User $user): bool
     {
-        return $user->can('scanQrCode material');
+        return $user->can('scan-qrcode material');
     }
 }

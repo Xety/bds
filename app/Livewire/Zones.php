@@ -86,6 +86,7 @@ class Zones extends Component
     public array $allowedFields = [
         'id',
         'name',
+        'parent_id',
         'material_count',
         'created_at'
     ];
@@ -123,6 +124,7 @@ class Zones extends Component
      */
     protected array $validationAttributes = [
         'form.name' => 'nom',
+        'form.parent_id' => 'zone parent',
     ];
 
     /**
@@ -153,7 +155,8 @@ class Zones extends Component
     public function rules(): array
     {
         return [
-            'form.name' => 'required|min:2|max:150|unique:zones,name,' . $this->form->zone?->id
+            'form.name' => 'required|min:2|max:150|unique:zones,name,' . $this->form->zone?->id,
+            'form.parent_id' => 'exists:zones,id,' . $this->form->zone?->id
         ];
     }
 
@@ -165,7 +168,13 @@ class Zones extends Component
     public function render(): View
     {
         return view('livewire.zones', [
-            'zones' => $this->rows
+            'zones' => $this->rows,
+            'zonesList' => Zone::where('site_id', session('current_site_id'))
+                ->where('id', '!=', $this->form->id)
+                //->select('zones.*', 'parent.name as parent_name')
+                ->orderBy('name')
+                ->get()
+                //->merge(['id' => null, 'name' => 'Aucun parent'])
         ]);
     }
 
@@ -177,7 +186,7 @@ class Zones extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Zone::query()
-            ->with('site', 'materials')
+            ->with('site', 'materials', 'parent')
             ->whereRelation('site', 'id', session('current_site_id'));
             /*->withCount(['materials as incidentsCount' => function ($query) {
                 $query->select(DB::raw('SUM(incident_count)'));
@@ -234,7 +243,7 @@ class Zones extends Component
      */
     public function edit(Zone $zone): void
     {
-        $this->authorize('update', Zone::class);
+        $this->authorize('update', $zone);
 
         $this->isCreating = false;
         $this->useCachedRows();

@@ -45,6 +45,7 @@
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
+                <x-table.heading sortable wire:click="sortBy('parent_id')" :direction="$sortField === 'parent_id' ? $sortDirection : null">Zone Parent</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_count')" :direction="$sortField === 'material_count' ? $sortDirection : null">Nombre de Matériels</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
         </x-slot>
@@ -62,6 +63,9 @@
                         <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text" />
                     </x-table.cell>
                     <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.parent" name="filters.parent" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
                         <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
                         <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
                     </x-table.cell>
@@ -70,7 +74,7 @@
 
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="4">
+                    <x-table.cell colspan="5">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $zones->count() }}</strong> zone(s), voulez-vous tous les sélectionner <strong>{{ $zones->total() }}</strong>?</span>
@@ -103,9 +107,18 @@
                         </x-table.cell>
                     @endcan
                     <x-table.cell>
-                        <span class="text-primary">
+                        <span class="text-primary font-bold">
                             {{ $zone->name }}
                         </span>
+                    </x-table.cell>
+                    <x-table.cell>
+                        @if($zone->parent)
+                            <span class="text-primary font-bold">
+                                {{ $zone->parent->name }}
+                            </span>
+                        @else
+                            Aucune Zone Parent
+                        @endif
                     </x-table.cell>
                     <x-table.cell class="prose">
                         <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">{{ $zone->material_count }}</code>
@@ -158,6 +171,15 @@
     <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer une Zone' : 'Editer la Zone' }}">
 
         <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
+
+        <x-select
+            :options="$zonesList"
+            class="select-primary"
+            wire:model.live="form.parent_id"
+            name="form.parent_id"
+            label="Zone Parent"
+            placeholder="Aucun parent"
+        />
 
         <x-slot:actions>
             <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>

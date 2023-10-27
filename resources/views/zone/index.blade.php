@@ -23,6 +23,11 @@
                 class="col-span-12 shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                 <livewire:zones/>
             </div>
+
+            <div
+                class="col-span-12 shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                <livewire:list-zones-with-materials />
+            </div>
         </div>
     </section>
 @endsection

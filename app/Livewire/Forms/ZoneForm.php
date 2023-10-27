@@ -9,14 +9,20 @@ class ZoneForm extends Form
 {
     public ?Zone $zone = null;
 
+    public ?int $id = null;
+
     public ?string $name = null;
 
     public ?int $site_id = null;
 
+    public ?int $parent_id = null;
+
     public function setZone(Zone $zone): void
     {
         $this->fill([
-            'name' => $zone->name
+            'id' => $zone->id,
+            'name' => $zone->name,
+            'parent_id' => $zone->parent_id
         ]);
     }
 
@@ -33,7 +39,8 @@ class ZoneForm extends Form
 
         return Zone::create($this->only([
             'site_id',
-            'name'
+            'name',
+            'parent_id'
         ]));
     }
 
@@ -45,7 +52,8 @@ class ZoneForm extends Form
     public function update(): Zone
     {
         return tap($this->zone)->update($this->only([
-            'name'
+            'name',
+            'parent_id'
         ]));
     }
 }

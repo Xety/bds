@@ -245,10 +245,6 @@ class Materials extends Component
         if ($this->qrcode === true && $this->qrcodeid !== null && Auth::user()->can('generateQrCode material')) {
             $this->showQrCode($this->qrcodeid);
         }
-
-        $this->applySortingOnMount();
-
-        $this->applyFilteringOnMount();
     }
 
     /**

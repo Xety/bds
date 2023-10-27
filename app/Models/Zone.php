@@ -14,6 +14,17 @@ class Zone extends Model
     use ZonePresenter;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'site_id',
+        'name',
+        'parent_id'
+    ];
+
+    /**
      * Get the materials for the zone.
      *
      * @return HasMany

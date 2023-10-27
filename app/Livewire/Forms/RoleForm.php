@@ -23,7 +23,7 @@ class RoleForm extends Form
 
     public array $permissions = [];
 
-    public function setRole(Role $role, array $permissions, bool $site = false): void
+    public function setRole(Role $role): void
     {
         $this->fill([
             'role' => $role,
@@ -32,7 +32,8 @@ class RoleForm extends Form
             'color' => $role->color,
             'level' => $role->level,
             'site' => !is_null($role->site_id) ? true : false,
-            'permissions' => $permissions,
+            // Set the related permissions of the role.
+            'permissions' => $role->permissions()->pluck('id')->toArray(),
         ]);
     }
 

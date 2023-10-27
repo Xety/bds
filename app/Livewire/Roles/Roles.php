@@ -258,10 +258,7 @@ class Roles extends Component
         $this->isCreating = false;
         $this->useCachedRows();
 
-        // Set the model to the role we want to edit and set the related permissions.
-        $permissions = $role->permissions()->pluck('id')->toArray();
-
-        $this->form->setRole($role, $permissions);
+        $this->form->setRole($role);
 
         $this->showModal = true;
     }
