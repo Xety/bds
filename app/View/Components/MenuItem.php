@@ -16,6 +16,9 @@ class MenuItem extends Component
         public ?string $link = null,
         public ?bool $active = false,
         public ?bool $tooltip = false,
+        public ?bool $badge = false,
+        public ?string $badgeClass = null,
+        public ?string $badgeText = null,
         public ?string $tooltipContent = '',
         public ?bool $separator = false
     ) {
@@ -66,7 +69,12 @@ class MenuItem extends Component
                                 <x-icon :name="$icon" class="inline h-5 w-5" />
                             @endif
 
-                           <span class="mary-hideable">{{ $title ?? $slot }}</span>
+                           <span class="mary-hideable">
+                               {{ $title ?? $slot }}
+                               @if($badge)
+                                <span class="badge {{ $badgeClass }}">{{ $badgeText }}</span>
+                                @endif
+                           </span>
                         </a>
                     @if($tooltip)
                         </div>

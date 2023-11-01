@@ -52,11 +52,4 @@ class MaterialController extends Controller
             compact('breadcrumbs', 'material', 'cleanings')
         );
     }
-
-    public function arbre()
-    {
-        return view('material.arbre', [
-            'breadcrumbs' => $this->breadcrumbs
-        ]);
-    }
 }

@@ -186,4 +186,12 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('cleanings', [BDS\Http\Controllers\CleaningController::class, 'index'])
         ->name('cleanings.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Settings Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('tree/zones-with-materials', [BDS\Http\Controllers\TreeController::class, 'zonesWithMaterials'])
+        ->name('tree.zones-with-materials');
 });

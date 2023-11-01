@@ -7,6 +7,11 @@ use Livewire\Component;
 
 class ListZonesWithMaterials extends Component
 {
+    public function placeholder()
+    {
+        return view('livewire.placeholders.skeleton');
+    }
+
     public function render()
     {
         $zones = Zone::query()

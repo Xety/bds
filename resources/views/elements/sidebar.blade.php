@@ -50,7 +50,8 @@
                 <x-menu-separator  />
                 <x-menu-sub title="Matériels" icon="fas-microchip">
                     <x-menu-item title="Gérer les Matériels" icon="fas-microchip" link="{{ route('materials.index') }}" wire:navigate />
-                    <x-menu-item title="Voir l'arbre des Matériels" icon="fas-folder-tree" link="{{ route('materials.arbre') }}" wire:navigate />
+
+                    <x-menu-item badge badge-class="badge-primary" badge-text="BETA" title="Voir l'arbre des Matériels" icon="fas-folder-tree" link="{{ route('tree.zones-with-materials') }}" wire:navigate />
                 </x-menu-sub>
             @endcan
 
@@ -58,6 +59,7 @@
                 <x-menu-separator  />
                 <x-menu-sub title="Zones" icon="fas-map-signs">
                     <x-menu-item title="Gérer les Zones" icon="fas-map-pin" link="{{ route('zones.index') }}" wire:navigate />
+                    <x-menu-item badge badge-class="badge-primary" badge-text="BETA" title="Voir l'arbre des Zones" icon="fas-folder-tree" link="{{ route('tree.zones-with-materials') }}" wire:navigate />
                 </x-menu-sub>
             @endcan
 
