@@ -45,7 +45,8 @@
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
-                <x-table.heading sortable wire:click="sortBy('parent_id')" :direction="$sortField === 'parent_id' ? $sortDirection : null">Zone Parent</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('parent_id')" :direction="$sortField === 'parent_id' ? $sortDirection : null">Zone Parent</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('allow_material')" :direction="$sortField === 'allow_material' ? $sortDirection : null">Assignation des Matériels</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_count')" :direction="$sortField === 'material_count' ? $sortDirection : null">Nombre de Matériels</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
         </x-slot>
@@ -74,7 +75,7 @@
 
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="5">
+                    <x-table.cell colspan="6">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $zones->count() }}</strong> zone(s), voulez-vous tous les sélectionner <strong>{{ $zones->total() }}</strong>?</span>
@@ -120,6 +121,17 @@
                             Aucune Zone Parent
                         @endif
                     </x-table.cell>
+                    <x-table.cell>
+                        @if ($zone->allow_material)
+                            <span class="text-success font-bold">
+                            Oui
+                        </span>
+                        @else
+                            <span class="text-error font-bold">
+                            Non
+                        </span>
+                        @endif
+                    </x-table.cell>
                     <x-table.cell class="prose">
                         <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">{{ $zone->material_count }}</code>
                     </x-table.cell>
@@ -129,7 +141,7 @@
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="5">
+                    <x-table.cell colspan="6">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucune zone trouvée...</span>
                         </div>
@@ -180,6 +192,9 @@
             label="Zone Parent"
             placeholder="Aucun parent"
         />
+
+        <x-checkbox wire:model="form.allow_material" name="form.allow_material" label="Autorisé les matériels" text="Autoriser l'assignation de matérial dans cette Zone"  class="pt-4"
+                    :checked="$form->allow_material" />
 
         <x-slot:actions>
             <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>

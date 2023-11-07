@@ -17,12 +17,15 @@ class ZoneForm extends Form
 
     public ?int $parent_id = null;
 
+    public ?bool $allow_material = false;
+
     public function setZone(Zone $zone): void
     {
         $this->fill([
             'id' => $zone->id,
             'name' => $zone->name,
-            'parent_id' => $zone->parent_id
+            'parent_id' => $zone->parent_id,
+            'allow_material' => $zone->allow_material,
         ]);
     }
 

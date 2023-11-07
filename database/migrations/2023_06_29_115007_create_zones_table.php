@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('allow_material')->default(true);
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->integer('material_count')->default(0);
             $table->timestamps();
