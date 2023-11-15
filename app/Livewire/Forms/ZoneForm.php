@@ -22,6 +22,7 @@ class ZoneForm extends Form
     public function setZone(Zone $zone): void
     {
         $this->fill([
+            'zone' => $zone,
             'id' => $zone->id,
             'name' => $zone->name,
             'parent_id' => $zone->parent_id,
@@ -43,7 +44,8 @@ class ZoneForm extends Form
         return Zone::create($this->only([
             'site_id',
             'name',
-            'parent_id'
+            'parent_id',
+            'allow_material'
         ]));
     }
 
@@ -56,7 +58,8 @@ class ZoneForm extends Form
     {
         return tap($this->zone)->update($this->only([
             'name',
-            'parent_id'
+            'parent_id',
+            'allow_material'
         ]));
     }
 }

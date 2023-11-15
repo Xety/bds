@@ -21,7 +21,8 @@ class Zone extends Model
     protected $fillable = [
         'site_id',
         'name',
-        'parent_id'
+        'parent_id',
+        'allow_material'
     ];
 
     /**

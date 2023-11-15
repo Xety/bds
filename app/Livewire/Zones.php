@@ -156,7 +156,8 @@ class Zones extends Component
     {
         return [
             'form.name' => 'required|min:2|max:150|unique:zones,name,' . $this->form->zone?->id,
-            'form.parent_id' => 'exists:zones,id,' . $this->form->zone?->id
+            'form.parent_id' => 'nullable|exists:zones,id|different:' . $this->form->zone?->id,
+            'form.allow_material' => 'required|boolean',
         ];
     }
 
@@ -261,6 +262,9 @@ class Zones extends Component
     public function save(): void
     {
         $this->authorize($this->isCreating ? 'create' : 'update', Zone::class);
+
+        // Must change the 0 value from "Aucun Parent" to null before validating.
+        $this->form->parent_id = $this->form->parent_id === 0 ? null : $this->form->parent_id;
 
         $this->validate();
 

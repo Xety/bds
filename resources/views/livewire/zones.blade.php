@@ -187,7 +187,7 @@
         <x-select
             :options="$zonesList"
             class="select-primary"
-            wire:model.live="form.parent_id"
+            wire:model="form.parent_id"
             name="form.parent_id"
             label="Zone Parent"
             placeholder="Aucun parent"
