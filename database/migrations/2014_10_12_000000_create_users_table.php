@@ -22,6 +22,11 @@ return new class extends Migration
             $table->string('cell_phone')->nullable();
             $table->rememberToken();
             $table->unsignedBigInteger('current_site_id')->nullable();
+            $table->integer('incident_count')->default(0);
+            $table->integer('maintenance_count')->default(0);
+            $table->integer('part_count')->default(0);
+            $table->integer('part_exit_count')->default(0);
+            $table->integer('part_entry_count')->default(0);
             $table->integer('cleaning_count')->default(0);
             $table->timestamp('end_employment_contract')->nullable();
             $table->ipAddress('last_login_ip')->nullable();

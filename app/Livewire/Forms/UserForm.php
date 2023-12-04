@@ -30,6 +30,40 @@ class UserForm extends Form
     public ?int $current_site_id = null;
 
     /**
+     * Rules used for validating the model.
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            'username' => 'required|regex:/^[\w.]*$/|min:4|max:40|unique:users,username,' . $this->user?->id,
+            'email' => 'required|email|unique:users,email,' . $this->user?->id,
+            'first_name' => 'required|min:2|alpha_num',
+            'last_name' => 'required|min:2|alpha_num',
+            'end_employment_contract' => 'nullable|date_format:"d-m-Y H:i"'
+        ];
+    }
+
+    /**
+     * Translated attribute used in failed messages.
+     *
+     * @return array
+     */
+    public function validationAttributes(): array
+    {
+        return [
+            'username' => 'nom d\'utilisateur',
+            'first_name' => 'prénom',
+            'last_name' => 'nom',
+            'email' => 'email',
+            'office_phone' => 'téléphone bureau',
+            'cell_phone' => 'téléphone portable',
+            'roles' => 'rôles'
+        ];
+    }
+
+    /**
      * Set the model and all his fields.
      *
      * @param User $user The user model.

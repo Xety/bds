@@ -2,6 +2,8 @@
 
 namespace BDS\Livewire\Forms;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Livewire\Form;
 use BDS\Models\Role;
 
@@ -22,6 +24,39 @@ class RoleForm extends Form
     public ?bool $site = false;
 
     public array $permissions = [];
+
+    /**
+     * Rules used for validating the model.
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|min:2|max:50|unique:roles,name,' . $this->role?->id,
+            'description' => 'max:350',
+            'color' => 'nullable|min:7|max:9',
+            // Prevent the user to make any role level bigger than his max level
+            'level' => 'required|integer|min:1|max:' . auth()->user()->level,
+            'permissions' => 'required'
+        ];
+    }
+
+    /**
+     * Translated attribute used in failed messages.
+     *
+     * @return array
+     */
+    public function validationAttributes(): array
+    {
+        return [
+            'name' => 'nom',
+            'description' => 'description',
+            'color' => 'couleur',
+            'level' => 'niveau',
+            'permissions' => 'permissions'
+        ];
+    }
 
     public function setRole(Role $role): void
     {

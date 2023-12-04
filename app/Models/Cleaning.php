@@ -17,14 +17,38 @@ class Cleaning extends Model
      * All types with their labels.
      */
     public const TYPES = [
-        'daily' => 'Journalier',
-        'weekly' => 'Hebdomadaire',
-        'bimonthly' => 'Bi-mensuel',
-        'monthly' => 'Mensuel',
-        'quarterly' => 'Trimestrielle',
-        'biannual' => 'Bi-annuel',
-        'annual' => 'Annuel',
-        'casual' => 'Occasionnel'
+        [
+            'id' => 'daily',
+            'name' => 'Journalier'
+        ],
+        [
+            'id' => 'weekly',
+            'name' => 'Hebdomadaire'
+        ],
+        [
+            'id' => 'bimonthly',
+            'name' => 'Bi-mensuel'
+        ],
+        [
+            'id' => 'monthly',
+            'name' => 'Mensuel'
+        ],
+        [
+            'id' => 'quarterly',
+            'name' => 'Trimestrielle'
+        ],
+        [
+            'id' => 'biannual',
+            'name' => 'Bi-annuel'
+        ],
+        [
+            'id' => 'annual',
+            'name' => 'Annuel'
+        ],
+        [
+            'id' => 'casual',
+            'name' => 'Occasionnel'
+        ]
     ];
 
     /**

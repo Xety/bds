@@ -117,16 +117,6 @@ class Permissions extends Component
     public int $perPage = 25;
 
     /**
-     * Translated attribute used in failed messages.
-     *
-     * @var array
-     */
-    protected array $validationAttributes = [
-        'form.name' => 'nom',
-        'form.description' => 'description'
-    ];
-
-    /**
      * Flash messages for the model.
      *
      * @var array
@@ -145,19 +135,6 @@ class Permissions extends Component
             'error' => "Une erreur s'est produite lors de la suppression des permissions !"
         ]
     ];
-
-    /**
-     * Rules used for validating the model.
-     *
-     * @return array
-     */
-    public function rules(): array
-    {
-        return [
-            'form.name' => 'required|min:5|max:30|unique:permissions,name,' . $this->form->permission?->id,
-            'form.description' => 'required|min:5|max:150'
-        ];
-    }
 
     /**
      * Function to render the component.

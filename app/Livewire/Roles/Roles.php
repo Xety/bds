@@ -123,19 +123,6 @@ class Roles extends Component
     public int $perPage = 25;
 
     /**
-     * Translated attribute used in failed messages.
-     *
-     * @var array
-     */
-    protected array $validationAttributes = [
-        'form.name' => 'nom',
-        'form.description' => 'description',
-        'form.color' => 'couleur',
-        'form.level' => 'niveau',
-        'form.permissions' => 'permissions'
-    ];
-
-    /**
      * Flash messages for the model.
      *
      * @var array
@@ -154,23 +141,6 @@ class Roles extends Component
             'error' => "Une erreur s'est produite lors de la suppression des rôles !"
         ]
     ];
-
-    /**
-     * Rules used for validating the model.
-     *
-     * @return array
-     */
-    public function rules(): array
-    {
-        return [
-            'form.name' => 'required|min:2|max:50|unique:roles,name,' . $this->form->role?->id,
-            'form.description' => 'max:350',
-            'form.color' => 'nullable|min:7|max:9',
-            // Prevent the user to make any role level bigger than his max level
-            'form.level' => 'required|integer|min:1|max:' . auth()->user()->level(),
-            'form.permissions' => 'required'
-        ];
-    }
 
     /**
      * Function to render the component.
@@ -199,8 +169,10 @@ class Roles extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Role::whereNull(PermissionRegistrar::$teamsKey)
-            ->orWhere(PermissionRegistrar::$teamsKey, getPermissionsTeamId());
+        $query = Role::where(function($query) {
+            return $query->whereNull(PermissionRegistrar::$teamsKey)
+                ->orWhere(PermissionRegistrar::$teamsKey, getPermissionsTeamId());
+        });
 
         if (Auth::user()->can('search', Role::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
@@ -210,6 +182,8 @@ class Roles extends Component
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
+
+        //dd($query->dd());
 
         return $this->applySorting($query);
     }

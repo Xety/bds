@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('qrcode_flash_count')->default(0);
+            $table->integer('incident_count')->default(0);
+            $table->integer('part_count')->default(0);
+            $table->integer('maintenance_count')->default(0);
             $table->integer('cleaning_count')->default(0);
             $table->boolean('selvah_cleaning_test_ph_enabled')->default(false);
             $table->boolean('cleaning_alert')->default(false);

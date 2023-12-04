@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($e instanceof ModelNotFoundException) {
-            return back()->with('toasts', [[
+            return redirect(route('dashboard.index'))->with('toasts', [[
                 'type' => 'error',
                 'duration' => 4000,
                 'message' =>"Cette donnée n'existe pas ou a été supprimée !"
@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
 
             // Error 403 Access unauthorized
             if ($e->getPrevious() instanceof AuthorizationException) {
-                return back()->error("Vous n'avez pas l'autorisation d'accéder à cette page !");
+                return redirect(route('dashboard.index'))->error("Vous n'avez pas l'autorisation d'accéder à cette page !");
             }
         });
     }

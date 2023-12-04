@@ -19,6 +19,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Cleanings extends Component
 {
@@ -26,9 +27,17 @@ class Cleanings extends Component
     use WithBulkActions;
     use WithCachedRows;
     use WithFilters;
+    use WithPagination;
     use WithPerPagePagination;
     use WithSorting;
     use WithToast;
+
+    /**
+     * Bind the main model used in the component to be used in traits.
+     *
+     * @var string
+     */
+    public string $model = Cleaning::class;
 
     /**
      * The form used to create/update a cleaning.
@@ -60,7 +69,7 @@ class Cleanings extends Component
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
         'qrcode',
-        'qrcodeid',
+        'qrcodeId',
         'filters',
     ];
 
@@ -76,7 +85,7 @@ class Cleanings extends Component
      *
      * @var int|null
      */
-    public ?int $qrcodeid = null;
+    public ?int $qrcodeId = null;
 
     /**
      * Filters used for advanced search.
@@ -84,13 +93,14 @@ class Cleanings extends Component
      * @var array
      */
     public array $filters = [
-        'search' => '',
-        'creator' => '',
+        'id' => '',
         'material' => '',
         'zone' => '',
+        'creator' => '',
+        'description' => '',
         'type' => '',
-        'created-min' => '',
-        'created-max' => '',
+        'created_min' => '',
+        'created_max' => '',
     ];
 
     /**
@@ -234,22 +244,32 @@ class Cleanings extends Component
         $query = Cleaning::query()
             ->with('material', 'user', 'material.zone', 'material.zone.site')
             ->whereRelation('material.zone.site', 'id', session('current_site_id'))
-            ->when($this->filters['type'], fn($query, $type) => $query->where('type', $type))
-            ->when($this->filters['creator'], fn($query, $creator) => $query->where('user_id', $creator))
-            ->when($this->filters['material'], fn($query, $material) => $query->where('material_id', $material))
-            ->when($this->filters['zone'], function ($query, $zone) {
-                return $query->whereHas('material', function ($partQuery) use ($zone) {
-                    $partQuery->where('zone_id', $zone);
-                });
-            })
-            ->when($this->filters['created-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-            ->when($this->filters['created-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
-            ->when($this->filters['search'], function ($query, $search) {
+            ->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
+            ->when($this->filters['material'], function ($query, $search) {
                 return $query->whereHas('material', function ($partQuery) use ($search) {
                     $partQuery->where('name', 'LIKE', '%' . $search . '%');
-                })
-                ->orWhere('description', 'like', '%' . $search . '%');
-            });
+                });
+            })
+            ->when($this->filters['zone'], function ($query, $search) {
+                return $query->whereHas('material.zone', function ($partQuery) use ($search) {
+                    $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                });
+            })
+            ->when($this->filters['creator'], function ($query, $search) {
+                return $query->whereHas('user', function ($partQuery) use ($search) {
+                    $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+                });
+            })
+            ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
+            ->when($this->filters['type'], function ($query, $search) {
+                if ($search !== 'Tous') {
+                    return $query->where('type', $search);
+                }
+                return $query;
+            })
+            ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+            ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
 
         return $this->applySorting($query);
     }

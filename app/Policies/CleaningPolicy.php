@@ -68,4 +68,12 @@ class CleaningPolicy
     {
         return $user->can('delete cleaning');
     }
+
+    /**
+     * Determine whether the user can search in the model.
+     */
+    public function search(User $user): bool
+    {
+        return $user->can('search zone');
+    }
 }

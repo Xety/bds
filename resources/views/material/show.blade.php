@@ -15,8 +15,8 @@
                     <div class="col-span-12 xl:col-span-9 h-full">
                         <div class="flex flex-col text-center shadow-md border rounded-lg p-6 w-full h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <div class="w-full">
-                                <div class="text-5xl m-2 mb-4">
-                                    <i class="fa-solid fa-microchip"></i>
+                                <div class="mb-4">
+                                    <x-icon name="fas-microchip" class="h-12 w-12 m-auto"></x-icon>
                                 </div>
                             </div>
 
@@ -41,71 +41,65 @@
                                 </div>
                                 <div class="text-right">
                                     @if (
-                                        Gate::any(['update', 'generateQrCode'], \Selvah\Models\Material::class) ||
-                                        Gate::any(['create'], \Selvah\Models\Incident::class) ||
-                                        Gate::any(['create'], \Selvah\Models\Maintenance::class) ||
-                                        Gate::any(['create'], \Selvah\Models\Cleaning::class))
-                                        <div class="dropdown dropdown-end">
-                                            <label tabindex="0" class="btn btn-neutral mb-2">
-                                                Actions
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-caret-down-fill align-bottom"
-                                                     viewBox="0 0 16 16">
-                                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                                                </svg>
-                                            </label>
-                                            <ul tabindex="0"
-                                                class="dropdown-content menu items-start p-2 shadow bg-base-100 rounded-box w-56 z-[1]">
-                                                @can('update', \Selvah\Models\Material::class)
-                                                    <li class="w-full">
-                                                        <a href="{{ route('materials.index', ['editid' => $material->getKey(), 'edit' => 'true']) }}"
-                                                           class="text-blue-500 tooltip tooltip-top text-left"
-                                                           data-tip="Modifier ce matériel">
-                                                            <i class="fa-solid fa-pen-to-square"></i> Modifier ce
-                                                            matériel
-                                                        </a>
-                                                    </li>
+                                        Gate::any(['update', 'generateQrCode'], $material) ||
+                                        Gate::any(['create'], \BDS\Models\Incident::class) ||
+                                        Gate::any(['create'], \BDS\Models\Maintenance::class) ||
+                                        Gate::any(['create'], \BDS\Models\Cleaning::class))
+                                        <x-table.cell>
+                                            <x-dropdown label="Actions" class="w-60" right bottom hover>
+                                                @can('update', $material)
+                                                    <x-menu-item
+                                                        wire:navigate
+                                                        title="Modifier ce matériel"
+                                                        icon="fas-pen-to-square"
+                                                        icon-class="inline h-4 w-4"
+                                                        tooltip
+                                                        tooltip-content="Modifier ce matériel"
+                                                        link="{{  route('materials.index', ['editId' => $material->getKey(), 'editing' => 'true']) }}"
+                                                        class="text-blue-500" />
                                                 @endcan
-                                                @can('generateQrCode', \Selvah\Models\Material::class)
-                                                    <li class="w-full">
-                                                        <a href="{{ route('materials.index', ['qrcodeid' => $material->getKey(), 'qrcode' => 'true']) }}"
-                                                           class="text-purple-500 tooltip tooltip-top text-left"
-                                                           data-tip="Générer un QR Code pour ce matériel">
-                                                            <i class="fa-solid fa-qrcode"></i> Générer un QR Code
-                                                        </a>
-                                                    </li>
+                                                @can('generateQrCode', $material)
+                                                    <x-menu-item
+                                                        wire:navigate
+                                                        title="Générer un QR Code"
+                                                        icon="fas-qrcode"
+                                                        tooltip
+                                                        tooltip-content="Générer un QR Code pour ce matériel"
+                                                        link="{{ route('materials.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                        class="text-purple-500" />
                                                 @endcan
-                                                @can('create', \Selvah\Models\Incident::class)
-                                                    <li class="w-full">
-                                                        <a href="{{ route('incidents.index', ['qrcodeid' => $material->getKey(), 'qrcode' => 'true']) }}"
-                                                           class="text-red-500 tooltip tooltip-top text-left"
-                                                           data-tip="Créer un incident pour ce matériel.">
-                                                            <i class="fa-solid fa-triangle-exclamation"></i> Créer un
-                                                            Incident
-                                                        </a>
-                                                    </li>
+                                                @can('create', \BDS\Models\Incident::class)
+                                                    <x-menu-item
+                                                        wire:navigate
+                                                        title="Créer un Incident"
+                                                        icon="fas-triangle-exclamation"
+                                                        tooltip
+                                                        tooltip-content="Générer un QR Code pour ce matériel"
+                                                        link="{{ route('incidents.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                        class="text-red-500" />
                                                 @endcan
-                                                @can('create', \Selvah\Models\Maintenance::class)
-                                                    <li class="w-full">
-                                                        <a href="{{ route('maintenances.index', ['qrcodeid' => $material->getKey(), 'qrcode' => 'true']) }}"
-                                                           class="text-yellow-500 tooltip tooltip-top text-left"
-                                                           data-tip="Créer une maintenance pour ce matériel.">
-                                                            <i class="fa-solid fa-screwdriver-wrench"></i> Créer une
-                                                            Maintenance
-                                                        </a>
-                                                    </li>
+                                                @can('create', \BDS\Models\Maintenance::class)
+                                                    <x-menu-item
+                                                        wire:navigate
+                                                        title="Créer une Maintenance"
+                                                        icon="fas-screwdriver-wrench"
+                                                        tooltip
+                                                        tooltip-content="Créer une maintenance pour ce matériel."
+                                                        link="{{ route('maintenances.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                        class="text-yellow-500" />
                                                 @endcan
-                                                @can('create', \Selvah\Models\Cleaning::class)
-                                                    <li class="w-full">
-                                                        <a href="{{ route('cleanings.index', ['qrcodeid' => $material->getKey(), 'qrcode' => 'true']) }}"
-                                                           class="text-green-500 tooltip tooltip-top text-left"
-                                                           data-tip="Créer un nettoyage pour ce matériel.">
-                                                            <i class="fa-solid fa-broom"></i> Créer un Nettoyage
-                                                        </a>
-                                                    </li>
+                                                @can('create', \BDS\Models\Cleaning::class)
+                                                    <x-menu-item
+                                                        wire:navigate
+                                                        title="Créer un Nettoyage"
+                                                        icon="fas-broom"
+                                                        tooltip
+                                                        tooltip-content="Créer un nettoyage pour ce matériel."
+                                                        link="{{ route('cleanings.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                        class="text-green-500" />
                                                 @endcan
-                                            </ul>
-                                        </div>
+                                            </x-dropdown>
+                                        </x-table.cell>
                                     @endif
                                 </div>
                             </div>
@@ -190,7 +184,7 @@
                 <div class="grid grid-cols-12 gap-4 text-center h-full">
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-coins text-primary text-8xl"></i>
+                            <x-icon name="fas-coins" class="text-primary h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="text-muted text-xl">
                                     Zone
@@ -204,7 +198,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-triangle-exclamation text-[color:hsl(var(--er))] text-8xl"></i>
+                            <x-icon name="fas-triangle-exclamation" class="text-error h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ $material->incident_count }}
@@ -218,7 +212,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-screwdriver-wrench text-[color:hsl(var(--wa))] text-8xl"></i>
+                            <x-icon name="fas-screwdriver-wrench" class="text-warning h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ $material->maintenance_count }}
@@ -232,7 +226,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-gear text-primary text-8xl"></i>
+                            <x-icon name="fas-gear" class="text-primary h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ $material->part_count }}
@@ -246,7 +240,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-broom text-success text-8xl"></i>
+                            <x-icon name="fas-broom" class="text-success h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ $material->cleaning_count }}
@@ -260,7 +254,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-qrcode text-purple-600 text-8xl"></i>
+                            <x-icon name="fas-qrcode" class="text-purple-600 h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ $material->qrcode_flash_count }}
@@ -279,10 +273,8 @@
         <div class="grid grid-cols-12 gap-6 mb-7">
             <div class="col-span-12 shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
 
-
-                <material-tabs>
-                    {{-- INCIDENTS --}}
-                    <template v-slot:incidents>
+                <x-tabs selected="incidents">
+                    <x-tab name="incidents" label="Incidents" icon="fas-triangle-exclamation">
                         <x-table.table class="mb-6">
                             <x-slot name="head">
                                 <x-table.heading>#Id</x-table.heading>
@@ -315,7 +307,7 @@
                                         </span>
                                         </x-table.cell>
                                         <x-table.cell
-                                                class="capitalize">{{ $incident->started_at->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
+                                            class="capitalize">{{ $incident->started_at->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
                                         <x-table.cell>
                                             @if ($incident->impact == 'mineur')
                                                 <span class="font-bold text-yellow-500">Mineur</span>
@@ -333,7 +325,7 @@
                                             @endif
                                         </x-table.cell>
                                         <x-table.cell
-                                                class="capitalize">{{ $incident->finished_at?->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
+                                            class="capitalize">{{ $incident->finished_at?->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
                                     </x-table.row>
                                 @empty
                                     <x-table.row>
@@ -341,7 +333,7 @@
                                             <div class="text-center p-2">
                                             <span class="text-muted">
                                                 Aucun incident trouvé pour le matériel <span
-                                                        class="font-bold">{{ $material->name }}</span>...
+                                                    class="font-bold">{{ $material->name }}</span>...
                                             </span>
                                             </div>
                                         </x-table.cell>
@@ -353,10 +345,8 @@
                         <div class="grid grid-cols-1">
                             {{ $incidents->fragment('incidents')->links() }}
                         </div>
-                    </template>
-
-                    {{-- MAINTENANCES --}}
-                    <template v-slot:maintenances>
+                    </x-tab>
+                    <x-tab name="maintenances" label="Maintenances" icon="fas-screwdriver-wrench">
                         <x-table.table class="mb-6">
                             <x-slot name="head">
                                 <x-table.heading>#Id</x-table.heading>
@@ -440,7 +430,7 @@
                                             <div class="text-center p-2">
                                             <span class="text-muted">
                                                 Aucune maintenance trouvée pour le matériel <span
-                                                        class="font-bold">{{ $material->name }}</span>...
+                                                    class="font-bold">{{ $material->name }}</span>...
                                             </span>
                                             </div>
                                         </x-table.cell>
@@ -452,10 +442,8 @@
                         <div class="grid grid-cols-1">
                             {{ $maintenances->fragment('maintenances')->links() }}
                         </div>
-                    </template>
-
-                    {{-- PARTS --}}
-                    <template v-slot:parts>
+                    </x-tab>
+                    <x-tab name="parts" label="Pièces Détachées" icon="fas-gear">
                         <x-table.table class="mb-6">
                             <x-slot name="head">
                                 <x-table.heading>#Id</x-table.heading>
@@ -531,7 +519,7 @@
                                             </code>
                                         </x-table.cell>
                                         <x-table.cell
-                                                class="capitalize">{{ $part->created_at->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
+                                            class="capitalize">{{ $part->created_at->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
                                     </x-table.row>
                                 @empty
                                     <x-table.row>
@@ -539,7 +527,7 @@
                                             <div class="text-center p-2">
                                             <span class="text-muted">
                                                 Aucune pièce détachée trouvée pour le matériel <span
-                                                        class="font-bold">{{ $material->name }}</span>...
+                                                    class="font-bold">{{ $material->name }}</span>...
                                             </span>
                                             </div>
                                         </x-table.cell>
@@ -551,10 +539,8 @@
                         <div class="grid grid-cols-1">
                             {{ $parts->fragment('parts')->links() }}
                         </div>
-                    </template>
-
-                    {{-- CLEANINGS --}}
-                    <template v-slot:cleanings>
+                    </x-tab>
+                    <x-tab name="cleanings" label="Nettoyages" icon="fas-broom">
                         <x-table.table class="mb-6">
                             <x-slot name="head">
                                 <x-table.heading>#Id</x-table.heading>
@@ -587,7 +573,7 @@
                                         </span>
                                         </x-table.cell>
                                         <x-table.cell
-                                                class="capitalize">{{ \Selvah\Models\Cleaning::TYPES[$cleaning->type] }}</x-table.cell>
+                                            class="capitalize">{{ \BDS\Models\Cleaning::TYPES[$cleaning->type] }}</x-table.cell>
                                         <x-table.cell class="prose">
                                             @if ($cleaning->type == 'weekly' && $cleaning->ph_test_water !== null)
                                                 <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
@@ -619,7 +605,7 @@
                                             @endif
                                         </x-table.cell>
                                         <x-table.cell
-                                                class="capitalize">{{ $cleaning->created_at->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
+                                            class="capitalize">{{ $cleaning->created_at->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
                                     </x-table.row>
                                 @empty
                                     <x-table.row>
@@ -627,7 +613,7 @@
                                             <div class="text-center p-2">
                                             <span class="text-muted">
                                                 Aucun nettoyage trouvé pour le matériel <span
-                                                        class="font-bold">{{ $material->name }}</span>...
+                                                    class="font-bold">{{ $material->name }}</span>...
                                             </span>
                                             </div>
                                         </x-table.cell>
@@ -639,8 +625,8 @@
                         <div class="grid grid-cols-1">
                             {{ $cleanings->fragment('cleanings')->links() }}
                         </div>
-                    </template>
-                </material-tabs>
+                    </x-tab>
+                </x-tabs>
 
             </div>
         </div>

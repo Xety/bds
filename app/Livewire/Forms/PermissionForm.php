@@ -13,6 +13,32 @@ class PermissionForm extends Form
 
     public ?string $description = null;
 
+    /**
+     * Rules used for validating the model.
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|min:5|max:30|unique:permissions,name,' . $this->permission?->id,
+            'description' => 'required|min:5|max:150'
+        ];
+    }
+
+    /**
+     * Translated attribute used in failed messages.
+     *
+     * @return array
+     */
+    public function validationAttributes(): array
+    {
+        return [
+            'name' => 'nom',
+            'description' => 'description'
+        ];
+    }
+
     public function setPermission(Permission $permission): void
     {
         $this->fill([

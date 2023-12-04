@@ -3,7 +3,6 @@
 namespace BDS\Models;
 
 use BackedEnum;
-use BDS\Settings\Settings;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -140,17 +139,17 @@ class User extends Model implements
      */
     public function sites(): BelongsToMany
     {
-        return $this->belongsToMany(Site::class);
+        return $this->belongsToMany(Site::class)->withTimestamps();
     }
 
     /**
-     * Get the settings for the user.
+     * Get the setting for the user.
      *
      * @return MorphMany
      */
     public function settings(): MorphMany
     {
-        return $this->morphMany(Settings::class, 'model');
+        return $this->morphMany(Setting::class, 'model');
     }
 
     /**

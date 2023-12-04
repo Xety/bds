@@ -19,9 +19,34 @@ class Material extends Model
      * All cleaning types with their labels.
      */
     public const CLEANING_TYPES = [
-        'daily' => 'Jour(s)',
-        'monthly' => 'Mois',
-        'yearly' => 'An(s)'
+        [
+            'id' => 'daily',
+            'name' => 'Jour(s)'
+        ],
+        [
+            'id' => 'monthly',
+            'name' => 'Mois'
+        ],
+        [
+            'id' => 'yearly',
+            'name' => 'An(s)'
+        ]
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'zone_id',
+        'cleaning_alert',
+        'cleaning_alert_email',
+        'cleaning_alert_frequency_repeatedly',
+        'cleaning_alert_frequency_type',
+        'selvah_cleaning_test_ph_enabled'
     ];
 
     /**
@@ -30,6 +55,7 @@ class Material extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'selvah_cleaning_test_ph_enabled' => 'boolean',
         'cleaning_alert' => 'boolean',
         'cleaning_alert_email' => 'boolean',
         'last_cleaning_at' => 'datetime'
@@ -74,6 +100,36 @@ class Material extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the incidents for the material.
+     *
+     * @return HasMany
+     */
+    public function incidents(): HasMany
+    {
+        return $this->hasMany(Incident::class);
+    }
+
+    /**
+     * Get the maintenances for the material.
+     *
+     * @return HasMany
+     */
+    public function maintenances(): HasMany
+    {
+        return $this->hasMany(Maintenance::class);
+    }
+
+    /**
+     * Get the parts for the material.
+     *
+     * @return HasMany
+     */
+    public function parts(): HasMany
+    {
+        return $this->hasMany(Part::class);
     }
 
     /**

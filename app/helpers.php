@@ -16,6 +16,10 @@ if (! function_exists('settings')) {
         // If siteId is not null, set it.
         if ($siteId !== null) {
             $settings->setSiteId($siteId);
+
+            if ($siteId === true) {
+                $settings->setSiteId(session('current_site_id'));
+            }
         }
 
         // If context is not null, set it.

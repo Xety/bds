@@ -41,7 +41,7 @@ class ZonePolicy
         // First check if user can update any zone and a $zone has been provided
         if($user->can('update zone') && !is_null($zone)) {
             // Check that the user is not trying to update a zone from another site where he does not have access
-            return $zone->site_id === null || $zone->site_id === getPermissionsTeamId();
+            return $zone->site_id === getPermissionsTeamId();
         }
         return $user->can('update zone');
     }
@@ -52,8 +52,16 @@ class ZonePolicy
     public function delete(User $user, ?Zone $zone = null): bool
     {
         if($user->can('delete zone') && !is_null($zone)) {
-            return $zone->site_id === null || $zone->site_id === getPermissionsTeamId();
+            return $zone->site_id === getPermissionsTeamId();
         }
         return $user->can('delete zone');
+    }
+
+    /**
+     * Determine whether the user can search in the model.
+     */
+    public function search(User $user): bool
+    {
+        return $user->can('search zone');
     }
 }

@@ -90,20 +90,18 @@ trait WithQrCode
     /**
      * Get the model by the model type, assign the name to the label, build the QR Code and show the modal.
      *
-     * @param int $id The id of the model.
+     * @param Material $model The model used for showing the QrCode.
      *
      * @return void
      *
      * @throws ReflectionException
      */
-    public function showQrCode(int $id): void
+    public function showQrCode(Material $model): void
     {
-        $model = $this->model::class;
-
         $this->authorize('generateQrCode', $model);
 
-        $this->modelQrCode = $model::findOrFail($id);
-        $this->qrCodeLabel = $this->modelQrCode->name;
+        $this->modelQrCode = $model;
+        $this->qrCodeLabel = $model->name;
 
         $result = $this->buildImage();
         $this->qrCodeImg = $result;
@@ -123,7 +121,7 @@ trait WithQrCode
         $result = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
-            ->data(route('dashboard.index', ['qrcode' => 'true', 'type' => strtolower((new \ReflectionClass($this->model))->getShortName()), 'qrcodeid' => $this->modelQrCode->getKey()]))
+            ->data(route('dashboard.index', ['qrcode' => 'true', 'type' => strtolower((new \ReflectionClass($this->model))->getShortName()), 'qrcodeId' => $this->modelQrCode->getKey()]))
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
             ->size($this->qrCodeSize)

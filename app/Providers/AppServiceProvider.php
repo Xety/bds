@@ -57,23 +57,9 @@ class AppServiceProvider extends ServiceProvider
             ], false));
         });
 
-        $settings = Setting::all([
-                'site_id',
-                'key',
-                'value',
-            ])
-            //->keyBy('key') // key every setting by its name
-            /*->transform(function ($setting) {
-                return $setting->value; // return only the value
-            })*/
-            ->toArray();
-
         // Register the Settings class
         $this->app->singleton(Settings::class, function (Application $app) {
             return new Settings($app['cache.store']);
         });
-
-       //dd($settings);
-
     }
 }

@@ -14,7 +14,8 @@ class Dropdown extends Component
         public ?bool $top = false,
 
         //Slots
-        public mixed $trigger = null
+        public mixed $trigger = null,
+        public mixed $triggerClass = null
     ) {
 
     }
@@ -30,17 +31,17 @@ class Dropdown extends Component
             >
                 <!-- CUSTOM TRIGGER -->
                 @if($trigger)
-                    <summary @click.prevent="open = !open">
+                    <summary x-ref="button" @click.prevent="open = !open" class="list-none">
                         {{ $trigger }}
                     </summary>
                 @else
                     <!-- DEFAULT TRIGGER -->
-                    <summary @click.prevent="open = !open" {{ $attributes->class(["btn"]) }}>
+                    <summary x-ref="button" @click.prevent="open = !open" class="btn normal-case {{ $triggerClass }}">
                         {{ $label }}
-                        <x-icon :name="$icon" />
+                        <x-icon :name="$icon" class="h-4 w-4" />
                     </summary>
                 @endif
-                <ul @click="open = false" class="menu dropdown-content mt-3 p-2 shadow z-[1] bg-base-100 dark:bg-base-200 rounded-box whitespace-nowrap w-52">
+                <ul @click="open = false" {{ $attributes->class(['menu dropdown-content mt-3 p-2 shadow z-[1] bg-base-100 dark:bg-base-200 rounded-box whitespace-nowrap w-52']) }}>
                     {{ $slot }}
                 </ul>
             </details>

@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -64,6 +65,10 @@ class Zones extends Component
     protected $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
+        'editing',
+        'editId',
+        'creating',
+        'createSubId',
         'filters',
     ];
 
@@ -74,6 +79,8 @@ class Zones extends Component
      */
     public array $filters = [
         'name' => '',
+        'parent' => '',
+        'allow_material' => '',
         'created_min' => '',
         'created_max' => ''
     ];
@@ -90,6 +97,34 @@ class Zones extends Component
         'material_count',
         'created_at'
     ];
+
+    /**
+     * Whatever the Editing url param is set or not.
+     *
+     * @var bool
+     */
+    public bool|string $editing = '';
+
+    /**
+     * The Edit id if set.
+     *
+     * @var null|int
+     */
+    public null|int $editId = null;
+
+    /**
+     * Whatever the Editing url param is set or not.
+     *
+     * @var bool
+     */
+    public bool|string $creating = '';
+
+    /**
+     * The Edit id if set.
+     *
+     * @var null|int
+     */
+    public null|int $createSubId = null;
 
     /**
      * Used to show the Edit/Create modal.
@@ -118,16 +153,6 @@ class Zones extends Component
     public int $perPage = 25;
 
     /**
-     * Translated attribute used in failed messages.
-     *
-     * @var array
-     */
-    protected array $validationAttributes = [
-        'form.name' => 'nom',
-        'form.parent_id' => 'zone parent',
-    ];
-
-    /**
      * Flash messages for the model.
      *
      * @var array
@@ -148,17 +173,32 @@ class Zones extends Component
     ];
 
     /**
-     * Rules used for validating the model.
+     * The Livewire Component constructor.
      *
-     * @return array
+     * @return void
      */
-    public function rules(): array
+    public function mount(): void
     {
-        return [
-            'form.name' => 'required|min:2|max:150|unique:zones,name,' . $this->form->zone?->id,
-            'form.parent_id' => 'nullable|exists:zones,id|different:' . $this->form->zone?->id,
-            'form.allow_material' => 'required|boolean',
-        ];
+        // Check if the edit option is set into the url, and if yes, open the Edit Modal (if the user has the permissions).
+        if ($this->editing === true && $this->editId !== null) {
+            $zone = Zone::whereId($this->editId)->first();
+
+            if ($zone) {
+                $this->edit($zone);
+            }
+        }
+
+        // Check if the create option is set into the url, and if yes, open the Create Modal (if the user has the permissions).
+        if ($this->creating === true && $this->createSubId !== null) {
+            // Must check the site_id of the sub, to be sure the user does not try to use a zone from another site.
+            $zone = Zone::whereId($this->createSubId)->where('site_id', getPermissionsTeamId())->first();
+
+            if ($zone) {
+                $this->create();
+
+                $this->form->parent_id = $zone->id;
+            }
+        }
     }
 
     /**
@@ -171,11 +211,9 @@ class Zones extends Component
         return view('livewire.zones', [
             'zones' => $this->rows,
             'zonesList' => Zone::where('site_id', session('current_site_id'))
-                ->where('id', '!=', $this->form->id)
-                //->select('zones.*', 'parent.name as parent_name')
+                ->where('id', '!=', $this->form->zone?->id)
                 ->orderBy('name')
                 ->get()
-                //->merge(['id' => null, 'name' => 'Aucun parent'])
         ]);
     }
 
@@ -198,6 +236,17 @@ class Zones extends Component
             //->search('name', $this->search);
         if (Auth::user()->can('search', Zone::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['parent'], function ($query, $search) {
+                    return $query->whereHas('parent', function ($partQuery) use ($search) {
+                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                    });
+                })
+                ->when($this->filters['allow_material'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('allow_material', true);
+                    }
+                    return $query->where('allow_material', false);
+                })
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }

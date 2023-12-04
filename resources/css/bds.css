@@ -38,7 +38,7 @@ details > summary::-webkit-details-marker {
  * Offline
  */
 .avatar.offline:before {
-    @apply bg-[color:hsl(var(--er))]
+    @apply bg-[color:oklch(var(--er))]
 }
 
 /**

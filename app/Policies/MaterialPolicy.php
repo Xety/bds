@@ -22,15 +22,10 @@ class MaterialPolicy
      */
     public function view(User $user, Material $material): bool
     {
-        return $user->can('view material');
-    }
-
-    /**
-     * Determine whether the user can export models.
-     */
-    public function export(User $user): bool
-    {
-        return $user->can('export material');
+        if($user->can('view material')) {
+            return $material->zone->site_id === getPermissionsTeamId();
+        }
+        return false;
     }
 
     /**
@@ -44,21 +39,41 @@ class MaterialPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, ?Material $material = null): bool
     {
-        // Give update access to all materials, remove to only allow created material,
-        // false to not allow any update.
+        // First check if user can update any material and a $material has been provided
+        if($user->can('update material') && !is_null($material)) {
+            // Check that the user is not trying to update a material from another site where the material does not belong to.
+            return $material->zone->site_id === getPermissionsTeamId();
+        }
         return $user->can('update material');
-
-        //return $user->id === $material->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete(User $user, ?Material $material = null): bool
     {
+        if($user->can('delete material') && !is_null($material)) {
+            return $material->zone->site_id === getPermissionsTeamId();
+        }
         return $user->can('delete material');
+    }
+
+    /**
+     * Determine whether the user can export models.
+     */
+    public function export(User $user): bool
+    {
+        return $user->can('export material');
+    }
+
+    /**
+     * Determine whether the user can search in the model.
+     */
+    public function search(User $user): bool
+    {
+        return $user->can('search material');
     }
 
     /**

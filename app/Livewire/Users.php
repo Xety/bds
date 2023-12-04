@@ -128,21 +128,6 @@ class Users extends Component
     public int $perPage = 15;
 
     /**
-     * Translated attribute used in failed messages.
-     *
-     * @var array
-     */
-    protected array $validationAttributes = [
-        'form.username' => 'nom d\'utilisateur',
-        'form.first_name' => 'prénom',
-        'form.last_name' => 'nom',
-        'form.email' => 'email',
-        'form.office_phone' => 'téléphone bureau',
-        'form.cell_phone' => 'téléphone portable',
-        'form.roles' => 'rôles'
-    ];
-
-    /**
      * Flash messages for the model.
      *
      * @var array
@@ -165,22 +150,6 @@ class Users extends Component
             'error' => "Une erreur s'est produite lors de la restauration de l'utilisateur !"
         ]
     ];
-
-    /**
-     * Rules used for validating the model.
-     *
-     * @return array
-     */
-    public function rules(): array
-    {
-        return [
-            'form.username' => 'required|regex:/^[\w.]*$/|min:4|max:40|unique:users,username,' . $this->form->user?->id,
-            'form.email' => 'required|email|unique:users,email,' . $this->form->user?->id,
-            'form.first_name' => 'required|min:2|alpha_num',
-            'form.last_name' => 'required|min:2|alpha_num',
-            'form.end_employment_contract' => 'nullable|date_format:"d-m-Y H:i"'
-        ];
-    }
 
     /**
      * Function to generate the username based on the first_name and last_name fields.

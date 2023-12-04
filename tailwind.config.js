@@ -55,7 +55,7 @@ export default {
         themes: [
             {
                 light: {
-                    ...require("daisyui/src/theming/themes")["[data-theme=light]"],
+                    ...require("daisyui/src/theming/themes")["light"],
                     // Primary
                     "primary": "#2e73b9",
                     "primary-focus": "#23568b",
@@ -63,12 +63,12 @@ export default {
 
                     "--rounded-box": "0.375rem",
                     "--rounded-btn": "0.25rem",
-                    "--bc": "215 19% 35%",
+                    //"--bc": "215 19% 35%",
                 }
             },
             {
                 dark: {
-                    ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
+                    ...require("daisyui/src/theming/themes")["dark"],
                     // Primary
                     "primary": "#2e73b9",
                     "primary-focus": "#23568b",
@@ -76,7 +76,7 @@ export default {
 
                     "--rounded-box": "0.375rem",
                     "--rounded-btn": "0.25rem",
-                    "--bc": "213 27% 84%",
+                    //"--bc": "213 27% 84%",
                 }
             }
         ],

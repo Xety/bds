@@ -25,7 +25,7 @@ trait WithPerPagePagination
      *
      * @return void
      */
-    public function updatedPerPage($value): void
+    public function updatedPerPage(mixed $value): void
     {
         session()->put('perPage', $value);
     }

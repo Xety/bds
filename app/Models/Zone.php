@@ -26,6 +26,15 @@ class Zone extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'allow_material' => 'boolean'
+    ];
+
+    /**
      * Get the materials for the zone.
      *
      * @return HasMany

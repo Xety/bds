@@ -33,9 +33,6 @@ class Settings
     {
         $cacheKey = $this->getCacheKey(key: $key);
 
-        //dd($cacheKey);
-        //$this->cache->forget($cacheKey);
-
         $value = $this->cache->rememberForever($cacheKey, function() use ($key) {
             $query = Setting::query()
                 ->where('key', $key)

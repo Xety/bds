@@ -11,9 +11,6 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('site_user', function (Blueprint $table) {
-            /*$table->unsignedBigInteger('site_id');
-            $table->unsignedBigInteger('user_id');*/
-
             $table->timestamps();
         });
 

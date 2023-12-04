@@ -189,7 +189,74 @@ Route::group(['middleware' => ['auth']], function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Settings Routes
+    | Incidents Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('incidents', [BDS\Http\Controllers\IncidentController::class, 'index'])
+        ->name('incidents.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Maintenances Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('maintenances', [BDS\Http\Controllers\MaintenanceController::class, 'index'])
+        ->name('maintenances.index');
+    Route::get('maintenances/{maintenance}', [BDS\Http\Controllers\MaintenanceController::class, 'show'])
+        ->name('maintenances.show')
+        ->missing(function (Request $request) {
+            return Redirect::back()
+                ->with('danger', "Cette maintenance n'existe pas ou à été supprimée !");
+        });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Companies Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('companies', [BDS\Http\Controllers\CompanyController::class, 'index'])
+        ->name('companies.index');
+    Route::get('companies/{company}', [BDS\Http\Controllers\CompanyController::class, 'show'])
+        ->name('companies.show')
+        ->missing(function (Request $request) {
+            return Redirect::back()
+                ->with('danger', "Cette entreprise n'existe pas ou à été supprimée !");
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Parts Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('parts', [BDS\Http\Controllers\PartController::class, 'index'])
+        ->name('parts.index');
+    Route::get('parts/{part}', [BDS\Http\Controllers\PartController::class, 'show'])
+        ->name('parts.show')
+        ->missing(function (Request $request) {
+            return Redirect::back()
+                ->with('danger', "Cette pièce détachée n'existe pas ou à été supprimée !");
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | PartEntries Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('part-entries', [BDS\Http\Controllers\PartEntryController::class, 'index'])
+        ->name('part-entries.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | PartExits Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('part-exits', [BDS\Http\Controllers\PartExitController::class, 'index'])
+        ->name('part-exits.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tree Routes
     |--------------------------------------------------------------------------
     */
     Route::get('tree/zones-with-materials', [BDS\Http\Controllers\TreeController::class, 'zonesWithMaterials'])

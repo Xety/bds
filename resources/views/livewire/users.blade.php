@@ -226,7 +226,7 @@
     </x-modal>
 
     <!-- Edit Users Modal -->
-    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Utilisateur' : 'Editer l\'Utilisateur' }}">
+    <x-modal wire:model="showModal" title="{!! $isCreating ? 'Créer un Utilisateur' : 'Editer l\'Utilisateur' !!}">
         @if ($form->user?->trashed())
             <div>
                 <x-alert type="error" class="max-w-lg mb-4" title="Attention">

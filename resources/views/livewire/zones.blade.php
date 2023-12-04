@@ -37,7 +37,7 @@
             @canany(['delete'], \BDS\Models\Zone::class)
                 <x-table.heading>
                     <label>
-                        <input type="checkbox" class="checkbox" wire:model="selectPage" />
+                        <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
             @endcanany
@@ -67,6 +67,31 @@
                         <x-input wire:model.live.debounce.400ms="filters.parent" name="filters.parent" type="text" />
                     </x-table.cell>
                     <x-table.cell>
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary"
+                            wire:model.live="filters.allow_material"
+                            name="filters.allow_material"
+                        />
+                    </x-table.cell>
+                    <x-table.cell></x-table.cell>
+                    <x-table.cell>
                         <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
                         <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
                     </x-table.cell>
@@ -79,10 +104,10 @@
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $zones->count() }}</strong> zone(s), voulez-vous tous les sélectionner <strong>{{ $zones->total() }}</strong>?</span>
-                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
+                                    <x-icon name="fas-check" class="h-5 w-5"></x-icon>
                                     Tout sélectionner
-                                </button>
+                                </x-button>
                             </div>
                         @else
                             <span>Vous sélectionnez actuellement <strong>{{ $zones->total() }}</strong> zone(s).</span>
@@ -96,7 +121,7 @@
                     @canany(['delete'], \BDS\Models\Zone::class)
                         <x-table.cell>
                             <label>
-                                <input type="checkbox" class="checkbox" wire:model="selected" value="{{ $zone->getKey() }}" />
+                                <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $zone->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @endcanany
@@ -141,7 +166,7 @@
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="6">
+                    <x-table.cell colspan="7">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucune zone trouvée...</span>
                         </div>

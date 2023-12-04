@@ -11,12 +11,13 @@ class RoleHasPermissionsTableSeeder extends Seeder
         // Zone
         'viewAny zone',
         'view zone',
-        'create zone',
         'update zone',
+        'search zone',
 
         // Material
         'viewAny material',
         'view material',
+        'search material',
         'generate-qrcode material',
         'scan-qrcode material',
 
@@ -24,6 +25,37 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'viewAny cleaning',
         'view cleaning',
         'export cleaning',
+        'search cleaning',
+
+        // Incident
+        'viewAny incident',
+        'view incident',
+        'export incident',
+        'search incident',
+
+        // Maintenance
+        'viewAny maintenance',
+        'view maintenance',
+        'export maintenance',
+        'search maintenance',
+
+        // Part
+        'viewAny part',
+        'view part',
+        'export part',
+        'search part',
+
+        // PartEntry
+        'viewAny partEntry',
+        'view partEntry',
+        'export partEntry',
+        'search partEntry',
+
+        // PartExit
+        'viewAny partExit',
+        'view partExit',
+        'export partExit',
+        'search partExit',
     ];
 
     protected array $responsablePermissions = [
@@ -33,6 +65,8 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'create zone',
         'update zone',
         'delete zone',
+        'export zone',
+        'search zone',
 
         // Material
         'viewAny material',
@@ -40,16 +74,65 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'create material',
         'update material',
         'delete material',
+        'export material',
+        'search material',
         'generate-qrcode material',
         'scan-qrcode material',
 
         // Cleaning
         'viewAny cleaning',
         'view cleaning',
-        'export cleaning',
         'create cleaning',
         'update cleaning',
         'delete cleaning',
+        'export cleaning',
+
+        // Incident
+        'viewAny incident',
+        'view incident',
+        'create incident',
+        'update incident',
+        'delete incident',
+        'export incident',
+        'search incident',
+
+        // Maintenance
+        'viewAny maintenance',
+        'view maintenance',
+        'create maintenance',
+        'update maintenance',
+        'delete maintenance',
+        'export maintenance',
+        'search maintenance',
+
+        // Part
+        'viewAny part',
+        'view part',
+        'create part',
+        'update part',
+        'delete part',
+        'export part',
+        'search part',
+        'generate-qrcode part',
+        'scan-qrcode part',
+
+        // PartEntry
+        'viewAny partEntry',
+        'view partEntry',
+        'create partEntry',
+        'update partEntry',
+        'delete partEntry',
+        'export partEntry',
+        'search partEntry',
+
+        // PartExit
+        'viewAny partExit',
+        'view partExit',
+        'create partExit',
+        'update partExit',
+        'delete partExit',
+        'export partExit',
+        'search partExit',
     ];
 
     protected array $responsableMaintenancePermissions = [
@@ -59,6 +142,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'create zone',
         'update zone',
         'delete zone',
+        'search zone',
 
         // Material
         'viewAny material',
@@ -66,18 +150,50 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'create material',
         'update material',
         'delete material',
+        'search material',
         'generate-qrcode material',
-        'scan-qrcode material'
+        'scan-qrcode material',
+
+        // Part
+        'viewAny part',
+        'view part',
+        'create part',
+        'update part',
+        'delete part',
+        'export part',
+        'search part',
+        'generate-qrcode part',
+        'scan-qrcode part',
+
+        // PartEntry
+        'viewAny partEntry',
+        'view partEntry',
+        'create partEntry',
+        'update partEntry',
+        'delete partEntry',
+        'export partEntry',
+        'search partEntry',
+
+        // PartExit
+        'viewAny partExit',
+        'view partExit',
+        'create partExit',
+        'update partExit',
+        'delete partExit',
+        'export partExit',
+        'search partExit',
     ];
 
     protected array $operateurSelvahPermissions = [
         // Zone
         'viewAny zone',
         'view zone',
+        'search zone',
 
         // Material
         'viewAny material',
         'view material',
+        'search material',
         'scan-qrcode material',
 
         // Cleaning
@@ -85,16 +201,49 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view cleaning',
         'create cleaning',
         'update cleaning',
+
+        // Incident
+        'viewAny incident',
+        'view incident',
+        'create incident',
+        'update incident',
+        'search incident',
+
+        // Maintenance
+        'viewAny maintenance',
+        'view maintenance',
+        'create maintenance',
+        'update maintenance',
+        'search maintenance',
+
+        // Part
+        'viewAny part',
+        'view part',
+        'search part',
+        'scan-qrcode part',
+
+        // PartEntry
+        'viewAny partEntry',
+        'view partEntry',
+        'search partEntry',
+
+        // PartExit
+        'viewAny partExit',
+        'view partExit',
+        'create partExit',
+        'search partExit',
     ];
 
     protected array $operateurExtruselPermissions = [
         // Zone
         'viewAny zone',
         'view zone',
+        'search zone',
 
         // Material
         'viewAny material',
         'view material',
+        'search material',
         'scan-qrcode material',
 
         // Cleaning
@@ -102,27 +251,80 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view cleaning',
         'create cleaning',
         'update cleaning',
+
+        // Incident
+        'viewAny incident',
+        'view incident',
+        'create incident',
+        'update incident',
+        'search incident',
+
+        // Maintenance
+        'viewAny maintenance',
+        'view maintenance',
+        'create maintenance',
+        'update maintenance',
+        'search maintenance',
+
+        // Part
+        'viewAny part',
+        'view part',
+        'search part',
+        'scan-qrcode part',
+
+        // PartEntry
+        'viewAny partEntry',
+        'view partEntry',
+        'search partEntry',
+
+        // PartExit
+        'viewAny partExit',
+        'view partExit',
+        'create partExit',
+        'search partExit',
     ];
 
     protected array $operateurMaintenancePermissions = [
         // Zone
         'viewAny zone',
         'view zone',
+        'search zone',
 
         // Material
         'viewAny material',
         'view material',
+        'export material',
+        'search material',
         'scan-qrcode material',
+
+        // Part
+        'viewAny part',
+        'view part',
+        'search part',
+        'scan-qrcode part',
+
+        // PartEntry
+        'viewAny partEntry',
+        'view partEntry',
+        'search partEntry',
+
+        // PartExit
+        'viewAny partExit',
+        'view partExit',
+        'create partExit',
+        'search partExit',
     ];
 
     protected array $responsableQualite = [
         // Zone
         'viewAny zone',
         'view zone',
+        'search zone',
 
         // Material
         'viewAny material',
         'view material',
+        'search material',
         'scan-qrcode material',
 
         // Cleaning
@@ -137,10 +339,12 @@ class RoleHasPermissionsTableSeeder extends Seeder
         // Zone
         'viewAny zone',
         'view zone',
+        'search zone',
 
         // Material
         'viewAny material',
         'view material',
+        'search material',
         'scan-qrcode material',
 
         // Cleaning
@@ -155,10 +359,12 @@ class RoleHasPermissionsTableSeeder extends Seeder
         // Zone
         'viewAny zone',
         'view zone',
+        'search zone',
 
         // Material
         'viewAny material',
         'view material',
+        'search material',
         'scan-qrcode material',
 
         // Cleaning
@@ -225,6 +431,8 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'create zone',
             'update zone',
             'delete zone',
+            'export zone',
+            'search zone',
 
             // Material
             'viewAny material',
@@ -232,16 +440,66 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'create material',
             'update material',
             'delete material',
+            'export material',
+            'search material',
             'generate-qrcode material',
             'scan-qrcode material',
 
             // Cleaning
             'viewAny cleaning',
             'view cleaning',
-            'export cleaning',
             'create cleaning',
             'update cleaning',
             'delete cleaning',
+            'export cleaning',
+            'search cleaning',
+
+            // Incident
+            'viewAny incident',
+            'view incident',
+            'create incident',
+            'update incident',
+            'delete incident',
+            'export incident',
+            'search incident',
+
+            // Maintenance
+            'viewAny maintenance',
+            'view maintenance',
+            'create maintenance',
+            'update maintenance',
+            'delete maintenance',
+            'export maintenance',
+            'search maintenance',
+
+            // Part
+            'viewAny part',
+            'view part',
+            'create part',
+            'update part',
+            'delete part',
+            'export part',
+            'search part',
+            'generate-qrcode part',
+            'scan-qrcode part',
+
+            // PartEntry
+            'viewAny partEntry',
+            'view partEntry',
+            'create partEntry',
+            'update partEntry',
+            'delete partEntry',
+            'export partEntry',
+            'search partEntry',
+
+            // PartExit
+            'viewAny partExit',
+            'view partExit',
+            'create partExit',
+            'update partExit',
+            'delete partExit',
+            'export partExit',
+            'search partExit',
         ]);
 
         // Directeur Général

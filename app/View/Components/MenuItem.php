@@ -13,6 +13,7 @@ class MenuItem extends Component
     public function __construct(
         public ?string $title = null,
         public ?string $icon = null,
+        public ?string $iconClass = 'inline h-4 w-4',
         public ?string $link = null,
         public ?bool $active = false,
         public ?bool $tooltip = false,
@@ -56,17 +57,17 @@ class MenuItem extends Component
                         <a
                             {{
                                 $attributes->class([
-                                    "flex items-center gap-4",
+                                    "flex items-center gap-4 text-left",
                                     "mary-active-menu $activeBgColor $activeColor" => ($active || ($activateByRoute && $routeMatches()))
                                 ])
                             }}
 
                             @if($link)
-                                href="{{ $link }}" {{ $attributes->has('wire:navigate') ? 'wire:navigate' : '' }}
+                                href="{!! $link !!}" {{ $attributes->has('wire:navigate') ? 'wire:navigate' : '' }}
                             @endif
                         >
                             @if($icon)
-                                <x-icon :name="$icon" class="inline h-5 w-5" />
+                                <x-icon :name="$icon" class="{{ $iconClass }}" />
                             @endif
 
                            <span class="mary-hideable">

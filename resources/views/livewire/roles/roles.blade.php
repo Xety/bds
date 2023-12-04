@@ -40,8 +40,6 @@
                         <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
-            @else
-                <x-table.heading></x-table.heading>
             @endcan
             @can('update', \BDS\Models\Role::class)
                 <x-table.heading>Actions</x-table.heading>
@@ -57,13 +55,9 @@
                 <x-table.row>
                     @can('delete', \BDS\Models\Role::class)
                         <x-table.cell></x-table.cell>
-                    @else
-                        <x-table.cell></x-table.cell>
                     @endcan
                     @can('update', \BDS\Models\Role::class)
                         <x-table.cell></x-table.cell>
-                        @else
-                            <x-table.cell></x-table.cell>
                     @endcan
                     <x-table.cell>
                         <x-input wire:model.live.debounce.250ms="filters.name" name="filters.name" type="text" />
@@ -108,8 +102,6 @@
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $role->getKey() }}" />
                             </label>
                         </x-table.cell>
-                    @else
-                        <x-table.cell></x-table.cell>
                     @endcan
                     @can('update', $role)
                         <x-table.cell>
@@ -117,8 +109,6 @@
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
-                    @else
-                        <x-table.cell></x-table.cell>
                     @endcan
                     <x-table.cell class="font-bold" style="{{ $role->formatted_color }}">
                         {{ $role->name }}
@@ -135,7 +125,7 @@
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="6">
+                    <x-table.cell colspan="7">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucun rôle trouvé...</span>
                         </div>
