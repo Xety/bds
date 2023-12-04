@@ -181,33 +181,27 @@
 
 
     <!-- Delete Cleanings Modal -->
-    <form wire:submit.prevent="deleteSelected">
-        <input type="checkbox" id="deleteModal" class="modal-toggle" wire:model.live="showDeleteModal" />
-        <label for="deleteModal" class="modal cursor-pointer">
-            <label class="modal-box relative">
-                <label for="deleteModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="font-bold text-lg">
-                    Supprimer les Nettoyages
-                </h3>
-                @if (empty($selected))
-                    <p class="my-7">
-                        Vous n'avez sélectionné aucun nettoyage à supprimer.
-                    </p>
-                @else
-                    <p class="my-7">
-                        Voulez-vous vraiment supprimer ces nettoyages ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
-                    </p>
-                @endif
-                <div class="modal-action">
-                    <button type="submit" class="btn btn-error gap-2" @if (empty($selected)) disabled @endif>
-                        <i class="fa-solid fa-trash-can"></i>
-                        Supprimer
-                    </button>
-                    <label for="deleteModal" class="btn btn-neutral">Fermer</label>
-                </div>
-            </label>
-        </label>
-    </form>
+    <x-modal wire:model="showDeleteModal" title="Supprimer les Nettoyages">
+        @if (empty($selected))
+            <p class="my-7">
+                Vous n'avez sélectionné aucun nettoyage à supprimer.
+            </p>
+        @else
+            <p class="my-7">
+                Voulez-vous vraiment supprimer ces nettoyages ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
+            </p>
+        @endif
+
+        <x-slot:actions>
+            <x-button class="btn btn-error gap-2" type="button" wire:click="deleteSelected" spinner :disabled="empty($selected)">
+                <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                Supprimer
+            </x-button>
+            <x-button @click="$wire.showDeleteModal = false" class="btn btn-neutral">
+                Fermer
+            </x-button>
+        </x-slot:actions>
+    </x-modal>
 
     <!-- Edit Cleanings Modal -->
     <div>
