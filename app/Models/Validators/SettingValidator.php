@@ -22,11 +22,23 @@ class SettingValidator
             'zone_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
+            'material_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'incident_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'maintenance_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
             'cleaning_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
+            'part_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
 
-            // Selvah
+            // SELVAH
             'production_objective_delivered' => 'integer',
             'production_objective_todo' => 'integer',
         ];
@@ -48,6 +60,24 @@ class SettingValidator
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
             'site_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'zone_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'material_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'incident_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'maintenance_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'cleaning_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'part_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
         ];

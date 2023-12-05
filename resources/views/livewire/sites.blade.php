@@ -184,7 +184,7 @@
             name="form.managers"
             label="Responsables"
             :label-info="$message"
-            size="10"
+            size="5"
             multiple
         />
 

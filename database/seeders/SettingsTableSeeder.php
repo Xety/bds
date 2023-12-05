@@ -26,7 +26,6 @@ class SettingsTableSeeder extends Seeder
             'text' => 'Active/Désactive le système de connexion.',
             'label_info' => 'Cocher pour activer le système de connexion au site. <br><b>Quand le système de connexion est désactivé, uniquement les personnes disposant de la permission direct <code class="text-neutral-content bg-neutral rounded-sm py-0.5 px-2">bypass login</code> pourront se connecter.</b>'
         ]);
-
         Setting::create([
             'key' => 'site_create_enabled',
             'site_id' => null,
@@ -36,6 +35,7 @@ class SettingsTableSeeder extends Seeder
             'label_info' => ''
         ]);
 
+        // User Specific
         Setting::create([
             'key' => 'user_notification_email',
             'site_id' => null,
@@ -90,6 +90,15 @@ class SettingsTableSeeder extends Seeder
             'text' => 'Active/Désactive le système de création de nettoyage pour tout les sites.'
         ]);
 
+        // Part
+        Setting::create([
+            'key' => 'part_create_enabled',
+            'site_id' => null,
+            'value' => true,
+            'label' => 'Activation du système de création de pièce détachée.',
+            'text' => 'Active/Désactive le système de création de pièce détachée pour tout les sites.'
+        ]);
+
         // Settings for all sites except Verdun Siège.
         for ($i = 2; $i < 52; $i++) {
             // Zone
@@ -135,6 +144,15 @@ class SettingsTableSeeder extends Seeder
                 'value' => true,
                 'label' => 'Activation du système de création de nettoyage.',
                 'text' => 'Active/Désactive le système de création de nettoyage.'
+            ]);
+
+            // Part
+            Setting::create([
+                'key' => 'part_create_enabled',
+                'site_id' => $i,
+                'value' => true,
+                'label' => 'Activation du système de création de pièce détachée.',
+                'text' => 'Active/Désactive le système de création de pièce détachée.'
             ]);
         }
 
