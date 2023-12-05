@@ -11,6 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('site_user', function (Blueprint $table) {
+            $table->boolean('manager')->default(false);
             $table->timestamps();
         });
 

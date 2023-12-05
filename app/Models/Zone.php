@@ -3,6 +3,7 @@
 namespace BDS\Models;
 
 use BDS\Models\Presenters\ZonePresenter;
+use Eloquence\Behaviours\CountCache\Countable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Zone extends Model
 {
+    use Countable;
     use HasFactory;
     use ZonePresenter;
 
@@ -33,6 +35,18 @@ class Zone extends Model
     protected $casts = [
         'allow_material' => 'boolean'
     ];
+
+    /**
+     * Return the count cache configuration.
+     *
+     * @return array
+     */
+    public function countCaches(): array
+    {
+        return [
+            Site::class
+        ];
+    }
 
     /**
      * Get the materials for the zone.

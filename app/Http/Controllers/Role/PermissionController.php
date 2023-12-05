@@ -20,7 +20,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Show all the permissions.
+     * Show all permissions.
      *
      * @return View
      */

@@ -19,13 +19,25 @@ class Site extends Model
     ];
 
     /**
-     * Get the cleanings created by the user.
+     * Get the zones without parent.
      *
      * @return HasMany
      */
     public function zones(): HasMany
     {
         return $this->hasMany(Zone::class)->whereNull('parent_id');
+    }
+
+    /**
+     * Get the zones created by the user.
+     *
+     * @return BelongsToMany
+     */
+    public function managers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('manager')
+            ->where('manager',true);
     }
 
     /**

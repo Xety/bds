@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('zone_count')->default(0);
+            $table->string('office_phone')->nullable();
+            $table->string('cell_phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('city')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -2,23 +2,25 @@
 
 namespace BDS\Livewire;
 
-use BDS\Livewire\Forms\ZoneForm;
+use BDS\Livewire\Forms\SiteForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
-use BDS\Models\Zone;
+use BDS\Models\Site;
+use BDS\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Zones extends Component
+class Sites extends Component
 {
     use AuthorizesRequests;
     use WithBulkActions;
@@ -33,28 +35,28 @@ class Zones extends Component
      *
      * @var string
      */
-    public string $model = Zone::class;
+    public string $model = Site::class;
 
     /**
      * The form used to create/update a user.
      *
-     * @var ZoneForm
+     * @var SiteForm
      */
-    public ZoneForm $form;
+    public SiteForm $form;
 
     /**
      * The field to sort by.
      *
      * @var string
      */
-    public string $sortField = 'created_at';
+    public string $sortField = 'name';
 
     /**
      * The direction of the ordering.
      *
      * @var string
      */
-    public string $sortDirection = 'desc';
+    public string $sortDirection = 'asc';
 
     /**
      * Used to update in URL the query string.
@@ -64,10 +66,6 @@ class Zones extends Component
     protected $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
-        'editing',
-        'zoneId',
-        'creating',
-        'zoneSubId',
         'filters',
     ];
 
@@ -77,9 +75,8 @@ class Zones extends Component
      * @var array
      */
     public array $filters = [
+        'id',
         'name' => '',
-        'parent' => '',
-        'allow_material' => '',
         'created_min' => '',
         'created_max' => ''
     ];
@@ -92,38 +89,9 @@ class Zones extends Component
     public array $allowedFields = [
         'id',
         'name',
-        'parent_id',
-        'material_count',
+        'zone_count',
         'created_at'
     ];
-
-    /**
-     * Whatever the Editing url param is set or not.
-     *
-     * @var bool
-     */
-    public bool|string $editing = '';
-
-    /**
-     * The zone id if set.
-     *
-     * @var null|int
-     */
-    public null|int $zoneId = null;
-
-    /**
-     * Whatever the Editing url param is set or not.
-     *
-     * @var bool
-     */
-    public bool|string $creating = '';
-
-    /**
-     * The zone sub id if set.
-     *
-     * @var null|int
-     */
-    public null|int $zoneSubId = null;
 
     /**
      * Used to show the Edit/Create modal.
@@ -158,47 +126,18 @@ class Zones extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "La zone <b>:name</b> a été créée avec succès !",
-            'danger' => "Une erreur s'est produite lors de la création de la zone !"
+            'success' => "Le site <b>:name</b> a été créé avec succès !",
+            'danger' => "Une erreur s'est produite lors de la création du site !"
         ],
         'update' => [
-            'success' => "La zone <b>:name</b> a été éditée avec succès !",
-            'danger' => "Une erreur s'est produite lors de l'édition de la zone !"
+            'success' => "Le site <b>:name</b> a été édité avec succès !",
+            'danger' => "Une erreur s'est produite lors de l'édition du site !"
         ],
         'delete' => [
-            'success' => "<b>:count</b> zone(s) ont été supprimée(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression des zones !"
+            'success' => "<b>:count</b> site(s) ont été supprimé(s) avec succès !",
+            'danger' => "Une erreur s'est produite lors de la suppression des sites !"
         ]
     ];
-
-    /**
-     * The Livewire Component constructor.
-     *
-     * @return void
-     */
-    public function mount(): void
-    {
-        // Check if the edit option is set into the url, and if yes, open the Edit Modal (if the user has the permissions).
-        if ($this->editing === true && $this->zoneId !== null) {
-            $zone = Zone::whereId($this->zoneId)->first();
-
-            if ($zone) {
-                $this->edit($zone);
-            }
-        }
-
-        // Check if the create option is set into the url, and if yes, open the Create Modal (if the user has the permissions).
-        if ($this->creating === true && $this->zoneSubId !== null) {
-            // Must check the site_id of the sub, to be sure the user does not try to use a zone from another site.
-            $zone = Zone::whereId($this->zoneSubId)->where('site_id', getPermissionsTeamId())->first();
-
-            if ($zone) {
-                $this->create();
-
-                $this->form->parent_id = $zone->id;
-            }
-        }
-    }
 
     /**
      * Function to render the component.
@@ -207,12 +146,12 @@ class Zones extends Component
      */
     public function render(): View
     {
-        return view('livewire.zones', [
-            'zones' => $this->rows,
-            'zonesList' => Zone::where('site_id', session('current_site_id'))
-                ->where('id', '!=', $this->form->zone?->id)
-                ->orderBy('name')
+        return view('livewire.sites', [
+            'sites' => $this->rows,
+            'users' => User::whereRelation('sites', 'site_id', $this->form->site?->id)
+                ->select(['id', DB::raw('CONCAT(first_name, " ", last_name) AS name')])
                 ->get()
+                ->toArray()
         ]);
     }
 
@@ -223,29 +162,11 @@ class Zones extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Zone::query()
-            ->with('site', 'materials', 'parent')
-            ->whereRelation('site', 'id', session('current_site_id'));
-            /*->withCount(['materials as incidentsCount' => function ($query) {
-                $query->select(DB::raw('SUM(incident_count)'));
-            }])
-            ->withCount(['materials as maintenancesCount' => function ($query) {
-                $query->select(DB::raw('SUM(maintenance_count)'));
-            }])*/
-            //->search('name', $this->search);
-        if (Auth::user()->can('search', Zone::class)) {
+        $query = Site::query()
+        ->with('managers');
+
+        if (Auth::user()->can('search', Site::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['parent'], function ($query, $search) {
-                    return $query->whereHas('parent', function ($partQuery) use ($search) {
-                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
-                    });
-                })
-                ->when($this->filters['allow_material'], function ($query, $search) {
-                    if ($search === 'yes') {
-                        return $query->where('allow_material', true);
-                    }
-                    return $query->where('allow_material', false);
-                })
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
@@ -272,7 +193,7 @@ class Zones extends Component
      */
     public function create(): void
     {
-        $this->authorize('create', Zone::class);
+        $this->authorize('create', Site::class);
 
         $this->isCreating = true;
         $this->useCachedRows();
@@ -285,19 +206,21 @@ class Zones extends Component
     /**
      * Set the model (used in modal) to the zone we want to edit.
      *
-     * @param Zone $zone The zone id to update.
+     * @param Site $site The site id to update.
      * (Livewire will automatically fetch the model by the id)
      *
      * @return void
      */
-    public function edit(Zone $zone): void
+    public function edit(Site $site): void
     {
-        $this->authorize('update', $zone);
+        $this->authorize('update', $site);
 
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setZone($zone);
+        $managers = $site->managers()->pluck('id')->toArray();
+
+        $this->form->setSite($site, $managers);
 
         $this->showModal = true;
     }
@@ -309,10 +232,7 @@ class Zones extends Component
      */
     public function save(): void
     {
-        $this->authorize($this->isCreating ? 'create' : 'update', Zone::class);
-
-        // Must change the 0 value from "Aucun Parent" to null before validating.
-        $this->form->parent_id = $this->form->parent_id === 0 ? null : $this->form->parent_id;
+        $this->authorize($this->isCreating ? 'create' : 'update', Site::class);
 
         $this->validate();
 

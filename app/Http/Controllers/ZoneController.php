@@ -20,9 +20,9 @@ class ZoneController extends Controller
     }
 
     /**
-     * Show all the permissions.
+     * Show all zones.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index(): View
     {

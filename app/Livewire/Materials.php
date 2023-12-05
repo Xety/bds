@@ -18,6 +18,7 @@ use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use ReflectionException;
@@ -251,29 +252,32 @@ class Materials extends Component
     {
         $query = Material::query()
             ->with('zone', 'user')
-            ->whereRelation('zone.site', 'id', session('current_site_id'))
-            ->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
-            ->when($this->filters['name'], fn($query, $name) => $query->where('name', 'LIKE', '%' . $name . '%'))
-            ->when($this->filters['zone'], function ($query, $search) {
-                return $query->whereHas('zone', function ($partQuery) use ($search) {
-                    $partQuery->where('name', 'LIKE', '%' . $search . '%');
-                });
-            })
-            ->when($this->filters['creator'], function ($query, $search) {
-                return $query->whereHas('user', function ($partQuery) use ($search) {
-                    $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
-                        ->orWhere('last_name', 'LIKE', '%' . $search . '%');
-                });
-            })
-            ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
-            ->when($this->filters['cleaning_alert'], function ($query, $search) {
-                if ($search === 'yes') {
-                    return $query->where('cleaning_alert', true);
-                }
-                return $query->where('cleaning_alert', false);
-            })
-            ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-            ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+            ->whereRelation('zone.site', 'id', session('current_site_id'));
+
+            if (Auth::user()->can('search', Material::class)) {
+                $query->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
+                    ->when($this->filters['name'], fn($query, $name) => $query->where('name', 'LIKE', '%' . $name . '%'))
+                    ->when($this->filters['zone'], function ($query, $search) {
+                        return $query->whereHas('zone', function ($partQuery) use ($search) {
+                            $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                        });
+                    })
+                    ->when($this->filters['creator'], function ($query, $search) {
+                        return $query->whereHas('user', function ($partQuery) use ($search) {
+                            $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
+                                ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+                        });
+                    })
+                    ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
+                    ->when($this->filters['cleaning_alert'], function ($query, $search) {
+                        if ($search === 'yes') {
+                            return $query->where('cleaning_alert', true);
+                        }
+                        return $query->where('cleaning_alert', false);
+                    })
+                    ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                    ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+            }
 
         return $this->applySorting($query);
     }
