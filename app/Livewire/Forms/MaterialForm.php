@@ -45,7 +45,7 @@ class MaterialForm extends Form
             'cleaning_alert' => 'required|boolean',
             'cleaning_alert_email' => 'exclude_if:model.cleaning_alert,false|boolean|required',
             'cleaning_alert_frequency_repeatedly' => 'exclude_if:model.cleaning_alert,false|numeric|between:1,365|required',
-            'cleaning_alert_frequency_type' => 'exclude_if:model.cleaning_alert,false|in:' . collect(Material::CLEANING_TYPES)->map(function ($item) {
+            'cleaning_alert_frequency_type' => 'exclude_if:cleaning_alert,false|in:' . collect(Material::CLEANING_TYPES)->map(function ($item) {
                     return $item['id'];
                 })->sort()->values()->implode(',') . '|required',
         ];

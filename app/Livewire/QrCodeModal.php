@@ -22,7 +22,7 @@ class QrCodeModal extends Component
     protected array $queryString = [
         'type' => ['except' => ''],
         'qrcode' => ['except' => ''],
-        'qrcodeid' => ['except' => '']
+        'qrcodeId' => ['except' => '']
     ];
 
     /**
@@ -37,7 +37,7 @@ class QrCodeModal extends Component
      *
      * @var null|int
      */
-    public null|int $qrcodeid = null;
+    public null|int $qrcodeId = null;
 
     /**
      * Used to show the QR Code modal.
@@ -108,9 +108,9 @@ class QrCodeModal extends Component
         //  Part types
 
 
-        if ($this->qrcode === true && array_key_exists($this->type, $this->types) && $this->qrcodeid !== null) {
+        if ($this->qrcode === true && array_key_exists($this->type, $this->types) && $this->qrcodeId !== null) {
             if ($this->type == 'material' && Auth::user()->can('scanQrCode material')) {
-                $this->model = Material::find($this->qrcodeid);
+                $this->model = Material::find($this->qrcodeId);
             }
 
             if ($this->model !== null) {
@@ -154,7 +154,7 @@ class QrCodeModal extends Component
 
         if (in_array($this->action, array_keys($this->types[$this->type]['actions']))) {
             return redirect()
-                ->route($this->action . '.index', ['qrcodeid' => $this->qrcodeid, 'qrcode' => 'true']);
+                ->route($this->action . '.index', ['qrcodeId' => $this->qrcodeId, 'qrcode' => 'true']);
         }
 
         $this->showQrCodeModal = false;

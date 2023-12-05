@@ -157,8 +157,8 @@
                         </span>
                         @endif
                     </x-table.cell>
-                    <x-table.cell class="prose">
-                        <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">{{ $zone->material_count }}</code>
+                    <x-table.cell>
+                        <code class="code rounded-sm">{{ $zone->material_count }}</code>
                     </x-table.cell>
                     <x-table.cell class="capitalize">
                         {{ $zone->created_at->translatedFormat( 'D j M Y H:i') }}

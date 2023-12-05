@@ -68,8 +68,8 @@ class Cleanings extends Component
     protected array $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
-        'qrcode',
-        'qrcodeId',
+        'creating',
+        'materialId',
         'filters',
     ];
 
@@ -78,14 +78,22 @@ class Cleanings extends Component
      *
      * @var bool
      */
-    public bool $qrcode = false;
+    public bool $creating = false;
 
     /**
      * The QR Code id if set.
      *
      * @var int|null
      */
-    public ?int $qrcodeId = null;
+    public ?int $materialId = null;
+
+    /**
+     * Whatever the selected material has enabled the PH test when creating/editing
+     * a cleaning.
+     *
+     * @var bool
+     */
+    public bool $materialCleaningTestPhEnabled = false;
 
     /**
      * Filters used for advanced search.
@@ -173,42 +181,37 @@ class Cleanings extends Component
     public int $perPage = 25;
 
     /**
-     * Translated attribute used in failed messages.
-     *
-     * @var string[]
-     */
-    protected array $validationAttributes = [
-        'form.material_id' => 'matériel',
-        'form.description' => 'description',
-        'form.type' => 'type'
-    ];
-
-    /**
      * The Livewire Component constructor.
      *
      * @return void
      */
     public function mount(): void
     {
-        if ($this->qrcode === true && $this->qrcodeid !== null) {
-            $this->form->material_id = $this->qrcodeid;
+        // Check if the creating option is set into the url, and if yes, open the Create Modal (if the user has the permissions).
+        if ($this->creating === true && $this->materialId !== null) {
+            // Must check the site_id of the zone that belong to the material,
+            // to be sure the user does not try to use a material from another site.
+            $material = Material::whereId($this->materialId)
+                ->whereRelation('zone.site', 'id', session('current_site_id'))
+                ->first();
 
-            $this->create();
+            if ($material) {
+                $this->create();
+
+                $this->form->material_id = $material->id;
+            }
         }
     }
 
     /**
-     * Rules used for validating the model.
+     * Update the variable whenever the form is updated.
      *
-     * @return string[]
+     * @return void
      */
-    public function rules(): array
+    public function updatedForm(): void
     {
-        return [
-            'form.material_id' => 'required|exists:materials,id',
-            'form.description' => 'nullable',
-            'form.type' => 'required|in:' . collect(Cleaning::TYPES)->keys()->implode(','),
-        ];
+        $material = Material::find($this->form->material_id);
+        $this->materialCleaningTestPhEnabled = !is_null($material) && $material->selvah_cleaning_test_ph_enabled;
     }
 
     /**
@@ -300,11 +303,6 @@ class Cleanings extends Component
 
         $this->form->reset();
 
-        if ($this->qrcode === true && $this->qrcodeid !== null) {
-            $this->form->material_id = $this->qrcodeid;
-            $this->reset('qrcode', 'qrcodeid');
-        }
-
         $this->showModal = true;
     }
 
@@ -318,12 +316,13 @@ class Cleanings extends Component
      */
     public function edit(Cleaning $cleaning): void
     {
-        $this->authorize('update', Cleaning::class);
+        $this->authorize('update', $cleaning);
 
         $this->isCreating = false;
         $this->useCachedRows();
 
         $this->form->setCleaning($cleaning);
+        $this->updatedForm();
 
         $this->showModal = true;
     }

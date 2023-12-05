@@ -78,9 +78,8 @@ class Materials extends Component
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
         'editing',
-        'editId',
         'qrcode',
-        'qrcodeId',
+        'materialId',
         'filters',
     ];
 
@@ -127,13 +126,6 @@ class Materials extends Component
     public bool|string $editing = '';
 
     /**
-     * The Edit id if set.
-     *
-     * @var null|int
-     */
-    public null|int $editId = null;
-
-    /**
      * Whatever the QR Code url param is set or not.
      *
      * @var bool
@@ -141,11 +133,11 @@ class Materials extends Component
     public bool|string $qrcode = '';
 
     /**
-     * The QR Code id if set.
+     * The material id if set.
      *
      * @var null|int
      */
-    public null|int $qrcodeId = null;
+    public null|int $materialId = null;
 
     /**
      * Used to show the Edit/Create modal.
@@ -212,8 +204,8 @@ class Materials extends Component
     public function mount(): void
     {
         // Check if the edit option are set into the url, and if yes, open the Edit Modal if the user has the permissions.
-        if ($this->editing === true && $this->editId !== null) {
-            $material = Material::whereId($this->editId)->first();
+        if ($this->editing === true && $this->materialId !== null) {
+            $material = Material::whereId($this->materialId)->first();
 
             if ($material) {
                 $this->edit($material);
@@ -221,9 +213,11 @@ class Materials extends Component
         }
 
         // Check if the qrcode option are set into the url, and if yes, open the QR Code Modal if the user has the permissions.
-        if ($this->qrcode === true && $this->qrcodeId !== null) {
+        if ($this->qrcode === true && $this->materialId !== null) {
             // Display the modal of the Material ONLY on the site where the material belong to.
-            $material = Material::whereId($this->qrcodeId)->whereRelation('zone.site', 'id', session('current_site_id'))->first();
+            $material = Material::whereId($this->materialId)
+                ->whereRelation('zone.site', 'id', session('current_site_id'))
+                ->first();
 
             if ($material) {
                 $this->showQrCode($material);

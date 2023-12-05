@@ -58,6 +58,10 @@
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('type')" :direction="$sortField === 'type' ? $sortDirection : null">Type</x-table.heading>
+            @if(session('current_site_id') == 2)
+                <x-table.heading sortable wire:click="sortBy('ph_test_water')" :direction="$sortField === 'ph_test_water' ? $sortDirection : null">PH de l'eau</x-table.heading>
+                <x-table.heading sortable wire:click="sortBy('ph_test_water_after_cleaning')" :direction="$sortField === 'ph_test_water_after_cleaning' ? $sortDirection : null">PH de l'eau <br>après nettoyage</x-table.heading>
+            @endif
             <x-table.heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
         </x-slot>
 
@@ -94,6 +98,10 @@
                             placeholder="Tous"
                         />
                     </x-table.cell>
+                        @if(session('current_site_id') == 2)
+                            <x-table.cell></x-table.cell>
+                            <x-table.cell></x-table.cell>
+                        @endif
                     <x-table.cell>
                         <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
                         <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
@@ -103,7 +111,7 @@
 
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="9">
+                    <x-table.cell colspan="11">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $cleanings->count() }}</strong> nettoyage(s), voulez-vous tous les sélectionner <strong>{{ $cleanings->total() }}</strong>?</span>
@@ -159,13 +167,46 @@
                     <x-table.cell>
                         {{ collect(\BDS\Models\Cleaning::TYPES)->sole('id', $cleaning->type)['name'] }}
                     </x-table.cell>
+                    @if(session('current_site_id') == 2)
+                        <x-table.cell>
+                            @if ($cleaning->type == 'weekly' && $cleaning->selvah_ph_test_water !== null)
+                                <code class="code rounded-sm">
+                                    @if ($cleaning->selvah_ph_test_water !== $cleaning->selvah_ph_test_water_after_cleaning)
+                                        <span class="font-bold text-red-500">
+                                        {{ $cleaning->selvah_ph_test_water }}
+                                    </span>
+                                    @else
+                                        <span class="font-bold text-green-500">
+                                        {{ $cleaning->selvah_ph_test_water }}
+                                    </span>
+                                    @endif
+                                </code>
+                            @endif
+                        </x-table.cell>
+                        <x-table.cell>
+                            @if ($cleaning->type == 'weekly' && $cleaning->selvah_ph_test_water_after_cleaning !== null)
+                                <code class="code rounded-sm">
+                                    @if ($cleaning->selvah_ph_test_water_after_cleaning !== $cleaning->selvah_ph_test_water)
+                                        <span class="font-bold text-red-500">
+                                        {{ $cleaning->selvah_ph_test_water_after_cleaning }}
+                                    </span>
+                                    @else
+                                        <span class="font-bold text-green-500">
+                                        {{ $cleaning->selvah_ph_test_water_after_cleaning }}
+                                    </span>
+                                    @endif
+                                </code>
+                            @endif
+                        </x-table.cell>
+                    @endif
+
                     <x-table.cell class="capitalize">
                         {{ $cleaning->created_at->translatedFormat( 'D j M Y H:i') }}
                     </x-table.cell>
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="9">
+                    <x-table.cell colspan="11">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucun nettoyage trouvé...</span>
                         </div>
@@ -180,7 +221,7 @@
     </div>
 
 
-    <!-- Delete Cleanings Modal -->
+    <!-- Delete Cleaning Modal -->
     <x-modal wire:model="showDeleteModal" title="Supprimer les Nettoyages">
         @if (empty($selected))
             <p class="my-7">
@@ -203,50 +244,55 @@
         </x-slot:actions>
     </x-modal>
 
-    <!-- Edit Cleanings Modal -->
-    <div>
-    <form wire:submit.prevent="save">
-        <input type="checkbox" id="editModal" class="modal-toggle" wire:model.live="showModal" />
-        <label for="editModal" class="modal cursor-pointer">
-            <label class="modal-box relative">
-                <label for="editModal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                <h3 class="font-bold text-lg">
-                    {!! $isCreating ? 'Créer un Nettoyage' : 'Editer le Nettoyage' !!}
-                </h3>
+    <!-- Create/Edit Cleaning Modal -->
+    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Nettoyage' : 'Editer le Nettoyage' }}">
+        @php $message = "Sélectionnez la zone dans laquelle le matériel appartient.";@endphp
+        <x-select
+            :options="$materials"
+            class="select-primary"
+            wire:model.live="form.material_id"
+            name="form.material_id"
+            label="Materiel"
+            :label-info="$message"
+            placeholder="Sélectionnez le Matériel"
+        />
 
-                @php $message = "Sélectionnez le matériel que vous venez de nettoyer.";@endphp
-                <x-form.select wire:model="form.material_id" name="form.material_id"  label="Materiel" :info="true" :infoText="$message">
-                    <option  value="0">Sélectionnez la matériel</option>
-                    @foreach($materials as $material)
-                        <option  value="{{ $material['id'] }}">{{ $material['name'] }}
-                            ({{ $material['zone']['name'] }})
-                        </option>
-                    @endforeach
-                </x-form.select>
+        @php $message = "Si vous avez des informations complémentaires à renseigner, veuillez le faire dans la case ci-dessous.";@endphp
+         <x-textarea wire:model="form.description" name="form.description" label="Description du nettoyage" placeholder="Informations complémentaires..." rows="3" :label-info="$message" />
 
-                @php $message = "Si vous avez des informations complémentaires à renseigner, veuillez le faire dans la case ci-dessous.";@endphp
-                <x-form.textarea wire:model="form.description" name="form.description" label="Description du nettoyage" placeholder="Informations complémentaires..." :info="true" :infoText="$message" />
+        @php $message = "Sélectionnez le type de nettoyage.";@endphp
+        <x-select
+            :options="\BDS\Models\Cleaning::TYPES"
+            class="select-primary"
+            wire:model.live="form.type"
+            name="form.type"
+            label="Type de nettoyage"
+            :label-info="$message"
+            placeholder="Sélectionnez le type"
+        />
 
-                @php $message = "Sélectionnez le type de nettoyage.";@endphp
-                <x-select
-                    :options="\BDS\Models\Cleaning::TYPES"
-                    class="select-primary"
-                    wire:model.live="form.type"
-                    name="form.type"
-                    label="Type de nettoyage"
-                    :label-info="$message"
-                    placeholder="Sélectionnez le type"
-                />
+        @if ($form->type == 'weekly' && $materialCleaningTestPhEnabled && session('current_site_id') == 2)
+            <div class="divider text-base-content text-opacity-70 uppercase">SELVAH</div>
 
-                <div class="modal-action">
-                    <button type="submit" class="btn btn-success gap-2">
-                        {!! $isCreating ? '<i class="fa-solid fa-plus"></i> Créer' : '<i class="fa-solid fa-pen-to-square"></i> Editer' !!}
-                    </button>
-                    <label for="editModal" class="btn btn-neutral">Fermer</label>
-                </div>
-            </label>
-        </label>
-    </form>
-    </div>
+            @php $message = "Veuillez renseigner le PH de l'eau du réseau.";@endphp
+            <x-input wire:model.defer="form.selvah_ph_test_water" name="form.selvah_ph_test_water" type="number" label="Test PH de l'eau du réseau" placeholder="PH..." min="1" step="0.5" :label-info="$message"  />
+
+            @php $message = "Veuillez renseigner le PH de l'eau après nettoyage.";@endphp
+            <x-input wire:model.defer="form.selvah_ph_test_water_after_cleaning" name="form.selvah_ph_test_water_after_cleaning" type="number" label="Test PH après nettoyage" placeholder="PH..." min="1" step="0.5" :label-info="$message"  />
+        @endif
+
+        <x-slot:actions>
+            <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
+                @if($isCreating)
+                    <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                @else
+                    <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                @endif
+            </x-button>
+            <x-button @click="$wire.showModal = false" class="btn btn-neutral">
+                Fermer
+            </x-button>
+        </x-slot:actions>
+    </x-modal>
 
 </div>

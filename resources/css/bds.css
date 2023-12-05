@@ -17,6 +17,13 @@
 }
 
 /**
+ * Code
+ */
+.code {
+    @apply text-neutral-content bg-neutral py-1 px-2;
+}
+
+/**
  * Remove the default arrow from the summary HTML tag.
  */
 details > summary {

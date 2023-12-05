@@ -88,15 +88,15 @@
                                             <span class="font-bold">{{ $maintenance->getKey() }}</span>
                                         </a>
                                     </x-table.cell>
-                                    <x-table.cell class="prose">
+                                    <x-table.cell>
                                         @unless (is_null($maintenance->gmao_id))
                                             <code
-                                                class="text-neutral-content  bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                class="code rounded-sm">
                                                 {{ $maintenance->gmao_id }}
                                             </code>
                                         @endunless
                                     </x-table.cell>
-                                    <x-table.cell class="prose">
+                                    <x-table.cell>
                                         @unless (is_null($maintenance->material_id))
                                             <a class="link link-hover link-primary font-bold"
                                                href="{{ route('materials.show', $maintenance->material) }}">

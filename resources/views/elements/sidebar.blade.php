@@ -36,45 +36,45 @@
         {{-- Sidebar Menu --}}
         <x-menu activate-by-route>
             <x-menu-sub :title="auth()->user()->hasRole('Saisonnier') ? 'Bienvenue' : 'Administration'" icon="bxs-dashboard">
-                <x-menu-item title="Tableau de bord" icon="fas-gauge" link="{{ route('dashboard.index') }}" wire:navigate />
+                <x-menu-item wire:navigate title="Tableau de bord" icon="fas-gauge" link="{{ route('dashboard.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
             </x-menu-sub>
 
             @can('viewAny', \BDS\Models\Cleaning::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Nettoyages" icon="fas-broom">
-                    <x-menu-item title="Gérer les Nettoyages" icon="fas-broom" link="{{ route('cleanings.index') }}" wire:navigate />
+                    <x-menu-item wire:navigate title="Gérer les Nettoyages" icon="fas-broom" link="{{ route('cleanings.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endcan
 
             @can('viewAny', \BDS\Models\Material::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Matériels" icon="fas-microchip">
-                    <x-menu-item title="Gérer les Matériels" icon="fas-microchip" link="{{ route('materials.index') }}" wire:navigate />
+                    <x-menu-item wire:navigate title="Gérer les Matériels" icon="fas-microchip" link="{{ route('materials.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
 
-                    <x-menu-item badge badge-class="badge-primary" badge-text="BETA" title="Voir l'arbre des Matériels" icon="fas-folder-tree" link="{{ route('tree.zones-with-materials') }}" wire:navigate />
+                    <x-menu-item wire:navigate badge badge-class="badge-primary" badge-text="BETA" title="Voir l'arbre des Matériels" icon="fas-folder-tree" link="{{ route('tree.zones-with-materials') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endcan
 
             @can('viewAny', \BDS\Models\Zone::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Zones" icon="fas-map-signs">
-                    <x-menu-item title="Gérer les Zones" icon="fas-map-pin" link="{{ route('zones.index') }}" wire:navigate />
-                    <x-menu-item badge badge-class="badge-primary" badge-text="BETA" title="Voir l'arbre des Zones" icon="fas-folder-tree" link="{{ route('tree.zones-with-materials') }}" wire:navigate />
+                    <x-menu-item wire:navigate title="Gérer les Zones" icon="fas-map-pin" link="{{ route('zones.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                    <x-menu-item wire:navigate badge badge-class="badge-primary" badge-text="BETA" title="Voir l'arbre des Zones" icon="fas-folder-tree" link="{{ route('tree.zones-with-materials') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endcan
 
             @can('viewAny', \BDS\Models\Site::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Sites" icon="fas-map-marker-alt">
-                    <x-menu-item title="Gérer les Sites" icon="fas-map-marked-alt" link="{{ route('sites.index') }}" wire:navigate />
-                    <x-menu-item title="Gérer les Accès aux Sites" icon="fas-building-shield" link="#" wire:navigate />
+                    <x-menu-item wire:navigate title="Gérer les Sites" icon="fas-map-marked-alt" link="{{ route('sites.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                    <x-menu-item wire:navigate title="Gérer les Accès aux Sites" icon="fas-building-shield" link="#" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endcan
 
             @can('viewAny', \BDS\Models\User::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Utilisateurs" icon="fas-users">
-                    <x-menu-item title="Gérer les Utilisateurs" icon="fas-users-gear" link="{{ route('users.index') }}" wire:navigate />
+                    <x-menu-item wire:navigate title="Gérer les Utilisateurs" icon="fas-users-gear" link="{{ route('users.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endcan
 
@@ -82,21 +82,21 @@
                 <x-menu-separator  />
                 <x-menu-sub title="Rôles & Permissions" icon="fas-shield-alt">
                     @can('viewAny', \BDS\Models\Role::class)
-                        <x-menu-item title="Gérer les Rôles" icon="fas-user-tie" link="{{ route('roles.roles.index') }}" wire:navigate />
+                        <x-menu-item wire:navigate title="Gérer les Rôles" icon="fas-user-tie" link="{{ route('roles.roles.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     @endcan
 
                     @can('viewAny', \BDS\Models\Permission::class)
-                        <x-menu-item title="Gérer les Permissions" icon="fas-user-shield" link="{{ route('roles.permissions.index') }}" wire:navigate />
+                        <x-menu-item wire:navigate title="Gérer les Permissions" icon="fas-user-shield" link="{{ route('roles.permissions.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     @endcan
 
-                    <x-menu-item title="Voir l'arbre des Permissions" icon="fas-folder-tree" link="{{ route('users.permissions') }}" wire:navigate />
+                    <x-menu-item wire:navigate title="Voir l'arbre des Permissions" icon="fas-folder-tree" link="{{ route('users.permissions') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endcanany
 
             @can('viewAny', \BDS\Models\Setting::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Paramètres" icon="fas-cog">
-                    <x-menu-item title="Gérer les Paramètres" icon="fas-cog" link="{{ route('settings.index') }}" wire:navigate />
+                    <x-menu-item wire:navigate title="Gérer les Paramètres" icon="fas-cog" link="{{ route('settings.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit"/>
                 </x-menu-sub>
             @endcan
 

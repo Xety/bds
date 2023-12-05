@@ -66,9 +66,9 @@ class Zones extends Component
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
         'editing',
-        'editId',
+        'zoneId',
         'creating',
-        'createSubId',
+        'zoneSubId',
         'filters',
     ];
 
@@ -106,11 +106,11 @@ class Zones extends Component
     public bool|string $editing = '';
 
     /**
-     * The Edit id if set.
+     * The zone id if set.
      *
      * @var null|int
      */
-    public null|int $editId = null;
+    public null|int $zoneId = null;
 
     /**
      * Whatever the Editing url param is set or not.
@@ -120,11 +120,11 @@ class Zones extends Component
     public bool|string $creating = '';
 
     /**
-     * The Edit id if set.
+     * The zone sub id if set.
      *
      * @var null|int
      */
-    public null|int $createSubId = null;
+    public null|int $zoneSubId = null;
 
     /**
      * Used to show the Edit/Create modal.
@@ -180,8 +180,8 @@ class Zones extends Component
     public function mount(): void
     {
         // Check if the edit option is set into the url, and if yes, open the Edit Modal (if the user has the permissions).
-        if ($this->editing === true && $this->editId !== null) {
-            $zone = Zone::whereId($this->editId)->first();
+        if ($this->editing === true && $this->zoneId !== null) {
+            $zone = Zone::whereId($this->zoneId)->first();
 
             if ($zone) {
                 $this->edit($zone);
@@ -189,9 +189,9 @@ class Zones extends Component
         }
 
         // Check if the create option is set into the url, and if yes, open the Create Modal (if the user has the permissions).
-        if ($this->creating === true && $this->createSubId !== null) {
+        if ($this->creating === true && $this->zoneSubId !== null) {
             // Must check the site_id of the sub, to be sure the user does not try to use a zone from another site.
-            $zone = Zone::whereId($this->createSubId)->where('site_id', getPermissionsTeamId())->first();
+            $zone = Zone::whereId($this->zoneSubId)->where('site_id', getPermissionsTeamId())->first();
 
             if ($zone) {
                 $this->create();

@@ -43,8 +43,8 @@ class MenuItem extends Component
         return <<<'HTML'
                 @aware([
                     'activateByRoute' => false,
-                    'activeBgColor' => 'bg-base-200 dark:bg-neutral',
-                    'activeColor' => 'text-neutral dark:text-primary-content'
+                    'activeBgColor' => 'bg-base-200 hover:bg-base-200 active:!bg-base-200 dark:bg-neutral',
+                    'activeColor' => 'text-neutral dark:text-primary-content active:dark:!text-primary-content'
                ])
 
                 <li>
@@ -57,7 +57,7 @@ class MenuItem extends Component
                         <a
                             {{
                                 $attributes->class([
-                                    "flex items-center gap-4 text-left",
+                                    "flex items-center gap-4",
                                     "mary-active-menu $activeBgColor $activeColor" => ($active || ($activateByRoute && $routeMatches()))
                                 ])
                             }}
@@ -73,7 +73,7 @@ class MenuItem extends Component
                            <span class="mary-hideable">
                                {{ $title ?? $slot }}
                                @if($badge)
-                                <span class="badge {{ $badgeClass }}">{{ $badgeText }}</span>
+                                    <span class="badge {{ $badgeClass }}">{{ $badgeText }}</span>
                                 @endif
                            </span>
                         </a>

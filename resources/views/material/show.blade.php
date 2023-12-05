@@ -65,7 +65,7 @@
                                                         icon="fas-qrcode"
                                                         tooltip
                                                         tooltip-content="Générer un QR Code pour ce matériel"
-                                                        link="{{ route('materials.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                        link="{{ route('materials.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
                                                         class="text-purple-500" />
                                                 @endcan
                                                 @can('create', \BDS\Models\Incident::class)
@@ -75,7 +75,7 @@
                                                         icon="fas-triangle-exclamation"
                                                         tooltip
                                                         tooltip-content="Générer un QR Code pour ce matériel"
-                                                        link="{{ route('incidents.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                        link="{{ route('incidents.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
                                                         class="text-red-500" />
                                                 @endcan
                                                 @can('create', \BDS\Models\Maintenance::class)
@@ -85,7 +85,7 @@
                                                         icon="fas-screwdriver-wrench"
                                                         tooltip
                                                         tooltip-content="Créer une maintenance pour ce matériel."
-                                                        link="{{ route('maintenances.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                        link="{{ route('maintenances.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
                                                         class="text-yellow-500" />
                                                 @endcan
                                                 @can('create', \BDS\Models\Cleaning::class)
@@ -95,7 +95,7 @@
                                                         icon="fas-broom"
                                                         tooltip
                                                         tooltip-content="Créer un nettoyage pour ce matériel."
-                                                        link="{{ route('cleanings.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                        link="{{ route('cleanings.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
                                                         class="text-green-500" />
                                                 @endcan
                                             </x-dropdown>
@@ -372,14 +372,14 @@
                                                 <span class="font-bold">{{ $maintenance->getKey() }}</span>
                                             </a>
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
+                                        <x-table.cell>
                                             @unless (is_null($maintenance->gmao_id))
-                                                <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                <code class="code rounded-sm">
                                                     {{ $maintenance->gmao_id }}
                                                 </code>
                                             @endunless
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
+                                        <x-table.cell>
                                             @unless (is_null($maintenance->material_id))
                                                 <a class="link link-hover link-primary font-bold"
                                                    href="{{ $maintenance->material->show_url }}">
@@ -478,19 +478,19 @@
                                             {{ Str::limit($part->description, 50) }}
                                         </span>
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
-                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                        <x-table.cell>
+                                            <code class="code rounded-sm">
                                                 {{ $part->reference}}
                                             </code>
                                         </x-table.cell>
                                         <x-table.cell>{{ $part->supplier }}</x-table.cell>
-                                        <x-table.cell class="prose">
-                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                        <x-table.cell>
+                                            <code class="code rounded-sm">
                                                 {{ $part->price }}€
                                             </code>
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
-                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                        <x-table.cell>
+                                            <code class="code rounded-sm">
                                                 {{ $part->stock_total }}
                                             </code>
                                         </x-table.cell>
@@ -508,13 +508,13 @@
                                                 <span class="font-bold text-green-500">Non</span>
                                             @endif
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
-                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                        <x-table.cell>
+                                            <code class="code rounded-sm">
                                                 {{ $part->part_entry_count }}
                                             </code>
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
-                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                        <x-table.cell>
+                                            <code class="code rounded-sm">
                                                 {{ $part->part_exit_count }}
                                             </code>
                                         </x-table.cell>
@@ -565,18 +565,25 @@
                                                 {{ $cleaning->material->name }}
                                             </a>
                                         </x-table.cell>
-                                        <x-table.cell>{{ $cleaning->material->zone->name }}</x-table.cell>
-                                        <x-table.cell>{{ $cleaning->user->username }}</x-table.cell>
+                                        <x-table.cell>
+                                            {{ $cleaning->material->zone->name }}
+                                        </x-table.cell>
+                                        <x-table.cell>
+                                            <a class="link link-hover text-primary font-bold" href="{{ route('users.show', $cleaning->user) }}">
+                                                {{ $cleaning->user->full_name }}
+                                            </a>
+                                        </x-table.cell>
                                         <x-table.cell>
                                         <span class="tooltip tooltip-top" data-tip="{{ $cleaning->description }}">
                                             {{ Str::limit($cleaning->description, 50) }}
                                         </span>
                                         </x-table.cell>
-                                        <x-table.cell
-                                            class="capitalize">{{ \BDS\Models\Cleaning::TYPES[$cleaning->type] }}</x-table.cell>
-                                        <x-table.cell class="prose">
+                                        <x-table.cell>
+                                            {{ collect(\BDS\Models\Cleaning::TYPES)->sole('id', $cleaning->type)['name'] }}
+                                        </x-table.cell>
+                                        <x-table.cell>
                                             @if ($cleaning->type == 'weekly' && $cleaning->ph_test_water !== null)
-                                                <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                <code class="code rounded-sm">
                                                     @if ($cleaning->ph_test_water !== $cleaning->ph_test_water_after_cleaning)
                                                         <span class="font-bold text-red-500">
                                                         {{ $cleaning->ph_test_water }}

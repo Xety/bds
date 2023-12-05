@@ -105,8 +105,8 @@
                             </a>
                         </x-table.cell>
                     @endcan
-                    <x-table.cell class="prose">
-                        <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                    <x-table.cell>
+                        <code class="code rounded-sm">
                             {{ $permission->name }}
                         </code>
                     </x-table.cell>

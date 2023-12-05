@@ -60,6 +60,8 @@ class Cleaning extends Model
         'material_id',
         'user_id',
         'description',
+        'selvah_ph_test_water',
+        'selvah_ph_test_water_after_cleaning',
         'type',
         'edit_count',
         'is_edited',

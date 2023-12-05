@@ -195,7 +195,7 @@
                                         icon="fas-triangle-exclamation"
                                         tooltip
                                         tooltip-content="Générer un QR Code pour ce matériel"
-                                        link="{{ route('incidents.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                        link="{{ route('incidents.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
                                         class="text-red-500" />
                                 @endcan
                                 @can('create', \BDS\Models\Maintenance::class)
@@ -205,11 +205,11 @@
                                         icon="fas-screwdriver-wrench"
                                         tooltip
                                         tooltip-content="Créer une maintenance pour ce matériel."
-                                        link="{{ route('maintenances.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                        link="{{ route('maintenances.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
                                         class="text-yellow-500" />
                                 @endcan
                                 @can('create', \BDS\Models\Cleaning::class)
-                                    <x-menu-item wire:navigate title="Créer un Nettoyage" icon="fas-broom" tooltip tooltip-content="Créer un nettoyage pour ce matériel." link="{{ route('cleanings.index', ['qrcodeId' => $material->getKey(), 'qrcode' => 'true']) }}" class="text-green-500" />
+                                    <x-menu-item wire:navigate title="Créer un Nettoyage" icon="fas-broom" tooltip tooltip-content="Créer un nettoyage pour ce matériel." link="{{ route('cleanings.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}" class="text-green-500" />
                                 @endcan
                             </x-dropdown>
                         </x-table.cell>
@@ -233,23 +233,23 @@
                             {{ Str::limit($material->description, 50) }}
                         </span>
                     </x-table.cell>
-                    <x-table.cell class="prose">
-                        <code class="text-neutral-content  bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                    <x-table.cell>
+                        <code class="code rounded-sm">
                             {{ $material->incident_count }}
                         </code>
                     </x-table.cell>
-                    <x-table.cell class="prose">
-                        <code class="text-neutral-content  bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                    <x-table.cell>
+                        <code class="code rounded-sm">
                             {{ $material->part_count }}
                         </code>
                     </x-table.cell>
-                    <x-table.cell class="prose">
-                        <code class="text-neutral-content  bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                    <x-table.cell>
+                        <code class="code rounded-sm">
                             {{ $material->maintenance_count }}
                         </code>
                     </x-table.cell>
-                    <x-table.cell class="prose">
-                        <code class="text-neutral-content  bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                    <x-table.cell>
+                        <code class="code rounded-sm">
                             {{ $material->cleaning_count }}
                         </code>
                     </x-table.cell>
