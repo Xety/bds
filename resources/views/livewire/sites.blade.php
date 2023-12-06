@@ -172,21 +172,40 @@
     </x-modal>
 
     <!-- Create/Edit Site Modal -->
-    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer une Site' : 'Editer le Site' }}">
+    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Site' : 'Editer le Site' }}">
 
         <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
 
-        @php $message = "Sélectionnez le/les responsables du site. <i>Note : Ces responsables servent uniquement pour obtenir les informations de ceux-ci afin de les afficher pour les saisonnier.</i>";@endphp
-        <x-select
-            :options="$users"
-            class="select-primary"
-            wire:model="form.managers"
-            name="form.managers"
-            label="Responsables"
-            :label-info="$message"
-            size="5"
-            multiple
-        />
+        @if($isCreating === false)
+            @php $message = "Sélectionnez le/les responsables du site. <i>Note : Ces responsables servent uniquement pour obtenir les informations de ceux-ci afin de les afficher pour les saisonnier.</i>";@endphp
+            <x-select
+                :options="$users"
+                class="select-primary"
+                wire:model="form.managers"
+                name="form.managers"
+                label="Responsables"
+                :label-info="$message"
+                size="5"
+                multiple
+            />
+        @endif
+
+        @php $message = "Uniquement si le site dispose d'un mail.";@endphp
+        <x-input wire:model="form.email" name="form.email" label="Email" placeholder="Email du site..." :label-info="$message" type="email" />
+
+        @php $message = "Uniquement si le site dispose d'un téléphone de bureau.";@endphp
+        <x-input wire:model="form.office_phone" name="form.office_phone" label="Téléphone bureau" placeholder="Téléphone bureau" :label-info="$message" type="text" />
+
+        @php $message = "Uniquement si le site dispose d'un téléphone portable.";@endphp
+        <x-input wire:model="form.cell_phone" name="form.cell_phone" label="Téléphone portable" placeholder="Téléphone portable" :label-info="$message" type="text" />
+
+        <x-input wire:model="form.address" name="form.address" label="Adresse du site" placeholder="Adresse du site" type="text" />
+
+        <div class="flex justify-between">
+            <x-input wire:model="form.zip_code" name="form.zip_code" label="Code Postal" placeholder="Code postal du site" type="text" />
+            <x-input wire:model="form.city" name="form.city" label="Ville" placeholder="Ville du site" type="text" />
+        </div>
+
 
         <x-slot:actions>
             <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>

@@ -15,7 +15,13 @@ class Site extends Model
     use SitePresenter;
 
     protected $fillable = [
-        'name'
+        'name',
+        'email',
+        'office_phone',
+        'cell_phone',
+        'address',
+        'zip_code',
+        'city'
     ];
 
     /**
@@ -37,7 +43,8 @@ class Site extends Model
     {
         return $this->belongsToMany(User::class)
             ->withPivot('manager')
-            ->where('manager',true);
+            ->where('manager',true)
+            ->withTrashed();
     }
 
     /**
@@ -47,6 +54,6 @@ class Site extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class)->withTimestamps()->withTrashed();
     }
 }

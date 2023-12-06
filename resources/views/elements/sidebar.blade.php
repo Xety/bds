@@ -35,63 +35,66 @@
 
         {{-- Sidebar Menu --}}
         <x-menu activate-by-route>
-            <x-menu-sub :title="auth()->user()->hasRole('Saisonnier') ? 'Bienvenue' : 'Administration'" icon="bxs-dashboard">
+            <x-menu-sub :title="auth()->user()->hasRole('Saisonnier Bourgogne du Sud') ? 'Bienvenue' : 'Administration'" icon="bxs-dashboard">
                 <x-menu-item wire:navigate title="Tableau de bord" icon="fas-gauge" link="{{ route('dashboard.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
             </x-menu-sub>
 
-            @can('viewAny', \BDS\Models\Cleaning::class)
+            @if(auth()->user()->can('viewAny', \BDS\Models\Cleaning::class) && settings('cleaning_manage_enabled', true))
                 <x-menu-separator  />
                 <x-menu-sub title="Nettoyages" icon="fas-broom">
                     <x-menu-item wire:navigate title="Gérer les Nettoyages" icon="fas-broom" link="{{ route('cleanings.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
-            @endcan
+            @endif
 
-            @can('viewAny', \BDS\Models\Material::class)
+            @if(auth()->user()->can('viewAny', \BDS\Models\Material::class) && settings('material_manage_enabled', true))
                 <x-menu-separator  />
                 <x-menu-sub title="Matériels" icon="fas-microchip">
                     <x-menu-item wire:navigate title="Gérer les Matériels" icon="fas-microchip" link="{{ route('materials.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
 
                     <x-menu-item wire:navigate badge badge-class="badge-primary" badge-text="BETA" title="Voir l'arbre des Matériels" icon="fas-folder-tree" link="{{ route('tree.zones-with-materials') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
-            @endcan
+            @endif
 
-            @can('viewAny', \BDS\Models\Zone::class)
+            @if(auth()->user()->can('viewAny', \BDS\Models\Zone::class) && settings('zone_manage_enabled', true))
                 <x-menu-separator  />
                 <x-menu-sub title="Zones" icon="fas-map-signs">
                     <x-menu-item wire:navigate title="Gérer les Zones" icon="fas-map-pin" link="{{ route('zones.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     <x-menu-item wire:navigate badge badge-class="badge-primary" badge-text="BETA" title="Voir l'arbre des Zones" icon="fas-folder-tree" link="{{ route('tree.zones-with-materials') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
-            @endcan
+            @endif
 
-            @can('viewAny', \BDS\Models\Site::class)
+            @if(auth()->user()->can('viewAny', \BDS\Models\Site::class) && settings('site_manage_enabled'))
                 <x-menu-separator  />
                 <x-menu-sub title="Sites" icon="fas-map-marker-alt">
                     <x-menu-item wire:navigate title="Gérer les Sites" icon="fas-map-marked-alt" link="{{ route('sites.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     <x-menu-item wire:navigate title="Gérer les Accès aux Sites" icon="fas-building-shield" link="#" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
-            @endcan
+            @endif
 
-            @can('viewAny', \BDS\Models\User::class)
+            @if(auth()->user()->can('viewAny', \BDS\Models\User::class) && settings('user_manage_enabled', true))
                 <x-menu-separator  />
                 <x-menu-sub title="Utilisateurs" icon="fas-users">
                     <x-menu-item wire:navigate title="Gérer les Utilisateurs" icon="fas-users-gear" link="{{ route('users.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
-            @endcan
+            @endif
 
-            @canany(['viewAny role', 'viewAny permission', 'viewAny direct permission'])
+            @if(
+                (auth()->user()->can('viewAny', \BDS\Models\Role::class) || auth()->user()->can('viewAny', \BDS\Models\Permission::class)) &&
+                (settings('role_manage_enabled') || settings('permission_manage_enabled'))
+            )
                 <x-menu-separator  />
                 <x-menu-sub title="Rôles & Permissions" icon="fas-shield-alt">
-                    @can('viewAny', \BDS\Models\Role::class)
+                    @if(auth()->user()->can('viewAny', \BDS\Models\Role::class) && settings('role_manage_enabled'))
                         <x-menu-item wire:navigate title="Gérer les Rôles" icon="fas-user-tie" link="{{ route('roles.roles.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
-                    @endcan
+                    @endif
 
-                    @can('viewAny', \BDS\Models\Permission::class)
+                    @if(auth()->user()->can('viewAny', \BDS\Models\Permission::class) && settings('permission_manage_enabled'))
                         <x-menu-item wire:navigate title="Gérer les Permissions" icon="fas-user-shield" link="{{ route('roles.permissions.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
-                    @endcan
+                    @endif
 
                     <x-menu-item wire:navigate title="Voir l'arbre des Permissions" icon="fas-folder-tree" link="{{ route('users.permissions') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
-            @endcanany
+            @endif
 
             @can('viewAny', \BDS\Models\Setting::class)
                 <x-menu-separator  />

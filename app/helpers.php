@@ -13,14 +13,18 @@ if (! function_exists('settings')) {
             return $settings;
         }
 
-        // If siteId is not null, set it.
-        if ($siteId !== null) {
-            $settings->setSiteId($siteId);
+        // Set the siteId
+        $settings->setSiteId($siteId);
 
-            if ($siteId === true) {
-                $settings->setSiteId(session('current_site_id'));
-            }
+        if ($siteId === true) {
+            $settings->setSiteId(session('current_site_id'));
         }
+
+        // We must reset the context to the default value.
+        $settings->setContext([
+            'model_type' => null,
+            'model_id' => null
+        ]);
 
         // If context is not null, set it.
         if ($context instanceof Model || is_array($context)) {

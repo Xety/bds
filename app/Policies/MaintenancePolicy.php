@@ -14,7 +14,7 @@ class MaintenancePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny maintenance');
+        return $user->can('viewAny maintenance') && settings('maintenance_manage_enabled', true);
     }
 
     /**

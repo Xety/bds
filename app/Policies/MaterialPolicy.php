@@ -14,7 +14,7 @@ class MaterialPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny material');
+        return $user->can('viewAny material') && settings('material_manage_enabled', true);
     }
 
     /**

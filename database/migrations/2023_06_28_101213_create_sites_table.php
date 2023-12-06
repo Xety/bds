@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('zone_count')->default(0);
+            $table->string('email')->nullable();
             $table->string('office_phone')->nullable();
             $table->string('cell_phone')->nullable();
             $table->string('address')->nullable();

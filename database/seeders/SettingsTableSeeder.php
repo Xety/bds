@@ -26,12 +26,58 @@ class SettingsTableSeeder extends Seeder
             'text' => 'Active/Désactive le système de connexion.',
             'label_info' => 'Cocher pour activer le système de connexion au site. <br><b>Quand le système de connexion est désactivé, uniquement les personnes disposant de la permission direct <code class="text-neutral-content bg-neutral rounded-sm py-0.5 px-2">bypass login</code> pourront se connecter.</b>'
         ]);
+
+        // Site
+        Setting::create([
+            'key' => 'site_manage_enabled',
+            'site_id' => null,
+            'value' => true,
+            'label' => 'Activation du système de gestion des sites.',
+            'text' => 'Active/Désactive le système de gestion des sites.',
+            'label_info' => ''
+        ]);
         Setting::create([
             'key' => 'site_create_enabled',
             'site_id' => null,
             'value' => true,
             'label' => 'Activation du système de création de site.',
             'text' => 'Active/Désactive le système de création de site.',
+            'label_info' => ''
+        ]);
+
+        // Role
+        Setting::create([
+            'key' => 'role_manage_enabled',
+            'site_id' => null,
+            'value' => true,
+            'label' => 'Activation du système de gestion des rôles.',
+            'text' => 'Active/Désactive le système de gestion des rôles.',
+            'label_info' => ''
+        ]);
+        Setting::create([
+            'key' => 'role_create_enabled',
+            'site_id' => null,
+            'value' => true,
+            'label' => 'Activation du système de création de rôle.',
+            'text' => 'Active/Désactive le système de création de rôle.',
+            'label_info' => ''
+        ]);
+
+        // Permission
+        Setting::create([
+            'key' => 'permission_manage_enabled',
+            'site_id' => null,
+            'value' => true,
+            'label' => 'Activation du système de gestion des permissions.',
+            'text' => 'Active/Désactive le système de gestion des permissions.',
+            'label_info' => ''
+        ]);
+        Setting::create([
+            'key' => 'permission_create_enabled',
+            'site_id' => null,
+            'value' => true,
+            'label' => 'Activation du système de création de permission.',
+            'text' => 'Active/Désactive le système de création de permission.',
             'label_info' => ''
         ]);
 
@@ -45,63 +91,35 @@ class SettingsTableSeeder extends Seeder
             'text' => 'Active/Désactive les notifications par email.'
         ]);
 
-        // Zone
-        Setting::create([
-            'key' => 'zone_create_enabled',
-            'site_id' => null,
-            'value' => true,
-            'label' => 'Activation du système de création de zone.',
-            'text' => 'Active/Désactive le système de création de zone pour tout les sites.'
-        ]);
-
-        // Material
-        Setting::create([
-            'key' => 'material_create_enabled',
-            'site_id' => null,
-            'value' => true,
-            'label' => 'Activation du système de création de matériel.',
-            'text' => 'Active/Désactive le système de création de matériel pour tout les sites.'
-        ]);
-
-        // Incident
-        Setting::create([
-            'key' => 'incident_create_enabled',
-            'site_id' => null,
-            'value' => true,
-            'label' => 'Activation du système de création d\'incident.',
-            'text' => 'Active/Désactive le système de création d\'incident pour tout les sites.'
-        ]);
-
-        // Maintenance
-        Setting::create([
-            'key' => 'maintenance_create_enabled',
-            'site_id' => null,
-            'value' => true,
-            'label' => 'Activation du système de création de maintenance.',
-            'text' => 'Active/Désactive le système de création de maintenance pour tout les sites.'
-        ]);
-
-        // Cleaning
-        Setting::create([
-            'key' => 'cleaning_create_enabled',
-            'site_id' => null,
-            'value' => true,
-            'label' => 'Activation du système de création de nettoyage.',
-            'text' => 'Active/Désactive le système de création de nettoyage pour tout les sites.'
-        ]);
-
-        // Part
-        Setting::create([
-            'key' => 'part_create_enabled',
-            'site_id' => null,
-            'value' => true,
-            'label' => 'Activation du système de création de pièce détachée.',
-            'text' => 'Active/Désactive le système de création de pièce détachée pour tout les sites.'
-        ]);
+        // Settings for all sites.
+        for ($a = 1; $a < 52; $a++) {
+            // User
+            Setting::create([
+                'key' => 'user_manage_enabled',
+                'site_id' => $a,
+                'value' => true,
+                'label' => 'Activation du système de gestion des utilisateurs.',
+                'text' => 'Active/Désactive le système de gestion des utilisateurs.'
+            ]);
+            Setting::create([
+                'key' => 'user_create_enabled',
+                'site_id' => $a,
+                'value' => true,
+                'label' => 'Activation du système de création d\'utilisateur.',
+                'text' => 'Active/Désactive le système de création d\'utilisateur.'
+            ]);
+        }
 
         // Settings for all sites except Verdun Siège.
         for ($i = 2; $i < 52; $i++) {
             // Zone
+            Setting::create([
+                'key' => 'zone_manage_enabled',
+                'site_id' => $i,
+                'value' => true,
+                'label' => 'Activation du système de gestion des zones.',
+                'text' => 'Active/Désactive le système de gestion des zones.'
+            ]);
             Setting::create([
                 'key' => 'zone_create_enabled',
                 'site_id' => $i,
@@ -112,6 +130,13 @@ class SettingsTableSeeder extends Seeder
 
             // Material
             Setting::create([
+                'key' => 'material_manage_enabled',
+                'site_id' => $i,
+                'value' => true,
+                'label' => 'Activation du système de gestion des matériels.',
+                'text' => 'Active/Désactive le système de gestion des matériels.'
+            ]);
+            Setting::create([
                 'key' => 'material_create_enabled',
                 'site_id' => $i,
                 'value' => true,
@@ -120,6 +145,13 @@ class SettingsTableSeeder extends Seeder
             ]);
 
             // Incident
+            Setting::create([
+                'key' => 'incident_manage_enabled',
+                'site_id' => $i,
+                'value' => true,
+                'label' => 'Activation du système de gestion des incidents.',
+                'text' => 'Active/Désactive le système de gestion des incidents.'
+            ]);
             Setting::create([
                 'key' => 'incident_create_enabled',
                 'site_id' => $i,
@@ -130,6 +162,13 @@ class SettingsTableSeeder extends Seeder
 
             // Maintenance
             Setting::create([
+                'key' => 'maintenance_manage_enabled',
+                'site_id' => $i,
+                'value' => true,
+                'label' => 'Activation du système de gestion des maintenances.',
+                'text' => 'Active/Désactive le système de gestion des maintenances.'
+            ]);
+            Setting::create([
                 'key' => 'maintenance_create_enabled',
                 'site_id' => $i,
                 'value' => true,
@@ -139,6 +178,13 @@ class SettingsTableSeeder extends Seeder
 
             // Cleaning
             Setting::create([
+                'key' => 'cleaning_manage_enabled',
+                'site_id' => $i,
+                'value' => true,
+                'label' => 'Activation du système de gestion des nettoyages.',
+                'text' => 'Active/Désactive le système de gestion des nettoyages.'
+            ]);
+            Setting::create([
                 'key' => 'cleaning_create_enabled',
                 'site_id' => $i,
                 'value' => true,
@@ -147,6 +193,13 @@ class SettingsTableSeeder extends Seeder
             ]);
 
             // Part
+            Setting::create([
+                'key' => 'part_manage_enabled',
+                'site_id' => $i,
+                'value' => true,
+                'label' => 'Activation du système de gestion des pièces détachées.',
+                'text' => 'Active/Désactive le système de gestion des pièces détachées.'
+            ]);
             Setting::create([
                 'key' => 'part_create_enabled',
                 'site_id' => $i,

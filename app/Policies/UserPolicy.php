@@ -13,7 +13,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny user');
+        return $user->can('viewAny user') && settings('user_manage_enabled', true);
     }
 
     /**

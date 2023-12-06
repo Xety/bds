@@ -14,7 +14,7 @@ class SitePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny site');
+        return $user->can('viewAny site') && settings('site_manage_enabled');
     }
 
     /**

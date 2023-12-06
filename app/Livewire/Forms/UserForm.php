@@ -41,6 +41,8 @@ class UserForm extends Form
             'email' => 'required|email|unique:users,email,' . $this->user?->id,
             'first_name' => 'required|min:2|alpha_num',
             'last_name' => 'required|min:2|alpha_num',
+            'office_phone' => 'nullable',
+            'cell_phone' => 'nullable',
             'end_employment_contract' => 'nullable|date_format:"d-m-Y H:i"'
         ];
     }

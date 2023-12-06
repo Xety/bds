@@ -18,25 +18,62 @@ class SettingValidator
     public static function validateSites(array $data): Validator
     {
         $rules = [
-            // All sites
+            // Zone
+            'zone_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
             'zone_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+
+            // Material
+            'material_manage_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
             'material_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
+
+            // Incident
+            'incident_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
             'incident_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+
+            // Maintenance
+            'maintenance_manage_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
             'maintenance_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
+
+            // Cleaning
+            'cleaning_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
             'cleaning_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+
+            // Part
+            'part_manage_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
             'part_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
+
+            // User
+            'user_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'user_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+
 
             // SELVAH
             'production_objective_delivered' => 'integer',
@@ -59,25 +96,28 @@ class SettingValidator
             'app_login_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
+
+            // Site
+            'site_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
             'site_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
-            'zone_create_enabled' => [
+
+            // Role
+            'role_manage_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
-            'material_create_enabled' => [
+            'role_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
-            'incident_create_enabled' => [
+
+            // Permission
+            'permission_manage_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
-            'maintenance_create_enabled' => [
-                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
-            ],
-            'cleaning_create_enabled' => [
-                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
-            ],
-            'part_create_enabled' => [
+            'permission_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
         ];

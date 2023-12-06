@@ -14,7 +14,7 @@ class IncidentPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny incident');
+        return $user->can('viewAny incident') && settings('incident_manage_enabled', true);
     }
 
     /**

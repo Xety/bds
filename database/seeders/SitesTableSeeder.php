@@ -20,6 +20,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'name' => 'Verdun Siège',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => '6 avenue du Président Borgeot',
+                'zip_code' => '71350',
+                'city' => 'Verdun sur le Doubs',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -27,6 +33,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'name' => 'Selvah',
+                'email' => 'selvahusine@bourgognedusud.coop',
+                'office_phone' => '0385492064',
+                'cell_phone' => '0783076359',
+                'address' => 'Route de Dôle',
+                'zip_code' => '71350',
+                'city' => 'Ciel',
                 'zone_count' => 8,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -34,6 +46,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 3,
                 'name' => 'Extrusel',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => '1 Rue des Frères Lumière',
+                'zip_code' => '71100',
+                'city' => 'Chalon sur Saône',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -41,6 +59,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 4,
                 'name' => 'Moulin Janet',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => null,
+                'city' => null,
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -48,6 +72,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 5,
                 'name' => 'Maintenance Chalon',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => '3 Rue des Frères Lumière',
+                'zip_code' => '71100',
+                'city' => 'Chalon sur Saône',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -55,6 +85,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 6,
                 'name' => 'Beaune Silo',
+                'email' => null,
+                'office_phone' => '0380250677',
+                'cell_phone' => null,
+                'address' => 'Rue Chevrolet - ZI Vignolles',
+                'zip_code' => '21200',
+                'city' => 'Beaune',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -62,6 +98,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 7,
                 'name' => 'Bligny sur Ouche',
+                'email' => null,
+                'office_phone' => '0380200964',
+                'cell_phone' => null,
+                'address' => 'Route d\'Arnay le Duc',
+                'zip_code' => '21360',
+                'city' => 'Bligny sur Ouche',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -69,6 +111,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 8,
                 'name' => 'Branges',
+                'email' => null,
+                'office_phone' => '0385758681',
+                'cell_phone' => null,
+                'address' => 'ZI Les Sennecières',
+                'zip_code' => '71500',
+                'city' => 'Louhans',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -76,6 +124,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 9,
                 'name' => 'Broin',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => '0611839276',
+                'address' => 'Route de Bonnencontre',
+                'zip_code' => '21250',
+                'city' => 'Broin',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -83,6 +137,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 10,
                 'name' => 'Bruailles',
+                'email' => null,
+                'office_phone' => '0385750643',
+                'cell_phone' => null,
+                'address' => '25 Route de Marcilly',
+                'zip_code' => '71500',
+                'city' => 'Bruailles',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -90,6 +150,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 11,
                 'name' => 'Chalon Nord',
+                'email' => null,
+                'office_phone' => '0385970505',
+                'cell_phone' => null,
+                'address' => '1 Rue des Frères Lumière',
+                'zip_code' => '71100',
+                'city' => 'Chalon sur Saône',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -97,6 +163,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 12,
                 'name' => 'Chalon Sud',
+                'email' => null,
+                'office_phone' => '0385425050',
+                'cell_phone' => null,
+                'address' => 'Zone Portuaire Sud',
+                'zip_code' => '71380',
+                'city' => 'Saint Marcel',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -104,6 +176,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 13,
                 'name' => 'Chaudenay',
+                'email' => null,
+                'office_phone' => '0385912837',
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => '71150',
+                'city' => 'Chaudenay',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -111,6 +189,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 14,
                 'name' => 'Cormoz Oxyane ??',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => null,
+                'city' => null,
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -118,6 +202,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 15,
                 'name' => 'Crissey',
+                'email' => null,
+                'office_phone' => '0385465096',
+                'cell_phone' => null,
+                'address' => '22 rue Ferré',
+                'zip_code' => '71530',
+                'city' => 'Crissey',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -125,6 +215,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 16,
                 'name' => 'Cuisia ??',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => null,
+                'city' => null,
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -132,6 +228,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 17,
                 'name' => 'Dracy Saint Loup ??',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => null,
+                'city' => null,
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -139,6 +241,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 18,
                 'name' => 'Etrigny',
+                'email' => null,
+                'office_phone' => '0385922662',
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => '71240',
+                'city' => 'Etrigny',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -146,6 +254,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 19,
                 'name' => 'Flacey ??',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => null,
+                'city' => null,
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -153,6 +267,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 20,
                 'name' => 'Fontaines',
+                'email' => null,
+                'office_phone' => '0385914676',
+                'cell_phone' => null,
+                'address' => 'ZI La Platière',
+                'zip_code' => '71150',
+                'city' => 'Fontaines',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -160,6 +280,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 21,
                 'name' => 'Gergy',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => '0688844962',
+                'address' => '11 route Osnay',
+                'zip_code' => '71590',
+                'city' => 'Gergy',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -167,6 +293,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 22,
                 'name' => 'Givry',
+                'email' => null,
+                'office_phone' => '0385445811',
+                'cell_phone' => null,
+                'address' => 'ZI et Artisanale',
+                'zip_code' => '71640',
+                'city' => 'Givry',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -174,6 +306,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 23,
                 'name' => 'Jully les Buxy',
+                'email' => null,
+                'office_phone' => '0385920877',
+                'cell_phone' => null,
+                'address' => 'Les Theurots',
+                'zip_code' => '71390',
+                'city' => 'Jully les Buxy',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -181,6 +319,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 24,
                 'name' => 'Labergement les Seurre',
+                'email' => null,
+                'office_phone' => '0385920877',
+                'cell_phone' => null,
+                'address' => 'Chemin Départ. 973',
+                'zip_code' => '21820',
+                'city' => 'Labergement les Seurre',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -188,6 +332,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 25,
                 'name' => 'Lays sur le Doubs',
+                'email' => null,
+                'office_phone' => '0385728427',
+                'cell_phone' => null,
+                'address' => '6 rue Corbots',
+                'zip_code' => '71270',
+                'city' => 'Lays sur le Doubs',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -195,6 +345,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 26,
                 'name' => 'Lessard en Bresse',
+                'email' => null,
+                'office_phone' => '0385964742',
+                'cell_phone' => null,
+                'address' => 'Le Bourg',
+                'zip_code' => '71440',
+                'city' => 'Lessard en Bresse',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -202,6 +358,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 27,
                 'name' => 'Macon Ceregrain ??',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => null,
+                'city' => null,
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -209,6 +371,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 28,
                 'name' => 'Marnay',
+                'email' => null,
+                'office_phone' => '0385441251',
+                'cell_phone' => null,
+                'address' => 'Les Tantes',
+                'zip_code' => '71240',
+                'city' => 'Marnay',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -216,6 +384,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 29,
                 'name' => 'Mervans',
+                'email' => null,
+                'office_phone' => '0385761308',
+                'cell_phone' => null,
+                'address' => 'Buxy',
+                'zip_code' => '71310',
+                'city' => 'Mervans',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -223,6 +397,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 30,
                 'name' => 'Meursanges',
+                'email' => null,
+                'office_phone' => '0380266391',
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => '21200',
+                'city' => 'Meursanges',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -230,6 +410,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 31,
                 'name' => 'Montpont en Bresse',
+                'email' => null,
+                'office_phone' => '0385729968',
+                'cell_phone' => null,
+                'address' => 'Les Courtelets',
+                'zip_code' => '71470',
+                'city' => 'Montpont en Bresse',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -237,6 +423,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 32,
                 'name' => 'Nolay',
+                'email' => null,
+                'office_phone' => '0380218545',
+                'cell_phone' => null,
+                'address' => 'Route de Beaune',
+                'zip_code' => '21340',
+                'city' => 'Nolay',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -244,6 +436,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 33,
                 'name' => 'Pagny',
+                'email' => null,
+                'office_phone' => '0380100909',
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => '21250',
+                'city' => 'Pagny le Chateau',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -251,6 +449,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 34,
                 'name' => 'Pierre de Bresse',
+                'email' => null,
+                'office_phone' => '0385762375',
+                'cell_phone' => null,
+                'address' => 'Bout d\'Amont, Route de Louhans',
+                'zip_code' => '71270',
+                'city' => 'Pierre de Bresse',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -258,13 +462,25 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 35,
                 'name' => 'Romenay',
+                'email' => null,
+                'office_phone' => '0385403149',
+                'cell_phone' => null,
+                'address' => '251 ZI Les Benoîts',
+                'zip_code' => '71470',
+                'city' => 'Romenay',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
             ),
             array (
                 'id' => 36,
-                'name' => 'St Benigne',
+                'name' => 'Saint Benigne',
+                'email' => null,
+                'office_phone' => '0385309585',
+                'cell_phone' => null,
+                'address' => '1745 Croix Ravier',
+                'zip_code' => '01190',
+                'city' => 'Saint Benigne',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -272,6 +488,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 37,
                 'name' => 'St Gengoux le National',
+                'email' => null,
+                'office_phone' => '0385926287',
+                'cell_phone' => null,
+                'address' => 'La Chassagne',
+                'zip_code' => '71460',
+                'city' => 'St Gengoux',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -279,6 +501,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 38,
                 'name' => 'St Germain du Plain',
+                'email' => null,
+                'office_phone' => '0385473939',
+                'cell_phone' => null,
+                'address' => 'ZI Les Vernes',
+                'zip_code' => '71370',
+                'city' => 'St Germain du Plain',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -286,6 +514,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 39,
                 'name' => 'St Leger sur Dheune',
+                'email' => null,
+                'office_phone' => '0385453365',
+                'cell_phone' => null,
+                'address' => 'Route de Chagny',
+                'zip_code' => '71510',
+                'city' => 'St Leger sur Dheune',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -293,6 +527,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 40,
                 'name' => 'St Martin en Bresse',
+                'email' => null,
+                'office_phone' => '0385477328',
+                'cell_phone' => null,
+                'address' => '13 route de Mervans',
+                'zip_code' => '71320',
+                'city' => 'St Martin en Bresse',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -300,6 +540,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 41,
                 'name' => 'St Usage',
+                'email' => null,
+                'office_phone' => '0380779800',
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => '21700',
+                'city' => 'St Usage',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -307,6 +553,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 42,
                 'name' => 'Savigny en Revermont',
+                'email' => null,
+                'office_phone' => '0385744048',
+                'cell_phone' => null,
+                'address' => 'Chantabot',
+                'zip_code' => '71580',
+                'city' => 'Savigny en Revermont',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -314,6 +566,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 43,
                 'name' => 'Sennecey le Grand',
+                'email' => null,
+                'office_phone' => '0385447829',
+                'cell_phone' => null,
+                'address' => 'En Lesnes',
+                'zip_code' => '71240',
+                'city' => 'Sennecey le Grand',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -321,6 +579,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 44,
                 'name' => 'Seurre',
+                'email' => null,
+                'office_phone' => '0380204728',
+                'cell_phone' => null,
+                'address' => '11 rue Mail',
+                'zip_code' => '21250',
+                'city' => 'Sennecey le Grand',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -328,6 +592,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 45,
                 'name' => 'Sevrey',
+                'email' => null,
+                'office_phone' => '0385929311',
+                'cell_phone' => null,
+                'address' => null,
+                'zip_code' => '71100',
+                'city' => 'Sevrey',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -335,6 +605,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 46,
                 'name' => 'Simandre',
+                'email' => null,
+                'office_phone' => '0385402074',
+                'cell_phone' => null,
+                'address' => '433 route des Fontaines',
+                'zip_code' => '71290',
+                'city' => 'Simandre',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -342,6 +618,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 47,
                 'name' => 'Simard',
+                'email' => null,
+                'office_phone' => '0385722012',
+                'cell_phone' => null,
+                'address' => 'Les Putignys',
+                'zip_code' => '71330',
+                'city' => 'Simard',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -349,6 +631,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 48,
                 'name' => 'Tournus',
+                'email' => null,
+                'office_phone' => '0385321934',
+                'cell_phone' => null,
+                'address' => 'ZI Les Joncs',
+                'zip_code' => '71700',
+                'city' => 'Tournus',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -356,6 +644,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 49,
                 'name' => 'Tronchy',
+                'email' => null,
+                'office_phone' => '0385964105',
+                'cell_phone' => null,
+                'address' => 'Layer',
+                'zip_code' => '71440',
+                'city' => 'Tronchy',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -363,6 +657,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 50,
                 'name' => 'Verdun Silo',
+                'email' => null,
+                'office_phone' => '0385919319',
+                'cell_phone' => null,
+                'address' => '6 avenue du Président Borgeot',
+                'zip_code' => '71350',
+                'city' => 'Verdun sur le Doubs',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -370,6 +670,12 @@ class SitesTableSeeder extends Seeder
             array (
                 'id' => 51,
                 'name' => 'Val Union',
+                'email' => null,
+                'office_phone' => null,
+                'cell_phone' => null,
+                'address' => 'Route de Dôle',
+                'zip_code' => '71350',
+                'city' => 'Ciel',
                 'zone_count' => 0,
                 'created_at' => now(),
                 'updated_at' => now()

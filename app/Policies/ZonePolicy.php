@@ -14,7 +14,7 @@ class ZonePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny zone');
+        return $user->can('viewAny zone') && settings('zone_manage_enabled', true);
     }
 
     /**

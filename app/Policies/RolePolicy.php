@@ -14,7 +14,7 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny role');
+        return $user->can('viewAny role') && settings('role_manage_enabled');
     }
 
     /**

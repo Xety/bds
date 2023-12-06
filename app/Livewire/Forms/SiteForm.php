@@ -11,6 +11,18 @@ class SiteForm extends Form
 
     public ?string $name = null;
 
+    public ?string $email = null;
+
+    public ?string $office_phone = null;
+
+    public ?string $cell_phone = null;
+
+    public ?string $address = null;
+
+    public ?string $zip_code = null;
+
+    public ?string $city = null;
+
     public array $managers = [];
 
     /**
@@ -21,7 +33,13 @@ class SiteForm extends Form
     public function rules(): array
     {
         return [
-            'name'  => 'required|min:2|max:150|unique:sites,name,' . $this->site?->id
+            'name'  => 'required|min:2|max:150|unique:sites,name,' . $this->site?->id,
+            'email' => 'nullable|email',
+            'office_phone' => 'nullable',
+            'cell_phone' => 'nullable',
+            'address' => 'nullable',
+            'zip_code' => 'nullable|numeric',
+            'city' => 'nullable',
         ];
     }
 
@@ -34,6 +52,12 @@ class SiteForm extends Form
     {
         return [
             'name' => 'nom',
+            'email' => 'email',
+            'office_phone' => 'téléphone bureau',
+            'cell_phone' => 'téléphone portable',
+            'address' => 'adresse',
+            'zip_code' => 'code postal',
+            'city' => 'ville',
             'managers' => 'responsables'
         ];
     }
@@ -43,7 +67,13 @@ class SiteForm extends Form
         $this->fill([
             'site' => $site,
             'managers' => $managers,
-            'name' => $site->name
+            'name' => $site->name,
+            'email' => $site->email,
+            'office_phone' => $site->office_phone,
+            'cell_phone' => $site->cell_phone,
+            'address' => $site->address,
+            'zip_code' => $site->zip_code,
+            'city' => $site->city,
         ]);
     }
 
@@ -55,7 +85,13 @@ class SiteForm extends Form
     public function store(): Site
     {
         return Site::create($this->only([
-            'name'
+            'name',
+            'email',
+            'office_phone',
+            'cell_phone',
+            'address',
+            'zip_code',
+            'city'
         ]));
     }
 
@@ -67,7 +103,13 @@ class SiteForm extends Form
     public function update(): Site
     {
         $site = tap($this->site)->update($this->only([
-            'name'
+            'name',
+            'email',
+            'office_phone',
+            'cell_phone',
+            'address',
+            'zip_code',
+            'city'
         ]));
 
         $collect =  $site->managers()->allRelatedIds();
