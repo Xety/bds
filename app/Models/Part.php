@@ -6,6 +6,7 @@ use Eloquence\Behaviours\CountCache\Countable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use BDS\Models\Presenters\PartPresenter;
@@ -27,25 +28,14 @@ class Part extends Model
     ];
 
     /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
-    {
-        return [
-            Material::class
-        ];
-    }
-
-    /**
      * Get the material that owns the part.
      *
-     * @return BelongsTo
+     * @return BelongsToMany
      */
-    public function material(): BelongsTo
+    public function material(): BelongsToMany
     {
-        return $this->belongsTo(Material::class);
+        return $this->belongsToMany(Material::class)
+            ->using(MaterialPart::class);
     }
 
     /**

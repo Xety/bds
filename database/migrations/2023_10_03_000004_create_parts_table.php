@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('number_critical_minimum')->default(0);
             $table->integer('part_entry_count')->default(0);
             $table->integer('part_exit_count')->default(0);
+            $table->integer('material_count')->default(0);
             $table->integer('qrcode_flash_count')->default(0);
             $table->integer('edit_count')->default(0);
             $table->boolean('is_edited')->default(false);

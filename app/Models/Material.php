@@ -6,6 +6,7 @@ use Eloquence\Behaviours\CountCache\Countable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use BDS\Models\Presenters\MaterialPresenter;
 
@@ -125,11 +126,12 @@ class Material extends Model
     /**
      * Get the parts for the material.
      *
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function parts(): HasMany
+    public function parts(): BelongsToMany
     {
-        return $this->hasMany(Part::class);
+        return $this->belongsToMany(Part::class)
+            ->using(MaterialPart::class);
     }
 
     /**

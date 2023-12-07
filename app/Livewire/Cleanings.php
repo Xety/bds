@@ -231,9 +231,7 @@ class Cleanings extends Component
                 ->select(['id', 'name', 'zone_id'])
                 ->orderBy('zone_id')
                 ->get()
-                ->toArray(),
-            'users' => User::pluck('username', 'id')->toArray(),
-            'zones' => Zone::pluck('name', 'id')->toArray(),
+                ->toArray()
         ]);
     }
 

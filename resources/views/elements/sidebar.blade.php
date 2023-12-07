@@ -39,6 +39,17 @@
                 <x-menu-item wire:navigate title="Tableau de bord" icon="fas-gauge" link="{{ route('dashboard.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
             </x-menu-sub>
 
+            @if(auth()->user()->can('viewAny', \BDS\Models\Part::class) && settings('part_manage_enabled', true))
+                <x-menu-separator  />
+                <x-menu-sub title="Pièces Détachées" icon="fas-gear">
+                    <x-menu-item wire:navigate title="Gérer les Pièces Détachées" icon="fas-gear" link="{{ route('parts.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                    <x-menu-sub title="Stocks" icon="fas-cubes-stacked">
+                        <x-menu-item wire:navigate title="Gérer les Entrées" icon="fas-arrow-right-to-bracket" link="{{ route('part-entries.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                        <x-menu-item wire:navigate title="Gérer les Sorties" icon="fas-right-from-bracket" link="{{ route('part-exits.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                    </x-menu-sub>
+                </x-menu-sub>
+            @endif
+
             @if(auth()->user()->can('viewAny', \BDS\Models\Cleaning::class) && settings('cleaning_manage_enabled', true))
                 <x-menu-separator  />
                 <x-menu-sub title="Nettoyages" icon="fas-broom">

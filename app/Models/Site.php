@@ -54,6 +54,8 @@ class Site extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withTimestamps()->withTrashed();
+        return $this->belongsToMany(User::class)
+            ->withTimestamps()
+            ->withTrashed();
     }
 }

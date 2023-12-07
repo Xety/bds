@@ -2,17 +2,6 @@
 
 namespace BDS\Livewire;
 
-use BDS\Livewire\Forms\MaterialForm;
-use BDS\Livewire\Traits\WithBulkActions;
-use BDS\Livewire\Traits\WithCachedRows;
-use BDS\Livewire\Traits\WithFilters;
-use BDS\Livewire\Traits\WithPerPagePagination;
-use BDS\Livewire\Traits\WithQrCode;
-use BDS\Livewire\Traits\WithSorting;
-use BDS\Livewire\Traits\WithToast;
-use BDS\Models\Material;
-use BDS\Models\User;
-use BDS\Models\Zone;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -22,8 +11,19 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use ReflectionException;
+use BDS\Livewire\Forms\PartForm;
+use BDS\Livewire\Traits\WithBulkActions;
+use BDS\Livewire\Traits\WithCachedRows;
+use BDS\Livewire\Traits\WithFilters;
+use BDS\Livewire\Traits\WithPerPagePagination;
+use BDS\Livewire\Traits\WithQrCode;
+use BDS\Livewire\Traits\WithSorting;
+use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Material;
+use BDS\Models\Part;
+use BDS\Models\User;
 
-class Materials extends Component
+class Parts extends Component
 {
     use AuthorizesRequests;
     use WithBulkActions;
@@ -40,28 +40,28 @@ class Materials extends Component
      *
      * @var string
      */
-    public string $model = Material::class;
+    public string $model = Part::class;
 
     /**
      * The form used to create/update a user.
      *
-     * @var MaterialForm
+     * @var PartForm
      */
-    public MaterialForm $form;
+    public PartForm $form;
 
     /**
      * The field to sort by.
      *
      * @var string
      */
-    public string $sortField = 'id';
+    public string $sortField = 'created_at';
 
     /**
      * The direction of the ordering.
      *
      * @var string
      */
-    public string $sortDirection = 'asc';
+    public string $sortDirection = 'desc';
 
     /**
      * Used to update in URL the query string.
@@ -73,7 +73,7 @@ class Materials extends Component
         'sortDirection' => ['as' => 'd'],
         'editing',
         'qrcode',
-        'materialId',
+        'partId',
         'filters',
     ];
 
@@ -83,12 +83,9 @@ class Materials extends Component
      * @var array
      */
     public array $filters = [
-        'id' => '',
         'name' => '',
-        'zone' => '',
         'creator' => '',
-        'description' => '',
-        'cleaning_alert' => '',
+        'material' => '',
         'created_min' => '',
         'created_max' => '',
     ];
@@ -100,15 +97,17 @@ class Materials extends Component
      */
     public array $allowedFields = [
         'id',
-        'user_id',
         'name',
         'description',
-        'zone_id',
-        'incident_count',
-        'part_count',
-        'maintenance_count',
-        'cleaning_count',
-        'cleaning_alert',
+        'user_id',
+        'reference',
+        'supplier',
+        'price',
+        'number_warning_enabled',
+        'number_critical_enabled',
+        'part_entry_count',
+        'part_exit_count',
+        'material_count',
         'created_at'
     ];
 
@@ -127,11 +126,11 @@ class Materials extends Component
     public bool|string $qrcode = '';
 
     /**
-     * The material id if set.
+     * The part id if set.
      *
      * @var null|int
      */
-    public null|int $materialId = null;
+    public null|int $partId = null;
 
     /**
      * Used to show the Edit/Create modal.
@@ -148,18 +147,18 @@ class Materials extends Component
     public bool $showDeleteModal = false;
 
     /**
-     * Used to set to show/hide the advanced filters.
-     *
-     * @var bool
-     */
-    public bool $showFilters = false;
-
-    /**
      * Used to set the modal to Create action (true) or Edit action (false).
      *
      * @var bool
      */
     public bool $isCreating = false;
+
+    /**
+     * Used to set to show/hide the advanced filters.
+     *
+     * @var bool
+     */
+    public bool $showFilters = false;
 
     /**
      * Number of rows displayed on a page.
@@ -175,16 +174,16 @@ class Materials extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "Le matériel <b>:name</b> a été créé avec succès !",
-            'danger' => "Une erreur s'est produite lors de la création du matériel !"
+            'success' => "La pièce détachée <b>:name</b> a été créé avec succès !",
+            'danger' => "Une erreur s'est produite lors de la création de la pièce détachée !"
         ],
         'update' => [
-            'success' => "Le matériel <b>:name</b> a été édité avec succès !",
-            'danger' => "Une erreur s'est produite lors de l'édition du matériel !"
+            'success' => "La pièce détachée <b>:name</b> a été édité avec succès !",
+            'danger' => "Une erreur s'est produite lors de l'édition de la pièce détachée !"
         ],
         'delete' => [
-            'success' => "<b>:count</b> matériel(s) ont été supprimé(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression des matériels !"
+            'success' => "<b>:count</b> pièce(s) détachée(s) ont été supprimée(s) avec succès !",
+            'danger' => "Une erreur s'est produite lors de la suppression des pièces détachées !"
         ]
     ];
 
@@ -198,23 +197,23 @@ class Materials extends Component
     public function mount(): void
     {
         // Check if the edit option are set into the url, and if yes, open the Edit Modal if the user has the permissions.
-        if ($this->editing === true && $this->materialId !== null) {
-            $material = Material::whereId($this->materialId)->first();
+        if ($this->editing === true && $this->partId !== null) {
+            $part = Part::whereId($this->partId)->first();
 
-            if ($material) {
-                $this->edit($material);
+            if ($part) {
+                $this->edit($part);
             }
         }
 
         // Check if the qrcode option are set into the url, and if yes, open the QR Code Modal if the user has the permissions.
-        if ($this->qrcode === true && $this->materialId !== null) {
+        if ($this->qrcode === true && $this->partId !== null) {
             // Display the modal of the Material ONLY on the site where the material belong to.
-            $material = Material::whereId($this->materialId)
-                ->whereRelation('zone.site', 'id', session('current_site_id'))
+            $part = Part::whereId($this->partId)
+                //->whereRelation('zone.site', 'id', session('current_site_id'))
                 ->first();
 
-            if ($material) {
-                $this->showQrCode($material);
+            if ($part) {
+                $this->showQrCode($part);
             }
         }
     }
@@ -226,13 +225,18 @@ class Materials extends Component
      */
     public function render(): View
     {
-        return view('livewire.materials', [
-            'materials' => $this->rows,
-            'users' => User::pluck('username', 'id')->toArray(),
-            'zones' => Zone::where('site_id', session('current_site_id'))
-                ->where('allow_material', true)
-                ->orderBy('name')
+        return view('livewire.parts', [
+            'parts' => $this->rows,
+            'materials' => Material::query()
+                ->with(['zone' => function ($query) {
+                    $query->select('id', 'name');
+                }])
+                ->whereRelation('zone.site', 'id', session('current_site_id'))
+                ->select(['id', 'name', 'zone_id'])
+                ->orderBy('zone_id')
                 ->get()
+                ->toArray(),
+            'users' => User::pluck('username', 'id')->toArray(),
         ]);
     }
 
@@ -243,34 +247,11 @@ class Materials extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Material::query()
-            ->with('zone', 'user')
-            ->whereRelation('zone.site', 'id', session('current_site_id'));
-
-            if (Auth::user()->can('search', Material::class)) {
-                $query->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
-                    ->when($this->filters['name'], fn($query, $name) => $query->where('name', 'LIKE', '%' . $name . '%'))
-                    ->when($this->filters['zone'], function ($query, $search) {
-                        return $query->whereHas('zone', function ($partQuery) use ($search) {
-                            $partQuery->where('name', 'LIKE', '%' . $search . '%');
-                        });
-                    })
-                    ->when($this->filters['creator'], function ($query, $search) {
-                        return $query->whereHas('user', function ($partQuery) use ($search) {
-                            $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
-                                ->orWhere('last_name', 'LIKE', '%' . $search . '%');
-                        });
-                    })
-                    ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
-                    ->when($this->filters['cleaning_alert'], function ($query, $search) {
-                        if ($search === 'yes') {
-                            return $query->where('cleaning_alert', true);
-                        }
-                        return $query->where('cleaning_alert', false);
-                    })
-                    ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-                    ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
-            }
+        $query = Part::query()
+            ->with('materials', 'user');
+            /*->when($this->filters['creator'], fn($query, $creator) => $query->where('user_id', $creator))
+            ->when($this->filters['created-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+            ->when($this->filters['created-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));*/
 
         return $this->applySorting($query);
     }
@@ -294,7 +275,7 @@ class Materials extends Component
      */
     public function create(): void
     {
-        $this->authorize('create', Material::class);
+        $this->authorize('create', Part::class);
 
         $this->isCreating = true;
         $this->useCachedRows();
@@ -305,21 +286,21 @@ class Materials extends Component
     }
 
     /**
-     * Set the model (used in modal) to the material we want to edit.
+     * Set the model (used in modal) to the part we want to edit.
      *
-     * @param Material $material The material id to update.
+     * @param Part $part The part id to update.
      * (Livewire will automatically fetch the model by the id)
      *
      * @return void
      */
-    public function edit(Material $material): void
+    public function edit(Part $part): void
     {
-        $this->authorize('update', $material);
+        $this->authorize('update', $part);
 
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setMaterial($material);
+        $this->form->setPart($part);
 
         $this->showModal = true;
     }
@@ -333,7 +314,7 @@ class Materials extends Component
     {
         $this->isCreating ?
             $this->authorize('create', Material::class) :
-            $this->authorize('update', $this->form->material);
+            $this->authorize('update', $this->form->part);
 
         $this->validate();
 
@@ -343,4 +324,5 @@ class Materials extends Component
 
         $this->showModal = false;
     }
+
 }

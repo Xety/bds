@@ -227,6 +227,8 @@ class Users extends Component
             return $query->withCount('roles')
                 ->orderByDesc('roles_count');
         });
+
+        // Get also trashed users.
         $query->withTrashed();
 
         return $this->applySorting($query);

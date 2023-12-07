@@ -46,7 +46,7 @@
                                         Gate::any(['create'], \BDS\Models\Maintenance::class) ||
                                         Gate::any(['create'], \BDS\Models\Cleaning::class))
                                         <x-table.cell>
-                                            <x-dropdown label="Actions" class="w-60" right bottom hover>
+                                            <x-dropdown label="Actions" class="w-60" trigger-class="btn-sm" right bottom hover>
                                                 @can('update', $material)
                                                     <x-menu-item
                                                         wire:navigate
@@ -106,15 +106,15 @@
 
 
                             <div class="grid grid-cols-12 gap-2 mb-4">
-                                <div class="col-span-12">
+                                <div class="col-span-12 flex items-center">
                                     <div class="inline-block font-bold min-w-[140px]">Test PH :</div>
-                                    <div class="inline-block prose">
+                                    <div class="inline-block">
                                         @if ($material->cleaning_test_ph_enabled)
-                                            <code class="font-bold text-red-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                            <code class="code rounded-sm">
                                                 Activé
                                             </code>
                                         @else
-                                            <code class="font-bold text-green-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                            <code class="code rounded-sm">
                                                 Désactivé
                                             </code>
                                         @endif
@@ -123,13 +123,13 @@
 
                                 <div class="col-span-12 flex items-center">
                                     <div class="inline-block font-bold min-w-[140px]">Alerte de <br>Nettoyage :</div>
-                                    <div class="inline-block prose">
+                                    <div class="inline-block">
                                         @if ($material->cleaning_alert)
-                                            <code class="font-bold text-red-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                            <code class="code rounded-sm">
                                                 Activé
                                             </code>
                                         @else
-                                            <code class="font-bold text-green-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                            <code class="code rounded-sm">
                                                 Désactivé
                                             </code>
                                         @endif
@@ -138,13 +138,13 @@
 
                                 <div class="col-span-12 flex items-center">
                                     <div class="inline-block font-bold min-w-[140px]">Alerte par <br>Email :</div>
-                                    <div class="inline-block prose">
+                                    <div class="inline-block">
                                         @if ($material->cleaning_alert_email)
-                                            <code class="font-bold text-red-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                            <code class="code rounded-sm">
                                                 Activé
                                             </code>
                                         @else
-                                            <code class="font-bold text-green-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                            <code class="code rounded-sm">
                                                 Désactivé
                                             </code>
                                         @endif
@@ -153,9 +153,9 @@
 
                                 <div class="col-span-12 flex items-center">
                                     <div class="inline-block font-bold min-w-[140px]">Fréquence de <br>Nettoyage :</div>
-                                    <div class="inline-block prose">
+                                    <div class="inline-block">
                                         @if ($material->cleaning_alert)
-                                            <code class="font-bold text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                            <code class="code rounded-sm">
                                                 {{ $material->cleaning_alert_frequency_repeatedly }}
                                             </code>
                                         @endif
@@ -164,9 +164,9 @@
 
                                 <div class="col-span-12 flex items-center">
                                     <div class="inline-block font-bold min-w-[140px]">Type de <br>Fréquence :</div>
-                                    <div class="inline-block prose">
+                                    <div class="inline-block">
                                         @if ($material->cleaning_alert)
-                                            <code class="font-bold text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                            <code class="code rounded-sm">
                                                 {{ $material->cleaning_alert_frequency_type }}
                                             </code>
                                         @endif
@@ -596,9 +596,9 @@
                                                 </code>
                                             @endif
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
+                                        <x-table.cell>
                                             @if ($cleaning->type == 'weekly' && $cleaning->ph_test_water_after_cleaning !== null)
-                                                <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                <code class="code rounded-sm">
                                                     @if ($cleaning->ph_test_water_after_cleaning !== $cleaning->ph_test_water)
                                                         <span class="font-bold text-red-500">
                                                         {{ $cleaning->ph_test_water_after_cleaning }}

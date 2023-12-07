@@ -183,8 +183,6 @@ class Roles extends Component
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
 
-        //dd($query->dd());
-
         return $this->applySorting($query);
     }
 
