@@ -236,7 +236,6 @@ class Parts extends Component
                 ->orderBy('zone_id')
                 ->get()
                 ->toArray(),
-            'users' => User::pluck('username', 'id')->toArray(),
         ]);
     }
 
@@ -249,6 +248,7 @@ class Parts extends Component
     {
         $query = Part::query()
             ->with('materials', 'user');
+            //->where('site_id', getPermissionsTeamId());
             /*->when($this->filters['creator'], fn($query, $creator) => $query->where('user_id', $creator))
             ->when($this->filters['created-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['created-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));*/
@@ -300,7 +300,9 @@ class Parts extends Component
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setPart($part);
+        $materials = $part->materials()->pluck('id')->toArray();
+
+        $this->form->setPart($part, $materials);
 
         $this->showModal = true;
     }

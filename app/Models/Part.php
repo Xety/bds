@@ -13,9 +13,21 @@ use BDS\Models\Presenters\PartPresenter;
 
 class Part extends Model
 {
-    use Countable;
+    //use Countable;
     use PartPresenter;
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'site_id',
+        'name',
+        'user_id',
+        'description',
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -28,11 +40,21 @@ class Part extends Model
     ];
 
     /**
-     * Get the material that owns the part.
+     * Get the user that owns the part.
+     *
+     * @return BelongsTo
+     */
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class);
+    }
+
+    /**
+     * Get the materials for the part.
      *
      * @return BelongsToMany
      */
-    public function material(): BelongsToMany
+    public function materials(): BelongsToMany
     {
         return $this->belongsToMany(Material::class)
             ->using(MaterialPart::class);

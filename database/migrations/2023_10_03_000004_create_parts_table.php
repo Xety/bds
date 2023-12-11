@@ -35,7 +35,10 @@ return new class extends Migration
         });
 
         Schema::table('parts', function (Blueprint $table) {
-            $table->foreignIdFor(\BDS\Models\Material::class)->after('description')->nullable();
+            $table->foreignIdFor(\BDS\Models\Site::class)
+                ->after('id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->foreignIdFor(\BDS\Models\User::class)->after('description');
         });
     }

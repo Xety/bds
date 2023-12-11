@@ -20,14 +20,14 @@ class MaterialPart extends Pivot
             [
                 'model'      => Material::class,
                 'field'      => 'part_count',
-                'foreignKey' => 'part_id',
-                'key'        => 'material_id'
+                'foreignKey' => 'material_id',
+                'key'        => 'id'
             ],
             [
                 'model'      => Part::class,
                 'field'      => 'material_count',
-                'foreignKey' => 'material_id',
-                'key'        => 'part_id'
+                'foreignKey' => 'part_id',
+                'key'        => 'id'
             ]
         ];
     }

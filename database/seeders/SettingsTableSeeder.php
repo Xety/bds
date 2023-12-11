@@ -91,6 +91,32 @@ class SettingsTableSeeder extends Seeder
             'text' => 'Active/Désactive les notifications par email.'
         ]);
 
+        // Sites IDs
+        Setting::create([
+            'key' => 'site_id_selvah',
+            'site_id' => null,
+            'value' => 2,
+            'label' => 'ID du site Selvah utilisé pour l\'affichage de certaines fonctionnalités spécifiques à Selvah.',
+        ]);
+        Setting::create([
+            'key' => 'site_id_maintenance_bds',
+            'site_id' => null,
+            'value' => 5,
+            'label' => 'ID du site Maintenance BDS utilisé pour l\'affichage de certaines fonctionnalités spécifiques à la Maintenance BDS.',
+        ]);
+        Setting::create([
+            'key' => 'site_id_extrusel',
+            'site_id' => null,
+            'value' => 3,
+            'label' => 'ID du site Extrusel utilisé pour l\'affichage de certaines fonctionnalités spécifiques à Extrusel.',
+        ]);
+        Setting::create([
+            'key' => 'site_id_verdun_siege',
+            'site_id' => null,
+            'value' => 1,
+            'label' => 'ID du site Verdun Siège utilisé pour l\'affichage de certaines fonctionnalités spécifiques à Verdun Siège.',
+        ]);
+
         // Settings for all sites.
         for ($a = 1; $a < 52; $a++) {
             // User

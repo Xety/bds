@@ -14,4 +14,13 @@ class MaterialObserver
     {
         $material->user_id = Auth::id();
     }
+
+    public function deleting(Material $material): void
+    {
+        $parts = $material->parts;
+
+        foreach ($parts as $part) {
+            $part->materials()->detach($material->getKey());
+        }
+    }
 }

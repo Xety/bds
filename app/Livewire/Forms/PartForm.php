@@ -12,6 +12,8 @@ class PartForm extends Form
 
     public ?string $name = null;
 
+    public array $materials = [];
+
     /**
      *  What ever the warning is enabled or not. Used to show/hide the related count field.
      *
@@ -53,10 +55,11 @@ class PartForm extends Form
         ];
     }
 
-    public function setPart(Part $part): void
+    public function setPart(Part $part, array $materials): void
     {
         $this->fill([
             'part' => $part,
+            'materials' => $materials,
             'name' => $part->name,
         ]);
     }
@@ -69,9 +72,13 @@ class PartForm extends Form
      */
     public function store(): Part
     {
-        return Part::create($this->only([
+        $part = Part::create($this->only([
             'name',
         ]));
+
+        $part->materials()->sync($this->materials);
+
+        return $part;
     }
 
     /**
@@ -81,8 +88,12 @@ class PartForm extends Form
      */
     public function update(): Part
     {
-        return tap($this->part)->update($this->only([
+        $part = tap($this->part)->update($this->only([
             'name',
         ]));
+
+        $part->materials()->sync($this->materials);
+
+        return $part;
     }
 }

@@ -12,8 +12,8 @@
         <div class="mb-12">
             <div class="grid grid-cols-12 gap-4 text-center h-full">
                 <div class="col-span-12 xl:col-span-2 h-full">
-                    <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                        <i class="fa-solid fa-cubes-stacked text-green-500 text-8xl"></i>
+                    <div class="flex flex-col justify-between items-center shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                        <x-icon name="fas-cubes-stacked" class="text-green-500 w-24 h-24"></x-icon>
                         <div>
                             <div class="font-bold text-2xl">
                                 {{ $priceTotalAllPartInStock }} €
@@ -26,8 +26,8 @@
                 </div>
 
                 <div class="col-span-12 xl:col-span-2 h-full">
-                    <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                        <i class="fa-solid fa-arrow-right-to-bracket text-yellow-500 text-8xl"></i>
+                    <div class="flex flex-col justify-between items-center shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                        <x-icon name="fas-arrow-right-to-bracket" class="text-yellow-500 w-24 h-24"></x-icon>
                         <div>
                             <div class="font-bold text-2xl">
                                 {{ $priceTotalAllPartEntries }} €
@@ -40,8 +40,8 @@
                 </div>
 
                 <div class="col-span-12 xl:col-span-2 h-full">
-                    <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                        <i class="fa-solid fa-right-from-bracket text-red-500 text-8xl"></i>
+                    <div class="flex flex-col justify-between items-center shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                        <x-icon name="fas-right-from-bracket" class="text-red-500 w-24 h-24"></x-icon>
                         <div>
                             <div class="font-bold text-2xl">
                                 {{ $priceTotalAllPartExits }} €
@@ -54,8 +54,8 @@
                 </div>
 
                 <div class="col-span-12 xl:col-span-2 h-full">
-                    <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                        <i class="fa-solid fa-cubes-stacked text-blue-500 text-8xl"></i>
+                    <div class="flex flex-col justify-between items-center shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                        <x-icon name="fas-cubes-stacked" class="text-blue-500 w-24 h-24"></x-icon>
                         <div>
                             <div class="font-bold text-2xl">
                                 {{ $totalPartInStock }}
@@ -68,8 +68,8 @@
                 </div>
 
                 <div class="col-span-12 xl:col-span-2 h-full">
-                    <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                        <i class="fa-solid fa-arrow-right-to-bracket text-pink-600 text-8xl"></i>
+                    <div class="flex flex-col justify-between items-center shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                        <x-icon name="fas-arrow-right-to-bracket" class="text-pink-600 w-24 h-24"></x-icon>
                         <div>
                             <div class="font-bold text-2xl">
                                 {{ $totalPartGetInStock }}
@@ -82,8 +82,8 @@
                 </div>
 
                 <div class="col-span-12 xl:col-span-2 h-full">
-                    <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                        <i class="fa-solid fa-right-from-bracket text-cyan-600 text-8xl"></i>
+                    <div class="flex flex-col justify-between items-center shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                        <x-icon name="fas-right-from-bracket" class="text-cyan-600 w-24 h-24"></x-icon>
                         <div>
                             <div class="font-bold text-2xl">
                                 {{ $totalPartOutOfStock }}
