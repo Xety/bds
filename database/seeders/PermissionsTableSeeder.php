@@ -549,6 +549,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'view-other-site part',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut voir les pièces détachées d\'autres sites.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'viewAny partExit',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut voir les pièces détachées sorties.',

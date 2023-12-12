@@ -64,4 +64,28 @@ class PartPolicy
     {
         return $user->can('search part');
     }
+
+    /**
+     * Determine whether the user can generate QrCode for the model.
+     */
+    public function generateQrCode(User $user): bool
+    {
+        return $user->can('generate-qrcode part');
+    }
+
+    /**
+     * Determine whether the user can scan QrCode for the model.
+     */
+    public function scanQrCode(User $user): bool
+    {
+        return $user->can('scan-qrcode part');
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function viewOtherSite(User $user): bool
+    {
+        return $user->can('view-other-site part');
+    }
 }

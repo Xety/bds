@@ -46,7 +46,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        //
         Schema::table('part_exits', function (Blueprint $table) {
             $table->foreignIdFor(\BDS\Models\Maintenance::class)->after('id')->nullable();
         });

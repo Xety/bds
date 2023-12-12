@@ -44,6 +44,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view part',
         'export part',
         'search part',
+        'view-other-site part',
 
         // PartEntry
         'viewAny partEntry',
@@ -115,6 +116,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'search part',
         'generate-qrcode part',
         'scan-qrcode part',
+        'view-other-site part',
 
         // PartEntry
         'viewAny partEntry',
@@ -164,6 +166,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'search part',
         'generate-qrcode part',
         'scan-qrcode part',
+        'view-other-site part',
 
         // PartEntry
         'viewAny partEntry',
@@ -302,6 +305,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view part',
         'search part',
         'scan-qrcode part',
+        'view-other-site part',
 
         // PartEntry
         'viewAny partEntry',
@@ -482,6 +486,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'search part',
             'generate-qrcode part',
             'scan-qrcode part',
+            'view-other-site part',
 
             // PartEntry
             'viewAny partEntry',
