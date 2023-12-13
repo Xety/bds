@@ -61,5 +61,34 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Settings::class, function (Application $app) {
             return new Settings($app['cache.store']);
         });
+
+
+        /**
+         * All credits from this blade directive goes to Konrad Kalemba.
+         * Just copied and modified for my very specifc use case.
+         *
+         * https://github.com/konradkalemba/blade-components-scoped-slots
+         */
+        Blade::directive('scope', function ($expression) {
+            // Split the expression by `top-level` commas (not in parentheses)
+            $directiveArguments = preg_split("/,(?![^\(\(]*[\)\)])/", $expression);
+            $directiveArguments = array_map('trim', $directiveArguments);
+
+            [$name, $functionArguments] = $directiveArguments;
+
+            /**
+             *  Slot names can`t contains dot , eg: `user.city`.
+             *  So we convert `user.city` to `user___city`
+             *
+             *  Later, on component you must replace it back.
+             */
+            $name = str_replace('.', '___', $name);
+
+            return "<?php \$__env->slot({$name}, function({$functionArguments}) use (\$__env) { ?>";
+        });
+
+        Blade::directive('endscope', function () {
+            return '<?php }); ?>';
+        });
     }
 }

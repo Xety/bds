@@ -20,11 +20,11 @@ class PartForm extends Form
 
     public ?float $price = 0.00;
 
-    public ?bool $number_warning_enabled = null;
+    public ?bool $number_warning_enabled = false;
 
     public ?int $number_warning_minimum = 0;
 
-    public ?bool $number_critical_enabled = null;
+    public ?bool $number_critical_enabled = false;
 
     public ?int $number_critical_minimum = 0;
 

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -226,17 +227,20 @@ class Parts extends Component
      */
     public function render(): View
     {
+        $materials = Material::query()
+            ->with(['zone' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->whereRelation('zone.site', 'id', getPermissionsTeamId())
+            ->select(['id', 'name', 'zone_id'])
+            ->orderBy('zone_id')
+            ->get()
+            ->toArray();
+
+
         return view('livewire.parts', [
             'parts' => $this->rows,
-            'materials' => Material::query()
-                ->with(['zone' => function ($query) {
-                    $query->select('id', 'name');
-                }])
-                ->whereRelation('zone.site', 'id', getPermissionsTeamId())
-                ->select(['id', 'name', 'zone_id'])
-                ->orderBy('zone_id')
-                ->get()
-                ->toArray(),
+            'materials' => $materials,
             'suppliers' => Supplier::query()
                 ->where('site_id', getPermissionsTeamId())
                 ->select(['id', 'name', 'site_id'])
@@ -257,7 +261,7 @@ class Parts extends Component
             ->with('materials', 'user');
 
         // If the user does not have the permissions to see parts from other site
-        // add a where condition to display only the current site.
+        // add a where condition to display only the part from the current site.
         if (auth()->user()->can('viewOtherSite', Part::class) === false) {
             $query->where('site_id', getPermissionsTeamId());
         }

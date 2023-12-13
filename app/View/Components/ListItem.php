@@ -1,9 +1,9 @@
 <?php
+
 namespace BDS\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
 class ListItem extends Component
@@ -12,8 +12,6 @@ class ListItem extends Component
 
     public function __construct(
         public object|array $item,
-        public ?string $itemValue = 'id',
-        public ?string $selection = null,
         public string $avatar = 'avatar',
         public string $value = 'name',
         public ?string $subValue = '',
@@ -24,10 +22,10 @@ class ListItem extends Component
         // Slots
         public mixed $actions = null,
     ) {
-        $this->uuid = Str::uuid();
+        $this->uuid = md5(serialize($this));
     }
 
-    public function render(): View|Closure|string
+    public function render(): string
     {
         return <<<'HTML'
             <div wire:key="{{ $uuid }}">
@@ -40,7 +38,7 @@ class ListItem extends Component
                     }}
                 >
 
-                    @if($link)
+                    @if($link && data_get($item, $avatar) || !is_string($avatar))
                         <div>
                             <a href="{{ $link }}" wire:navigate>
                     @endif
@@ -63,7 +61,7 @@ class ListItem extends Component
                     @endif
 
 
-                    @if($link)
+                    @if($link && data_get($item, $avatar) || !is_string($avatar))
                             </a>
                         </div>
                     @endif
@@ -76,11 +74,6 @@ class ListItem extends Component
 
                         <div class="py-3">
                             <div @if(!is_string($value)) {{ $value->attributes->class(["font-semibold truncate"]) }} @else class="font-semibold truncate" @endif>
-                                <x-icon
-                                    name="fas-check"
-                                    class="h-5 w-5 text-success {{ $selection == data_get($item, $itemValue) ? 'inline' : 'hidden' }}"></x-icon>
-                                    {{ $selection }}
-                                    {{ data_get($item, $itemValue) }}
                                 {{ is_string($value) ? data_get($item, $value) : $value }}
                             </div>
 
@@ -100,9 +93,9 @@ class ListItem extends Component
                             <a href="{{ $link }}" wire:navigate>
                         @endif
 
-                        <div class="py-3 flex items-center gap-3 mary-hideable">
-                            {{ $actions }}
-                        </div>
+                            <div class="py-3 flex items-center gap-3 mary-hideable">
+                                    {{ $actions }}
+                            </div>
 
                         @if($link && !Str::of($actions)->contains([':click', '@click' , 'href']))
                             </a>

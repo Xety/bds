@@ -305,6 +305,8 @@
             multiple=""
         />
 
+        <livewire:parts.choices :materials="$materials" />
+
         <div class="divider text-base-content text-opacity-70 uppercase">Alertes</div>
 
         <x-checkbox wire:model.live="form.number_warning_enabled" name="form.number_warning_enabled" label="Alerte de stock" text="Cochez pour activer l'alerte de stock pour cette pièce détachée" />

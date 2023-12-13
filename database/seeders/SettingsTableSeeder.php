@@ -146,7 +146,7 @@ class SettingsTableSeeder extends Seeder
             Setting::create([
                 'key' => 'part_create_enabled',
                 'site_id' => $a,
-                'value' => true,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de création de pièce détachée.',
                 'text' => 'Active/Désactive le système de création de pièce détachée.'
             ]);
