@@ -134,6 +134,22 @@ class SettingsTableSeeder extends Seeder
                 'label' => 'Activation du système de création d\'utilisateur.',
                 'text' => 'Active/Désactive le système de création d\'utilisateur.'
             ]);
+
+            // Part
+            Setting::create([
+                'key' => 'part_manage_enabled',
+                'site_id' => $a,
+                'value' => true,
+                'label' => 'Activation du système de gestion des pièces détachées.',
+                'text' => 'Active/Désactive le système de gestion des pièces détachées.'
+            ]);
+            Setting::create([
+                'key' => 'part_create_enabled',
+                'site_id' => $a,
+                'value' => true,
+                'label' => 'Activation du système de création de pièce détachée.',
+                'text' => 'Active/Désactive le système de création de pièce détachée.'
+            ]);
         }
 
         // Settings for all sites except Verdun Siège.
@@ -216,22 +232,6 @@ class SettingsTableSeeder extends Seeder
                 'value' => true,
                 'label' => 'Activation du système de création de nettoyage.',
                 'text' => 'Active/Désactive le système de création de nettoyage.'
-            ]);
-
-            // Part
-            Setting::create([
-                'key' => 'part_manage_enabled',
-                'site_id' => $i,
-                'value' => true,
-                'label' => 'Activation du système de gestion des pièces détachées.',
-                'text' => 'Active/Désactive le système de gestion des pièces détachées.'
-            ]);
-            Setting::create([
-                'key' => 'part_create_enabled',
-                'site_id' => $i,
-                'value' => true,
-                'label' => 'Activation du système de création de pièce détachée.',
-                'text' => 'Active/Désactive le système de création de pièce détachée.'
             ]);
         }
 

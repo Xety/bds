@@ -246,7 +246,7 @@
 
     <!-- Create/Edit Cleaning Modal -->
     <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Nettoyage' : 'Editer le Nettoyage' }}">
-        @php $message = "Sélectionnez la zone dans laquelle le matériel appartient.";@endphp
+        @php $message = "Sélectionnez le matériel que vous avez nettoyé.";@endphp
         <x-select
             :options="$materials"
             class="select-primary"
@@ -271,7 +271,7 @@
             placeholder="Sélectionnez le type"
         />
 
-        @if ($form->type == 'weekly' && $materialCleaningTestPhEnabled && session('current_site_id') == 2)
+        @if ($form->type == 'weekly' && $materialCleaningTestPhEnabled && getPermissionsTeamId() === settings('site_id_selvah'))
             <div class="divider text-base-content text-opacity-70 uppercase">SELVAH</div>
 
             @php $message = "Veuillez renseigner le PH de l'eau du réseau.";@endphp

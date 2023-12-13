@@ -13,7 +13,7 @@ use BDS\Models\Presenters\PartPresenter;
 
 class Part extends Model
 {
-    //use Countable;
+    use Countable;
     use PartPresenter;
     use HasFactory;
 
@@ -27,6 +27,25 @@ class Part extends Model
         'name',
         'user_id',
         'description',
+        'reference',
+        'supplier_id',
+        'price',
+        'number_warning_enabled',
+        'number_warning_minimum',
+        'number_critical_enabled',
+        'number_critical_minimum',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'number_warning_enabled' => 'boolean',
+        'number_warning_minimum' => 'integer',
+        'number_critical_enabled' => 'boolean',
+        'number_critical_minimum' => 'integer'
     ];
 
     /**
@@ -40,13 +59,35 @@ class Part extends Model
     ];
 
     /**
-     * Get the user that owns the part.
+     * Return the count cache configuration.
+     *
+     * @return array
+     */
+    public function countCaches(): array
+    {
+        return [
+            Supplier::class
+        ];
+    }
+
+    /**
+     * Get the site that owns the part.
      *
      * @return BelongsTo
      */
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);
+    }
+
+    /**
+     * Get the supplier for the part.
+     *
+     * @return BelongsTo
+     */
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     /**

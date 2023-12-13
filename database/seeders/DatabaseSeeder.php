@@ -36,5 +36,8 @@ class DatabaseSeeder extends Seeder
 
         // Cleanings
         $this->call(CleaningsTableSeeder::class);
+
+        // Suppliers
+        $this->call(SuppliersTableSeeder::class);
     }
 }

@@ -16,21 +16,19 @@ class PartForm extends Form
 
     public ?string $reference = null;
 
+    public ?int $supplier_id = null;
+
+    public ?float $price = 0.00;
+
+    public ?bool $number_warning_enabled = null;
+
+    public ?int $number_warning_minimum = 0;
+
+    public ?bool $number_critical_enabled = null;
+
+    public ?int $number_critical_minimum = 0;
+
     public array $materials = [];
-
-    /**
-     *  What ever the warning is enabled or not. Used to show/hide the related count field.
-     *
-     * @var boolean
-     */
-    public bool $numberWarningEnabled = false;
-
-    /**
-     *  What ever the critical warning is enabled or not. Used to show/hide the related count field.
-     *
-     * @var boolean
-     */
-    public bool $numberCriticalEnabled = false;
 
     /**
      * Rules used for validating the model.
@@ -47,16 +45,16 @@ class PartForm extends Form
             ],
             'description' => 'required|min:3',
             'reference' => [
-                'min:2',
+                'min:1',
                 'max:30',
                 Rule::unique('parts')->ignore($this->part?->id)->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
             ],
             'supplier_id' => 'present|numeric|exists:suppliers,id|nullable',
-            'price' => 'float',
+            'price' => 'required|min:0|numeric',
             'number_warning_enabled' => 'required|boolean',
-            'number_warning_minimum' => 'exclude_if:model.number_warning_enabled,false|required|numeric',
+            'number_warning_minimum' => 'exclude_if:form.number_warning_enabled,false|required|numeric',
             'number_critical_enabled' => 'required|boolean',
-            'number_critical_minimum' => 'exclude_if:model.number_critical_enabled,false|required|numeric',
+            'number_critical_minimum' => 'exclude_if:form.number_critical_enabled,false|required|numeric',
         ];
     }
 
@@ -69,6 +67,7 @@ class PartForm extends Form
     {
         return [
             'name' => 'nom',
+            'description' => 'description',
             'reference' => 'référence',
             'supplier_id' => 'fournisseur',
             'price' => 'prix',
@@ -85,6 +84,7 @@ class PartForm extends Form
             'part' => $part,
             'materials' => $materials,
             'name' => $part->name,
+            'description' => $part->description,
             'supplier_id' => $part->supplier_id,
             'price' => $part->price,
             'number_warning_enabled' => $part->number_warning_enabled,
@@ -103,7 +103,15 @@ class PartForm extends Form
     public function store(): Part
     {
         $part = Part::create($this->only([
-            'name'
+            'name',
+            'description',
+            'reference',
+            'supplier_id',
+            'price',
+            'number_warning_enabled',
+            'number_warning_minimum',
+            'number_critical_enabled',
+            'number_critical_minimum',
         ]));
 
         $part->materials()->sync($this->materials);
@@ -120,6 +128,14 @@ class PartForm extends Form
     {
         $part = tap($this->part)->update($this->only([
             'name',
+            'description',
+            'reference',
+            'supplier_id',
+            'price',
+            'number_warning_enabled',
+            'number_warning_minimum',
+            'number_critical_enabled',
+            'number_critical_minimum',
         ]));
 
         $part->materials()->sync($this->materials);

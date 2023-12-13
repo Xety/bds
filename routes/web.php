@@ -256,6 +256,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Suppliers Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('suppliers', [BDS\Http\Controllers\SupplierController::class, 'index'])
+        ->name('suppliers.index');
+    Route::get('suppliers/{supplier}', [BDS\Http\Controllers\SupplierController::class, 'show'])
+        ->name('suppliers.show')
+        ->missing(function (Request $request) {
+            return Redirect::back()
+                ->with('danger', "Ce fournisseur n'existe pas ou à été supprimé !");
+        });
+
+    /*
+    |--------------------------------------------------------------------------
     | Tree Routes
     |--------------------------------------------------------------------------
     */

@@ -115,12 +115,12 @@ class Input extends Component
 
                     <!-- ICON  -->
                     @if($icon)
-                        <x-icon :name="$icon" class="absolute top-1/2 -translate-y-1/2 left-3 text-gray-400 " />
+                        <x-icon :name="$icon" class="absolute top-1/2 -translate-y-1/2 left-3 text-gray-400 h-5 w-5" />
                     @endif
 
                     <!-- RIGHT ICON  -->
                     @if($iconRight)
-                        <x-icon :name="$iconRight" class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 " />
+                        <x-icon :name="$iconRight" class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 h-5 w-5" />
                     @endif
 
                     <!-- INLINE LABEL -->

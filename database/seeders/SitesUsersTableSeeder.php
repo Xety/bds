@@ -24,7 +24,7 @@ class SitesUsersTableSeeder extends Seeder
         $user->sites()->sync($this->allSites);
 
         $user = User::where('email', 'f.lequeu@bds.coop')->first();
-        $user->sites()->sync([2, 3]);
+        $user->sites()->syncWithPivotValues([2, 3], ['manager' => true]);
 
         $user = User::where('email', 'a.moindrot@bds.coop')->first();
         $user->sites()->sync([2]);

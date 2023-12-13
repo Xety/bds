@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('reference')->nullable();
-            $table->string('supplier')->nullable();
             $table->float('price')->default(0.00);
             $table->integer('part_entry_total')->default(0);
             $table->integer('part_exit_total')->default(0);
@@ -37,9 +36,15 @@ return new class extends Migration
         Schema::table('parts', function (Blueprint $table) {
             $table->foreignIdFor(\BDS\Models\Site::class)
                 ->after('id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->foreignIdFor(\BDS\Models\User::class)->after('description');
+            $table->foreignIdFor(\BDS\Models\Supplier::class)
+                ->after('reference')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignIdFor(\BDS\Models\User::class)
+                ->after('description');
 
             $table->unique(['name', 'site_id'], 'parts_name_site_primary');
             $table->unique(['reference', 'site_id'], 'parts_reference_site_primary');

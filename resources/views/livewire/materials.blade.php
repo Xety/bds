@@ -332,7 +332,7 @@
         <div class="divider text-base-content text-opacity-70 uppercase">Nettoyage</div>
 
         {{-- SELVAH ONLY --}}
-        @if(getPermissionsTeamId() == 2)
+        @if(getPermissionsTeamId() === settings('site_id_selvah'))
             <x-checkbox wire:model="form.selvah_cleaning_test_ph_enabled" name="form.selvah_cleaning_test_ph_enabled" label="Activer le test de PH" text="Cochez pour activer le test de PH obligatoire pour ce matériel" />
         @endif
 

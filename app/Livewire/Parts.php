@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -231,9 +232,15 @@ class Parts extends Component
                 ->with(['zone' => function ($query) {
                     $query->select('id', 'name');
                 }])
-                ->whereRelation('zone.site', 'id', session('current_site_id'))
+                ->whereRelation('zone.site', 'id', getPermissionsTeamId())
                 ->select(['id', 'name', 'zone_id'])
                 ->orderBy('zone_id')
+                ->get()
+                ->toArray(),
+            'suppliers' => Supplier::query()
+                ->where('site_id', getPermissionsTeamId())
+                ->select(['id', 'name', 'site_id'])
+                ->orderBy('name')
                 ->get()
                 ->toArray(),
         ]);

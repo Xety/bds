@@ -95,17 +95,20 @@
 
             @forelse($parts as $part)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $part->getKey() }}">
-                    @canany(['export', 'delete'], \BDS\Models\Part::class)
+                    @if(Gate::any(['export', 'delete'], $part) && getPermissionsTeamId() === $part->site_id)
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model="selected" value="{{ $part->getKey() }}" />
                             </label>
                         </x-table.cell>
-                    @endcanany
+                    @else
+                        <x-table.cell></x-table.cell>
+                    @endif
 
-                    @if (Gate::any(['update', 'generateQrCode'], $part) ||
+                    @if ((Gate::any(['update', 'generateQrCode'], $part) ||
                         Gate::any(['create'], \BDS\Models\PartEntry::class) ||
-                        Gate::any(['create'], \BDS\Models\PartExit::class))
+                        Gate::any(['create'], \BDS\Models\PartExit::class)) &&
+                        getPermissionsTeamId() === $part->site_id)
                         <x-table.cell>
                             <x-dropdown top hover class="w-60">
                                 <x-slot:trigger>
@@ -151,6 +154,8 @@
                                 @endcan
                             </x-dropdown>
                         </x-table.cell>
+                    @else
+                        <x-table.cell></x-table.cell>
                     @endif
 
                     <x-table.cell>
@@ -179,7 +184,9 @@
                             {{ $part->reference}}
                         </code>
                     </x-table.cell>
-                    <x-table.cell>{{ $part->supplier }}</x-table.cell>
+                    <x-table.cell>
+                        {{ $part->supplier->name }}
+                    </x-table.cell>
                     <x-table.cell>
                         <code class="code rounded-sm">
                             {{ $part->price }}€
@@ -268,6 +275,24 @@
 
         <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom de la pièce détachée..." type="text" />
 
+        <x-textarea wire:model="form.description" name="form.description" label="Description de la pièce détachée" placeholder="Description de la pièce détachée..." rows="3" />
+
+        <x-input wire:model="form.reference" name="form.reference" label="Référence" placeholder="Référence de la pièce détachée..." type="text" />
+
+        @php $message = "Sélectionner le fournisseur de la pièce détachée. (Si le fournisseur n'est pas dans la liste, vous devez le créer via la Gestion des Fournisseur)";@endphp
+        <x-select
+            :options="$suppliers"
+            icon="fas-shop"
+            class="select-primary"
+            wire:model="form.supplier_id"
+            name="form.supplier_id"
+            label="Fournisseur"
+            :label-info="$message"
+            placeholder="Sélectionnez le Fournisseur"
+        />
+
+        <x-input icon-right="fas-euro-sign" wire:model="form.price" name="form.price" label="Prix" placeholder="Prix de la pièce détachée..." type="number" min="0" step="0.01"  />
+
         @php $message = "Sélectionnez le(s) matériel(s) auquel appartient la pièce détachée.<br><i>Note: si la pièce détachée appartient à aucun matériel, sélectionnez <b>\"Aucun matériel\"</b></i> ";@endphp
         <x-select
             :options="$materials"
@@ -279,6 +304,20 @@
             placeholder="Aucun Matériel"
             multiple=""
         />
+
+        <div class="divider text-base-content text-opacity-70 uppercase">Alertes</div>
+
+        <x-checkbox wire:model.live="form.number_warning_enabled" name="form.number_warning_enabled" label="Alerte de stock" text="Cochez pour activer l'alerte de stock pour cette pièce détachée" />
+
+        @if ($form->number_warning_enabled)
+            <x-input wire:model="form.number_warning_minimum" name="form.number_warning_minimum" label="Quantité pour l'alerte" placeholder="Quantité minimum pour l'alerte..." type="number" min="0" step="1"  />
+        @endif
+
+        <x-checkbox wire:model.live="form.number_critical_enabled" name="form.number_critical_enabled" label="Alerte de stock critique" text="Cochez pour activer l'alerte de stock critique pour cette pièce détachée" />
+
+        @if ($form->number_critical_enabled)
+            <x-input wire:model="form.number_critical_minimum" name="form.number_critical_minimum" label="Quantité pour l'alerte critique" placeholder="Quantité minimum pour l'alerte critique..." type="number" min="0" step="1"  />
+        @endif
 
         <x-slot:actions>
             <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
