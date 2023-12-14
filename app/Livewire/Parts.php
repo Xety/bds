@@ -221,6 +221,35 @@ class Parts extends Component
     }
 
     /**
+     * Function to search materials in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function search(string $value = ''): void
+    {
+        // Besides the search results, you must include on demand selected option
+        $selectedOption = Material::whereIn('id', $this->form->materials)->get();
+
+        $materials = Material::query()
+            ->with(['zone', 'zone.site'])
+            ->where('name', 'like', "%$value%");
+
+        // Only the maintenance site can access to all materials from all sites.
+        if((getPermissionsTeamId() !== settings('site_id_maintenance_bds'))) {
+            $materials->whereRelation('zone.site', 'id', getPermissionsTeamId());
+        }
+
+        $materials = $materials->take(5)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->materialsMultiSearchable = $materials;
+    }
+
+    /**
      * Function to render the component.
      *
      * @return View
@@ -297,6 +326,7 @@ class Parts extends Component
         $this->useCachedRows();
 
         $this->form->reset();
+        $this->search();
 
         $this->showModal = true;
     }
@@ -319,6 +349,7 @@ class Parts extends Component
         $materials = $part->materials()->pluck('id')->toArray();
 
         $this->form->setPart($part, $materials);
+        $this->search();
 
         $this->showModal = true;
     }

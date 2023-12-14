@@ -29,14 +29,14 @@ new class extends Component {
             ->take(5)
             ->orderBy('name')
             ->get()
-            ->merge($selectedOption);     // <-- Adds selected option
+            ->merge($selectedOption);
     }
 }
 ?>
 
 <div>
     <x-choices
-        label="Searchable + Multiple"
+        label="Matériels"
         wire:model="users_multi_searchable_ids"
         :options="$usersMultiSearchable"
         search-function="search"
@@ -44,6 +44,7 @@ new class extends Component {
         debounce="300ms"
         min-chars="2"
         searchable>
+
         {{-- Item slot--}}
         @scope('item', $option)
             <x-list-item :item="$option">

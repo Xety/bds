@@ -39,5 +39,9 @@ class DatabaseSeeder extends Seeder
 
         // Suppliers
         $this->call(SuppliersTableSeeder::class);
+
+        // Parts
+        $this->call(PartsTableSeeder::class);
+        $this->call(MaterialsPartsTableSeeder::class);
     }
 }

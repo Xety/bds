@@ -293,19 +293,49 @@
 
         <x-input icon-right="fas-euro-sign" wire:model="form.price" name="form.price" label="Prix" placeholder="Prix de la pièce détachée..." type="number" min="0" step="0.01"  />
 
-        @php $message = "Sélectionnez le(s) matériel(s) auquel appartient la pièce détachée.<br><i>Note: si la pièce détachée appartient à aucun matériel, sélectionnez <b>\"Aucun matériel\"</b></i> ";@endphp
-        <x-select
-            :options="$materials"
-            class="select-primary"
-            wire:model="form.materials"
-            name="form.materials"
-            label="Materiel"
+        @php
+            $message = "Sélectionnez les matériéls auquel appartient la pièce détachée." .
+            (getPermissionsTeamId() == settings('site_id_maintenance_bds') ?
+                "<br><b> Note: Vous pouvez assigner votre pièce détachée à des matériels appartenant à d'autres sites. </b>" :
+                "");
+        @endphp
+        <x-choices
+            label="Matériels"
             :label-info="$message"
-            placeholder="Aucun Matériel"
-            multiple=""
-        />
+            wire:model="form.materials"
+            :options="$form->materialsMultiSearchable"
+            search-function="search"
+            no-result-text="Aucun résultat..."
+            debounce="300ms"
+            min-chars="2"
+            searchable>
 
-        <livewire:parts.choices :materials="$materials" />
+            {{-- Item slot--}}
+            @scope('item', $option)
+                <x-list-item :item="$option">
+                    <x-slot:avatar>
+                        <x-icon name="fas-microchip" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                    </x-slot:avatar>
+
+                    <x-slot:value>
+                        {{ $option->name }} ({{ $option->id }})
+                    </x-slot:value>
+
+                    <x-slot:sub-value>
+                        {{ $option->zone->site->name }}
+                    </x-slot:sub-value>
+
+                    <x-slot:actions>
+                        {{ $option->zone->name }}
+                    </x-slot:actions>
+                </x-list-item>
+            @endscope
+
+            {{-- Selection slot--}}
+            @scope('selection', $option)
+                {{ $option->name }} ({{ $option->id }})
+            @endscope
+        </x-choices>
 
         <div class="divider text-base-content text-opacity-70 uppercase">Alertes</div>
 

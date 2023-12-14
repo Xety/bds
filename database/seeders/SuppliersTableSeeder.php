@@ -20,7 +20,7 @@ class SuppliersTableSeeder extends Seeder
                 'site_id' => 2,
                 'name' => 'OLEXA',
                 'description' => null,
-                'part_count' => 0
+                'part_count' => 1
             ],
             [
                 'site_id' => 2,
@@ -51,6 +51,18 @@ class SuppliersTableSeeder extends Seeder
                 'name' => 'RAVEY',
                 'description' => null,
                 'part_count' => 0
+            ],
+            [
+                'site_id' => 5,
+                'name' => 'RAVEY',
+                'description' => null,
+                'part_count' => 0
+            ],
+            [
+                'site_id' => 3,
+                'name' => 'OLEXA',
+                'description' => null,
+                'part_count' => 1
             ],
         ];
 

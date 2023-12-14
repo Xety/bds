@@ -2,7 +2,9 @@
 
 namespace BDS\Livewire\Forms;
 
+use BDS\Models\Material;
 use BDS\Models\Part;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
@@ -28,6 +30,14 @@ class PartForm extends Form
 
     public ?int $number_critical_minimum = 0;
 
+    // Options list
+    public Collection|array $materialsMultiSearchable = [];
+
+    /**
+     * Selected materials ids
+     *
+     * @var array
+     */
     public array $materials = [];
 
     /**

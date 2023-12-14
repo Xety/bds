@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('selvah_cleaning_test_ph_enabled')->default(false);
             $table->boolean('cleaning_alert')->default(false);
             $table->boolean('cleaning_alert_email')->default(false);
-            $table->tinyInteger('cleaning_alert_frequency_repeatedly')->default(0);
+            $table->tinyInteger('cleaning_alert_frequency_repeatedly')->default(1);
             $table->timestamp('last_cleaning_at')->nullable();
             $table->timestamp('last_cleaning_alert_send_at')->nullable();
             $table->enum('cleaning_alert_frequency_type', ['daily', 'monthly', 'yearly'])

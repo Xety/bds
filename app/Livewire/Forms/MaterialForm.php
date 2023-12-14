@@ -20,9 +20,9 @@ class MaterialForm extends Form
 
     public ?bool $cleaning_alert_email = false;
 
-    public ?int $cleaning_alert_frequency_repeatedly = null;
+    public ?int $cleaning_alert_frequency_repeatedly = 1;
 
-    public ?string $cleaning_alert_frequency_type = null;
+    public ?string $cleaning_alert_frequency_type = 'daily';
 
     public ?bool $selvah_cleaning_test_ph_enabled = false;
 

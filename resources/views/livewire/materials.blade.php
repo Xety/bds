@@ -319,7 +319,7 @@
         <x-select
             :options="$zones"
             class="select-primary"
-            wire:model.live="form.zone_id"
+            wire:model="form.zone_id"
             name="form.zone_id"
             label="Zone"
             :label-info="$message"
