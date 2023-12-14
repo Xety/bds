@@ -10,7 +10,7 @@
 
     <section class="m-3 lg:m-10">
         <hgroup class="text-center px-5 pb-5">
-            <h1 class="text-4xl font-xetaravel">
+            <h1 class="text-4xl">
                 <x-icon name="fas-user-tie" class="inline h-12 w-12"></x-icon> Gestion des Rôles
             </h1>
             <p class="text-gray-400">

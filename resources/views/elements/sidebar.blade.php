@@ -47,6 +47,8 @@
                         <x-menu-item wire:navigate title="Gérer les Entrées" icon="fas-arrow-right-to-bracket" link="{{ route('part-entries.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                         <x-menu-item wire:navigate title="Gérer les Sorties" icon="fas-right-from-bracket" link="{{ route('part-exits.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     </x-menu-sub>
+
+                    <x-menu-item wire:navigate title="Gérer les Fournisseurs" icon="fas-shop" link="{{ route('suppliers.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endif
 
@@ -78,7 +80,6 @@
                 <x-menu-separator  />
                 <x-menu-sub title="Sites" icon="fas-map-marker-alt">
                     <x-menu-item wire:navigate title="Gérer les Sites" icon="fas-map-marked-alt" link="{{ route('sites.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
-                    <x-menu-item wire:navigate title="Gérer les Accès aux Sites" icon="fas-building-shield" link="#" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endif
 

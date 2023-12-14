@@ -139,7 +139,7 @@
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $materials->count() }}</strong> matériel(s), voulez-vous tous les sélectionner <strong>{{ $materials->total() }}</strong>?</span>
                                 <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                    <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
                                 </button>
                             </div>

@@ -25,6 +25,11 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
+            $table->foreignIdFor(\BDS\Models\User::class)
+                ->after('id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->unique(['name', 'site_id'], 'suppliers_name_site_primary');
         });
     }

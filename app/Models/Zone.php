@@ -59,7 +59,7 @@ class Zone extends Model
     }
 
     /**
-     * Get the material that owns the cleaning.
+     * Get the site that owns the zone.
      *
      * @return BelongsTo
      */

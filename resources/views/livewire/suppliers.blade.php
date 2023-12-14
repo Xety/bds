@@ -1,7 +1,7 @@
 <div>
     <div class="flex flex-col lg:flex-row gap-4 justify-between">
         <div>
-            @canany(['delete'], \BDS\Models\Site::class)
+            @canany(['export', 'delete'], \BDS\Models\Supplier::class)
                 <div class="dropdown">
                     <label tabindex="0" class="btn btn-neutral m-1">
                         Actions
@@ -10,7 +10,7 @@
                         </svg>
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
-                        @can('delete', \BDS\Models\Site::class)
+                        @can('delete', \BDS\Models\Supplier::class)
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
@@ -23,46 +23,51 @@
             @endcanany
         </div>
         <div class="mb-4">
-            @can('create', \BDS\Models\Site::class)
+            @if (settings('supplier_create_enabled', true) && auth()->user()->can('create', \BDS\Models\Supplier::class))
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
-                    Nouveau Site
+                    Nouveau Fournisseur
                 </x-button>
-            @endcan
+            @endif
         </div>
     </div>
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @canany(['delete'], \BDS\Models\Site::class)
+            @canany(['export', 'delete'], \BDS\Models\Supplier::class)
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \BDS\Models\Site::class)
+            @can('update', \BDS\Models\Supplier::class)
                 <x-table.heading>Actions</x-table.heading>
             @endcan
-                <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">Id</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
-            <x-table.heading>Responsables</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('zone_count')" :direction="$sortField === 'zone_count' ? $sortDirection : null">Nombre de Zones</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('part_count')" :direction="$sortField === 'part_count' ? $sortDirection : null">Nombre de <br>pièces détachées</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
         </x-slot>
 
         <x-slot name="body">
-            @can('search', \BDS\Models\Site::class)
+            @can('search', \BDS\Models\Supplier::class)
                 <x-table.row>
-                    @can('delete', \BDS\Models\Site::class)
+                    @can('delete', \BDS\Models\Supplier::class)
                         <x-table.cell></x-table.cell>
                     @endcan
-                    @can('update', \BDS\Models\Site::class)
+                    @can('update', \BDS\Models\Supplier::class)
                         <x-table.cell></x-table.cell>
                     @endcan
-                    <x-table.cell></x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text" />
+                        <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text"  />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.user" name="filters.user" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.description" name="filters.description" type="text" />
                     </x-table.cell>
                         <x-table.cell>
                         </x-table.cell>
@@ -75,67 +80,67 @@
 
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="4">
+                    <x-table.cell colspan="6">
                         @unless ($selectAll)
                             <div>
-                                <span>Vous avez sélectionné <strong>{{ $sites->count() }}</strong> site(s), voulez-vous tous les sélectionner <strong>{{ $sites->total() }}</strong>?</span>
-                                <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
-                                    <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
+                                <span>Vous avez sélectionné <strong>{{ $suppliers->count() }}</strong> fournisseur(s), voulez-vous tous les sélectionner <strong>{{ $suppliers->total() }}</strong>?</span>
+                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
+                                    <i class="fa-solid fa-check"></i>
                                     Tout sélectionner
-                                </x-button>
+                                </button>
                             </div>
                         @else
-                            <span>Vous sélectionnez actuellement <strong>{{ $sites->total() }}</strong> zone(s).</span>
+                            <span>Vous sélectionnez actuellement <strong>{{ $suppliers->total() }}</strong> fournisseur(s).</span>
                         @endif
                     </x-table.cell>
                 </x-table.row>
             @endif
 
-            @forelse($sites as $site)
-                <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $site->getKey() }}">
-                    @canany(['delete'], \BDS\Models\Site::class)
+            @forelse($suppliers as $supplier)
+                <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $supplier->getKey() }}">
+                    @canany(['export', 'delete'], \BDS\Models\Supplier::class)
                         <x-table.cell>
                             <label>
-                                <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $site->getKey() }}" />
+                                <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $supplier->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @endcanany
-                    @can('update', \BDS\Models\Site::class)
-                         <x-table.cell>
-                            <a href="#" wire:click.prevent="edit({{ $site->getKey() }})" class="tooltip tooltip-right" data-tip="Editer ce site">
+                    @can('update', \BDS\Models\Supplier::class)
+                        <x-table.cell>
+                            <a href="#" wire:click.prevent="edit({{ $supplier->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier ce fournisseur">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
                     @endcan
                     <x-table.cell>
-                        {{ $site->getKey() }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $supplier->show_url }}">
+                            {{ $supplier->name }}
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
-                        <span class="text-primary font-bold">
-                            {{ $site->name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $supplier->user->show_url }}">
+                            {{ $supplier->user->full_name }}
+                        </a>
+                    </x-table.cell>
+                    <x-table.cell>
+                        <span class="tooltip tooltip-top text-left" data-tip="{{ $supplier->description }}">
+                            {{ Str::limit($supplier->description, 50) }}
                         </span>
                     </x-table.cell>
-                    <x-table.cell>
-                        @foreach($site->managers as $manager)
-                            <a class="link link-hover text-primary font-bold block" href="{{ route('users.show', $manager) }}">
-                                {{ $manager->full_name }}
-                            </a>
-                        @endforeach
-                    </x-table.cell>
-                    <x-table.cell>
-                        <code class="code rounded-sm">
-                            {{ $site->zone_count }}
-                        </code>
-                    </x-table.cell>
+                        <x-table.cell>
+                            <code class="code rounded-sm">
+                                {{ $supplier->part_count }}
+                            </code>
+                        </x-table.cell>
                     <x-table.cell class="capitalize">
-                        {{ $site->created_at->translatedFormat( 'D j M Y H:i') }}
+                        {{ $supplier->created_at->translatedFormat( 'D j M Y H:i') }}
                     </x-table.cell>
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="4">
+                    <x-table.cell colspan="6">
                         <div class="text-center p-2">
-                            <span class="text-muted">Aucune site trouvée...</span>
+                            <span class="text-muted">Aucun fournisseur trouvé...</span>
                         </div>
                     </x-table.cell>
                 </x-table.row>
@@ -144,19 +149,19 @@
     </x-table.table>
 
     <div class="grid grid-cols-1">
-        {{ $sites->links() }}
+        {{ $suppliers->links() }}
     </div>
 
 
-    <!-- Delete Sites Modal -->
-    <x-modal wire:model="showDeleteModal" title="Supprimer les Sites">
+    <!-- Delete Modal -->
+    <x-modal wire:model="showDeleteModal" title="Supprimer les Fournisseurs">
         @if (empty($selected))
             <p class="my-7">
-                Vous n'avez sélectionné aucun site à supprimer.
+                Vous n'avez sélectionné aucun fournisseur à supprimer.
             </p>
         @else
             <p class="my-7">
-                Êtes-vous sûr de vouloir supprimer ces sites ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
+                Voulez-vous vraiment supprimer ces fournisseurs ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
             </p>
         @endif
 
@@ -171,41 +176,12 @@
         </x-slot:actions>
     </x-modal>
 
-    <!-- Create/Edit Site Modal -->
-    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Site' : 'Editer le Site' }}">
+    <!-- Create/Edit Modal -->
+    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Fournisseur' : 'Editer le Fournisseur' }}">
 
         <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
 
-        @if($isCreating === false)
-            @php $message = "Sélectionnez le/les responsables du site. <i>Note : Ces responsables servent uniquement pour obtenir les informations de ceux-ci afin de les afficher pour les saisonnier.</i>";@endphp
-            <x-select
-                :options="$users"
-                class="select-primary"
-                wire:model="form.managers"
-                name="form.managers"
-                label="Responsables"
-                :label-info="$message"
-                size="5"
-                multiple
-            />
-        @endif
-
-        @php $message = "Uniquement si le site dispose d'un mail.";@endphp
-        <x-input wire:model="form.email" name="form.email" label="Email" placeholder="Email du site..." :label-info="$message" type="email" />
-
-        @php $message = "Uniquement si le site dispose d'un téléphone de bureau.";@endphp
-        <x-input wire:model="form.office_phone" name="form.office_phone" label="Téléphone bureau" placeholder="Téléphone bureau" :label-info="$message" type="text" />
-
-        @php $message = "Uniquement si le site dispose d'un téléphone portable.";@endphp
-        <x-input wire:model="form.cell_phone" name="form.cell_phone" label="Téléphone portable" placeholder="Téléphone portable" :label-info="$message" type="text" />
-
-        <x-input wire:model="form.address" name="form.address" label="Adresse du site" placeholder="Adresse du site" type="text" />
-
-        <div class="flex justify-between">
-            <x-input wire:model="form.zip_code" name="form.zip_code" label="Code Postal" placeholder="Code postal du site" type="text" />
-            <x-input wire:model="form.city" name="form.city" label="Ville" placeholder="Ville du site" type="text" />
-        </div>
-
+         <x-textarea wire:model="form.description" name="form.description" label="Description" placeholder="Informations complémentaires..." rows="3"/>
 
         <x-slot:actions>
             <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
@@ -220,4 +196,5 @@
             </x-button>
         </x-slot:actions>
     </x-modal>
+
 </div>

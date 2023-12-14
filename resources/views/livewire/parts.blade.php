@@ -82,7 +82,7 @@
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $parts->count() }}</strong> pièce(s) détachée(s), voulez-vous tous les sélectionner <strong>{{ $parts->total() }}</strong>?</span>
                                 <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                    <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
                                 </button>
                             </div>
@@ -279,7 +279,7 @@
 
         <x-input wire:model="form.reference" name="form.reference" label="Référence" placeholder="Référence de la pièce détachée..." type="text" />
 
-        @php $message = "Sélectionner le fournisseur de la pièce détachée. (Si le fournisseur n'est pas dans la liste, vous devez le créer via la Gestion des Fournisseur)";@endphp
+        @php $message = "Sélectionner le fournisseur de la pièce détachée. (Si le fournisseur n'est pas dans la liste, vous devez le créer via la Gestion des Fournisseurs)";@endphp
         <x-select
             :options="$suppliers"
             icon="fas-shop"

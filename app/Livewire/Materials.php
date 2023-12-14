@@ -148,13 +148,6 @@ class Materials extends Component
     public bool $showDeleteModal = false;
 
     /**
-     * Used to set to show/hide the advanced filters.
-     *
-     * @var bool
-     */
-    public bool $showFilters = false;
-
-    /**
      * Used to set the modal to Create action (true) or Edit action (false).
      *
      * @var bool

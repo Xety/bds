@@ -150,6 +150,22 @@ class SettingsTableSeeder extends Seeder
                 'label' => 'Activation du système de création de pièce détachée.',
                 'text' => 'Active/Désactive le système de création de pièce détachée.'
             ]);
+
+            // Supplier
+            Setting::create([
+                'key' => 'supplier_manage_enabled',
+                'site_id' => $a,
+                'value' => true,
+                'label' => 'Activation du système de gestion des fournisseurs.',
+                'text' => 'Active/Désactive le système de gestion des fournisseurs.'
+            ]);
+            Setting::create([
+                'key' => 'supplier_create_enabled',
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
+                'label' => 'Activation du système de création des fournisseurs.',
+                'text' => 'Active/Désactive le système de création des fournisseurs.'
+            ]);
         }
 
         // Settings for all sites except Verdun Siège.

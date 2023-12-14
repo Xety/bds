@@ -3,7 +3,9 @@
 namespace BDS\Providers;
 
 use BDS\Models\Part;
+use BDS\Models\Supplier;
 use BDS\Observers\PartObserver;
+use BDS\Observers\SupplierObserver;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use BDS\Listeners\User\AuthSubscriber;
 use BDS\Models\Cleaning;
@@ -45,6 +47,7 @@ class EventServiceProvider extends ServiceProvider
         Cleaning::class => [CleaningObserver::class],
         Material::class => [MaterialObserver::class],
         Part::class => [PartObserver::class],
+        Supplier::class => [SupplierObserver::class],
     ];
 
     /**

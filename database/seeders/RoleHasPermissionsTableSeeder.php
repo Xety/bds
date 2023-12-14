@@ -57,6 +57,12 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view partExit',
         'export partExit',
         'search partExit',
+
+        // Supplier
+        'viewAny supplier',
+        'view supplier',
+        'export supplier',
+        'search supplier',
     ];
 
     protected array $responsablePermissions = [
@@ -135,6 +141,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete partExit',
         'export partExit',
         'search partExit',
+
+        // Supplier
+        'viewAny supplier',
+        'view supplier',
+        'create supplier',
+        'update supplier',
+        'delete supplier',
+        'export supplier',
+        'search supplier',
     ];
 
     protected array $responsableMaintenancePermissions = [
@@ -185,6 +200,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete partExit',
         'export partExit',
         'search partExit',
+
+        // Supplier
+        'viewAny supplier',
+        'view supplier',
+        'create supplier',
+        'update supplier',
+        'delete supplier',
+        'export supplier',
+        'search supplier',
     ];
 
     protected array $operateurSelvahPermissions = [
@@ -317,6 +341,11 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view partExit',
         'create partExit',
         'search partExit',
+
+        // Supplier
+        'viewAny supplier',
+        'view supplier',
+        'search supplier',
     ];
 
     protected array $responsableQualite = [
@@ -505,6 +534,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete partExit',
             'export partExit',
             'search partExit',
+
+            // Supplier
+            'viewAny supplier',
+            'view supplier',
+            'create supplier',
+            'update supplier',
+            'delete supplier',
+            'export supplier',
+            'search supplier',
         ]);
 
         // Directeur Général

@@ -3,6 +3,7 @@
 namespace BDS\Livewire;
 
 use BDS\Livewire\Forms\CleaningForm;
+use BDS\Livewire\Forms\SupplierForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithFilters;
@@ -11,8 +12,10 @@ use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Cleaning;
 use BDS\Models\Material;
+use BDS\Models\Supplier;
 use BDS\Models\User;
 use BDS\Models\Zone;
+use BDS\Observers\SupplierObserver;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -21,7 +24,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Cleanings extends Component
+class Suppliers extends Component
 {
     use AuthorizesRequests;
     use WithBulkActions;
@@ -37,28 +40,28 @@ class Cleanings extends Component
      *
      * @var string
      */
-    public string $model = Cleaning::class;
+    public string $model = Supplier::class;
 
     /**
      * The form used to create/update a cleaning.
      *
-     * @var CleaningForm
+     * @var SupplierForm
      */
-    public CleaningForm $form;
+    public SupplierForm $form;
 
     /**
      * The field to sort by.
      *
      * @var string
      */
-    public string $sortField = 'created_at';
+    public string $sortField = 'name';
 
     /**
      * The direction of the ordering.
      *
      * @var string
      */
-    public string $sortDirection = 'desc';
+    public string $sortDirection = 'asc';
 
     /**
      * Used to update in URL the query string.
@@ -68,32 +71,8 @@ class Cleanings extends Component
     protected array $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
-        'creating',
-        'materialId',
         'filters',
     ];
-
-    /**
-     * Whatever the QR COde is set or not.
-     *
-     * @var bool
-     */
-    public bool $creating = false;
-
-    /**
-     * The QR Code id if set.
-     *
-     * @var int|null
-     */
-    public ?int $materialId = null;
-
-    /**
-     * Whatever the selected material has enabled the PH test when creating/editing
-     * a cleaning.
-     *
-     * @var bool
-     */
-    public bool $materialCleaningTestPhEnabled = false;
 
     /**
      * Filters used for advanced search.
@@ -101,12 +80,9 @@ class Cleanings extends Component
      * @var array
      */
     public array $filters = [
-        'id' => '',
-        'material' => '',
-        'zone' => '',
-        'creator' => '',
+        'name' => '',
+        'user' => '',
         'description' => '',
-        'type' => '',
         'created_min' => '',
         'created_max' => '',
     ];
@@ -117,11 +93,10 @@ class Cleanings extends Component
      * @var array
      */
     public array $allowedFields = [
-        'id',
-        'material_id',
+        'name',
         'user_id',
         'description',
-        'type',
+        'part_count',
         'created_at'
     ];
 
@@ -132,15 +107,15 @@ class Cleanings extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "Le nettoyage n°<b>:id</b> a été créé avec succès !",
+            'success' => "Le fournisseur n°<b>:name</b> a été créé avec succès !",
             'danger' => "Une erreur s'est produite lors de la création du nettoyage !"
         ],
         'update' => [
-            'success' => "Le nettoyage n°<b>:id</b> a été édité avec succès !",
+            'success' => "Le fournisseur n°<b>:name</b> a été édité avec succès !",
             'danger' => "Une erreur s'est produite lors de l'édition du nettoyage !"
         ],
         'delete' => [
-            'success' => "<b>:count</b> nettoyage(s) ont été supprimé(s) avec succès !",
+            'success' => "<b>:count</b> fournisseur(s) ont été supprimé(s) avec succès !",
             'danger' => "Une erreur s'est produite lors de la suppression des nettoyages !"
         ]
     ];
@@ -174,57 +149,14 @@ class Cleanings extends Component
     public int $perPage = 25;
 
     /**
-     * The Livewire Component constructor.
-     *
-     * @return void
-     */
-    public function mount(): void
-    {
-        // Check if the creating option is set into the url, and if yes, open the Create Modal (if the user has the permissions).
-        if ($this->creating === true && $this->materialId !== null) {
-            // Must check the site_id of the zone that belong to the material,
-            // to be sure the user does not try to use a material from another site.
-            $material = Material::whereId($this->materialId)
-                ->whereRelation('zone.site', 'id', getPermissionsTeamId())
-                ->first();
-
-            if ($material) {
-                $this->create();
-
-                $this->form->material_id = $material->id;
-            }
-        }
-    }
-
-    /**
-     * Update the variable whenever the form is updated.
-     *
-     * @return void
-     */
-    public function updatedForm(): void
-    {
-        $material = Material::find($this->form->material_id);
-        $this->materialCleaningTestPhEnabled = !is_null($material) && $material->selvah_cleaning_test_ph_enabled;
-    }
-
-    /**
      * Function to render the component.
      *
      * @return View
      */
     public function render(): View
     {
-        return view('livewire.cleanings', [
-            'cleanings' => $this->rows,
-            'materials' => Material::query()
-                ->with(['zone' => function ($query) {
-                    $query->select('id', 'name');
-                }])
-                ->whereRelation('zone.site', 'id', getPermissionsTeamId())
-                ->select(['id', 'name', 'zone_id'])
-                ->orderBy('zone_id')
-                ->get()
-                ->toArray()
+        return view('livewire.suppliers', [
+            'suppliers' => $this->rows
         ]);
     }
 
@@ -235,33 +167,17 @@ class Cleanings extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Cleaning::query()
-            ->with('material', 'user', 'material.zone', 'material.zone.site')
-            ->whereRelation('material.zone.site', 'id', getPermissionsTeamId())
-            ->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
-            ->when($this->filters['material'], function ($query, $search) {
-                return $query->whereHas('material', function ($partQuery) use ($search) {
-                    $partQuery->where('name', 'LIKE', '%' . $search . '%');
-                });
-            })
-            ->when($this->filters['zone'], function ($query, $search) {
-                return $query->whereHas('material.zone', function ($partQuery) use ($search) {
-                    $partQuery->where('name', 'LIKE', '%' . $search . '%');
-                });
-            })
-            ->when($this->filters['creator'], function ($query, $search) {
+        $query = Supplier::query()
+            ->with('site')
+            ->where('site_id', getPermissionsTeamId())
+            ->when($this->filters['name'], fn($query, $name) => $query->where('name', 'LIKE', '%' . $name . '%'))
+            ->when($this->filters['user'], function ($query, $search) {
                 return $query->whereHas('user', function ($partQuery) use ($search) {
                     $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
                         ->orWhere('last_name', 'LIKE', '%' . $search . '%');
                 });
             })
             ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
-            ->when($this->filters['type'], function ($query, $search) {
-                if ($search !== 'Tous') {
-                    return $query->where('type', $search);
-                }
-                return $query;
-            })
             ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
 
@@ -287,7 +203,7 @@ class Cleanings extends Component
      */
     public function create(): void
     {
-        $this->authorize('create', Cleaning::class);
+        $this->authorize('create', Supplier::class);
 
         $this->isCreating = true;
         $this->useCachedRows();
@@ -298,22 +214,21 @@ class Cleanings extends Component
     }
 
     /**
-     * Set the model (used in modal) to the cleaning we want to edit.
+     * Set the model (used in modal) to the supplier we want to edit.
      *
-     * @param Cleaning $cleaning The cleaning id to update.
+     * @param Supplier $supplier The supplier id to update.
      * (Livewire will automatically fetch the model by the id)
      *
      * @return void
      */
-    public function edit(Cleaning $cleaning): void
+    public function edit(Supplier $supplier): void
     {
-        $this->authorize('update', $cleaning);
+        $this->authorize('update', $supplier);
 
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setCleaning($cleaning);
-        $this->updatedForm();
+        $this->form->setSupplier($supplier);
 
         $this->showModal = true;
     }
@@ -325,13 +240,13 @@ class Cleanings extends Component
      */
     public function save(): void
     {
-        $this->authorize($this->isCreating ? 'create' : 'update', Cleaning::class);
+        $this->authorize($this->isCreating ? 'create' : 'update', Supplier::class);
 
         $this->validate();
 
         $model = $this->isCreating ? $this->form->store() : $this->form->update();
 
-        $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['id' => $model->getKey()]);
+        $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['name' => $model->name]);
 
         $this->showModal = false;
     }

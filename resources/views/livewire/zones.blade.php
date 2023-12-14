@@ -105,7 +105,7 @@
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $zones->count() }}</strong> zone(s), voulez-vous tous les sélectionner <strong>{{ $zones->total() }}</strong>?</span>
                                 <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
-                                    <x-icon name="fas-check" class="h-5 w-5"></x-icon>
+                                    <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
                                 </x-button>
                             </div>

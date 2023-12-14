@@ -12,7 +12,7 @@
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
                         @can('export', \BDS\Models\Cleaning::class)
                             <li>
-                                <button type="button" class="text-red-500" wire:click="exportSelected()">
+                                <button type="button" class="text-blue-500" wire:click="exportSelected()">
                                     <x-icon name="fas-download" class="h-5 w-5"></x-icon>
                                     Exporter
                                 </button>
@@ -58,7 +58,7 @@
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('type')" :direction="$sortField === 'type' ? $sortDirection : null">Type</x-table.heading>
-            @if(session('current_site_id') == 2)
+            @if(getPermissionsTeamId() === settings('site_id_selvah'))
                 <x-table.heading sortable wire:click="sortBy('ph_test_water')" :direction="$sortField === 'ph_test_water' ? $sortDirection : null">PH de l'eau</x-table.heading>
                 <x-table.heading sortable wire:click="sortBy('ph_test_water_after_cleaning')" :direction="$sortField === 'ph_test_water_after_cleaning' ? $sortDirection : null">PH de l'eau <br>après nettoyage</x-table.heading>
             @endif
@@ -116,7 +116,7 @@
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $cleanings->count() }}</strong> nettoyage(s), voulez-vous tous les sélectionner <strong>{{ $cleanings->total() }}</strong>?</span>
                                 <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                    <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
                                 </button>
                             </div>
@@ -275,10 +275,10 @@
             <div class="divider text-base-content text-opacity-70 uppercase">SELVAH</div>
 
             @php $message = "Veuillez renseigner le PH de l'eau du réseau.";@endphp
-            <x-input wire:model.defer="form.selvah_ph_test_water" name="form.selvah_ph_test_water" type="number" label="Test PH de l'eau du réseau" placeholder="PH..." min="1" step="0.5" :label-info="$message"  />
+            <x-input wire:model="form.selvah_ph_test_water" name="form.selvah_ph_test_water" type="number" label="Test PH de l'eau du réseau" placeholder="PH..." min="1" step="0.5" :label-info="$message"  />
 
             @php $message = "Veuillez renseigner le PH de l'eau après nettoyage.";@endphp
-            <x-input wire:model.defer="form.selvah_ph_test_water_after_cleaning" name="form.selvah_ph_test_water_after_cleaning" type="number" label="Test PH après nettoyage" placeholder="PH..." min="1" step="0.5" :label-info="$message"  />
+            <x-input wire:model="form.selvah_ph_test_water_after_cleaning" name="form.selvah_ph_test_water_after_cleaning" type="number" label="Test PH après nettoyage" placeholder="PH..." min="1" step="0.5" :label-info="$message"  />
         @endif
 
         <x-slot:actions>

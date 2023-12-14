@@ -156,13 +156,6 @@ class Parts extends Component
     public bool $isCreating = false;
 
     /**
-     * Used to set to show/hide the advanced filters.
-     *
-     * @var bool
-     */
-    public bool $showFilters = false;
-
-    /**
      * Number of rows displayed on a page.
      *
      * @var int
