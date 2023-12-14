@@ -448,7 +448,7 @@
                             <x-slot name="head">
                                 <x-table.heading>#Id</x-table.heading>
                                 <x-table.heading>Name</x-table.heading>
-                                <x-table.heading>Matériel</x-table.heading>
+                                <x-table.heading>Site</x-table.heading>
                                 <x-table.heading>Description</x-table.heading>
                                 <x-table.heading>Référence</x-table.heading>
                                 <x-table.heading>Fournisseur</x-table.heading>
@@ -472,7 +472,9 @@
                                                 {{ $part->name }}
                                             </a>
                                         </x-table.cell>
-                                        <x-table.cell>{{ $part->material->name }}</x-table.cell>
+                                        <x-table.cell>
+                                            {{ $part->site->name }}
+                                        </x-table.cell>
                                         <x-table.cell>
                                         <span class="tooltip tooltip-top" data-tip="{{ $part->description }}">
                                             {{ Str::limit($part->description, 50) }}
@@ -483,7 +485,7 @@
                                                 {{ $part->reference}}
                                             </code>
                                         </x-table.cell>
-                                        <x-table.cell>{{ $part->supplier }}</x-table.cell>
+                                        <x-table.cell>{{ $part->supplier->name }}</x-table.cell>
                                         <x-table.cell>
                                             <code class="code rounded-sm">
                                                 {{ $part->price }}€
