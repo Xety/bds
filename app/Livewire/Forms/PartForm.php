@@ -95,6 +95,7 @@ class PartForm extends Form
             'materials' => $materials,
             'name' => $part->name,
             'description' => $part->description,
+            'reference' => $part->reference,
             'supplier_id' => $part->supplier_id,
             'price' => $part->price,
             'number_warning_enabled' => $part->number_warning_enabled,

@@ -181,7 +181,7 @@
                     </x-table.cell>
                     <x-table.cell>
                         <code class="code rounded-sm">
-                            {{ $part->reference}}
+                            {{ $part->reference }}
                         </code>
                     </x-table.cell>
                     <x-table.cell>
