@@ -8,10 +8,14 @@ use BDS\Models\Role;
 class RoleHasPermissionsTableSeeder extends Seeder
 {
     protected array $directeurGeneralPermissions = [
+        // Site
+        'viewAny site',
+        'view site',
+        'search site',
+
         // Zone
         'viewAny zone',
         'view zone',
-        'update zone',
         'search zone',
 
         // Material
@@ -457,6 +461,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'create site',
             'update site',
             'delete site',
+            'search site',
 
             // Zone
             'viewAny zone',

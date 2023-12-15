@@ -20,6 +20,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -206,7 +207,7 @@ class Users extends Component
         $query = User::query()
             ->with('roles');
 
-        if (Auth::user()->can('search', User::class)) {
+        if (Gate::allows('search', User::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['email'], fn($query, $search) => $query->where('email', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['is_deleted'], function($query, $deleted) {

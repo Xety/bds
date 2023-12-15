@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -75,7 +76,6 @@ class Sites extends Component
      * @var array
      */
     public array $filters = [
-        'id',
         'name' => '',
         'created_min' => '',
         'created_max' => ''
@@ -165,7 +165,7 @@ class Sites extends Component
         $query = Site::query()
         ->with('managers');
 
-        if (Auth::user()->can('search', Site::class)) {
+        if (Gate::allows('search', Site::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));

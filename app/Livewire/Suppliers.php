@@ -21,6 +21,8 @@ use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -81,6 +83,7 @@ class Suppliers extends Component
      */
     public array $filters = [
         'name' => '',
+        'site' => '',
         'user' => '',
         'description' => '',
         'created_min' => '',
@@ -94,6 +97,7 @@ class Suppliers extends Component
      */
     public array $allowedFields = [
         'name',
+        'site_id',
         'user_id',
         'description',
         'part_count',
@@ -168,18 +172,33 @@ class Suppliers extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Supplier::query()
-            ->with('site')
-            ->where('site_id', getPermissionsTeamId())
-            ->when($this->filters['name'], fn($query, $name) => $query->where('name', 'LIKE', '%' . $name . '%'))
-            ->when($this->filters['user'], function ($query, $search) {
-                return $query->whereHas('user', function ($partQuery) use ($search) {
-                    $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
-                        ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+            ->with('site');
+
+        if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+            $query->where('site_id', getPermissionsTeamId());
+        }
+
+        if (Gate::allows('search', Supplier::class)) {
+            // This filter is only present on Verdun Siege site.
+            if(getPermissionsTeamId() === settings('site_id_verdun_siege')){
+                $query->when($this->filters['site'], function ($query, $search) {
+                    return $query->whereHas('site', function ($partQuery) use ($search) {
+                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                    });
                 });
-            })
-            ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
-            ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-            ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+            }
+
+            $query->when($this->filters['name'], fn($query, $name) => $query->where('name', 'LIKE', '%' . $name . '%'))
+                ->when($this->filters['user'], function ($query, $search) {
+                    return $query->whereHas('user', function ($partQuery) use ($search) {
+                        $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+                    });
+                })
+                ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+        }
 
         return $this->applySorting($query);
     }

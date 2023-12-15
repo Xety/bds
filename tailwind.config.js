@@ -11,10 +11,6 @@ export default {
         "./resources/js/**/*.js",
         "./resources/js/Components/**/*.vue",
         './storage/framework/views/*.php',
-        //'./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-
-        // Add mary
-        "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
     ],
 
     theme: {
@@ -46,7 +42,6 @@ export default {
     },
 
     plugins: [
-        require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require("daisyui")
     ],

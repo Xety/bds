@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 use ReflectionException;
@@ -86,8 +87,23 @@ class Parts extends Component
      */
     public array $filters = [
         'name' => '',
+        'site' => '',
         'creator' => '',
-        'material' => '',
+        'description' => '',
+        'reference' => '',
+        'supplier' => '',
+        'price_min' => '',
+        'price_max' => '',
+        'stock_min' => '',
+        'stock_max' => '',
+        'number_warning_enabled' => '',
+        'number_critical_enabled' => '',
+        'material_min' => '',
+        'material_max' => '',
+        'part_entry_min' => '',
+        'part_entry_max' => '',
+        'part_exit_min' => '',
+        'part_exit_max' => '',
         'created_min' => '',
         'created_max' => '',
     ];
@@ -98,8 +114,8 @@ class Parts extends Component
      * @var array
      */
     public array $allowedFields = [
-        'id',
         'name',
+        'site_id',
         'description',
         'user_id',
         'reference',
@@ -163,6 +179,13 @@ class Parts extends Component
     public int $perPage = 25;
 
     /**
+     * Whatever the option to view part from other site is enabled/disabled.
+     *
+     * @var bool
+     */
+    public bool $viewOtherSitePart = false;
+
+    /**
      * Flash messages for the model.
      *
      * @var array
@@ -191,6 +214,13 @@ class Parts extends Component
      */
     public function mount(): void
     {
+        // Set the view other site part to true by defaut for maintenance site only.
+        if (Gate::allows('viewOtherSite', Part::class) &&
+            (getPermissionsTeamId() === settings('site_id_maintenance_bds') ||
+            getPermissionsTeamId() === settings('site_id_verdun_siege'))) {
+            $this->viewOtherSitePart = true;
+        }
+
         // Check if the edit option are set into the url, and if yes, open the Edit Modal if the user has the permissions.
         if ($this->editing === true && $this->partId !== null) {
             $part = Part::whereId($this->partId)->first();
@@ -213,6 +243,8 @@ class Parts extends Component
         }
     }
 
+
+
     /**
      * Function to search materials in form.
      *
@@ -230,7 +262,7 @@ class Parts extends Component
             ->where('name', 'like', "%$value%");
 
         // Only the maintenance site can access to all materials from all sites.
-        if((getPermissionsTeamId() !== settings('site_id_maintenance_bds'))) {
+        if(getPermissionsTeamId() !== settings('site_id_maintenance_bds')) {
             $materials->whereRelation('zone.site', 'id', getPermissionsTeamId());
         }
 
@@ -284,12 +316,12 @@ class Parts extends Component
 
         // If the user does not have the permissions to see parts from other site
         // add a where condition to display only the part from the current site.
-        if (auth()->user()->can('viewOtherSite', Part::class) === false) {
+        if (!Gate::allows('viewOtherSite', Part::class) || !$this->viewOtherSitePart) {
             $query->where('site_id', getPermissionsTeamId());
         }
-            /*->when($this->filters['creator'], fn($query, $creator) => $query->where('user_id', $creator))
-            ->when($this->filters['created-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-            ->when($this->filters['created-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));*/
+        $query->when($this->filters['creator'], fn($query, $creator) => $query->where('user_id', $creator))
+            ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+            ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
 
         return $this->applySorting($query);
     }

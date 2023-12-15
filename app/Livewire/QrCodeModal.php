@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class QrCodeModal extends Component
@@ -101,7 +102,7 @@ class QrCodeModal extends Component
     public function mount(): void
     {
         // Material types
-        if (Auth::user()->can('create', Cleaning::class)) {
+        if (Gate::allows('create', Cleaning::class)) {
             $this->types['material']['actions']['cleanings'] = 'Nettoyage';
         }
 
@@ -109,7 +110,7 @@ class QrCodeModal extends Component
 
 
         if ($this->qrcode === true && array_key_exists($this->type, $this->types) && $this->qrcodeId !== null) {
-            if ($this->type == 'material' && Auth::user()->can('scanQrCode material')) {
+            if ($this->type == 'material' && Gate::allows('scanQrCode', Material::class)) {
                 $this->model = Material::find($this->qrcodeId);
             }
 

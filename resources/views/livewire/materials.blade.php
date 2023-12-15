@@ -138,10 +138,10 @@
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $materials->count() }}</strong> matériel(s), voulez-vous tous les sélectionner <strong>{{ $materials->total() }}</strong>?</span>
-                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
+                                <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
                                     <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
-                                </button>
+                                </x-button>
                             </div>
                         @else
                             <span>Vous sélectionnez actuellement <strong>{{ $materials->total() }}</strong> matériel(s).</span>

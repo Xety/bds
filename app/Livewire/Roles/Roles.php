@@ -17,6 +17,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -174,7 +175,7 @@ class Roles extends Component
                 ->orWhere(PermissionRegistrar::$teamsKey, getPermissionsTeamId());
         });
 
-        if (Auth::user()->can('search', Role::class)) {
+        if (Gate::allows('search', Role::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['level_min'], fn($query, $search) => $query->where('level', '>=', $search))

@@ -10,20 +10,28 @@
                         </svg>
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
-                        @can('delete', \BDS\Models\Supplier::class)
+                        @can('export', \BDS\Models\Supplier::class)
+                            <li>
+                                <button type="button" class="text-blue-500" wire:click="exportSelected()">
+                                    <x-icon name="fas-download" class="h-5 w-5"></x-icon>
+                                    Exporter
+                                </button>
+                            </li>
+                        @endcan
+                        @if(Gate::allows('delete',\BDS\Models\Supplier::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
                                     Supprimer
                                 </button>
                             </li>
-                        @endcan
+                        @endif
                     </ul>
                 </div>
             @endcanany
         </div>
         <div class="mb-4">
-            @if (settings('supplier_create_enabled', true) && auth()->user()->can('create', \BDS\Models\Supplier::class))
+            @if (settings('supplier_create_enabled', true) && Gate::allows('create', \BDS\Models\Supplier::class))
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                     Nouveau Fournisseur
@@ -45,6 +53,9 @@
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
+            @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                <x-table.heading sortable wire:click="sortBy('site_id')" :direction="$sortField === 'site_id' ? $sortDirection : null">Site</x-table.heading>
+            @endif
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('part_count')" :direction="$sortField === 'part_count' ? $sortDirection : null">Nombre de <br>pièces détachées</x-table.heading>
@@ -63,14 +74,18 @@
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text"  />
                     </x-table.cell>
+                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                        <x-table.cell>
+                            <x-input wire:model.live.debounce.400ms="filters.site" name="filters.site" type="text" />
+                        </x-table.cell>
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.user" name="filters.user" type="text" />
                     </x-table.cell>
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.description" name="filters.description" type="text" />
                     </x-table.cell>
-                        <x-table.cell>
-                        </x-table.cell>
+                        <x-table.cell></x-table.cell>
                     <x-table.cell>
                         <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
                         <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
@@ -80,14 +95,14 @@
 
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="6">
+                    <x-table.cell colspan="8">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $suppliers->count() }}</strong> fournisseur(s), voulez-vous tous les sélectionner <strong>{{ $suppliers->total() }}</strong>?</span>
-                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
+                                    <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
-                                </button>
+                                </x-button>
                             </div>
                         @else
                             <span>Vous sélectionnez actuellement <strong>{{ $suppliers->total() }}</strong> fournisseur(s).</span>
@@ -98,25 +113,35 @@
 
             @forelse($suppliers as $supplier)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $supplier->getKey() }}">
-                    @canany(['export', 'delete'], \BDS\Models\Supplier::class)
+                    @if(Gate::any(['export', 'delete'], $supplier) &&
+                        (getPermissionsTeamId() === $supplier->site_id ||  getPermissionsTeamId() === settings('site_id_verdun_siege')))
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $supplier->getKey() }}" />
                             </label>
                         </x-table.cell>
-                    @endcanany
-                    @can('update', \BDS\Models\Supplier::class)
+                    @endif
+                    @if(Gate::allows('update', $supplier) && getPermissionsTeamId() === $supplier->site_id)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $supplier->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier ce fournisseur">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
-                    @endcan
+                    @else
+                        <x-table.cell></x-table.cell>
+                    @endif
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $supplier->show_url }}">
                             {{ $supplier->name }}
                         </a>
                     </x-table.cell>
+                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                            <x-table.cell>
+                                <a class="link link-hover link-primary font-bold" href="{{ $supplier->site->show_url }}">
+                                    {{ $supplier->site->name }}
+                                </a>
+                            </x-table.cell>
+                    @endif
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $supplier->user->show_url }}">
                             {{ $supplier->user->full_name }}
@@ -138,7 +163,7 @@
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="6">
+                    <x-table.cell colspan="8">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucun fournisseur trouvé...</span>
                         </div>

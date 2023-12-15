@@ -83,7 +83,7 @@ class DatePicker extends Component
                                         ->merge(['type' => 'date'])
                                         ->class([
                                             "input input-primary w-full peer",
-                                            'pl-10' => ($icon),
+                                            '!pl-10' => ($icon),
                                             'h-14' => ($inline),
                                             'pt-3' => ($inline && $label),
                                             'border border-dashed' => $attributes->has('readonly'),

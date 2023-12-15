@@ -1,6 +1,6 @@
 <div>
     <div class="flex flex-col lg:flex-row gap-4 justify-between">
-        <div>
+        <div class="flex items-center gap-4">
             @canany(['export', 'delete'], \BDS\Models\Part::class)
                 <div class="dropdown">
                     <label tabindex="0" class="btn btn-neutral m-1">
@@ -18,20 +18,24 @@
                                 </button>
                             </li>
                         @endcan
-                        @can('delete', \BDS\Models\Part::class)
+                        @if(Gate::allows('delete',\BDS\Models\Part::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
                                     Supprimer
                                 </button>
                             </li>
-                        @endcan
+                        @endif
                     </ul>
                 </div>
             @endcanany
+
+            @can('viewOtherSite',\BDS\Models\Part::class)
+                <x-toggle label="Voir les Pièces des autres sites" wire:model.live="viewOtherSitePart" class="" />
+            @endcan
         </div>
         <div class="mb-4">
-            @if (settings('part_create_enabled', true) && auth()->user()->can('create', \BDS\Models\Part::class))
+            @if (settings('part_create_enabled', true) && Gate::allows('create', \BDS\Models\Part::class))
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                     Nouvelle Pièce Détachée
@@ -42,18 +46,20 @@
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @canany(['export', 'delete'], \BDS\Models\Part::class)
+            @if(Gate::any(['export', 'delete'], \BDS\Models\Part::class) && getPermissionsTeamId() === settings('site_id_verdun_siege'))
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
-            @endcanany
+            @else
+                <x-table.heading></x-table.heading>
+            @endif
 
             @if (
                 Gate::any(['update', 'generateQrCode'], \BDS\Models\Part::class) ||
-                Gate::any(['create'], \BDS\Models\PartEntry::class) ||
-                Gate::any(['create'], \BDS\Models\PartExit::class))
+                Gate::allows('create', \BDS\Models\PartEntry::class) ||
+                Gate::allows('create', \BDS\Models\PartExit::class))
                 <x-table.heading>Actions</x-table.heading>
             @endif
 
@@ -75,16 +81,102 @@
         </x-slot>
 
         <x-slot name="body">
+            @can('search', \BDS\Models\Part::class)
+                <x-table.row>
+                    @can('delete', \BDS\Models\Part::class)
+                        <x-table.cell></x-table.cell>
+                    @endcan
+                    @can('update', \BDS\Models\Part::class)
+                        <x-table.cell></x-table.cell>
+                    @endcan
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text"  />
+                    </x-table.cell>
+                        <x-table.cell></x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.site" name="filters.site" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.description" name="filters.description" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.user" name="filters.user" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.reference" name="filters.reference" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.400ms="filters.supplier" name="filters.supplier" type="text" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.price_min" name="filters.price_min" class="input-sm" placeholder="Prix minimum" type="number" min="0" step="0.01" />
+                        <x-input wire:model.live.debounce.250ms="filters.price_max" name="filters.price_max" class="input-sm mt-2" placeholder="Prix maximum" type="number" min="0" step="0.01" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.stock_min" name="filters.stock_min" class="input-sm" placeholder="Stock minimum" type="number" min="0" step="1" />
+                        <x-input wire:model.live.debounce.250ms="filters.stock_max" name="filters.stock_max" class="input-sm mt-2" placeholder="Stock maximum" type="number" min="0" step="1" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary"
+                            wire:model.live="filters.number_warning_enabled"
+                            name="filters.number_warning_enabled"
+                        />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-select
+                            :options="$options"
+                            class="select-primary"
+                            wire:model.live="filters.number_critical_enabled"
+                            name="filters.number_critical_enabled"
+                        />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.material_min" name="filters.material_min" class="input-sm" placeholder="Nb matériel minimum" type="number" min="0" step="1" />
+                        <x-input wire:model.live.debounce.250ms="filters.material_max" name="filters.material_max" class="input-sm mt-2" placeholder="Nb matériel maximum" type="number" min="0" step="1" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.part_entry_min" name="filters.part_entry_min" class="input-sm" placeholder="Nb entrée minimum" type="number" min="0" step="1" />
+                        <x-input wire:model.live.debounce.250ms="filters.part_entry_max" name="filters.part_entry_max" class="input-sm mt-2" placeholder="Nb entrée maximum" type="number" min="0" step="1" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-input wire:model.live.debounce.250ms="filters.part_exit_min" name="filters.part_exit_min" class="input-sm" placeholder="Nb sortie minimum" type="number" min="0" step="1" />
+                        <x-input wire:model.live.debounce.250ms="filters.part_exit_max" name="filters.part_exit_max" class="input-sm mt-2" placeholder="Nb sortie maximum" type="number" min="0" step="1" />
+                    </x-table.cell>
+                    <x-table.cell>
+                        <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
+                        <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
+                    </x-table.cell>
+                </x-table.row>
+            @endcan
+
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
                     <x-table.cell colspan="17">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $parts->count() }}</strong> pièce(s) détachée(s), voulez-vous tous les sélectionner <strong>{{ $parts->total() }}</strong>?</span>
-                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
+                                <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
                                     <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
-                                </button>
+                                </x-button>
                             </div>
                         @else
                             <span>Vous sélectionnez actuellement <strong>{{ $parts->total() }}</strong> pièce(s) détachée(s).</span>
@@ -95,10 +187,11 @@
 
             @forelse($parts as $part)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $part->getKey() }}">
-                    @if(Gate::any(['export', 'delete'], $part) && getPermissionsTeamId() === $part->site_id)
+                    @if(Gate::any(['export', 'delete'], $part) &&
+                        (getPermissionsTeamId() === $part->site_id ||  getPermissionsTeamId() === settings('site_id_verdun_siege')))
                         <x-table.cell>
                             <label>
-                                <input type="checkbox" class="checkbox" wire:model="selected" value="{{ $part->getKey() }}" />
+                                <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $part->getKey() }}" />
                             </label>
                         </x-table.cell>
                     @else
@@ -106,8 +199,8 @@
                     @endif
 
                     @if ((Gate::any(['update', 'generateQrCode'], $part) ||
-                        Gate::any(['create'], \BDS\Models\PartEntry::class) ||
-                        Gate::any(['create'], \BDS\Models\PartExit::class)) &&
+                        Gate::allows('create', \BDS\Models\PartEntry::class) ||
+                        Gate::allows('create', \BDS\Models\PartExit::class)) &&
                         getPermissionsTeamId() === $part->site_id)
                         <x-table.cell>
                             <x-dropdown top hover class="w-60">

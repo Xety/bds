@@ -388,6 +388,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'search site',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut rechercher des sites.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'viewAny maintenance',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut voir les maintenances.',

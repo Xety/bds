@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -232,8 +233,7 @@ class Zones extends Component
             ->withCount(['materials as maintenancesCount' => function ($query) {
                 $query->select(DB::raw('SUM(maintenance_count)'));
             }])*/
-            //->search('name', $this->search);
-        if (Auth::user()->can('search', Zone::class)) {
+        if (Gate::allows('search', Zone::class)) {
             $query->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['parent'], function ($query, $search) {
                     return $query->whereHas('parent', function ($partQuery) use ($search) {

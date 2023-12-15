@@ -19,6 +19,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 use ReflectionException;
@@ -240,7 +241,7 @@ class Materials extends Component
             ->with('zone', 'user')
             ->whereRelation('zone.site', 'id', session('current_site_id'));
 
-            if (Auth::user()->can('search', Material::class)) {
+            if (Gate::allows('search', Material::class)) {
                 $query->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
                     ->when($this->filters['name'], fn($query, $name) => $query->where('name', 'LIKE', '%' . $name . '%'))
                     ->when($this->filters['zone'], function ($query, $search) {
