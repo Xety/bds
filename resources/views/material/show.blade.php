@@ -46,7 +46,7 @@
                                         Gate::any(['create'], \BDS\Models\Maintenance::class) ||
                                         Gate::any(['create'], \BDS\Models\Cleaning::class))
                                         <x-table.cell>
-                                            <x-dropdown label="Actions" class="w-60" trigger-class="btn-sm" right bottom hover>
+                                            <x-dropdown label="Actions" class="w-60" trigger-class="btn-neutral btn-sm" right bottom hover>
                                                 @can('update', $material)
                                                     <x-menu-item
                                                         wire:navigate
@@ -167,7 +167,7 @@
                                     <div class="inline-block">
                                         @if ($material->cleaning_alert)
                                             <code class="code rounded-sm">
-                                                {{ $material->cleaning_alert_frequency_type }}
+                                                {{ collect(\BDS\Models\Material::CLEANING_TYPES)->sole('id', $material->cleaning_alert_frequency_type)['name'] }}
                                             </code>
                                         @endif
                                     </div>

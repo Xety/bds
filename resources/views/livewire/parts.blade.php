@@ -90,32 +90,29 @@
                         <x-table.cell></x-table.cell>
                     @endcan
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text"  />
+                        <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text"  />
                     </x-table.cell>
                         <x-table.cell></x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.400ms="filters.site" name="filters.site" type="text" />
+                        <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.site" name="filters.site" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.400ms="filters.description" name="filters.description" type="text" />
+                        <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.description" name="filters.description" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.400ms="filters.user" name="filters.user" type="text" />
+                        <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.creator" name="filters.creator" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.400ms="filters.reference" name="filters.reference" type="text" />
+                        <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.reference" name="filters.reference" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.400ms="filters.supplier" name="filters.supplier" type="text" />
+                        <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.supplier" name="filters.supplier" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.price_min" name="filters.price_min" class="input-sm" placeholder="Prix minimum" type="number" min="0" step="0.01" />
-                        <x-input wire:model.live.debounce.250ms="filters.price_max" name="filters.price_max" class="input-sm mt-2" placeholder="Prix maximum" type="number" min="0" step="0.01" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.price_min" name="filters.price_min" class="input-sm" placeholder="Min" type="number" min="0" step="0.01" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.price_max" name="filters.price_max" class="input-sm mt-2" placeholder="Maxi" type="number" min="0" step="0.01" />
                     </x-table.cell>
-                    <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.stock_min" name="filters.stock_min" class="input-sm" placeholder="Stock minimum" type="number" min="0" step="1" />
-                        <x-input wire:model.live.debounce.250ms="filters.stock_max" name="filters.stock_max" class="input-sm mt-2" placeholder="Stock maximum" type="number" min="0" step="1" />
-                    </x-table.cell>
+                    <x-table.cell></x-table.cell>
                     <x-table.cell>
                         @php
                             $options = [
@@ -135,7 +132,7 @@
                         @endphp
                         <x-select
                             :options="$options"
-                            class="select-primary"
+                            class="select-primary min-w-max"
                             wire:model.live="filters.number_warning_enabled"
                             name="filters.number_warning_enabled"
                         />
@@ -143,26 +140,26 @@
                     <x-table.cell>
                         <x-select
                             :options="$options"
-                            class="select-primary"
+                            class="select-primary min-w-max"
                             wire:model.live="filters.number_critical_enabled"
                             name="filters.number_critical_enabled"
                         />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.material_min" name="filters.material_min" class="input-sm" placeholder="Nb matériel minimum" type="number" min="0" step="1" />
-                        <x-input wire:model.live.debounce.250ms="filters.material_max" name="filters.material_max" class="input-sm mt-2" placeholder="Nb matériel maximum" type="number" min="0" step="1" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.material_min" name="filters.material_min" class="input-sm" placeholder="Mini" type="number" min="0" step="1" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.material_max" name="filters.material_max" class="input-sm mt-2" placeholder="Maxi" type="number" min="0" step="1" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.part_entry_min" name="filters.part_entry_min" class="input-sm" placeholder="Nb entrée minimum" type="number" min="0" step="1" />
-                        <x-input wire:model.live.debounce.250ms="filters.part_entry_max" name="filters.part_entry_max" class="input-sm mt-2" placeholder="Nb entrée maximum" type="number" min="0" step="1" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.part_entry_min" name="filters.part_entry_min" class="input-sm" placeholder="Mini" type="number" min="0" step="1" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.part_entry_max" name="filters.part_entry_max" class="input-sm mt-2" placeholder="Maxi" type="number" min="0" step="1" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input wire:model.live.debounce.250ms="filters.part_exit_min" name="filters.part_exit_min" class="input-sm" placeholder="Nb sortie minimum" type="number" min="0" step="1" />
-                        <x-input wire:model.live.debounce.250ms="filters.part_exit_max" name="filters.part_exit_max" class="input-sm mt-2" placeholder="Nb sortie maximum" type="number" min="0" step="1" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.part_exit_min" name="filters.part_exit_min" class="input-sm" placeholder="Mini" type="number" min="0" step="1" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.part_exit_max" name="filters.part_exit_max" class="input-sm mt-2" placeholder="Maxi" type="number" min="0" step="1" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
-                        <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
+                        <x-date-picker class="min-w-max" wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" placeholder="Date mini" />
+                        <x-date-picker class="min-w-max" wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" placeholder="Date maxi" />
                     </x-table.cell>
                 </x-table.row>
             @endcan
@@ -210,7 +207,7 @@
 
                                 @can('update', $part)
                                     <x-menu-item
-                                        title="Modifier cette pièce détachée"
+                                        title="Modifier cette pièce"
                                         icon="fas-pen-to-square"
                                         tooltip
                                         tooltip-content="Modifier cette pièce détachée"
@@ -233,7 +230,7 @@
                                         tooltip
                                         tooltip-content="Créer une entrée pour cette pièce détachée"
                                         link="{{ route('part-entries.index', ['partId' => $part->getKey(), 'creating' => 'true']) }}"
-                                        class="text-red-500" />
+                                        class="text-green-500" />
                                 @endcan
                                 @can('create', \BDS\Models\PartExit::class)
                                     <x-menu-item

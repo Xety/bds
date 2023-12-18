@@ -94,8 +94,6 @@ class Parts extends Component
         'supplier' => '',
         'price_min' => '',
         'price_max' => '',
-        'stock_min' => '',
-        'stock_max' => '',
         'number_warning_enabled' => '',
         'number_critical_enabled' => '',
         'material_min' => '',
@@ -214,7 +212,7 @@ class Parts extends Component
      */
     public function mount(): void
     {
-        // Set the view other site part to true by defaut for maintenance site only.
+        // Set the view other site part to true by default for maintenance site only.
         if (Gate::allows('viewOtherSite', Part::class) &&
             (getPermissionsTeamId() === settings('site_id_maintenance_bds') ||
             getPermissionsTeamId() === settings('site_id_verdun_siege'))) {
@@ -223,7 +221,9 @@ class Parts extends Component
 
         // Check if the edit option are set into the url, and if yes, open the Edit Modal if the user has the permissions.
         if ($this->editing === true && $this->partId !== null) {
-            $part = Part::whereId($this->partId)->first();
+            $part = Part::whereId($this->partId)
+                ->where('site_id', getPermissionsTeamId())
+                ->first();
 
             if ($part) {
                 $this->edit($part);
@@ -234,7 +234,7 @@ class Parts extends Component
         if ($this->qrcode === true && $this->partId !== null) {
             // Display the modal of the Material ONLY on the site where the material belong to.
             $part = Part::whereId($this->partId)
-                ->whereRelation('site', 'id', getPermissionsTeamId())
+                ->where('site_id', getPermissionsTeamId())
                 ->first();
 
             if ($part) {
@@ -291,16 +291,19 @@ class Parts extends Component
             ->get()
             ->toArray();
 
+        $suppliers = Supplier::query()
+            ->where('site_id', getPermissionsTeamId())
+            ->select(['id', 'name', 'site_id'])
+            ->orderBy('name')
+            ->get()
+            ->toArray();
+
+        //array_unshift($suppliers, ['id' => '', 'name' => 'Aucun fournisseur']);
 
         return view('livewire.parts', [
             'parts' => $this->rows,
             'materials' => $materials,
-            'suppliers' => Supplier::query()
-                ->where('site_id', getPermissionsTeamId())
-                ->select(['id', 'name', 'site_id'])
-                ->orderBy('name')
-                ->get()
-                ->toArray(),
+            'suppliers' => $suppliers,
         ]);
     }
 
@@ -312,16 +315,60 @@ class Parts extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Part::query()
-            ->with('materials', 'user');
+            ->with(['materials', 'user', 'site', 'supplier']);
 
         // If the user does not have the permissions to see parts from other site
         // add a where condition to display only the part from the current site.
         if (!Gate::allows('viewOtherSite', Part::class) || !$this->viewOtherSitePart) {
             $query->where('site_id', getPermissionsTeamId());
         }
-        $query->when($this->filters['creator'], fn($query, $creator) => $query->where('user_id', $creator))
-            ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-            ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+
+
+        if (Gate::allows('search', Part::class)) {
+            $query
+                ->when($this->filters['name'], fn($query, $search) => $query->where('name', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['site'], function ($query, $search) {
+                    return $query->whereHas('site', function ($partQuery) use ($search) {
+                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                    });
+                })
+                ->when($this->filters['creator'], function ($query, $search) {
+                    return $query->whereHas('user', function ($partQuery) use ($search) {
+                        $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+                    });
+                })
+                ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['reference'], fn($query, $search) => $query->where('reference', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['supplier'], function ($query, $search) {
+                    return $query->whereHas('supplier', function ($partQuery) use ($search) {
+                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                    });
+                })
+                ->when($this->filters['price_min'], fn($query, $search) => $query->where('price', '>=', $search))
+                ->when($this->filters['price_max'], fn($query, $search) => $query->where('price', '<=', $search))
+                ->when($this->filters['number_warning_enabled'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('number_warning_enabled', true);
+                    }
+                    return $query->where('number_warning_enabled', false);
+                })
+                ->when($this->filters['number_critical_enabled'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('number_critical_enabled', true);
+                    }
+                    return $query->where('number_critical_enabled', false);
+                })
+                ->when($this->filters['material_min'], fn($query, $search) => $query->where('material_count', '>=', $search))
+                ->when($this->filters['material_max'], fn($query, $search) => $query->where('material_count', '<=', $search))
+                ->when($this->filters['part_entry_min'], fn($query, $search) => $query->where('part_entry_count', '>=', $search))
+                ->when($this->filters['part_entry_max'], fn($query, $search) => $query->where('part_entry_count', '<=', $search))
+                ->when($this->filters['part_exit_min'], fn($query, $search) => $query->where('part_exit_count', '>=', $search))
+                ->when($this->filters['part_exit_max'], fn($query, $search) => $query->where('part_exit_count', '<=', $search))
+                ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
+        }
+
 
         return $this->applySorting($query);
     }
@@ -386,6 +433,7 @@ class Parts extends Component
      */
     public function save(): void
     {
+        //dd($this->form);
         $this->isCreating ?
             $this->authorize('create', Material::class) :
             $this->authorize('update', $this->form->part);

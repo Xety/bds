@@ -59,7 +59,16 @@ class PartForm extends Form
                 'max:30',
                 Rule::unique('parts')->ignore($this->part?->id)->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
             ],
-            'supplier_id' => 'present|numeric|exists:suppliers,id|nullable',
+            'supplier_id' => [
+                'required',
+                'numeric',
+                Rule::exists('suppliers', 'id')->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
+            ],
+            'materials' => [
+                'required',
+                'nullable',
+                Rule::exists('materials', 'id')
+            ],
             'price' => 'required|min:0|numeric',
             'number_warning_enabled' => 'required|boolean',
             'number_warning_minimum' => 'exclude_if:form.number_warning_enabled,false|required|numeric',

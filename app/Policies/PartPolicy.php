@@ -22,7 +22,10 @@ class PartPolicy
      */
     public function view(User $user, Part $part): bool
     {
-        return $user->can('view part');
+        if($user->can('view part')) {
+            return $part->site_id === getPermissionsTeamId();
+        }
+        return false;
     }
 
     /**

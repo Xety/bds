@@ -204,7 +204,7 @@ class Materials extends Component
         if ($this->qrcode === true && $this->materialId !== null) {
             // Display the modal of the Material ONLY on the site where the material belong to.
             $material = Material::whereId($this->materialId)
-                ->whereRelation('zone.site', 'id', session('current_site_id'))
+                ->whereRelation('zone.site', 'id', getPermissionsTeamId())
                 ->first();
 
             if ($material) {

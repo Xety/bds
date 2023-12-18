@@ -57,7 +57,7 @@ new class extends Component
 
 <div>
     @php
-        $class = 'select font-bold min-w-fit ' .  ($sidebar === true ? 'border-transparent bg-[#364150] dark:bg-base-200 dark:text-slate-300' : 'bg-zinc-100 dark:bg-base-200 border-transparent ');
+        $class = 'select font-bold min-w-max ' .  ($sidebar === true ? 'border-transparent bg-[#364150] dark:bg-base-200 dark:text-slate-300' : 'bg-zinc-100 dark:bg-base-200 border-transparent ');
     @endphp
     <x-select
         name="current_site_id"
