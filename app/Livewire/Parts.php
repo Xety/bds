@@ -46,7 +46,7 @@ class Parts extends Component
     public string $model = Part::class;
 
     /**
-     * The form used to create/update a user.
+     * The form used to create/update a part.
      *
      * @var PartForm
      */
@@ -128,7 +128,7 @@ class Parts extends Component
     ];
 
     /**
-     * Whatever the Editing url param is set or not.
+     * Whatever the editing url param is set or not.
      *
      * @var bool
      */

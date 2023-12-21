@@ -41,6 +41,11 @@ class PartPolicy
      */
     public function update(User $user, ?Part $part = null): bool
     {
+        // First check if user can update any part and a $part has been provided
+        if($user->can('update part') && !is_null($part)) {
+            // Check that the user is not trying to update a part from another site where the part does not belong to.
+            return $part->site_id === getPermissionsTeamId();
+        }
         return $user->can('update part');
     }
 
@@ -49,6 +54,9 @@ class PartPolicy
      */
     public function delete(User $user, ?Part $part = null): bool
     {
+        if($user->can('delete part') && !is_null($part)) {
+            return $part->site_id === getPermissionsTeamId();
+        }
         return $user->can('delete part');
     }
 

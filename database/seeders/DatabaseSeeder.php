@@ -43,5 +43,7 @@ class DatabaseSeeder extends Seeder
         // Parts
         $this->call(PartsTableSeeder::class);
         $this->call(MaterialsPartsTableSeeder::class);
+        $this->call(PartEntriesTableSeeder::class);
+        $this->call(PartExitsTableSeeder::class);
     }
 }

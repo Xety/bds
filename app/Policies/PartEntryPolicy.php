@@ -27,14 +27,6 @@ class PartEntryPolicy
     }
 
     /**
-     * Determine whether the user can export models.
-     */
-    public function export(User $user): bool
-    {
-        return $user->can('export partEntry');
-    }
-
-    /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool
@@ -60,5 +52,29 @@ class PartEntryPolicy
     public function delete(User $user): bool
     {
         return $user->can('delete partEntry');
+    }
+
+    /**
+     * Determine whether the user can export models.
+     */
+    public function export(User $user): bool
+    {
+        return $user->can('export partEntry');
+    }
+
+    /**
+     * Determine whether the user can search in the model.
+     */
+    public function search(User $user): bool
+    {
+        return $user->can('search partEntry');
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function viewOtherSite(User $user): bool
+    {
+        return $user->can('view-other-site partEntry');
     }
 }

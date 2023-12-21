@@ -215,7 +215,7 @@ class User extends Model implements
      */
     public function assignRolesToSites(BackedEnum|Collection|int|array|string|Role $roles, array|int $sites): void
     {
-        if (! PermissionRegistrar::$teams) {
+        if (! app(PermissionRegistrar::class)->teams) {
             return;
         }
 
@@ -241,7 +241,7 @@ class User extends Model implements
      */
     public function assignPermissionsToSites(BackedEnum|Collection|int|array|string|Permission $permissions, array|int $sites): void
     {
-        if (! PermissionRegistrar::$teams) {
+        if (! app(PermissionRegistrar::class)->teams) {
             return;
         }
 

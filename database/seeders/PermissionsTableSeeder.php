@@ -612,6 +612,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'view-other-site partExit',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut voir les pièces détachées sorties d\'autres sites.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'viewAny partEntry',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut voir les pièce détachée entrée.',
@@ -657,6 +664,13 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'search partEntry',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut rechercher des pièces détachées entrées.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'view-other-site partEntry',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut voir les pièces détachées entrées d\'autres sites.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

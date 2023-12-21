@@ -3,6 +3,7 @@
 namespace BDS\Livewire\Traits;
 
 use BDS\Models\Material;
+use BDS\Models\Part;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
@@ -38,9 +39,9 @@ trait WithQrCode
     /**
      * The model used to generate the QR Code.
      *
-     * @var Material|null
+     * @var Material|Part|null
      */
-    public Material|null $modelQrCode = null;
+    public Material|Part|null $modelQrCode = null;
 
     /**
      * Used to show the QR Code modal.
@@ -90,13 +91,13 @@ trait WithQrCode
     /**
      * Get the model by the model type, assign the name to the label, build the QR Code and show the modal.
      *
-     * @param Material $model The model used for showing the QrCode.
+     * @param Material|Part $model The model used for showing the QrCode.
      *
      * @return void
      *
      * @throws ReflectionException
      */
-    public function showQrCode(Material $model): void
+    public function showQrCode(Material|Part $model): void
     {
         $this->authorize('generateQrCode', $model);
 

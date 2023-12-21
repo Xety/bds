@@ -55,12 +55,14 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view partEntry',
         'export partEntry',
         'search partEntry',
+        'view-other-site partEntry',
 
         // PartExit
         'viewAny partExit',
         'view partExit',
         'export partExit',
         'search partExit',
+        'view-other-site partExit',
 
         // Supplier
         'viewAny supplier',
@@ -136,6 +138,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete partEntry',
         'export partEntry',
         'search partEntry',
+        'view-other-site partEntry',
 
         // PartExit
         'viewAny partExit',
@@ -145,6 +148,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete partExit',
         'export partExit',
         'search partExit',
+        'view-other-site partExit',
 
         // Supplier
         'viewAny supplier',
@@ -195,6 +199,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete partEntry',
         'export partEntry',
         'search partEntry',
+        'view-other-site partEntry',
 
         // PartExit
         'viewAny partExit',
@@ -204,6 +209,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete partExit',
         'export partExit',
         'search partExit',
+        'view-other-site partExit',
 
         // Supplier
         'viewAny supplier',
@@ -345,6 +351,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view partExit',
         'create partExit',
         'search partExit',
+        'view-other-site partExit',
 
         // Supplier
         'viewAny supplier',
@@ -530,6 +537,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete partEntry',
             'export partEntry',
             'search partEntry',
+            'view-other-site partEntry',
 
             // PartExit
             'viewAny partExit',
@@ -539,6 +547,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete partExit',
             'export partExit',
             'search partExit',
+            'view-other-site partExit',
 
             // Supplier
             'viewAny supplier',

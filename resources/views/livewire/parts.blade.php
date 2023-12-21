@@ -83,9 +83,9 @@
         <x-slot name="body">
             @can('search', \BDS\Models\Part::class)
                 <x-table.row>
-                    @can('delete', \BDS\Models\Part::class)
+                    @canany(['export', 'delete'], \BDS\Models\Part::class)
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endcanany
                     @can('update', \BDS\Models\Part::class)
                         <x-table.cell></x-table.cell>
                     @endcan

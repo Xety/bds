@@ -59,7 +59,7 @@
                                                     icon="fas-qrcode"
                                                     tooltip
                                                     tooltip-content="Générer un QR Code pour cette pièce détachée"
-                                                    link="{{ route('parts.index', ['qrcodeId' => $part->getKey(), 'qrcode' => 'true']) }}"
+                                                    link="{{ route('parts.index', ['partId' => $part->getKey(), 'qrcode' => 'true']) }}"
                                                     class="text-purple-500" />
                                             @endcan
                                             @can('create', \BDS\Models\PartEntry::class)
@@ -180,11 +180,13 @@
                                     Fournisseur
                                 </div>
                                 <p class="font-bold font-selvah uppercase">
-                                    @unless(is_null($part->supplier_id))
+                                    @if($part->supplier_id)
                                         <a class="link link-hover link-primary font-bold" href="{{ $part->supplier->show_url }}">
                                             {{ $part->supplier->name }}
                                         </a>
-                                    @endunless
+                                    @else
+                                        Aucun
+                                    @endif
                                 </p>
                             </div>
                         </div>
@@ -206,7 +208,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-euro text-info text-8xl"></i>
+                            <x-icon name="fas-euro-sign" class="text-info h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ number_format($part->stock_total * $part->price) }}€
@@ -220,7 +222,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-arrow-right-to-bracket text-warning text-8xl"></i>
+                            <x-icon name="fas-arrow-right-to-bracket" class="text-warning h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ $part->part_entry_count }}
@@ -234,7 +236,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-right-from-bracket text-error text-8xl"></i>
+                            <x-icon name="fas-right-from-bracket" class="text-error h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ $part->part_exit_count }}
@@ -248,7 +250,7 @@
 
                     <div class="col-span-12 xl:col-span-2 h-full">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                            <i class="fa-solid fa-qrcode text-purple-600 text-8xl"></i>
+                            <x-icon name="fas-qrcode" class="text-purple-600 h-16 w-16 m-auto"></x-icon>
                             <div>
                                 <div class="font-bold text-2xl">
                                     {{ $part->qrcode_flash_count }}
@@ -267,8 +269,76 @@
         <div class="grid grid-cols-12 gap-6 mb-7">
             <div class="col-span-12 border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
 
-                <part-tabs>
-                    <template v-slot:part-entries>
+                <x-tabs selected="materials">
+                    <x-tab name="materials" label="Matériels" icon="fas-microchip">
+                        <x-table.table class="mb-6">
+                            <x-slot name="head">
+                                <x-table.heading>#Id</x-table.heading>
+                                <x-table.heading>Nom</x-table.heading>
+                                <x-table.heading>Site</x-table.heading>
+                                <x-table.heading>Zone</x-table.heading>
+                                <x-table.heading>Créateur</x-table.heading>
+                                <x-table.heading>Description</x-table.heading>
+                                <x-table.heading>Créé le</x-table.heading>
+                            </x-slot>
+
+                            <x-slot name="body">
+                                @forelse($materials as $material)
+                                    <x-table.row wire:loading.class.delay="opacity-50"
+                                                 wire:key="row-{{ $material->getKey() }}">
+                                        <x-table.cell>{{ $material->getKey() }}</x-table.cell>
+                                        <x-table.cell>
+                                            <a class="link link-hover link-primary font-bold"
+                                               href="{{ $material->show_url }}">
+                                                {{ $material->name }}
+                                            </a>
+                                        </x-table.cell>
+                                        <x-table.cell>
+                                            <a class="link link-hover link-primary font-bold" href="{{ $material->zone->site->show_url }}">
+                                                {{ $material->zone->site->name }}
+                                            </a>
+                                        </x-table.cell>
+                                        <x-table.cell>
+                                            <a class="link link-hover link-primary font-bold" href="{{ $material->zone->show_url }}">
+                                                {{ $material->zone->name }}
+                                            </a>
+                                        </x-table.cell>
+                                        <x-table.cell>
+                                            <a class="link link-hover link-primary font-bold" href="{{ $material->user->show_url }}">
+                                                {{ $material->user->full_name }}
+                                            </a>
+                                        </x-table.cell>
+                                        <x-table.cell>
+                                        <span class="tooltip tooltip-top" data-tip="{{ $material->description }}">
+                                            {{ Str::limit($material->description, 50) }}
+                                        </span>
+                                        </x-table.cell>
+                                        <x-table.cell class="capitalize">
+                                            {{ $material->created_at->translatedFormat( 'D j M Y H:i') }}
+                                        </x-table.cell>
+                                    </x-table.row>
+                                @empty
+                                    <x-table.row>
+                                        <x-table.cell colspan="11">
+                                            <div class="text-center p-2">
+                                            <span class="text-muted">
+                                                Aucun matériel trouvé pour la pièce détachée <span
+                                                    class="font-bold">{{ $part->name }}</span>...
+                                            </span>
+                                            </div>
+                                        </x-table.cell>
+                                    </x-table.row>
+                                @endforelse
+                            </x-slot>
+                        </x-table.table>
+
+                        <div class="grid grid-cols-1">
+                            {{ $materials->fragment('materials')->links() }}
+                        </div>
+                    </x-tab>
+
+
+                    <x-tab name="part-entries" label="Entrées de Pièces" icon="fas-arrow-right-to-bracket">
                         <x-table.table class="mb-6">
                             <x-slot name="head">
                                 <x-table.heading>#Id</x-table.heading>
@@ -318,11 +388,11 @@
                         </x-table.table>
 
                         <div class="grid grid-cols-1">
-                            {{ $partEntries->fragment('partEntries')->links() }}
+                            {{ $partEntries->fragment('part-entries')->links() }}
                         </div>
-                    </template>
+                    </x-tab>
 
-                    <template v-slot:part-exits>
+                    <x-tab name="part-exits" label="Sorties de Pièces" icon="fas-right-from-bracket">
                         <x-table.table class="mb-6">
                             <x-slot name="head">
                                 <x-table.heading>#Id</x-table.heading>
@@ -378,11 +448,10 @@
                         </x-table.table>
 
                         <div class="grid grid-cols-1">
-                            {{ $partExits->fragment('partExits')->links() }}
+                            {{ $partExits->fragment('part-exits')->links() }}
                         </div>
-                    </template>
-                </part-tabs>
-
+                    </x-tab>
+                </x-tabs>
             </div>
         </div>
     </section>

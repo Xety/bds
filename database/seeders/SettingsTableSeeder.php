@@ -151,6 +151,15 @@ class SettingsTableSeeder extends Seeder
                 'text' => 'Active/Désactive le système de création de pièce détachée.'
             ]);
 
+            // Part Entries
+            Setting::create([
+                'key' => 'part_entry_create_enabled',
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
+                'label' => 'Activation du système de création des entrées de pièce détachée.',
+                'text' => 'Active/Désactive le système de création d\'entrée de pièce détachée.'
+            ]);
+
             // Supplier
             Setting::create([
                 'key' => 'supplier_manage_enabled',
