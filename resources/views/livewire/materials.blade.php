@@ -185,7 +185,7 @@
                                         icon="fas-qrcode"
                                         tooltip
                                         tooltip-content="Générer un QR Code pour ce matériel"
-                                        wire:click.prevent="showQrCode({{ $material->getKey() }})"
+                                        wire:click.prevent="displayQrCode({{ $material->getKey() }})"
                                         class="text-purple-500" />
                                 @endcan
                                 @can('create', \BDS\Models\Incident::class)

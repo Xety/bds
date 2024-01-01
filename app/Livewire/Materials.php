@@ -11,6 +11,7 @@ use BDS\Livewire\Traits\WithQrCode;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Material;
+use BDS\Models\Part;
 use BDS\Models\User;
 use BDS\Models\Zone;
 use Carbon\Carbon;
@@ -336,5 +337,26 @@ class Materials extends Component
         $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['name' => $model->name]);
 
         $this->showModal = false;
+    }
+
+    /**
+     * Verify the id of the material then display the QRCode modal.
+     *
+     * @param int $model The model id of the material.
+     *
+     * @return void
+     *
+     * @throws ReflectionException
+     */
+    public function displayQrCode(int $model): void
+    {
+        // Display the modal of the Material ONLY on the site where the material belong to.
+        $material = Material::whereId($model)
+            ->whereRelation('zone.site', 'id', getPermissionsTeamId())
+            ->first();
+
+        if ($material) {
+            $this->showQrCode($material);
+        }
     }
 }

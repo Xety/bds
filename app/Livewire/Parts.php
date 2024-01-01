@@ -447,4 +447,25 @@ class Parts extends Component
         $this->showModal = false;
     }
 
+    /**
+     * Verify the id of the material then display the QRCode modal.
+     *
+     * @param int $model The model id of the material.
+     *
+     * @return void
+     *
+     * @throws ReflectionException
+     */
+    public function displayQrCode(int $model): void
+    {
+        // Display the modal of the Material ONLY on the site where the material belong to.
+        $part = Part::whereId($model)
+            ->where('site_id', getPermissionsTeamId())
+            ->first();
+
+        if ($part) {
+            $this->showQrCode($part);
+        }
+    }
+
 }

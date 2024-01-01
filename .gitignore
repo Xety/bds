@@ -21,8 +21,6 @@ yarn-error.log
 /.vagrant
 after.sh
 aliases
-composer.lock
-package-lock.json
 Vagrantfile
 .phpstorm.meta.php
 _ide_helper.php

@@ -219,7 +219,7 @@
                                         icon="fas-qrcode"
                                         tooltip
                                         tooltip-content="Générer un QR Code pour cette pièce détachée"
-                                        wire:click.prevent="showQrCode({{ $part->getKey() }})"
+                                        wire:click.prevent="displayQrCode({{ $part->getKey() }})"
                                         class="text-purple-500" />
                                 @endcan
                                 @can('create', \BDS\Models\PartEntry::class)
