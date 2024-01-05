@@ -4,14 +4,12 @@ namespace BDS\Models;
 
 use Eloquence\Behaviours\CountCache\Countable;
 use Eloquence\Behaviours\SumCache\Summable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PartExit extends Model
 {
     use Countable;
-    use HasFactory;
     use Summable;
 
     /**
@@ -23,7 +21,9 @@ class PartExit extends Model
         'maintenance_id',
         'part_id',
         'user_id',
-        'number'
+        'description',
+        'number',
+        'price'
     ];
 
     /**

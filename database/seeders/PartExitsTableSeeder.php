@@ -22,6 +22,7 @@ class PartExitsTableSeeder extends Seeder
                'user_id' => 1,
                'description'=> null,
                'number' => 5,
+               'price' => 10.56,
                'created_at' => now(),
                'updated_at' => now(),
            ]

@@ -1018,7 +1018,7 @@ class MaterialsTableSeeder extends Seeder
                 'cleaning_count' => 0,
                 'incident_count' => 0,
                 'part_count' => 1,
-                'maintenance_count' => 0,
+                'maintenance_count' => 1,
                 'created_at' => '2023-08-09 22:02:34',
                 'description' => 'Presse.',
                 'id' => 46,

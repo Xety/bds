@@ -193,7 +193,7 @@ class Users extends Component
             'users' => $this->rows,
             'roles' => $roles,
             'permissions' => $permissions,
-            'site' => Site::find(session('current_site_id'))
+            'site' => Site::find(getPermissionsTeamId())
         ]);
     }
 

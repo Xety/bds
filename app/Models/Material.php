@@ -143,4 +143,16 @@ class Material extends Model
     {
         return $this->hasMany(Cleaning::class);
     }
+
+    /**
+     * Get the recipients alert for the material.
+     *
+     * @return BelongsToMany
+     */
+    public function recipients(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->withTimestamps()
+            ->withTrashed();
+    }
 }

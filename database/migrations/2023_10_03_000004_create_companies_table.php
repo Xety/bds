@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->text('description')->nullable();
+            $table->integer('maintenance_count')->default(0);
             $table->timestamps();
         });
     }

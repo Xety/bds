@@ -126,6 +126,12 @@
                                         Incidents Total : {{ $material->incident_count }}
                                     </a>
                                 </li>
+                                <li>
+                                    <a>
+                                        <x-icon name="fas-gear" class="h-4 w-4"></x-icon>
+                                        Pièces Détachées Total : {{ $material->part_count }}
+                                    </a>
+                                </li>
                             </ul>
                         </details>
                     </li>

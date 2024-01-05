@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
 
         // Materials
         $this->call(MaterialsTableSeeder::class);
+        $this->call(MaterialsUsersTableSeeder::class);
 
         // Cleanings
         $this->call(CleaningsTableSeeder::class);
@@ -45,5 +46,15 @@ class DatabaseSeeder extends Seeder
         $this->call(MaterialsPartsTableSeeder::class);
         $this->call(PartEntriesTableSeeder::class);
         $this->call(PartExitsTableSeeder::class);
+        $this->call(PartsUsersTableSeeder::class);
+
+        // Companies
+        $this->call(CompaniesTableSeeder::class);
+
+        // Maintenances
+        $this->call(MaintenancesTableSeeder::class);
+        $this->call(CompanyMaintenanceTableSeeder::class);
+        $this->call(MaintenanceUserTableSeeder::class);
+
     }
 }

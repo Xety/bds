@@ -2,9 +2,16 @@
 
 namespace BDS\Livewire;
 
-use BDS\Livewire\Forms\PartEntryForm;
+use BDS\Livewire\Forms\PartExitForm;
+use BDS\Livewire\Traits\WithCachedRows;
+use BDS\Livewire\Traits\WithSorting;
+use BDS\Livewire\Traits\WithBulkActions;
+use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Maintenance;
+use BDS\Models\Part;
+use BDS\Models\PartExit;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -13,14 +20,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
-use BDS\Livewire\Traits\WithCachedRows;
-use BDS\Livewire\Traits\WithSorting;
-use BDS\Livewire\Traits\WithBulkActions;
-use BDS\Livewire\Traits\WithPerPagePagination;
-use BDS\Models\Part;
-use BDS\Models\PartEntry;
 
-class PartEntries extends Component
+class PartExits extends Component
 {
     use AuthorizesRequests;
     use WithBulkActions;
@@ -36,14 +37,14 @@ class PartEntries extends Component
      *
      * @var string
      */
-    public string $model = PartEntry::class;
+    public string $model = PartExit::class;
 
     /**
-     * The form used to create/update a part entry.
+     * The form used to create/update a part exit.
      *
-     * @var PartEntryForm
+     * @var PartExitForm
      */
-    public PartEntryForm $form;
+    public PartExitForm $form;
 
     /**
      * The field to sort by.
@@ -78,12 +79,13 @@ class PartEntries extends Component
      * @var array
      */
     public array $filters = [
+        'maintenance' => '',
         'part' => '',
         'site' => '',
         'user' => '',
+        'description' => '',
         'number_min' => '',
         'number_max' => '',
-        'order' => '',
         'created_min' => '',
         'created_max' => '',
     ];
@@ -108,10 +110,10 @@ class PartEntries extends Component
      * @var array
      */
     public array $allowedFields = [
+        'maintenance_id',
         'part_id',
-        'user_id',
+        'description',
         'number',
-        'order_id',
         'created_at'
     ];
 
@@ -148,7 +150,7 @@ class PartEntries extends Component
      *
      * @var bool
      */
-    public bool $viewOtherSitePartEntry = false;
+    public bool $viewOtherSitePartExit = false;
 
     /**
      * Flash messages for the model.
@@ -157,16 +159,16 @@ class PartEntries extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "L'entrée pour la pièce <b>:name</b> a été créé avec succès !",
-            'danger' => "Une erreur s'est produite lors de la création de l'entrée."
+            'success' => "La sortie pour la pièce <b>:name</b> a été créé avec succès !",
+            'danger' => "Une erreur s'est produite lors de la création de la sortie."
         ],
         'update' => [
-            'success' => "L'entrée pour la pièce <b>:name</b> a été édité avec succès !",
-            'danger' => "Une erreur s'est produite lors de l'édition de l'entrée."
+            'success' => "La sortie pour la pièce <b>:name</b> a été édité avec succès !",
+            'danger' => "Une erreur s'est produite lors de l'édition de la sortie."
         ],
         'delete' => [
-            'success' => "<b>:count</b> entrée(s) ont été supprimée(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression des entrées !"
+            'success' => "<b>:count</b> sortie(s) ont été supprimée(s) avec succès !",
+            'danger' => "Une erreur s'est produite lors de la suppression des sorties !"
         ]
     ];
 
@@ -178,10 +180,9 @@ class PartEntries extends Component
     public function mount(): void
     {
         // Set the view other site part to true by default for maintenance site only.
-        if (Gate::allows('viewOtherSite', PartEntry::class) && getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $this->viewOtherSitePartEntry = true;
+        if (Gate::allows('viewOtherSite', PartExit::class) && getPermissionsTeamId() === settings('site_id_verdun_siege')) {
+            $this->viewOtherSitePartExit = true;
         }
-
 
         // Check if the create option is set into the url, and if yes, open the Create Modal (if the user has the permissions).
         if ($this->creating === true && $this->partId !== null) {
@@ -205,13 +206,20 @@ class PartEntries extends Component
      */
     public function render(): View
     {
-        return view('livewire.part-entries', [
-            'partEntries' => $this->rows,
+        return view('livewire.part-exits', [
+            'partExits' => $this->rows,
             'parts' => Part::query()
                 ->with(['site' => function ($query) {
                     $query->select('id', 'name');
                 }])
                 ->select('id', 'name')
+                ->get()
+                ->toArray(),
+            'maintenances' => Maintenance::query()
+                ->with(['material', 'material.zone', 'material.zone.site'])
+                ->whereRelation('material.zone.site', 'id', getPermissionsTeamId())
+                ->select('id')
+                ->orderBy('id', 'desc')
                 ->get()
                 ->toArray()
         ]);
@@ -224,19 +232,24 @@ class PartEntries extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = PartEntry::query()
+        $query = PartExit::query()
             ->with('part', 'user');
 
-        // If the user does not have the permissions to see parts entries from others sites
-        // add a where condition to display only the part entries from the current site.
-        if (!Gate::allows('viewOtherSite', PartEntry::class) || !$this->viewOtherSitePartEntry) {
+        // If the user does not have the permissions to see parts exits from others sites
+        // add a where condition to display only the part exits from the current site.
+        if (!Gate::allows('viewOtherSite', PartExit::class) || !$this->viewOtherSitePartExit) {
             $query->whereHas('part', function ($partQuery) {
                 $partQuery->where('site_id', getPermissionsTeamId());
             });
         }
 
-        if (Gate::allows('search', PartEntry::class)) {
+        if (Gate::allows('search', PartExit::class)) {
             $query
+                ->when($this->filters['maintenance'], function ($query, $search) {
+                    return $query->whereHas('maintenance', function ($partQuery) use ($search) {
+                        $partQuery->where('id', 'LIKE', '%' . $search . '%');
+                    });
+                })
                 ->when($this->filters['part'], function ($query, $search) {
                     return $query->whereHas('part', function ($partQuery) use ($search) {
                         $partQuery->where('name', 'LIKE', '%' . $search . '%');
@@ -252,9 +265,9 @@ class PartEntries extends Component
                         $partQuery->where('name', 'LIKE', '%' . $search . '%');
                     });
                 })
+                ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['number_min'], fn($query, $search) => $query->where('number', '>=', $search))
                 ->when($this->filters['number_max'], fn($query, $search) => $query->where('number', '<=', $search))
-                ->when($this->filters['order'], fn($query, $search) => $query->where('order_id', 'LIKE', '%' . $search . '%'))
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
@@ -281,7 +294,7 @@ class PartEntries extends Component
      */
     public function create(): void
     {
-        $this->authorize('create', PartEntry::class);
+        $this->authorize('create', PartExit::class);
 
         $this->isCreating = true;
         $this->useCachedRows();
@@ -289,30 +302,32 @@ class PartEntries extends Component
         $this->form->reset();
         $this->form->isCreating = true;
 
-        $this->search();
+        $this->searchPart();
+        $this->searchMaintenance();
 
         $this->showModal = true;
     }
 
     /**
-     * Set the model (used in modal) to the partEntry we want to edit.
+     * Set the model (used in modal) to the partExit we want to edit.
      *
-     * @param PartEntry $partEntry The partEntry id to update.
+     * @param PartExit $partExit The partExit id to update.
      * (Livewire will automatically fetch the model by the id)
      *
      * @return void
      */
-    public function edit(PartEntry $partEntry): void
+    public function edit(PartExit $partExit): void
     {
-        $this->authorize('update', $partEntry);
+        $this->authorize('update', $partExit);
 
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setPartEntry($partEntry);
+        $this->form->setPartExit($partExit);
         $this->form->isCreating = false;
 
-        $this->search();
+        $this->searchPart();
+        $this->searchMaintenance();
 
         $this->showModal = true;
     }
@@ -325,8 +340,8 @@ class PartEntries extends Component
     public function save(): void
     {
         $this->isCreating ?
-            $this->authorize('create', PartEntry::class) :
-            $this->authorize('update', $this->form->partEntry);
+            $this->authorize('create', PartExit::class) :
+            $this->authorize('update', $this->form->partExit);
 
         $this->validate();
 
@@ -338,13 +353,13 @@ class PartEntries extends Component
     }
 
     /**
-     * Function to search materials in form.
+     * Function to search parts in form.
      *
      * @param string $value
      *
      * @return void
      */
-    public function search(string $value = ''): void
+    public function searchPart(string $value = ''): void
     {
         // Besides the search results, you must include on demand selected option
         $selectedOption = Part::where('id', $this->form->part_id)->get();
@@ -360,5 +375,33 @@ class PartEntries extends Component
             ->merge($selectedOption);
 
         $this->form->partsSearchable = $parts;
+    }
+
+    /**
+     * Function to search maintenances in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchMaintenance(string $value = ''): void
+    {
+        // Besides the search results, you must include on demand selected option
+        $selectedOption = Maintenance::where('id', $this->form->maintenance_id)->get();
+
+        $maintenances = Maintenance::query()
+            ->with(['material'])
+            ->whereHas('material', function ($query) use ($value) {
+                $query->where('name', 'LIKE', '%' . $value . '%');
+            })
+            ->where('id', 'like', "%$value%")
+            ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
+
+        $maintenances = $maintenances->take(5)
+            ->orderBy('id')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->maintenancesSearchable = $maintenances;
     }
 }

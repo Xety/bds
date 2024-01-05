@@ -30,14 +30,16 @@
                                     @if($notification->type == \BDS\Notifications\Cleaning\AlertNotification::class)
                                         <x-icon name="fas-broom" class="h-10 w-10 text-warning mr-3"></x-icon>
                                     @elseif($notification->type == \BDS\Notifications\Part\AlertNotification::class)
-                                        <x-icon name="fas-puzzle-piece" class="h-10 w-10 text-violet-500 mr-3"></x-icon>
+                                        <x-icon name="fas-gear" class="h-10 w-10 text-error mr-3"></x-icon>
                                     @else
-                                        <x-icon name="fas-triangle-exclamation" class="h-10 w-10 text-primary mr-3"></x-icon>
+                                        <x-icon name="fas-triangle-exclamation" class="h-10 w-10 text-error mr-3"></x-icon>
                                     @endif
 
 
                                     <!-- Message -->
-                                    <span class="w-full">{!! vsprintf($notification->data['message'], $notification->data['message_key']) !!}</span>
+                                    <span class="w-full">
+                                        {!! vsprintf($notification->data['message'], $notification->data['message_key']) !!}
+                                    </span>
 
                                     <!-- Badge new -->
                                     @if($notification->read_at == null)

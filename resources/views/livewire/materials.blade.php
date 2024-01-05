@@ -342,6 +342,49 @@
             @php $message = "Cocher pour avoir l'alerte de nettoyage par Email ou laisser décocher pour avoir uniquement une notification.";@endphp
             <x-checkbox wire:model="form.cleaning_alert_email" name="form.cleaning_alert_email" label="Activer l'alerte par Email" text="Cochez pour activer l'alerte de nettoyage par E-mail" />
 
+            @php $message = "Sélectionnez les destinataires auquels seront envoyé les alertes de nettoyage."; @endphp
+            <x-choices
+                label="Destinataires"
+                :label-info="$message"
+                wire:model="form.recipients"
+                :options="$form->recipientsMultiSearchable"
+                search-function="searchRecipients"
+                no-result-text="Aucun résultat..."
+                debounce="300ms"
+                min-chars="2"
+                searchable>
+
+                {{-- Item slot--}}
+                @scope('item', $option)
+                <x-list-item :item="$option">
+                    <x-slot:avatar>
+                        <x-icon name="fas-user" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                    </x-slot:avatar>
+
+                    <x-slot:value>
+                        {{ $option->full_name }}
+                    </x-slot:value>
+
+                    <x-slot:sub-value>
+                        {{ $option->username }}
+                    </x-slot:sub-value>
+
+                    <x-slot:actions>
+                        @foreach ($option->roles as $role)
+                            <span class="block font-semibold truncate" style="{{ $role->formatted_color }};">
+                                {{ $role->name }}
+                            </span>
+                        @endforeach
+                    </x-slot:actions>
+                </x-list-item>
+                @endscope
+
+                {{-- Selection slot--}}
+                @scope('selection', $option)
+                {{ $option->full_name }}
+                @endscope
+            </x-choices>
+
             @php $message = "Veuillez renseigner la fréquence de nettoyage. <br>Exemple: tout les <b>2</b> jours";@endphp
             <x-input wire:model.live="form.cleaning_alert_frequency_repeatedly" name="form.cleaning_alert_frequency_repeatedly" label="Fréquence de nettoyage" type="number" min="0" max="365" step="1" :label-info="$message" />
 

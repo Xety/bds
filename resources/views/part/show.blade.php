@@ -16,7 +16,7 @@
                         <div class="flex flex-col text-center shadow-md border rounded-lg p-6 w-full h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <div class="w-full">
                                 <div class="text-5xl m-2 mb-4">
-                                    <x-icon name="fas-microchip" class="h-12 w-12 m-auto"></x-icon>
+                                    <x-icon name="fas-gear" class="h-12 w-12 m-auto"></x-icon>
                                 </div>
                             </div>
 
@@ -277,7 +277,6 @@
                                 <x-table.heading>Nom</x-table.heading>
                                 <x-table.heading>Site</x-table.heading>
                                 <x-table.heading>Zone</x-table.heading>
-                                <x-table.heading>Créateur</x-table.heading>
                                 <x-table.heading>Description</x-table.heading>
                                 <x-table.heading>Créé le</x-table.heading>
                             </x-slot>
@@ -301,11 +300,6 @@
                                         <x-table.cell>
                                             <a class="link link-hover link-primary font-bold" href="{{ $material->zone->show_url }}">
                                                 {{ $material->zone->name }}
-                                            </a>
-                                        </x-table.cell>
-                                        <x-table.cell>
-                                            <a class="link link-hover link-primary font-bold" href="{{ $material->user->show_url }}">
-                                                {{ $material->user->full_name }}
                                             </a>
                                         </x-table.cell>
                                         <x-table.cell>
@@ -358,7 +352,9 @@
                                                 {{ $partEntry->part->name }}
                                             </a>
                                         </x-table.cell>
-                                        <x-table.cell>{{ $partEntry->user->username }}</x-table.cell>
+                                        <x-table.cell>
+                                            {{ $partEntry->user->full_name }}
+                                        </x-table.cell>
                                         <x-table.cell class="prose">
                                             <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
                                                 {{ $partEntry->number }}
@@ -420,7 +416,9 @@
                                                 {{ $partExit->part->name }}
                                             </a>
                                         </x-table.cell>
-                                        <x-table.cell>{{ $partExit->user->username }}</x-table.cell>
+                                        <x-table.cell>
+                                            {{ $partExit->user->full_name }}
+                                        </x-table.cell>
                                         <x-table.cell>
                                             <span class="tooltip tooltip-top" data-tip="{{ $part->description }}">
                                                 {{ Str::limit($partExit->description, 50) }}

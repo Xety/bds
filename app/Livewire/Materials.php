@@ -240,7 +240,7 @@ class Materials extends Component
     {
         $query = Material::query()
             ->with('zone', 'user')
-            ->whereRelation('zone.site', 'id', session('current_site_id'));
+            ->whereRelation('zone.site', 'id', getPermissionsTeamId());
 
             if (Gate::allows('search', Material::class)) {
                 $query->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
@@ -295,6 +295,7 @@ class Materials extends Component
         $this->useCachedRows();
 
         $this->form->reset();
+        $this->searchRecipients();
 
         $this->showModal = true;
     }
@@ -314,7 +315,10 @@ class Materials extends Component
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setMaterial($material);
+        $recipients = $material->recipients()->pluck('id')->toArray();
+
+        $this->form->setMaterial($material, $recipients);
+        $this->searchRecipients();
 
         $this->showModal = true;
     }
@@ -358,5 +362,37 @@ class Materials extends Component
         if ($material) {
             $this->showQrCode($material);
         }
+    }
+
+    /**
+     * Function to search recipients in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchRecipients(string $value = ''): void
+    {
+        // Besides the search results, you must include on demand selected option
+        if (!empty($this->form->recipients)) {
+            $selectedOption = User::whereIn('id', $this->form->recipients)->get();
+        } else {
+            $selectedOption = [];
+        }
+
+        $recipients = User::query()
+            ->with(['roles', 'sites'])
+            ->whereRelation('sites', 'site_id', getPermissionsTeamId())
+            ->where(function($query) use ($value) {
+                return $query->where('first_name', 'like', "%$value%")
+                    ->orWhere('last_name', 'like', "%$value%");
+            });
+
+        $recipients = $recipients->take(5)
+            ->orderBy('first_name')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->recipientsMultiSearchable = $recipients;
     }
 }

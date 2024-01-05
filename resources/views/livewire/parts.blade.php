@@ -394,7 +394,7 @@
             :label-info="$message"
             wire:model="form.materials"
             :options="$form->materialsMultiSearchable"
-            search-function="search"
+            search-function="searchMaterials"
             no-result-text="Aucun résultat..."
             debounce="300ms"
             min-chars="2"
@@ -439,6 +439,45 @@
 
         @if ($form->number_critical_enabled)
             <x-input wire:model="form.number_critical_minimum" name="form.number_critical_minimum" label="Quantité pour l'alerte critique" placeholder="Quantité minimum pour l'alerte critique..." type="number" min="0" step="1"  />
+        @endif
+
+        @if($form->number_warning_enabled || $form->number_critical_enabled)
+            @php
+                $message = "Sélectionnez les destinataires auquels seront envoyé les alertes.";
+            @endphp
+            <x-choices
+                label="Destinataires"
+                :label-info="$message"
+                wire:model="form.recipients"
+                :options="$form->recipientsMultiSearchable"
+                search-function="searchRecipients"
+                no-result-text="Aucun résultat..."
+                debounce="300ms"
+                min-chars="2"
+                searchable>
+
+                {{-- Item slot--}}
+                @scope('item', $option)
+                <x-list-item :item="$option">
+                    <x-slot:avatar>
+                        <x-icon name="fas-user" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                    </x-slot:avatar>
+
+                    <x-slot:value>
+                        {{ $option->full_name }}
+                    </x-slot:value>
+
+                    <x-slot:sub-value>
+                        {{ $option->username }}
+                    </x-slot:sub-value>
+                </x-list-item>
+                @endscope
+
+                {{-- Selection slot--}}
+                @scope('selection', $option)
+                    {{ $option->full_name }}
+                @endscope
+            </x-choices>
         @endif
 
         <x-slot:actions>

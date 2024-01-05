@@ -27,14 +27,6 @@ class PartExitPolicy
     }
 
     /**
-     * Determine whether the user can export models.
-     */
-    public function export(User $user): bool
-    {
-        return $user->can('export partExit');
-    }
-
-    /**
      * Determine whether the user can create models.
      */
     public function create(User $user): bool
@@ -45,21 +37,33 @@ class PartExitPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, ?PartExit $partExit = null): bool
     {
-        // Give update access to all partExits, remove to only allow created partExit,
-        // false to not allow any update.
+        // First check if user can update any partExit and a $partExit has been provided
+        if($user->can('update partExit') && !is_null($partExit)) {
+            // Check that the user is not trying to update a partExit from another site where the partExit does not belong to.
+            return $partExit->part->site_id === getPermissionsTeamId();
+        }
         return $user->can('update partExit');
-
-        //return $user->id === $partExit->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete(User $user, ?PartExit $partExit = null): bool
     {
+        if($user->can('delete partExit') && !is_null($partExit)) {
+            return $partExit->part->site_id === getPermissionsTeamId();
+        }
         return $user->can('delete partExit');
+    }
+
+    /**
+     * Determine whether the user can export models.
+     */
+    public function export(User $user): bool
+    {
+        return $user->can('export partExit');
     }
 
     /**
@@ -68,5 +72,13 @@ class PartExitPolicy
     public function search(User $user): bool
     {
         return $user->can('search partExit');
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function viewOtherSite(User $user): bool
+    {
+        return $user->can('view-other-site partExit');
     }
 }

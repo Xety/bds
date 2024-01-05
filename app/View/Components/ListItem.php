@@ -93,7 +93,7 @@ class ListItem extends Component
                             <a href="{{ $link }}" wire:navigate>
                         @endif
 
-                            <div class="py-3 flex items-center gap-3 mary-hideable">
+                            <div class="py-3 flex flex-col items-end gap-3 mary-hideable">
                                     {{ $actions }}
                             </div>
 

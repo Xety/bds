@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Models\Site;
 use BDS\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
@@ -243,37 +244,6 @@ class Parts extends Component
         }
     }
 
-
-
-    /**
-     * Function to search materials in form.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function search(string $value = ''): void
-    {
-        // Besides the search results, you must include on demand selected option
-        $selectedOption = Material::whereIn('id', $this->form->materials)->get();
-
-        $materials = Material::query()
-            ->with(['zone', 'zone.site'])
-            ->where('name', 'like', "%$value%");
-
-        // Only the maintenance site can access to all materials from all sites.
-        if(getPermissionsTeamId() !== settings('site_id_maintenance_bds')) {
-            $materials->whereRelation('zone.site', 'id', getPermissionsTeamId());
-        }
-
-        $materials = $materials->take(5)
-            ->orderBy('name')
-            ->get()
-            ->merge($selectedOption);
-
-        $this->form->materialsMultiSearchable = $materials;
-    }
-
     /**
      * Function to render the component.
      *
@@ -281,16 +251,6 @@ class Parts extends Component
      */
     public function render(): View
     {
-        $materials = Material::query()
-            ->with(['zone' => function ($query) {
-                $query->select('id', 'name');
-            }])
-            ->whereRelation('zone.site', 'id', getPermissionsTeamId())
-            ->select(['id', 'name', 'zone_id'])
-            ->orderBy('zone_id')
-            ->get()
-            ->toArray();
-
         $suppliers = Supplier::query()
             ->where('site_id', getPermissionsTeamId())
             ->select(['id', 'name', 'site_id'])
@@ -302,7 +262,6 @@ class Parts extends Component
 
         return view('livewire.parts', [
             'parts' => $this->rows,
-            'materials' => $materials,
             'suppliers' => $suppliers,
         ]);
     }
@@ -398,7 +357,8 @@ class Parts extends Component
         $this->useCachedRows();
 
         $this->form->reset();
-        $this->search();
+        $this->searchMaterials();
+        $this->searchRecipients();
 
         $this->showModal = true;
     }
@@ -419,9 +379,11 @@ class Parts extends Component
         $this->useCachedRows();
 
         $materials = $part->materials()->pluck('id')->toArray();
+        $recipients = $part->recipients()->pluck('id')->toArray();
 
-        $this->form->setPart($part, $materials);
-        $this->search();
+        $this->form->setPart($part, $materials, $recipients);
+        $this->searchMaterials();
+        $this->searchRecipients();
 
         $this->showModal = true;
     }
@@ -433,7 +395,6 @@ class Parts extends Component
      */
     public function save(): void
     {
-        //dd($this->form);
         $this->isCreating ?
             $this->authorize('create', Material::class) :
             $this->authorize('update', $this->form->part);
@@ -468,4 +429,62 @@ class Parts extends Component
         }
     }
 
+    /**
+     * Function to search materials in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchMaterials(string $value = ''): void
+    {
+        // Besides the search results, you must include on demand selected option
+        $selectedOption = Material::whereIn('id', $this->form->materials)->get();
+
+        $materials = Material::query()
+            ->with(['zone', 'zone.site'])
+            ->where('name', 'like', "%$value%");
+
+        // Only the maintenance site can access to all materials from all sites.
+        if(getPermissionsTeamId() !== settings('site_id_maintenance_bds')) {
+            $materials->whereRelation('zone.site', 'id', getPermissionsTeamId());
+        }
+
+        $materials = $materials->take(5)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->materialsMultiSearchable = $materials;
+    }
+
+    /**
+     * Function to search recipients in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchRecipients(string $value = ''): void
+    {
+        // Besides the search results, you must include on demand selected option
+        if (!empty($this->form->recipients)) {
+            $selectedOption = User::whereIn('id', $this->form->recipients)->get();
+        } else {
+            $selectedOption = [];
+        }
+
+        $recipients = User::whereRelation('sites', 'site_id', getPermissionsTeamId())
+            ->where(function($query) use ($value) {
+                return $query->where('first_name', 'like', "%$value%")
+                    ->orWhere('last_name', 'like', "%$value%");
+            });
+
+        $recipients = $recipients->take(5)
+            ->orderBy('username')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->recipientsMultiSearchable = $recipients;
+    }
 }

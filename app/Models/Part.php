@@ -98,7 +98,8 @@ class Part extends Model
     public function materials(): BelongsToMany
     {
         return $this->belongsToMany(Material::class)
-            ->using(MaterialPart::class);
+            ->using(MaterialPart::class)
+            ->withTimestamps();
     }
 
     /**
@@ -109,6 +110,18 @@ class Part extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();
+    }
+
+    /**
+     * Get the recipients alert for the part.
+     *
+     * @return BelongsToMany
+     */
+    public function recipients(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->withTimestamps()
+            ->withTrashed();
     }
 
     /**

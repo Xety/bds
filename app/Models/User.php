@@ -139,7 +139,8 @@ class User extends Model implements
      */
     public function sites(): BelongsToMany
     {
-        return $this->belongsToMany(Site::class)->withTimestamps();
+        return $this->belongsToMany(Site::class)
+            ->withTimestamps();
     }
 
     /**
@@ -174,7 +175,7 @@ class User extends Model implements
             'model',
             config('permission.table_names.model_has_permissions'),
             config('permission.column_names.model_morph_key'),
-            PermissionRegistrar::$pivotPermission
+            config('permission.column_names.permission_pivot_key')
         );
     }
 

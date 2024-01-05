@@ -33,12 +33,21 @@ class PartForm extends Form
     // Options list
     public Collection|array $materialsMultiSearchable = [];
 
+    public Collection|array $recipientsMultiSearchable = [];
+
     /**
      * Selected materials ids
      *
      * @var array
      */
     public array $materials = [];
+
+    /**
+     * Selected recipients ids
+     *
+     * @var array
+     */
+    public array $recipients = [];
 
     /**
      * Rules used for validating the model.
@@ -69,11 +78,18 @@ class PartForm extends Form
                 'nullable',
                 Rule::exists('materials', 'id')
             ],
+            'recipients' => [
+                Rule::excludeIf(function () {
+                    return !($this->number_warning_enabled || $this->number_critical_enabled);
+                }),
+                'required',
+                Rule::exists('users', 'id')
+            ],
             'price' => 'required|min:0|numeric',
             'number_warning_enabled' => 'required|boolean',
-            'number_warning_minimum' => 'exclude_if:form.number_warning_enabled,false|required|numeric',
+            'number_warning_minimum' => 'exclude_if:number_warning_enabled,false|required|numeric',
             'number_critical_enabled' => 'required|boolean',
-            'number_critical_minimum' => 'exclude_if:form.number_critical_enabled,false|required|numeric',
+            'number_critical_minimum' => 'exclude_if:number_critical_enabled,false|required|numeric',
         ];
     }
 
@@ -89,6 +105,8 @@ class PartForm extends Form
             'description' => 'description',
             'reference' => 'référence',
             'supplier_id' => 'fournisseur',
+            'materials' => 'matériels',
+            'recipients' => 'destinataires',
             'price' => 'prix',
             'number_warning_enabled' => 'alerte de stock',
             'number_warning_minimum' => 'quantité pour l\'alerte',
@@ -97,11 +115,12 @@ class PartForm extends Form
         ];
     }
 
-    public function setPart(Part $part, array $materials): void
+    public function setPart(Part $part, array $materials, array $recipients): void
     {
         $this->fill([
             'part' => $part,
             'materials' => $materials,
+            'recipients' => $recipients,
             'name' => $part->name,
             'description' => $part->description,
             'reference' => $part->reference,
@@ -135,6 +154,7 @@ class PartForm extends Form
         ]));
 
         $part->materials()->sync($this->materials);
+        $part->recipients()->sync($this->recipients);
 
         return $part;
     }
@@ -159,6 +179,7 @@ class PartForm extends Form
         ]));
 
         $part->materials()->sync($this->materials);
+        $part->recipients()->sync($this->recipients);
 
         return $part;
     }

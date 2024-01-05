@@ -17,10 +17,10 @@ class Kernel extends ConsoleKernel
         if ($this->app->environment('production')) {
             // Backup Database
             /*$schedule->command('backup:clean')->daily()->at('01:00');
-            $schedule->command('backup:run')->daily()->at('01:30');
+            $schedule->command('backup:run')->daily()->at('01:30');*/
 
             // Cleaning Alerts
-            $schedule->command('cleaning:alert')->everyFifteenMinutes();*/
+            //$schedule->command('cleaning:alert')->everyFifteenMinutes();
         }
     }
 

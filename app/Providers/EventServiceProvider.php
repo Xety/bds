@@ -2,18 +2,25 @@
 
 namespace BDS\Providers;
 
-use BDS\Models\Part;
-use BDS\Models\Supplier;
-use BDS\Observers\PartObserver;
-use BDS\Observers\SupplierObserver;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+
+use BDS\Listeners\Cleaning\AlertSubscriber as AlertCleaningSubscriber;
+use BDS\Listeners\Part\AlertSubscriber as AlertPartSubscriber;
 use BDS\Listeners\User\AuthSubscriber;
+use BDS\Models\Part;
+use BDS\Models\PartEntry;
+use BDS\Models\PartExit;
+use BDS\Models\Supplier;
 use BDS\Models\Cleaning;
 use BDS\Models\Material;
 use BDS\Models\User;
 use BDS\Observers\CleaningObserver;
 use BDS\Observers\MaterialObserver;
 use BDS\Observers\UserObserver;
+use BDS\Observers\PartEntryObserver;
+use BDS\Observers\PartExitObserver;
+use BDS\Observers\PartObserver;
+use BDS\Observers\SupplierObserver;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -34,6 +41,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $subscribe = [
+        AlertCleaningSubscriber::class,
+        AlertPartSubscriber::class,
         AuthSubscriber::class,
     ];
 
@@ -48,6 +57,8 @@ class EventServiceProvider extends ServiceProvider
         Material::class => [MaterialObserver::class],
         Part::class => [PartObserver::class],
         Supplier::class => [SupplierObserver::class],
+        PartEntry::class => [PartEntryObserver::class],
+        PartExit::class => [PartExitObserver::class],
     ];
 
     /**

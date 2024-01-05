@@ -15,7 +15,7 @@ class PartEntryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny partEntry');
+        return $user->can('viewAny partEntry') && settings('part_manage_enabled', true);
     }
 
     /**
@@ -37,20 +37,24 @@ class PartEntryPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, ?PartEntry $partEntry = null): bool
     {
-        // Give update access to all partEntries, remove to only allow created partEntry,
-        // false to not allow any update.
+        // First check if user can update any partEntry and a $partEntry has been provided
+        if($user->can('update partEntry') && !is_null($partEntry)) {
+            // Check that the user is not trying to update a partEntry from another site where the partEntry does not belong to.
+            return $partEntry->part->site_id === getPermissionsTeamId();
+        }
         return $user->can('update partEntry');
-
-        //return $user->id === $partEntry->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete(User $user, ?PartEntry $partEntry = null): bool
     {
+        if($user->can('delete partEntry') && !is_null($partEntry)) {
+            return $partEntry->part->site_id === getPermissionsTeamId();
+        }
         return $user->can('delete partEntry');
     }
 

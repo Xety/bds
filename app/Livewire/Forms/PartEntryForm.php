@@ -3,8 +3,8 @@
 namespace BDS\Livewire\Forms;
 
 use BDS\Models\PartEntry;
+use Illuminate\Support\Collection;
 use Livewire\Form;
-use BDS\Models\Permission;
 
 class PartEntryForm extends Form
 {
@@ -12,9 +12,14 @@ class PartEntryForm extends Form
 
     public ?int $part_id = null;
 
-    public ?string $number = null;
+    public ?int $number = null;
 
     public ?int $order_id = null;
+
+    public bool $isCreating = false;
+
+    // Options list
+    public Collection|array $partsSearchable = [];
 
     /**
      * Rules used for validating the model.
@@ -33,6 +38,8 @@ class PartEntryForm extends Form
                 'number' => 'required|numeric|min:0|max:1000000|not_in:0'
             ]);
         }
+
+        return $rules;
     }
 
     /**
@@ -49,40 +56,38 @@ class PartEntryForm extends Form
         ];
     }
 
-    public function setPermission(Permission $permission): void
+    public function setPartEntry(PartEntry $partEntry): void
     {
         $this->fill([
-            'permission' => $permission,
-            'name' => $permission->name,
-            'description' => $permission->description
+            'partEntry' => $partEntry,
+            'number' => $partEntry->number,
+            'order_id' => $partEntry->order_id
         ]);
     }
 
     /**
      * Function to store the model.
      *
-     * @return Permission
+     * @return PartEntry
      */
-    public function store(): Permission
+    public function store(): PartEntry
     {
-        return Permission::create($this->only([
-            'name',
-            'description'
+        return PartEntry::create($this->only([
+            'part_id',
+            'number',
+            'order_id'
         ]));
     }
 
     /**
      * Function to update the model.
      *
-     * @return Permission
+     * @return PartEntry
      */
-    public function update(): Permission
+    public function update(): PartEntry
     {
-        return tap($this->permission)->update($this->only([
-            'name',
-            'description',
-            'color',
-            'level'
+        return tap($this->partEntry)->update($this->only([
+            'order_id'
         ]));
     }
 }

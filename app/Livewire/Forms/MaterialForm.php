@@ -3,6 +3,7 @@
 namespace BDS\Livewire\Forms;
 
 use BDS\Models\Material;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
@@ -27,6 +28,16 @@ class MaterialForm extends Form
     public ?bool $selvah_cleaning_test_ph_enabled = false;
 
     /**
+     * Selected recipients ids
+     *
+     * @var array
+     */
+    public array $recipients = [];
+
+    // Options list
+    public Collection|array $recipientsMultiSearchable = [];
+
+    /**
      * Rules used for validating the model.
      *
      * @return array
@@ -41,10 +52,15 @@ class MaterialForm extends Form
             ],
             'description' => 'required|min:3',
             'zone_id' => 'required|exists:zones,id',
+            'recipients' => [
+                'exclude_if:cleaning_alert,false',
+                'required',
+                Rule::exists('users', 'id')
+            ],
             'selvah_cleaning_test_ph_enabled' => 'required|boolean',
             'cleaning_alert' => 'required|boolean',
-            'cleaning_alert_email' => 'exclude_if:model.cleaning_alert,false|boolean|required',
-            'cleaning_alert_frequency_repeatedly' => 'exclude_if:model.cleaning_alert,false|numeric|between:1,365|required',
+            'cleaning_alert_email' => 'exclude_if:cleaning_alert,false|boolean|required',
+            'cleaning_alert_frequency_repeatedly' => 'exclude_if:cleaning_alert,false|numeric|between:1,365|required',
             'cleaning_alert_frequency_type' => 'exclude_if:cleaning_alert,false|in:' . collect(Material::CLEANING_TYPES)->map(function ($item) {
                     return $item['id'];
                 })->sort()->values()->implode(',') . '|required',
@@ -62,6 +78,7 @@ class MaterialForm extends Form
             'name' => 'nom',
             'description' => 'description',
             'zone_id' => 'zone',
+            'recipients' => 'destinataires',
             'selvah_cleaning_test_ph_enabled' => 'test de PH',
             'cleaning_alert' => 'alerte de nettoyage',
             'cleaning_alert_email' => 'alerte de nettoyage par email',
@@ -70,10 +87,11 @@ class MaterialForm extends Form
         ];
     }
 
-    public function setMaterial(Material $material): void
+    public function setMaterial(Material $material, array $recipients): void
     {
         $this->fill([
             'material' => $material,
+            'recipients' => $recipients,
             'name' => $material->name,
             'description' => $material->description,
             'zone_id' => $material->zone_id,
@@ -85,7 +103,7 @@ class MaterialForm extends Form
         ]);
 
         // Selvah
-        if (getPermissionsTeamId() == 2) {
+        if (getPermissionsTeamId() == settings('site_id_selvah')) {
             $this->fill([
                 'selvah_cleaning_test_ph_enabled' => $material->selvah_cleaning_test_ph_enabled
             ]);
@@ -111,11 +129,14 @@ class MaterialForm extends Form
         ];
 
         // Selvah
-        if (getPermissionsTeamId() == 2) {
+        if (getPermissionsTeamId() == settings('site_id_selvah')) {
             $data[] = 'selvah_cleaning_test_ph_enabled';
         }
 
-        return Material::create($this->only($data));
+        $material = Material::create($this->only($data));
+        $material->recipients()->sync($this->recipients);
+
+        return $material;
     }
 
     /**
@@ -136,10 +157,13 @@ class MaterialForm extends Form
         ];
 
         // Selvah
-        if (getPermissionsTeamId() == 2) {
+        if (getPermissionsTeamId() == settings('site_id_selvah')) {
             $data[] = 'selvah_cleaning_test_ph_enabled';
         }
 
-        return tap($this->material)->update($this->only($data));
+        $material = tap($this->material)->update($this->only($data));
+        $material->recipients()->sync($this->recipients);
+
+        return $material;
     }
 }
