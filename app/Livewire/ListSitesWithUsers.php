@@ -2,10 +2,8 @@
 
 namespace BDS\Livewire;
 
-use BDS\Models\Site;
 use Livewire\Component;
 use BDS\Models\Role;
-use Spatie\Permission\PermissionRegistrar;
 
 class ListSitesWithUsers extends Component
 {
@@ -34,7 +32,7 @@ class ListSitesWithUsers extends Component
             foreach ($site['users'] as $user) {
                 $roles = Role::with('permissions')->whereHas('users', function ($query) use ($user, $site) {
                     $query->where(config('permission.column_names.model_morph_key'), $user['id'])
-                        ->where(PermissionRegistrar::$teamsKey, $site['id']);
+                        ->where(config('permission.column_names.team_foreign_key'), $site['id']);
                 })->get()->toArray();
 
                 $user['roles'] = $roles;

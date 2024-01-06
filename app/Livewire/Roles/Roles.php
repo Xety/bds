@@ -16,10 +16,8 @@ use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
-use Spatie\Permission\PermissionRegistrar;
 
 class Roles extends Component
 {
@@ -171,8 +169,8 @@ class Roles extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Role::where(function($query) {
-            return $query->whereNull(PermissionRegistrar::$teamsKey)
-                ->orWhere(PermissionRegistrar::$teamsKey, getPermissionsTeamId());
+            return $query->whereNull(config('permission.column_names.team_foreign_key'))
+                ->orWhere(config('permission.column_names.team_foreign_key'), getPermissionsTeamId());
         });
 
         if (Gate::allows('search', Role::class)) {
