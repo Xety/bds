@@ -2,6 +2,7 @@
 
 namespace BDS\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,42 @@ class PartController extends Controller
 
         $breadcrumbs = $this->breadcrumbs->addCrumb($part->name, $part->show_url);
 
-        return view('part.show', compact('breadcrumbs', 'part', 'partEntries', 'partExits', 'materials'));
+        // Chart for PartEntries and PartExits.
+        $chart = Cache::remember(
+            'Part.part-entries.part-exits.count.last_12months',
+            600,
+            function () use($part) {
+                $partsEntriesData = [];
+                $partsExitsData = [];
+                $monthsData = [];
+                $array = [];
+                $months = 11;
+
+                for ($i = 0; $i <= $months; $i++) {
+                    $lastXMonthsText = Carbon::now()->subMonth()->translatedFormat('F Y');
+                    $monthsData[$i] = ucfirst($lastXMonthsText);
+
+                    $startXMonthsAgo = Carbon::now()->startOfMonth()->subMonthsNoOverflow($i)->toDateString();
+                    $endXMonthsAgo = Carbon::now()->subMonthsNoOverflow($i)->endOfMonth()->toDateString();
+
+                    $partsEntriesData[$i] = PartEntry::where('part_id', $part->getKey())
+                        ->whereDate('created_at', '>=', $startXMonthsAgo)
+                        ->whereDate('created_at', '<=', $endXMonthsAgo)
+                        ->sum(DB::raw('number'));
+
+                    $partsExitsData[$i] = PartExit::where('part_id', $part->getKey())
+                        ->whereDate('created_at', '>=', $startXMonthsAgo)
+                        ->whereDate('created_at', '<=', $endXMonthsAgo)
+                        ->sum(DB::raw('number'));
+                }
+                $array['months'] = array_reverse($monthsData);
+                $array['parts-entries'] = array_reverse($partsEntriesData);
+                $array['parts-exits'] = array_reverse($partsExitsData);
+
+                return $array;
+            }
+        );
+
+        return view('part.show', compact('breadcrumbs', 'part', 'partEntries', 'partExits', 'materials', 'chart'));
     }
 }

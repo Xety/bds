@@ -81,4 +81,12 @@ class UserPolicy
     {
         return $user->can('assign-direct-permission user');
     }
+
+    /**
+     * Determine whether the user can assign sites the model.
+     */
+    public function assignSite(User $user): bool
+    {
+        return $user->can('assign-site user');
+    }
 }

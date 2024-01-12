@@ -27,7 +27,11 @@ class UserForm extends Form
 
     public array $permissions = [];
 
+    public array $sites = [];
+
     public ?int $current_site_id = null;
+
+    public ?bool $can_bypass = null;
 
     /**
      * Rules used for validating the model.
@@ -71,23 +75,31 @@ class UserForm extends Form
      * @param User $user The user model.
      * @param array $roles All roles of the user.
      * @param array $permissions All permissions of the user.
+     * @param array $sites All sites where the user belongsTo.
      *
      * @return void
      */
-    public function setUser(User $user, array $roles, array $permissions): void
+    public function setUser(User $user, array $roles, array $permissions, array $sites): void
     {
+        // We must set the site_id to 0 to check if the user has the "bypass login" permission
+        $siteId = getPermissionsTeamId();
+        setPermissionsTeamId(0);
+
         $this->fill([
             'user' => $user,
             'roles' => $roles,
             'permissions' => $permissions,
+            'sites' => $sites,
             'username' => $user->username,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
             'office_phone' => $user->office_phone,
             'cell_phone' => $user->cell_phone,
-            'end_employment_contract' => $user->end_employment_contract
+            'end_employment_contract' => $user->end_employment_contract,
+            'can_bypass' => $user->hasPermissionTo('bypass login')
         ]);
+        setPermissionsTeamId($siteId);
     }
 
     /**
@@ -110,8 +122,10 @@ class UserForm extends Form
             'end_employment_contract',
             'current_site_id'
         ]));
-        // Link the new user to the current site.
-        $user->sites()->attach(session('current_site_id'));
+        // Link the new user to the current site and the others sites where he has been assigned to.
+        $this->sites = array_unique(array_merge($this->sites, [getPermissionsTeamId()]));
+
+        $user->sites()->sync($this->sites);
 
         // Link the selected roles to the user in the current site.
         $user->syncRoles($this->roles);
@@ -119,6 +133,17 @@ class UserForm extends Form
         // Link the selected permissions to the user in the current site.
         if (auth()->user()->can('assignDirectPermission', User::class)) {
             $user->syncPermissions($this->permissions);
+
+            $siteId = getPermissionsTeamId();
+            setPermissionsTeamId(0);
+
+            if ($this->can_bypass) {
+                $user->assignPermissionsToSites('bypass login', 0);
+            } else {
+                $user->revokePermissionTo('bypass login');
+            }
+
+            setPermissionsTeamId($siteId);
         }
 
         return $user;
@@ -140,11 +165,23 @@ class UserForm extends Form
             'cell_phone',
             'end_employment_contract'
         ]));
+        $user->sites()->sync($this->sites);
 
         $user->syncRoles($this->roles);
 
         if (auth()->user()->can('assignDirectPermission', User::class)) {
             $user->syncPermissions($this->permissions);
+
+            $siteId = getPermissionsTeamId();
+            setPermissionsTeamId(0);
+
+            if ($this->can_bypass) {
+                $user->givePermissionTo('bypass login');
+            } else {
+                $user->revokePermissionTo('bypass login');
+            }
+
+            setPermissionsTeamId($siteId);
         }
 
         return $user;

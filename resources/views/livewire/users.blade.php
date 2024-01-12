@@ -225,7 +225,7 @@
         </x-slot:actions>
     </x-modal>
 
-    <!-- Edit Users Modal -->
+    <!-- Create/Edit Users Modal -->
     <x-modal wire:model="showModal" title="{!! $isCreating ? 'Créer un Utilisateur' : 'Editer l\'Utilisateur' !!}">
         @if ($form->user?->trashed())
             <div>
@@ -274,12 +274,17 @@
             wire:model="form.roles"
             name="form.roles"
             label="Rôles"
+            option-label="name"
+            option-value="name"
             :label-info="$message"
             size="10"
             multiple
         />
 
         @can('assignDirectPermission', \BDS\Models\User::class)
+                @php $message = "Cocher pour donner la permission pour contourner la désactivation de connexion lorsque celle-ci est désactivée.";@endphp
+                <x-checkbox wire:model="form.can_bypass" name="form.can_bypass" label="Activer le contournement" text="Cochez pour activer la permission de contournement" :label-info="$message" />
+
             <div>
                 <x-alert type="info" class="max-w-lg mt-4" title="Information">
                     La ou les permission(s) sélectionnée(s) seront appliquée(s) <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
@@ -293,8 +298,24 @@
                 wire:model="form.permissions"
                 name="form.permissions"
                 label="Permissions direct"
+                option-label="name"
+                option-value="name"
                 :label-info="$message"
                 tip
+                size="10"
+                multiple
+            />
+        @endcan
+
+        @can('assignSite', \BDS\Models\User::class)
+            @php $message = "Sélectionnez le/les site(s) auquel(s) aura accès l'utilisateur.";@endphp
+            <x-select
+                :options="$sites"
+                class="select-primary"
+                wire:model="form.sites"
+                name="form.sites"
+                label="Accès aux Sites"
+                :label-info="$message"
                 size="10"
                 multiple
             />

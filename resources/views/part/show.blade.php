@@ -5,6 +5,75 @@
     <x-meta title="{{ $part->name }}" />
 @endpush
 
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            let settings = {
+                    chart: {
+                        height: '420px',
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    series: [
+                        {
+                            name: 'Entrées Totales de Pièces',
+                            data: {!! json_encode($chart['parts-entries']) !!},
+                            color: '#f87272'
+                        },
+                        {
+                            name: 'Sorties Totales de Pièces',
+                            data: {!! json_encode($chart['parts-exits']) !!},
+                            color: '#fbbd23'
+                        }
+                    ],
+                    grid: {
+                        show: true,
+                        borderColor: '#F3F4F6',
+                        strokeDashArray: 1,
+                        padding: {
+                            left: 35,
+                            bottom: 15
+                        }
+                    },
+                    xaxis: {
+                        categories: {!! json_encode($chart['months']) !!},
+                        labels: {
+                            style: {
+                                fontSize: '14px',
+                                fontWeight: 500,
+                            },
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                fontSize: '14px',
+                                fontWeight: 500,
+                            }
+                        },
+                    },
+                    markers: {
+                        size: 5,
+                        strokeColors: '#ffffff',
+                        hover: {
+                            size: undefined,
+                            sizeOffset: 3
+                        }
+                    },
+                    legend: {
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        fontFamily: 'Inter, sans-serif',
+                    }
+                };
+
+            let chart = new ApexCharts(document.querySelector("#chart"), settings);
+            chart.render();
+        });
+    </script>
+@endpush
+
 @section('content')
     <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
 
@@ -167,6 +236,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-span-12">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex-shrink-0">
+                            <span class="text-xl font-bold sm:text-2xl">Entrées et Sortie totales pour la pièce détachée {{ $part->name }}</span>
+                            <h3 class="text-base font-light text-gray-500">Historique sur les 12 derniers mois</h3>
+                        </div>
+                        <div class="flex items-center justify-end text-5xl text-cyan-500">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                    </div>
+
+                    <div id="chart" height="420px"></div>
                 </div>
             </div>
 
@@ -355,14 +440,14 @@
                                         <x-table.cell>
                                             {{ $partEntry->user->full_name }}
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
-                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                        <x-table.cell>
+                                            <code class="code rounded-sm">
                                                 {{ $partEntry->number }}
                                             </code>
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
+                                        <x-table.cell>
                                             @if ($partEntry->order_id)
-                                                <code class="text-neutral-content  bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                <code class="code rounded-sm">
                                                     {{ $partEntry->order_id}}
                                                 </code>
                                             @endif
@@ -397,6 +482,7 @@
                                 <x-table.heading>Sortie par</x-table.heading>
                                 <x-table.heading>Description</x-table.heading>
                                 <x-table.heading>Nombre</x-table.heading>
+                                <x-table.heading>Prix (U)</x-table.heading>
                                 <x-table.heading>Créé le</x-table.heading>
                             </x-slot>
 
@@ -424,9 +510,14 @@
                                                 {{ Str::limit($partExit->description, 50) }}
                                             </span>
                                         </x-table.cell>
-                                        <x-table.cell class="prose">
-                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                        <x-table.cell>
+                                            <code class="code rounded-sm">
                                                 {{ $partExit->number }}
+                                            </code>
+                                        </x-table.cell>
+                                        <x-table.cell>
+                                            <code class="code rounded-sm">
+                                                {{ $partExit->price }} €
                                             </code>
                                         </x-table.cell>
                                         <x-table.cell class="capitalize">

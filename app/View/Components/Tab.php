@@ -37,7 +37,6 @@ class Tab extends Component
                         </a>
                     </li>
 
-
                     <div wire:key="{{ $name }}-{{ rand() }}">
                         <template x-teleport="#{{ $tabContainer }}">
                             <div x-show="selected === '{{ $name }}'" {{ $attributes->class(['py-5']) }}>

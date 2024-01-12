@@ -175,16 +175,22 @@ class Users extends Component
     public function render(): View
     {
         // Select only the roles attached to this site or the roles without assigned site_id.
-        $roles = Role::where('site_id', session('current_site_id'))
+        $roles = Role::where('site_id', getPermissionsTeamId())
             ->orWhereNull('site_id')
             ->where('level', '<=', auth()->user()->level)
-            ->select(['id', 'name'])
+            ->select(['name'])
             ->orderBy('name')
             ->get()
             ->toArray();
 
         // Select all permissions except `bypass login` who is assigned to the `site_id` 0.
-        $permissions = Permission::where('name', '<>', 'bypass login')->select(['id', 'name', 'description'])
+        $permissions = Permission::where('name', '<>', 'bypass login')
+            ->select(['name', 'description'])
+            ->orderBy('name')
+            ->get()
+            ->toArray();
+
+        $sites = Site::select(['id', 'name'])
             ->orderBy('name')
             ->get()
             ->toArray();
@@ -193,6 +199,7 @@ class Users extends Component
             'users' => $this->rows,
             'roles' => $roles,
             'permissions' => $permissions,
+            'sites' => $sites,
             'site' => Site::find(getPermissionsTeamId())
         ]);
     }
@@ -279,10 +286,11 @@ class Users extends Component
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $roles = $user->roles()->pluck('id')->toArray();
-        $permissions = $user->permissions()->pluck('id')->toArray();
+        $roles = $user->roles()->pluck('name')->toArray();
+        $permissions = $user->permissions()->pluck('name')->toArray();
+        $sites = $user->sites()->pluck('id')->toArray();
 
-        $this->form->setUser($user, $roles, $permissions);
+        $this->form->setUser($user, $roles, $permissions, $sites);
 
         $this->showModal = true;
     }
