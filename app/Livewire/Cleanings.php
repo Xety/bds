@@ -192,6 +192,8 @@ class Cleanings extends Component
                 $this->create();
 
                 $this->form->material_id = $material->id;
+
+                $this->search();
             }
         }
     }
@@ -215,16 +217,7 @@ class Cleanings extends Component
     public function render(): View
     {
         return view('livewire.cleanings', [
-            'cleanings' => $this->rows,
-            'materials' => Material::query()
-                ->with(['zone' => function ($query) {
-                    $query->select('id', 'name');
-                }])
-                ->whereRelation('zone.site', 'id', getPermissionsTeamId())
-                ->select(['id', 'name', 'zone_id'])
-                ->orderBy('zone_id')
-                ->get()
-                ->toArray()
+            'cleanings' => $this->rows
         ]);
     }
 
@@ -293,6 +286,7 @@ class Cleanings extends Component
         $this->useCachedRows();
 
         $this->form->reset();
+        $this->search();
 
         $this->showModal = true;
     }
@@ -314,6 +308,7 @@ class Cleanings extends Component
 
         $this->form->setCleaning($cleaning);
         $this->updatedForm();
+        $this->search();
 
         $this->showModal = true;
     }
@@ -334,5 +329,29 @@ class Cleanings extends Component
         $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['id' => $model->getKey()]);
 
         $this->showModal = false;
+    }
+
+    /**
+     * Function to search materials in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function search(string $value = ''): void
+    {
+        $selectedOption = Material::where('id', $this->form->material_id)->get();
+
+        $materials = Material::query()
+            ->with(['zone', 'zone.site'])
+            ->where('name', 'like', "%$value%")
+            ->whereRelation('zone.site', 'id', getPermissionsTeamId());
+
+        $materials = $materials->take(5)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->materialsSearchable = $materials;
     }
 }

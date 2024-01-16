@@ -38,7 +38,8 @@ return [
             'price_total_all_part_entries' => 3600,
             'total_part_in_stock' => 3600,
             'total_part_out_of_stock' => 3600,
-            'total_part_get_in_stock' => 3600
+            'total_part_get_in_stock' => 3600,
+            'part_entries_part_exits_count_last_12_months' => 600 // 10 min
         ]
     ],
 

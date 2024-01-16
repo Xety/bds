@@ -64,7 +64,7 @@
             @endif
 
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null" class="min-w-[250px]">Nom</x-table.heading>
-            <x-table.heading>Materials</x-table.heading>
+            <x-table.heading>Matériels</x-table.heading>
             <x-table.heading>Site</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Enregistré<br> par</x-table.heading>

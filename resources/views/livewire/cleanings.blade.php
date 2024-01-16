@@ -247,15 +247,44 @@
     <!-- Create/Edit Cleaning Modal -->
     <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Nettoyage' : 'Editer le Nettoyage' }}">
         @php $message = "Sélectionnez le matériel que vous avez nettoyé.";@endphp
-        <x-select
-            :options="$materials"
-            class="select-primary"
-            wire:model.live="form.material_id"
-            name="form.material_id"
-            label="Materiel"
+        <x-choices
+            label="Matériel"
             :label-info="$message"
-            placeholder="Sélectionnez le Matériel"
-        />
+            wire:model="form.material_id"
+            :options="$form->materialsSearchable"
+            search-function="search"
+            no-result-text="Aucun résultat..."
+            debounce="300ms"
+            min-chars="2"
+            single
+            searchable>
+
+            {{-- Item slot--}}
+            @scope('item', $option)
+            <x-list-item :item="$option">
+                <x-slot:avatar>
+                    <x-icon name="fas-microchip" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                </x-slot:avatar>
+
+                <x-slot:value>
+                    {{ $option->name }} ({{ $option->id }})
+                </x-slot:value>
+
+                <x-slot:sub-value>
+                    {{ $option->zone->site->name }}
+                </x-slot:sub-value>
+
+                <x-slot:actions>
+                    {{ $option->zone->name }}
+                </x-slot:actions>
+            </x-list-item>
+            @endscope
+
+            {{-- Selection slot--}}
+            @scope('selection', $option)
+            {{ $option->name }} ({{ $option->id }})
+            @endscope
+        </x-choices>
 
         @php $message = "Si vous avez des informations complémentaires à renseigner, veuillez le faire dans la case ci-dessous.";@endphp
          <x-textarea wire:model="form.description" name="form.description" label="Description du nettoyage" placeholder="Informations complémentaires..." rows="3" :label-info="$message" />

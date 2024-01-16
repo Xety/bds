@@ -57,8 +57,8 @@ class PartController extends Controller
 
         // Chart for PartEntries and PartExits.
         $chart = Cache::remember(
-            'Part.part-entries.part-exits.count.last_12months',
-            600,
+            'Part.part-entries.part-exits.count.last_12months.' . $part->getKey(),
+            config('bds.cache.parts.part_entries_part_exits_count_last_12_months'),
             function () use($part) {
                 $partsEntriesData = [];
                 $partsExitsData = [];
@@ -67,7 +67,7 @@ class PartController extends Controller
                 $months = 11;
 
                 for ($i = 0; $i <= $months; $i++) {
-                    $lastXMonthsText = Carbon::now()->subMonth()->translatedFormat('F Y');
+                    $lastXMonthsText = Carbon::now()->subMonths($i)->translatedFormat('F Y');
                     $monthsData[$i] = ucfirst($lastXMonthsText);
 
                     $startXMonthsAgo = Carbon::now()->startOfMonth()->subMonthsNoOverflow($i)->toDateString();
@@ -86,7 +86,6 @@ class PartController extends Controller
                 $array['months'] = array_reverse($monthsData);
                 $array['parts-entries'] = array_reverse($partsEntriesData);
                 $array['parts-exits'] = array_reverse($partsExitsData);
-
                 return $array;
             }
         );

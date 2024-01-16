@@ -4,6 +4,7 @@ namespace BDS\Livewire\Forms;
 
 use BDS\Models\Cleaning;
 use BDS\Models\Material;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
@@ -20,6 +21,9 @@ class CleaningForm extends Form
     public ?float $selvah_ph_test_water_after_cleaning = null;
 
     public ?string $type = null;
+
+    // Options list
+    public Collection|array $materialsSearchable = [];
 
     /**
      * Rules used for validating the model.
