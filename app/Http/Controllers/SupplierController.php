@@ -3,6 +3,8 @@
 namespace BDS\Http\Controllers;
 
 use BDS\Models\Supplier;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
 
 class SupplierController extends Controller
@@ -34,5 +36,26 @@ class SupplierController extends Controller
         );
 
         return view('supplier.index', compact('breadcrumbs'));
+    }
+
+    /**
+     * Show a supplier.
+     *
+     * @param Supplier $supplier The supplier model retrieved by its ID.
+     *
+     * @return Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     */
+    public function show(Supplier $supplier): Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+    {
+        $this->authorize('view', $supplier);
+
+        $breadcrumbs = $this->breadcrumbs->addCrumb(
+            $supplier->name,
+            $supplier->show_url
+        );
+
+        $parts = $supplier->parts()->paginate(25, ['*'], 'parts');
+
+        return view('supplier.show', compact('breadcrumbs', 'supplier', 'parts'));
     }
 }

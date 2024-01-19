@@ -2,6 +2,8 @@
 
 namespace BDS\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
 use BDS\Models\User;
 
@@ -36,8 +38,39 @@ class UserController extends Controller
         return view('user.index', ['breadcrumbs' => $this->breadcrumbs]);
     }
 
-    public function show()
+    /**
+     * Show a user profile.
+     *
+     * @param User $user The user model retrieved by its ID.
+     *
+     * @return Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     */
+    public function show(User $user): Application|Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
     {
+        $this->authorize('view', $user);
+
+        $breadcrumbs = $this->breadcrumbs->addCrumb(
+            $user->full_name,
+            $user->show_url
+        );
+
+        $user->load(['sites']);
+
+        $sites = [];
+        $teamId = getPermissionsTeamId();
+
+        foreach ($user->sites as $site) {
+            setPermissionsTeamId($site->id);
+            $sites[$site->id]['site'] = $site;
+
+            $sites[$site->id]['roles'] = $user->roles()->get();
+        }
+        setPermissionsTeamId($teamId);
+
+       //$parts = $user->parts()->paginate(25, ['*'], 'parts');
+
+
+        return view('user.show', compact('breadcrumbs', 'user', 'sites'));
     }
 
     public function permissions()

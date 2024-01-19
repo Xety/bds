@@ -14,7 +14,8 @@ class ListSitesWithUsers extends Component
 
     public function render()
     {
-        $sites = auth()->user()->sites()->with(['users', 'users.permissionsWithoutSite'])
+        $sites = auth()->user()->sites()->with(['users', 'users.permissionsWithoutSite', 'users.roles'])
+            //->select(['sites.users.id', 'sites.users.first_name', 'sites.users.last_name'])
             ->orderBy('name')
             ->get()->toArray();
 

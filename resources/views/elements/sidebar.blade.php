@@ -5,15 +5,15 @@
         <ul>
             <li class="hidden lg:block">
                 <a class="flex flex-col items-center font-light text-3xl font-bds  hover:!bg-transparent focus:!bg-transparent active:!bg-transparent" href="{{ route('dashboard.index') }}">
-                    @if (session('current_site_id') == 2)
+                    @if (getPermissionsTeamId() == settings('site_id_selvah'))
                         <img src="{{ asset('images/logos/selvah.png') }}" alt="Selvah Logo" class="inline-block w-20">
                         <span class="block">SELVAH</span>
-                    @elseif (session('current_site_id') == 3)
+                    @elseif (getPermissionsTeamId() == settings('site_id_extrusel'))
                         <img src="{{ asset('images/logos/extrusel.png') }}" alt="Extrusel Logo" class="inline-block w-24">
                         <span class="block">EXTRUSEL</span>
-                    @elseif (session('current_site_id') == 4)
+                    @elseif (getPermissionsTeamId() == settings('site_id_moulin_jannet'))
                         <img src="{{ asset('images/logos/moulin_jannet.png') }}" alt="Moulin Jannet Logo" class="inline-block w-20">
-                    @elseif (session('current_site_id') == 51)
+                    @elseif (getPermissionsTeamId() == settings('site_id_val_union'))
                         <img src="{{ asset('images/logos/bfc_val_union_blanc.png') }}" alt="BFC Val Union Logo" class="inline-block h-20">
                     @else
                         <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
@@ -40,7 +40,7 @@
             </x-menu-sub>
 
             @if(auth()->user()->can('viewAny', \BDS\Models\Part::class) && settings('part_manage_enabled', true))
-                <x-menu-separator  />
+                <x-menu-separator />
                 <x-menu-sub title="Pièces Détachées" icon="fas-gear">
                     <x-menu-item wire:navigate title="Gérer les Pièces Détachées" icon="fas-gear" link="{{ route('parts.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     <x-menu-sub title="Stocks" icon="fas-cubes-stacked">

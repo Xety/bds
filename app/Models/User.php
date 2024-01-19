@@ -20,7 +20,6 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use BDS\Http\Controllers\Auth\Traits\MustSetupPassword;
 use BDS\Models\Presenters\UserPresenter;
 use Spatie\Permission\PermissionRegistrar;
@@ -114,9 +113,9 @@ class User extends Model implements
         $query = $this->where($field, $value);
 
         // Conditionally remove the softdelete scope to allow seeing soft-deleted records
-        if (Auth::check() && Auth::user()->can('delete', $this)) {
+        //if (Auth::check() && Auth::user()->can('delete', $this)) {
             $query->withoutGlobalScope(SoftDeletingScope::class);
-        }
+       //}
 
         // Find the first record, or abort
         return $query->firstOrFail();
@@ -176,6 +175,22 @@ class User extends Model implements
             config('permission.table_names.model_has_permissions'),
             config('permission.column_names.model_morph_key'),
             config('permission.column_names.permission_pivot_key')
+        );
+    }
+
+    /**
+     * Get the direct permissions for the user.
+     *
+     * @return BelongsToMany
+     */
+    public function rolesWithoutSite(): BelongsToMany
+    {
+        return $this->morphToMany(
+            config('permission.models.role'),
+            'model',
+            config('permission.table_names.model_has_roles'),
+            config('permission.column_names.model_morph_key'),
+            app(PermissionRegistrar::class)->pivotRole
         );
     }
 

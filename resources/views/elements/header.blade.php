@@ -16,15 +16,15 @@
             {{-- Logo Site --}}
             <div class="navbar-center lg:hidden">
                 <a class="font-light text-3xl font-bds text-center" href="{{ route('dashboard.index') }}">
-                    @if (session('current_site_id') == 2)
+                    @if (getPermissionsTeamId() == settings('site_id_selvah'))
                         <img src="{{ asset('images/logos/selvah.png') }}" alt="Selvah Logo" class="inline-block w-20">
                         <span class="block">SELVAH</span>
-                    @elseif (session('current_site_id') == 3)
+                    @elseif (getPermissionsTeamId() == settings('site_id_extrusel'))
                         <img src="{{ asset('images/logos/extrusel.png') }}" alt="Extrusel Logo" class="inline-block w-24">
                         <span class="block">EXTRUSEL</span>
-                    @elseif (session('current_site_id') == 4)
+                    @elseif (getPermissionsTeamId() == settings('site_id_moulin_jannet'))
                         <img src="{{ asset('images/logos/moulin_jannet.png') }}" alt="Moulin Jannet Logo" class="inline-block w-16">
-                    @elseif (session('current_site_id') == 51)
+                    @elseif (getPermissionsTeamId() == settings('site_id_val_union'))
                         <img src="{{ asset('images/logos/bfc_val_union.png') }}" alt="BFC Val Union Logo" class="inline-block dark:hidden h-14">
                         <img src="{{ asset('images/logos/bfc_val_union_blanc.png') }}" alt="BFC Val Union Logo" class="hidden dark:inline-block h-14">
                     @else

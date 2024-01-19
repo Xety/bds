@@ -99,22 +99,34 @@ class SettingsTableSeeder extends Seeder
             'label' => 'ID du site Selvah utilisé pour l\'affichage de certaines fonctionnalités spécifiques à Selvah.',
         ]);
         Setting::create([
-            'key' => 'site_id_maintenance_bds',
-            'site_id' => null,
-            'value' => 5,
-            'label' => 'ID du site Maintenance BDS utilisé pour l\'affichage de certaines fonctionnalités spécifiques à la Maintenance BDS.',
-        ]);
-        Setting::create([
             'key' => 'site_id_extrusel',
             'site_id' => null,
             'value' => 3,
             'label' => 'ID du site Extrusel utilisé pour l\'affichage de certaines fonctionnalités spécifiques à Extrusel.',
         ]);
         Setting::create([
+            'key' => 'site_id_moulin_jannet',
+            'site_id' => null,
+            'value' => 4,
+            'label' => 'ID du site Moulin Jannet utilisé pour l\'affichage de certaines fonctionnalités spécifiques à Moulin Jannet.',
+        ]);
+        Setting::create([
+            'key' => 'site_id_val_union',
+            'site_id' => null,
+            'value' => 51,
+            'label' => 'ID du site Val Union utilisé pour l\'affichage de certaines fonctionnalités spécifiques à Val Union.',
+        ]);
+        Setting::create([
             'key' => 'site_id_verdun_siege',
             'site_id' => null,
             'value' => 1,
             'label' => 'ID du site Verdun Siège utilisé pour l\'affichage de certaines fonctionnalités spécifiques à Verdun Siège.',
+        ]);
+        Setting::create([
+            'key' => 'site_id_maintenance_bds',
+            'site_id' => null,
+            'value' => 5,
+            'label' => 'ID du site Maintenance BDS utilisé pour l\'affichage de certaines fonctionnalités spécifiques à la Maintenance BDS.',
         ]);
 
         // Settings for all sites.

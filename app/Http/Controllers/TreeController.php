@@ -28,6 +28,6 @@ class TreeController extends Controller
     {
         $this->authorize('viewAny', Material::class);
 
-        return view('tree.zones-with-maetrials', ['breadcrumbs' => $this->breadcrumbs]);
+        return view('tree.zones-with-materials', ['breadcrumbs' => $this->breadcrumbs]);
     }
 }
