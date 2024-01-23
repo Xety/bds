@@ -117,6 +117,20 @@
                                     </div>
                                 </div>
 
+                                @if($user->end_employment_contract)
+                                    <div class="col-span-12 flex items-center">
+                                        <div class="flex gap-1 font-bold min-w-[200px] items-center">
+                                            <x-icon name="fas-calendar" class="w-4 h-4 inline"></x-icon>
+                                            Date fin de contract :
+                                        </div>
+                                        <div class="inline-block">
+                                                <code class="code rounded-sm">
+                                                    {{ $user->end_employment_contract?->translatedFormat( 'D j M Y H:i') }}
+                                                </code>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 @can('update', $user)
                                     <div class="col-span-12 flex items-center">
                                         <div class="flex gap-1 font-bold min-w-[200px] items-center">
@@ -124,9 +138,11 @@
                                             Dernière connexion :
                                         </div>
                                         <div class="inline-block">
-                                            <code class="code rounded-sm">
-                                                {{ $user->last_login_date?->translatedFormat( 'D j M Y H:i') }}
-                                            </code>
+                                            @if($user->last_login_date)
+                                                <code class="code rounded-sm">
+                                                    {{ $user->last_login_date?->translatedFormat( 'D j M Y H:i') }}
+                                                </code>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -136,9 +152,11 @@
                                             IP dernière connexion :
                                         </div>
                                         <div class="inline-block">
-                                            <code class="code rounded-sm">
-                                                {{ $user->last_login_ip }}
-                                            </code>
+                                            @if($user->last_login_ip)
+                                                <code class="code rounded-sm">
+                                                    {{ $user->last_login_ip }}
+                                                </code>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -166,12 +184,104 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-12 gap-6 mb-7">
+        <div class="grid grid-cols-12 gap-4 text-center h-full mb-4">
+            <div class="col-span-12 xl:col-span-2 h-full">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <x-icon name="fas-screwdriver-wrench" class="text-warning h-16 w-16 m-auto"></x-icon>
+                    <div>
+                        <div class="font-bold text-2xl">
+                            {{ $user->maintenance_count }}
+                        </div>
+                        <p class="text-muted font-bds uppercase">
+                            Maintenance(s)
+                        </p>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-span-12 xl:col-span-2 h-full">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <x-icon name="fas-triangle-exclamation" class="text-error h-16 w-16 m-auto"></x-icon>
+                    <div>
+                        <div class="font-bold text-2xl">
+                            {{ $user->incident_count }}
+                        </div>
+                        <p class="text-muted font-bds uppercase">
+                            Incident(s)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-12 xl:col-span-2 h-full">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <x-icon name="fas-broom" class="text-success h-16 w-16 m-auto"></x-icon>
+                    <div>
+                        <div class="font-bold text-2xl">
+                            {{ $user->cleaning_count }}
+                        </div>
+                        <p class="text-muted font-bds uppercase">
+                            Nettoyage(s)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-12 xl:col-span-2 h-full">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <x-icon name="fas-gear" class="text-primary h-16 w-16 m-auto"></x-icon>
+                    <div>
+                        <div class="font-bold text-2xl">
+                            {{ $user->part_count }}
+                        </div>
+                        <p class="text-muted font-bds uppercase">
+                            Pièce(s) Détachée(s)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-12 xl:col-span-2 h-full">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <x-icon name="fas-arrow-right-to-bracket" class="text-primary h-16 w-16 m-auto"></x-icon>
+                    <div>
+                        <div class="font-bold text-2xl">
+                            {{ $user->part_entry_count }}
+                        </div>
+                        <p class="text-muted font-bds uppercase">
+                            Entrée(s) Pièce(s) Détachée(s)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-12 xl:col-span-2 h-full">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <x-icon name="fas-right-from-bracket" class="text-purple-600 h-16 w-16 m-auto"></x-icon>
+                    <div>
+                        <div class="font-bold text-2xl">
+                            {{ $user->part_exit_count }}
+                        </div>
+                        <p class="text-muted font-bds uppercase">
+                            Sortie(s) Pièce(s) Détachée(s)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="grid grid-cols-12 gap-4 mb-7">
             @forelse($sites as $site)
-                <div class="col-span-12 xl:col-span-3 card shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                    <div class="flex flex-col p-10 items-center">
-                        <figure class="px-10 pt-10">
+                <div class="col-span-12
+                    @if($loop->count >= 3)
+                    {{  'xl:col-span-3' }}
+                    @elseif($loop->count == 2)
+                    {{  'xl:col-span-6' }}
+                    @endif
+                    shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <div class="flex flex-col gap-4 p-5 items-center content-between">
+                        <figure class="px-10">
                             @if ($site['site']->id == settings('site_id_selvah'))
                                 <img src="{{ asset('images/logos/selvah.png') }}" alt="Selvah Logo" class="inline-block w-20">
                             @elseif ($site['site']->id == settings('site_id_extrusel'))

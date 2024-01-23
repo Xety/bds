@@ -58,5 +58,8 @@ class SitesUsersTableSeeder extends Seeder
 
         $user = User::where('email', 's.seraut@bds.coop')->first();
         $user->sites()->sync($this->allSites);
+
+        $user = User::where('email', 's.nnier@bds.coop')->first();
+        $user->sites()->sync([6, 7, 21, 30]);
     }
 }

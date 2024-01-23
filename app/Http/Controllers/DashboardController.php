@@ -2,6 +2,7 @@
 
 namespace BDS\Http\Controllers;
 
+use BDS\Models\Site;
 use BDS\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -17,10 +18,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $viewDatas = [];
+        //$viewDatas = [];
 
         $breadcrumbs = $this->breadcrumbs;
-        array_push($viewDatas, 'breadcrumbs');
+        //array_push($viewDatas, 'breadcrumbs');
 
         //ini_set('max_execution_time', 600);
 
@@ -30,10 +31,13 @@ class DashboardController extends Controller
         }*/
 
         // If the user is a Saisonnier, render directly.
-        if (Auth::user()->hasRole('Saisonnier')) {
-            return view('dashboard.saisonnier', compact($viewDatas));
+        if (Auth::user()->hasRole('Saisonnier Bourgogne du Sud')) {
+            $site = Site::whereId(getPermissionsTeamId())->first();
+            $managers = $site->managers()->get();
+
+            return view('dashboard.saisonnier', compact('breadcrumbs', 'site', 'managers'));
         }
 
-        return view('dashboard.index', compact($viewDatas));
+        return view('dashboard.index', compact('breadcrumbs'));
     }
 }

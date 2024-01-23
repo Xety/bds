@@ -23,7 +23,7 @@
                         <img src="{{ asset('images/logos/bds_blanc2.png') }}" alt="Coopérative Bourgogne du Sud Logo"
                              class="inline-block w-28 relative z-1 mb-4 mt-4">
                     </h1>
-                    <span class="text-base-100 dark:text-primary-content relative z-1">
+                    <span class="text-base-100 font-bold dark:text-primary-content relative z-1">
                     Afin de faciliter votre arrivée et votre intégration dans l'entreprise, veuillez prendre connaissance des informations ci-dessous.
                 </span>
                 </div>
@@ -117,11 +117,17 @@
                     <div class="divider"></div>
 
                     <ul class="steps steps-vertical">
-                        <li data-content="●" class="step step-neutral !text-left">
-                            Responsable de site : <br>
-                            - M Christophe Gateau : 06.12.34.56.78
+                        <li data-content="●" class="step step-neutral !text-left mb-3">
+                            Responsable(s) de site : <br>
+                            @forelse($managers as $manager)
+                                - {{ $manager->full_name }} : {{ $manager->cell_phone }}<br>
+                            @empty
+                                Il n'y a pas de responsable sur ce site.
+                            @endforelse
                         </li>
-                        <li data-content="●" class="step step-neutral !text-left">Silo de Beaune : 03.12.34.56.78</li>
+                        <li data-content="●" class="step step-neutral !text-left">
+                            Site de {{ $site->name }} : {{ $site->office_phone }} @if($site->cell_phone) {{ $site->cell_phone }} @endif
+                        </li>
                         <li data-content="●" class="step step-neutral !text-left">Pompier : 18 - 112</li>
                         <li data-content="●" class="step step-neutral !text-left">SAMU : 15</li>
                     </ul>

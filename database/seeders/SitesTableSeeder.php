@@ -52,7 +52,7 @@ class SitesTableSeeder extends Seeder
                 'address' => '1 Rue des Frères Lumière',
                 'zip_code' => '71100',
                 'city' => 'Chalon sur Saône',
-                'zone_count' => 0,
+                'zone_count' => 13,
                 'created_at' => now(),
                 'updated_at' => now()
             ),
@@ -156,7 +156,7 @@ class SitesTableSeeder extends Seeder
                 'address' => '1 Rue des Frères Lumière',
                 'zip_code' => '71100',
                 'city' => 'Chalon sur Saône',
-                'zone_count' => 0,
+                'zone_count' => 8,
                 'created_at' => now(),
                 'updated_at' => now()
             ),

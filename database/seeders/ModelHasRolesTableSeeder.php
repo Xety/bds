@@ -60,5 +60,8 @@ class ModelHasRolesTableSeeder extends Seeder
 
         $user = User::where('email', 's.seraut@bds.coop')->first();
         $user->assignRolesToSites('Opérateur Maintenance', $this->allSites);
+
+        $user = User::where('email', 's.nnier@bds.coop')->first();
+        $user->assignRolesToSites('Saisonnier Bourgogne du Sud', [6, 7, 21, 30]);
     }
 }
