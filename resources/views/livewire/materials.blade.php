@@ -214,7 +214,7 @@
                                         icon="fas-broom"
                                         tooltip
                                         tooltip-content="Créer un nettoyage pour ce matériel"
-                                        link="{{ route('cleanings.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                        link="{{ route('cleanings.index', ['materialId' => $material->getKey(), 'creating' => 'true']) }}"
                                         class="text-green-500" />
                                 @endcan
                             </x-dropdown>

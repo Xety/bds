@@ -3,7 +3,12 @@
 namespace BDS\Livewire;
 
 use BDS\Models\Cleaning;
+use BDS\Models\Incident;
+use BDS\Models\Maintenance;
 use BDS\Models\Material;
+use BDS\Models\Part;
+use BDS\Models\PartEntry;
+use BDS\Models\PartExit;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -78,9 +83,9 @@ class QrCodeModal extends Component
     /**
      * The model related to the action, part or material.
      *
-     * @var Material|null
+     * @var Material|Part|null
      */
-    public Material|null $model = null;
+    public Material|Part|null $model = null;
 
     /**
      * Rules used for validating the model.
@@ -102,16 +107,31 @@ class QrCodeModal extends Component
     public function mount(): void
     {
         // Material types
+        if (Auth::user()->can('create', Incident::class)) {
+            $this->types['material']['actions']['incidents'] = 'Incident';
+        }
+        if (Auth::user()->can('create', Maintenance::class)) {
+            $this->types['material']['actions']['maintenances'] = 'Maintenance';
+        }
         if (Gate::allows('create', Cleaning::class)) {
             $this->types['material']['actions']['cleanings'] = 'Nettoyage';
         }
 
         //  Part types
-
+        if (Auth::user()->can('create', PartEntry::class)) {
+            $this->types['part']['actions']['part-entries'] = 'Entrée de pièce';
+        }
+        if (Auth::user()->can('create', PartExit::class)) {
+            $this->types['part']['actions']['part-exits'] = 'Sortie de pièce';
+        }
 
         if ($this->qrcode === true && array_key_exists($this->type, $this->types) && $this->qrcodeId !== null) {
             if ($this->type == 'material' && Gate::allows('scanQrCode', Material::class)) {
                 $this->model = Material::find($this->qrcodeId);
+            }
+
+            if ($this->type == 'part' && Gate::allows('scanQrCode', Part::class)) {
+                $this->model = Part::find($this->qrcodeId);
             }
 
             if ($this->model !== null) {
@@ -154,8 +174,18 @@ class QrCodeModal extends Component
         $this->validate();
 
         if (in_array($this->action, array_keys($this->types[$this->type]['actions']))) {
+            $params = [
+                'creating' => 'true'
+            ];
+
+            if ($this->type === 'material') {
+                $params += ['materialId' => $this->qrcodeId];
+            } elseif ($this->type === 'part') {
+                $params += ['partId' => $this->qrcodeId];
+            }
+
             return redirect()
-                ->route($this->action . '.index', ['qrcodeId' => $this->qrcodeId, 'qrcode' => 'true']);
+                ->route($this->action . '.index', $params);
         }
 
         $this->showQrCodeModal = false;

@@ -48,7 +48,9 @@ class MaterialForm extends Form
             'name'  => [
                 "required",
                 "min:2",
-                Rule::unique('materials')->ignore($this->material?->id)->where(fn ($query) => $query->where('zone_id', $this->zone_id)),
+                Rule::unique('materials')
+                    ->ignore($this->material?->id)
+                    ->where(fn ($query) => $query->where('zone_id', $this->zone_id)),
             ],
             'description' => 'required|min:3',
             'zone_id' => 'required|exists:zones,id',

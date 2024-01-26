@@ -30,7 +30,9 @@ class ZoneForm extends Form
                 "required",
                 "min:2",
                 "max:150",
-                Rule::unique('zones')->where(fn ($query) => $query->where('site_id', getPermissionsTeamId())),
+                Rule::unique('zones')
+                    ->ignore($this->zone?->id)
+                    ->where(fn ($query) => $query->where('site_id', getPermissionsTeamId())),
             ],
             'parent_id' => 'nullable|exists:zones,id|different:' . $this->zone?->id,
             'allow_material' => 'required|boolean',
