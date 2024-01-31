@@ -5,16 +5,19 @@ namespace BDS\Providers;
 
 use BDS\Listeners\Cleaning\AlertSubscriber as AlertCleaningSubscriber;
 use BDS\Listeners\Part\AlertSubscriber as AlertPartSubscriber;
+use BDS\Listeners\Site\SiteSubscriber;
 use BDS\Listeners\User\AuthSubscriber;
 use BDS\Models\Part;
 use BDS\Models\PartEntry;
 use BDS\Models\PartExit;
+use BDS\Models\Site;
 use BDS\Models\Supplier;
 use BDS\Models\Cleaning;
 use BDS\Models\Material;
 use BDS\Models\User;
 use BDS\Observers\CleaningObserver;
 use BDS\Observers\MaterialObserver;
+use BDS\Observers\SiteObserver;
 use BDS\Observers\UserObserver;
 use BDS\Observers\PartEntryObserver;
 use BDS\Observers\PartExitObserver;
@@ -44,6 +47,7 @@ class EventServiceProvider extends ServiceProvider
         AlertCleaningSubscriber::class,
         AlertPartSubscriber::class,
         AuthSubscriber::class,
+        SiteSubscriber::class
     ];
 
     /**
@@ -59,6 +63,7 @@ class EventServiceProvider extends ServiceProvider
         Supplier::class => [SupplierObserver::class],
         PartEntry::class => [PartEntryObserver::class],
         PartExit::class => [PartExitObserver::class],
+        Site::class => [SiteObserver::class],
     ];
 
     /**

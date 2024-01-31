@@ -10,7 +10,7 @@ trait RolePresenter
      *
      * @var string
      */
-    protected string $defaultColor = 'hsl(var(--bc) / var(--tw-text-opacity, 1))';
+    protected string $defaultColor = '';
 
     /**
      * Get the color of the role.

@@ -44,10 +44,6 @@
 
             <div class="navbar-end hidden lg:flex justify-end gap-2">
                 {{-- Select Site --}}
-                <div class="">
-                    {{ session('current_site_id') }}
-                </div>
-
                 <livewire:site />
 
                 {{-- Switch Dark Mode --}}

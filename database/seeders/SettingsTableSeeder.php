@@ -27,24 +27,6 @@ class SettingsTableSeeder extends Seeder
             'label_info' => 'Cocher pour activer le système de connexion au site. <br><b>Quand le système de connexion est désactivé, uniquement les personnes disposant de la permission direct <code class="text-neutral-content bg-neutral rounded-sm py-0.5 px-2">bypass login</code> pourront se connecter.</b>'
         ]);
 
-        // Site
-        Setting::create([
-            'key' => 'site_manage_enabled',
-            'site_id' => null,
-            'value' => true,
-            'label' => 'Activation du système de gestion des sites.',
-            'text' => 'Active/Désactive le système de gestion des sites.',
-            'label_info' => ''
-        ]);
-        Setting::create([
-            'key' => 'site_create_enabled',
-            'site_id' => null,
-            'value' => true,
-            'label' => 'Activation du système de création de site.',
-            'text' => 'Active/Désactive le système de création de site.',
-            'label_info' => ''
-        ]);
-
         // Role
         Setting::create([
             'key' => 'role_manage_enabled',
@@ -172,6 +154,15 @@ class SettingsTableSeeder extends Seeder
                 'text' => 'Active/Désactive le système de création d\'entrée de pièce détachée.'
             ]);
 
+            // Part Exits
+            Setting::create([
+                'key' => 'part_exit_create_enabled',
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
+                'label' => 'Activation du système de création des sorties de pièce détachée.',
+                'text' => 'Active/Désactive le système de création de sortie de pièce détachée.'
+            ]);
+
             // Supplier
             Setting::create([
                 'key' => 'supplier_manage_enabled',
@@ -287,6 +278,26 @@ class SettingsTableSeeder extends Seeder
             'value' => 715520,
             'text' => 'Quantité de production à faire.',
             'label' => 'Quantité de production à faire.'
+        ]);
+
+        // Settings for Verdun Siège
+        $verdun = Site::where('name', 'Verdun Siège')->first();
+        // Site
+        Setting::create([
+            'key' => 'site_manage_enabled',
+            'site_id' => $verdun->id,
+            'value' => true,
+            'label' => 'Activation du système de gestion des sites.',
+            'text' => 'Active/Désactive le système de gestion des sites.',
+            'label_info' => ''
+        ]);
+        Setting::create([
+            'key' => 'site_create_enabled',
+            'site_id' => $verdun->id,
+            'value' => true,
+            'label' => 'Activation du système de création de site.',
+            'text' => 'Active/Désactive le système de création de site.',
+            'label_info' => ''
         ]);
 
     }

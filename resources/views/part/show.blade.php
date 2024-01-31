@@ -81,7 +81,7 @@
         <div class="grid grid-cols-12 gap-4 mb-4">
             <div class="col-span-12">
                 <div class="grid grid-cols-12 gap-4 h-full">
-                    <div class="col-span-12 xl:col-span-7 h-full">
+                    <div class="col-span-12 xl:col-span-6 h-full">
                         <div class="flex flex-col text-center shadow-md border rounded-lg p-6 w-full h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <div class="w-full">
                                 <div class="text-5xl m-2 mb-4">
@@ -100,7 +100,34 @@
                         </div>
                     </div>
 
-                    <div class="col-span-12 xl:col-span-5 h-full">
+                    <div class="col-span-12 xl:col-span-2 h-full">
+                        <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                            <div class="flex flex-col gap-4 p-5 items-center content-between">
+                                <div class="text-muted text-xl font-bds uppercase">
+                                    Site
+                                </div>
+                                <figure class="px-10">
+                                    @if ($part->site->id == settings('site_id_selvah'))
+                                        <img src="{{ asset('images/logos/selvah.png') }}" alt="Selvah Logo" class="inline-block w-20">
+                                    @elseif ($part->site->id == settings('site_id_extrusel'))
+                                        <img src="{{ asset('images/logos/extrusel.png') }}" alt="Extrusel Logo" class="inline-block w-28">
+                                    @elseif ($part->site->id == settings('site_id_moulin_jannet'))
+                                        <img src="{{ asset('images/logos/moulin_jannet.png') }}" alt="Moulin Jannet Logo" class="inline-block w-16">
+                                    @elseif ($part->site->id == settings('site_id_val_union'))
+                                        <img src="{{ asset('images/logos/bfc_val_union.png') }}" alt="BFC Val Union Logo" class="inline-block dark:hidden h-14">
+                                        <img src="{{ asset('images/logos/bfc_val_union_blanc.png') }}" alt="BFC Val Union Logo" class="hidden dark:inline-block h-14">
+                                    @else
+                                        <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
+                                    @endif
+                                </figure>
+                                <div class="font-bold text-xl">
+                                    {{ $part->site->name }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4 h-full">
                         <div class="flex flex-col shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <div class="flex flex-col-reverse 2xl:flex-row justify-between">
                                 <div class="text-2xl font-bold">
@@ -109,10 +136,10 @@
                                     </h2>
                                 </div>
                                 <div class="text-right">
-                                    @if (
-                                        Gate::any(['update', 'generateQrCode'], \BDS\Models\Part::class) ||
+                                    @if ((Gate::any(['update', 'generateQrCode'], $part) ||
                                         Gate::any(['create'], \BDS\Models\PartEntry::class) ||
-                                        Gate::any(['create'], \BDS\Models\PartExit::class))
+                                        Gate::any(['create'], \BDS\Models\PartExit::class)) &&
+                                        getPermissionsTeamId() === $part->site_id)
                                         <x-dropdown right hover label="Actions" class="w-60" trigger-class="btn-neutral btn-sm">
                                             @can('update', $part)
                                                 <x-menu-item
@@ -242,12 +269,16 @@
             <div class="col-span-12">
                 <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="flex-shrink-0">
-                            <span class="text-xl font-bold sm:text-2xl">Entrées et Sortie totales pour la pièce détachée {{ $part->name }}</span>
-                            <h3 class="text-base font-light text-gray-500">Historique sur les 12 derniers mois</h3>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold sm:text-2xl">
+                                Entrées et Sortie totales pour la pièce détachée {{ $part->name }}
+                            </span>
+                            <h3 class="text-base font-light text-gray-500">
+                                Historique sur les 12 derniers mois
+                            </h3>
                         </div>
-                        <div class="flex items-center justify-end text-5xl text-cyan-500">
-                            <i class="fa-solid fa-chart-line"></i>
+                        <div class="flex items-center justify-end">
+                            <x-icon name="fas-chart-line" class="h-12 w-12 text-cyan-500"></x-icon>
                         </div>
                     </div>
 
@@ -261,7 +292,7 @@
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <x-icon name="fas-shop" class="text-primary h-16 w-16 m-auto"></x-icon>
                             <div>
-                                <div class="text-muted text-xl">
+                                <div class="text-muted text-xl uppercase">
                                     Fournisseur
                                 </div>
                                 <p class="font-bold font-selvah uppercase">
@@ -284,7 +315,7 @@
                                 <div class="font-bold text-2xl">
                                     {{ $part->stock_total }}
                                 </div>
-                                <p class="text-muted font-selvah uppercase">
+                                <p class="text-muted font-bds uppercase">
                                     Nombre(s) en stock
                                 </p>
                             </div>
@@ -298,7 +329,7 @@
                                 <div class="font-bold text-2xl">
                                     {{ number_format($part->stock_total * $part->price) }}€
                                 </div>
-                                <p class="text-muted font-selvah uppercase">
+                                <p class="text-muted font-bds uppercase">
                                     Prix des pièces en stock
                                 </p>
                             </div>
@@ -312,7 +343,7 @@
                                 <div class="font-bold text-2xl">
                                     {{ $part->part_entry_count }}
                                 </div>
-                                <p class="text-muted font-selvah uppercase">
+                                <p class="text-muted font-bds uppercase">
                                     Entrée(s) de pièce(s)
                                 </p>
                             </div>
@@ -326,7 +357,7 @@
                                 <div class="font-bold text-2xl">
                                     {{ $part->part_exit_count }}
                                 </div>
-                                <p class="text-muted font-selvah uppercase">
+                                <p class="text-muted font-bds uppercase">
                                     Sortie(s) de pièce(s)
                                 </p>
                             </div>
@@ -340,7 +371,7 @@
                                 <div class="font-bold text-2xl">
                                     {{ $part->qrcode_flash_count }}
                                 </div>
-                                <p class="text-muted font-selvah uppercase">
+                                <p class="text-muted font-bds uppercase">
                                     Nombre de flash QR Code
                                 </p>
                             </div>

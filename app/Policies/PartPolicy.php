@@ -22,10 +22,11 @@ class PartPolicy
      */
     public function view(User $user, Part $part): bool
     {
-        if($user->can('view part')) {
+        // For restricting the view to the site where the part belong to.
+        /*if($user->can('view part')) {
             return $part->site_id === getPermissionsTeamId();
-        }
-        return false;
+        }*/
+        return true;
     }
 
     /**

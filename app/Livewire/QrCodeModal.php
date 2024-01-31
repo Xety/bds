@@ -127,11 +127,11 @@ class QrCodeModal extends Component
 
         if ($this->qrcode === true && array_key_exists($this->type, $this->types) && $this->qrcodeId !== null) {
             if ($this->type == 'material' && Gate::allows('scanQrCode', Material::class)) {
-                $this->model = Material::find($this->qrcodeId);
+                $this->model = Material::with(['zone', 'zone.site'])->find($this->qrcodeId);
             }
 
             if ($this->type == 'part' && Gate::allows('scanQrCode', Part::class)) {
-                $this->model = Part::find($this->qrcodeId);
+                $this->model = Part::with(['site'])->find($this->qrcodeId);
             }
 
             if ($this->model !== null) {
@@ -177,12 +177,39 @@ class QrCodeModal extends Component
             $params = [
                 'creating' => 'true'
             ];
+            $siteId = null;
 
             if ($this->type === 'material') {
                 $params += ['materialId' => $this->qrcodeId];
+                $siteId = $this->model->zone->site->id;
             } elseif ($this->type === 'part') {
                 $params += ['partId' => $this->qrcodeId];
+                $siteId = $this->model->site->id;
             }
+
+            // Before redirecting, we need to check the permission and change if needed his site.
+            $teamId = getPermissionsTeamId();
+
+            setPermissionsTeamId($siteId);
+            $user = Auth::user();
+            $user
+                ->unsetRelation('roles')
+                ->unsetRelation('permissions');
+
+            $permission = $user->hasPermissionTo('viewAny ' . $this->type);
+
+            if (!$permission) {
+                setPermissionsTeamId($teamId);
+                $user
+                    ->unsetRelation('roles')
+                    ->unsetRelation('permissions');
+            }
+            session()->put([
+                'current_site_id' => $permission ? $siteId : $teamId
+            ]);
+
+            $user->current_site_id = $permission ? $siteId : $teamId;
+            $user->save();
 
             return redirect()
                 ->route($this->action . '.index', $params);

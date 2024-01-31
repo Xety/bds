@@ -443,14 +443,14 @@ class Parts extends Component
 
         $materials = Material::query()
             ->with(['zone', 'zone.site'])
-            ->where('name', 'like', "%$value%");
+            ->where('name', 'like', "$value%");
 
         // Only the maintenance site can access to all materials from all sites.
         if(getPermissionsTeamId() !== settings('site_id_maintenance_bds')) {
             $materials->whereRelation('zone.site', 'id', getPermissionsTeamId());
         }
 
-        $materials = $materials->take(5)
+        $materials = $materials->take(10)
             ->orderBy('name')
             ->get()
             ->merge($selectedOption);
@@ -480,7 +480,7 @@ class Parts extends Component
                     ->orWhere('last_name', 'like', "%$value%");
             });
 
-        $recipients = $recipients->take(5)
+        $recipients = $recipients->take(10)
             ->orderBy('username')
             ->get()
             ->merge($selectedOption);

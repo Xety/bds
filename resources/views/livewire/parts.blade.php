@@ -532,7 +532,7 @@
             </x-form.radio>
         @endforeach
 
-        <x-input wire:model.live="qrCodeLabel" name="qrCodeLabel" label="Label du QR Code" placeholder="Texte du label..." type="text" />
+        <x-input wire:model.live.debounce.200ms="qrCodeLabel" name="qrCodeLabel" label="Label du QR Code" placeholder="Texte du label..." type="text" />
 
         <div>
             <div class="flex justify-center my-3">

@@ -76,7 +76,7 @@
                 </x-menu-sub>
             @endif
 
-            @if(auth()->user()->can('viewAny', \BDS\Models\Site::class) && settings('site_manage_enabled'))
+            @if(auth()->user()->can('viewAny', \BDS\Models\Site::class) && settings('site_manage_enabled', true))
                 <x-menu-separator  />
                 <x-menu-sub title="Sites" icon="fas-map-marker-alt">
                     <x-menu-item wire:navigate title="Gérer les Sites" icon="fas-map-marked-alt" link="{{ route('sites.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />

@@ -67,7 +67,7 @@ class PartController extends Controller
                 $months = 11;
 
                 for ($i = 0; $i <= $months; $i++) {
-                    $lastXMonthsText = Carbon::now()->subMonths($i)->translatedFormat('F Y');
+                    $lastXMonthsText = Carbon::now()->startOfMonth()->subMonths($i)->translatedFormat('F Y');
                     $monthsData[$i] = ucfirst($lastXMonthsText);
 
                     $startXMonthsAgo = Carbon::now()->startOfMonth()->subMonthsNoOverflow($i)->toDateString();

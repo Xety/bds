@@ -35,7 +35,7 @@
             @endif
         </div>
         <div class="mb-4">
-            @if (settings('part_entry_create_enabled', true) && Gate::allows('create', \BDS\Models\PartExit::class))
+            @if (settings('part_exit_create_enabled', true) && Gate::allows('create', \BDS\Models\PartExit::class))
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                     Nouvelle Sortie de Pièce
