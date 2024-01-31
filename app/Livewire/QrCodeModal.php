@@ -106,25 +106,6 @@ class QrCodeModal extends Component
      */
     public function mount(): void
     {
-        // Material types
-        if (Auth::user()->can('create', Incident::class)) {
-            $this->types['material']['actions']['incidents'] = 'Incident';
-        }
-        if (Auth::user()->can('create', Maintenance::class)) {
-            $this->types['material']['actions']['maintenances'] = 'Maintenance';
-        }
-        if (Gate::allows('create', Cleaning::class)) {
-            $this->types['material']['actions']['cleanings'] = 'Nettoyage';
-        }
-
-        //  Part types
-        if (Auth::user()->can('create', PartEntry::class)) {
-            $this->types['part']['actions']['part-entries'] = 'Entrée de pièce';
-        }
-        if (Auth::user()->can('create', PartExit::class)) {
-            $this->types['part']['actions']['part-exits'] = 'Sortie de pièce';
-        }
-
         if ($this->qrcode === true && array_key_exists($this->type, $this->types) && $this->qrcodeId !== null) {
             if ($this->type == 'material' && Gate::allows('scanQrCode', Material::class)) {
                 $this->model = Material::with(['zone', 'zone.site'])->find($this->qrcodeId);
@@ -135,6 +116,53 @@ class QrCodeModal extends Component
             }
 
             if ($this->model !== null) {
+                // We need to check the permission of the user for each actions regarding
+                // the site where the material/part belongs to.
+
+                // Get the siteId where the material/part belongs to.
+                $siteId = null;
+                if ($this->type === 'material') {
+                    $siteId = $this->model->zone->site->id;
+                } elseif ($this->type === 'part') {
+                    $siteId = $this->model->site->id;
+                }
+                $teamId = getPermissionsTeamId();
+
+                // Set the teamId to the siteId where the material/part belongs to
+                // and remove cached roles/permissions for the user.
+                setPermissionsTeamId($siteId);
+                $user = Auth::user();
+                $user
+                    ->unsetRelation('roles')
+                    ->unsetRelation('permissions');
+
+                // Check the permission for each action.
+                // Material types
+                if ($user->can('create', Incident::class)) {
+                    $this->types['material']['actions']['incidents'] = 'Incident';
+                }
+                if ($user->can('create', Maintenance::class)) {
+                    $this->types['material']['actions']['maintenances'] = 'Maintenance';
+                }
+                if ($user->can('create', Cleaning::class)) {
+                    $this->types['material']['actions']['cleanings'] = 'Nettoyage';
+                }
+
+                //  Part types
+                if ($user->can('create', PartEntry::class)) {
+                    $this->types['part']['actions']['part-entries'] = 'Entrée de pièce';
+                }
+                if ($user->can('create', PartExit::class)) {
+                    $this->types['part']['actions']['part-exits'] = 'Sortie de pièce';
+                }
+
+                // Set back the teamId and remove the relations again.
+                setPermissionsTeamId($teamId);
+                $user
+                    ->unsetRelation('roles')
+                    ->unsetRelation('permissions');
+
+
                 // Increment the flash_count for the model.
                 $this->model->qrcode_flash_count++;
                 $this->model->save();

@@ -184,6 +184,8 @@
             wire:model="form.permissions"
             name="form.permissions"
             label="Permissions"
+            option-label="name"
+            option-value="name"
             :label-info="$message"
             tip
             size="15"

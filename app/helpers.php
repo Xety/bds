@@ -17,7 +17,7 @@ if (! function_exists('settings')) {
         $settings->setSiteId($siteId);
 
         if ($siteId === true) {
-            $settings->setSiteId(session('current_site_id'));
+            $settings->setSiteId(getPermissionsTeamId());
         }
 
         // We must reset the context to the default value.

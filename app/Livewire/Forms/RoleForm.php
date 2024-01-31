@@ -68,7 +68,7 @@ class RoleForm extends Form
             'level' => $role->level,
             'site' => !is_null($role->site_id) ? true : false,
             // Set the related permissions of the role.
-            'permissions' => $role->permissions()->pluck('id')->toArray(),
+            'permissions' => $role->permissions()->pluck('name')->toArray(),
         ]);
     }
 

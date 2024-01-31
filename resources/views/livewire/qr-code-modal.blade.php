@@ -87,7 +87,7 @@
                 <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                 Créer
             </x-button>
-            <x-button @click="$wire.showDeleteModal = false" class="btn btn-neutral">
+            <x-button @click="$wire.showQrCodeModal = false" class="btn btn-neutral">
                 Fermer
             </x-button>
         </x-slot:actions>
