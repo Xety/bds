@@ -4,14 +4,12 @@ namespace BDS\Models;
 
 use Eloquence\Behaviours\CountCache\Countable;
 use Eloquence\Behaviours\SumCache\Summable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PartEntry extends Model
 {
     use Countable;
-    use HasFactory;
     use Summable;
 
     /**

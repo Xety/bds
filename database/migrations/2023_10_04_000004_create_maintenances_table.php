@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('realization', ['internal', 'external', 'both'])->default('external');
             $table->timestamp('started_at')->nullable();
             $table->timestamp('finished_at')->nullable();
+            $table->integer('incident_count')->default(0);
             $table->integer('edit_count')->default(0);
             $table->boolean('is_edited')->default(false);
             $table->bigInteger('edited_user_id')->unsigned()->nullable()->index();
@@ -49,6 +50,10 @@ return new class extends Migration
         Schema::table('part_exits', function (Blueprint $table) {
             $table->foreignIdFor(\BDS\Models\Maintenance::class)->after('id')->nullable();
         });
+
+        Schema::table('incidents', function (Blueprint $table) {
+            $table->foreignIdFor(\BDS\Models\Maintenance::class)->after('id')->nullable();
+        });
     }
 
     /**
@@ -56,6 +61,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('incidents', function (Blueprint $table) {
+            $table->dropForeignIdFor(\BDS\Models\Maintenance::class);
+        });
         Schema::table('part_exits', function (Blueprint $table) {
             $table->dropForeignIdFor(\BDS\Models\Maintenance::class);
         });
