@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'e.fevre@bds.coop',
                 'password' => '$2y$10$HN7627lyelqBGAsI3ORVD.vY.NSmQtYPG3jwenOW359S9xVCFho6W',
                 'remember_token' => NULL,
-                'incident_count' => 0,
+                'incident_count' => 1,
                 'maintenance_count' => 1,
                 'part_count' => 0,
                 'part_entry_count' => 0,

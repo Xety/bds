@@ -53,7 +53,7 @@
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
-                <x-table.heading sortable wire:click="sortBy('maintenance_id')" :direction="$sortField === 'maintenance_id' ? $sortDirection : null">Matériel</x-table.heading>
+                <x-table.heading sortable wire:click="sortBy('maintenance_id')" :direction="$sortField === 'maintenance_id' ? $sortDirection : null">Maintenance</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_id')" :direction="$sortField === 'material_id' ? $sortDirection : null">Matériel</x-table.heading>
             <x-table.heading>Zone</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
@@ -124,8 +124,8 @@
                         <x-select
                             :options="$options"
                             class="select-primary"
-                            wire:model.live="filters.is_finished"
-                            name="filters.is_finished"
+                            wire:model.live="filters.finished"
+                            name="filters.finished"
                         />
                     </x-table.cell>
                     <x-table.cell>
@@ -169,72 +169,65 @@
                             </a>
                         </x-table.cell>
                     @endcan
-                    <x-table.cell>{{ $cleaning->getKey() }}</x-table.cell>
+                    <x-table.cell>{{ $incident->getKey() }}</x-table.cell>
                     <x-table.cell>
-                        <a class="link link-hover link-primary font-bold" href="{{ $cleaning->material->show_url }}">
-                            {{ $cleaning->material->name }}
+                        <a class="link link-hover link-primary font-bold tooltip tooltip-top " href="{{ $incident->maintenance->show_url }}" data-tip="Voir la maintenance">
+                            #{{ $incident->maintenance->id }}
                         </a>
                     </x-table.cell>
                     <x-table.cell>
-                        <a class="link link-hover link-primary font-bold" href="{{ $cleaning->material->zone->show_url }}">
-                            {{ $cleaning->material->zone->name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $incident->material->show_url }}">
+                            {{ $incident->material->name }}
                         </a>
                     </x-table.cell>
                     <x-table.cell>
-                        <a class="link link-hover link-primary font-bold" href="{{ $cleaning->user->show_url }}">
-                            {{ $cleaning->user->full_name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $incident->material->zone->show_url }}">
+                            {{ $incident->material->zone->name }}
                         </a>
                     </x-table.cell>
                     <x-table.cell>
-                        <span class="tooltip tooltip-top text-left" data-tip="{{ $cleaning->description }}">
-                            {{ Str::limit($cleaning->description, 50) }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $incident->user->show_url }}">
+                            {{ $incident->user->full_name }}
+                        </a>
+                    </x-table.cell>
+                    <x-table.cell>
+                        <span class="tooltip tooltip-top text-left" data-tip="{{ $incident->description }}">
+                            {{ Str::limit($incident->description, 50) }}
                         </span>
                     </x-table.cell>
-                    <x-table.cell>
-                        {{ collect(\BDS\Models\Cleaning::TYPES)->sole('id', $cleaning->type)['name'] }}
-                    </x-table.cell>
-                    @if(session('current_site_id') == 2)
-                        <x-table.cell>
-                            @if ($cleaning->type == 'weekly' && $cleaning->selvah_ph_test_water !== null)
-                                <code class="code rounded-sm">
-                                    @if ($cleaning->selvah_ph_test_water !== $cleaning->selvah_ph_test_water_after_cleaning)
-                                        <span class="font-bold text-red-500">
-                                        {{ $cleaning->selvah_ph_test_water }}
-                                    </span>
-                                    @else
-                                        <span class="font-bold text-green-500">
-                                        {{ $cleaning->selvah_ph_test_water }}
-                                    </span>
-                                    @endif
-                                </code>
-                            @endif
-                        </x-table.cell>
-                        <x-table.cell>
-                            @if ($cleaning->type == 'weekly' && $cleaning->selvah_ph_test_water_after_cleaning !== null)
-                                <code class="code rounded-sm">
-                                    @if ($cleaning->selvah_ph_test_water_after_cleaning !== $cleaning->selvah_ph_test_water)
-                                        <span class="font-bold text-red-500">
-                                        {{ $cleaning->selvah_ph_test_water_after_cleaning }}
-                                    </span>
-                                    @else
-                                        <span class="font-bold text-green-500">
-                                        {{ $cleaning->selvah_ph_test_water_after_cleaning }}
-                                    </span>
-                                    @endif
-                                </code>
-                            @endif
-                        </x-table.cell>
-                    @endif
-
                     <x-table.cell class="capitalize">
-                        {{ $cleaning->created_at->translatedFormat( 'D j M Y H:i') }}
+                        {{ $incident->started_at->translatedFormat( 'D j M Y H:i') }}
+                    </x-table.cell>
+                    <x-table.cell>
+                        @switch(collect(\BDS\Models\Incident::IMPACT)->sole('id', $incident->impact)['name'])
+                            @case("mineur")
+                                    <span class="font-bold text-yellow-500">Mineur</span>
+                                @break
+
+                            @case("moyen")
+                                    <span class="font-bold text-orange-500">Moyen</span>
+                                @break
+
+                            @default
+                                    <span class="font-bold text-red-500">Critique</span>
+                        @endswitch
+                    </x-table.cell>
+                    <x-table.cell>
+                        @if ($incident->is_finished)
+                            <span class="font-bold text-green-500">Oui</span>
+                        @else
+                            <span class="font-bold text-red-500">Non</span>
+                        @endif
+                    </x-table.cell>
+                    <x-table.cell class="capitalize">
+                        {{ $incident->finished_at?->translatedFormat( 'D j M Y H:i') }}
                     </x-table.cell>
                 </x-table.row>
             @empty
                 <x-table.row>
                     <x-table.cell colspan="11">
                         <div class="text-center p-2">
-                            <span class="text-muted">Aucun nettoyage trouvé...</span>
+                            <span class="text-muted">Aucun incident trouvé...</span>
                         </div>
                     </x-table.cell>
                 </x-table.row>
@@ -243,19 +236,19 @@
     </x-table.table>
 
     <div class="grid grid-cols-1">
-        {{ $cleanings->links() }}
+        {{ $incidents->links() }}
     </div>
 
 
-    <!-- Delete Cleaning Modal -->
-    <x-modal wire:model="showDeleteModal" title="Supprimer les Nettoyages">
+    <!-- Delete Modal -->
+    <x-modal wire:model="showDeleteModal" title="Supprimer les Incidents">
         @if (empty($selected))
             <p class="my-7">
-                Vous n'avez sélectionné aucun nettoyage à supprimer.
+                Vous n'avez sélectionné aucun incident à supprimer.
             </p>
         @else
             <p class="my-7">
-                Voulez-vous vraiment supprimer ces nettoyages ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
+                Voulez-vous vraiment supprimer ces incidents ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
             </p>
         @endif
 
@@ -270,15 +263,54 @@
         </x-slot:actions>
     </x-modal>
 
-    <!-- Create/Edit Cleaning Modal -->
-    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Nettoyage' : 'Editer le Nettoyage' }}">
-        @php $message = "Sélectionnez le matériel que vous avez nettoyé.";@endphp
+    <!-- Create/Edit Modal -->
+    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Incident' : 'Editer l\'Incident' }}">
+        @php $message = "Sélectionnez la maintenance qui a permis de résoudre l'incident.(Laissez vide si aucune maintenance)";@endphp
+        <x-choices
+            label="Maintenance"
+            :label-info="$message"
+            wire:model="form.maintenance_id"
+            :options="$form->maintenancesSearchable"
+            search-function="searchMaintenance"
+            no-result-text="Aucun résultat..."
+            debounce="300ms"
+            min-chars="2"
+            single
+            searchable>
+            {{-- Item slot--}}
+            @scope('item', $option)
+            <x-list-item :item="$option">
+                <x-slot:avatar>
+                    <x-icon name="fas-screwdriver-wrench" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                </x-slot:avatar>
+
+                <x-slot:value>
+                    #{{ $option->id }}
+                </x-slot:value>
+
+                <x-slot:sub-value>
+                    {{ $option->material->name }}
+                </x-slot:sub-value>
+
+                <x-slot:actions>
+                    {{ $option->material->zone->name }}
+                </x-slot:actions>
+            </x-list-item>
+            @endscope
+
+            {{-- Selection slot--}}
+            @scope('selection', $option)
+            #{{ $option->id }} ({{ $option->material->name }})
+            @endscope
+        </x-choices>
+
+        @php $message = "Sélectionnez le matériel qui a rencontré un problème dans la liste. (<b>Si plusieurs matériels, merci de créer un incident par matériel</b>)";@endphp
         <x-choices
             label="Matériel"
             :label-info="$message"
             wire:model="form.material_id"
             :options="$form->materialsSearchable"
-            search-function="search"
+            search-function="searchMaterial"
             no-result-text="Aucun résultat..."
             debounce="300ms"
             min-chars="2"
@@ -312,29 +344,29 @@
             @endscope
         </x-choices>
 
-        @php $message = "Si vous avez des informations complémentaires à renseigner, veuillez le faire dans la case ci-dessous.";@endphp
-         <x-textarea wire:model="form.description" name="form.description" label="Description du nettoyage" placeholder="Informations complémentaires..." rows="3" :label-info="$message" />
+        @php $message = "Veuillez décrire au mieux le problème.";@endphp
+         <x-textarea wire:model="form.description" name="form.description" label="Description de l'incident" placeholder="Description de l'incident..." rows="3" :label-info="$message" />
 
-        @php $message = "Sélectionnez le type de nettoyage.";@endphp
+        @php $message = "Sélectionnez l'impact de l'incident :<br><b>Mineur:</b> Incident légé sans impact sur la production.<br><b>Moyen:</b> Incident moyen ayant entrainé un arrêt partiel et/ou une perte de produit.<br><b>Critique:</b> Incident grave ayant impacté la production et/ou un arrêt.";@endphp
         <x-select
-            :options="\BDS\Models\Cleaning::TYPES"
+            :options="\BDS\Models\Incident::IMPACT"
             class="select-primary"
             wire:model.live="form.type"
             name="form.type"
-            label="Type de nettoyage"
+            label="Impact de l'incident"
             :label-info="$message"
-            placeholder="Sélectionnez le type"
+            placeholder="Sélectionnez l'impact"
         />
 
-        @if ($form->type == 'weekly' && $materialCleaningTestPhEnabled && getPermissionsTeamId() === settings('site_id_selvah'))
-            <div class="divider text-base-content text-opacity-70 uppercase">SELVAH</div>
+        @php $message = "Date à laquelle a eu lieu l'incident.";@endphp
+        <x-date-picker wire:model="form.started_at" name="form.started_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Incident survenu le" placeholder="Incident survenu le..." />
 
-            @php $message = "Veuillez renseigner le PH de l'eau du réseau.";@endphp
-            <x-input wire:model="form.selvah_ph_test_water" name="form.selvah_ph_test_water" type="number" label="Test PH de l'eau du réseau" placeholder="PH..." min="1" step="0.5" :label-info="$message"  />
-
-            @php $message = "Veuillez renseigner le PH de l'eau après nettoyage.";@endphp
-            <x-input wire:model="form.selvah_ph_test_water_after_cleaning" name="form.selvah_ph_test_water_after_cleaning" type="number" label="Test PH après nettoyage" placeholder="PH..." min="1" step="0.5" :label-info="$message"  />
+        <x-checkbox wire:model.live="form.is_finished" name="form.is_finished" label="Incident résolu ?" text="Cochez si l'incident est résolu" />
+        @if ($form->is_finished)
+            @php $message = "Date à laquelle l'incident a été résolu.";@endphp
+            <x-date-picker wire:model="form.finished_at" name="form.finished_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Incident résolu le" placeholder="Incident résolu le..." />
         @endif
+
 
         <x-slot:actions>
             <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>

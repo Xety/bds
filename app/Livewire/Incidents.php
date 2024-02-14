@@ -10,6 +10,7 @@ use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Incident;
+use BDS\Models\Maintenance;
 use BDS\Models\Material;
 use BDS\Models\User;
 use BDS\Models\Zone;
@@ -252,7 +253,7 @@ class Incidents extends Component
                     }
                     return $query;
                 })
-                ->when($this->filters['is_finished'], function ($query, $search) {
+                ->when($this->filters['finished'], function ($query, $search) {
                     if ($search === 'yes') {
                         return $query->where('is_finished', true);
                     }
@@ -284,13 +285,14 @@ class Incidents extends Component
      */
     public function create(): void
     {
-        $this->authorize('create', Cleaning::class);
+        $this->authorize('create', Incident::class);
 
         $this->isCreating = true;
         $this->useCachedRows();
 
         $this->form->reset();
-        $this->search();
+        $this->searchMaintenance();
+        $this->searchMaterial();
 
         $this->showModal = true;
     }
@@ -298,21 +300,21 @@ class Incidents extends Component
     /**
      * Set the model (used in modal) to the cleaning we want to edit.
      *
-     * @param Cleaning $cleaning The cleaning id to update.
+     * @param Incident $incident The incident id to update.
      * (Livewire will automatically fetch the model by the id)
      *
      * @return void
      */
-    public function edit(Cleaning $cleaning): void
+    public function edit(Incident $incident): void
     {
-        $this->authorize('update', $cleaning);
+        $this->authorize('update', $incident);
 
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setCleaning($cleaning);
-        $this->updatedForm();
-        $this->search();
+        $this->form->setForm($incident);
+        $this->searchMaintenance();
+        $this->searchMaterial();
 
         $this->showModal = true;
     }
@@ -324,7 +326,7 @@ class Incidents extends Component
      */
     public function save(): void
     {
-        $this->authorize($this->isCreating ? 'create' : 'update', Cleaning::class);
+        $this->authorize($this->isCreating ? 'create' : 'update', Incident::class);
 
         $this->validate();
 
@@ -336,13 +338,37 @@ class Incidents extends Component
     }
 
     /**
+     * Function to search maintenances in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchMaintenance(string $value = ''): void
+    {
+        $selectedOption = Maintenance::where('id', $this->form->maintenance_id)->get();
+
+        $maintenances = Maintenance::query()
+            ->with(['material', 'material.zone.site'])
+            ->where('id', 'like', "%$value%")
+            ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
+
+        $maintenances = $maintenances->take(10)
+            ->orderBy('id')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->maintenancesSearchable = $maintenances;
+    }
+
+    /**
      * Function to search materials in form.
      *
      * @param string $value
      *
      * @return void
      */
-    public function search(string $value = ''): void
+    public function searchMaterial(string $value = ''): void
     {
         $selectedOption = Material::where('id', $this->form->material_id)->get();
 
