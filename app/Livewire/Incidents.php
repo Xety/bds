@@ -377,7 +377,7 @@ class Incidents extends Component
             ->where('name', 'like', "%$value%")
             ->whereRelation('zone.site', 'id', getPermissionsTeamId());
 
-        $materials = $materials->take(5)
+        $materials = $materials->take(10)
             ->orderBy('name')
             ->get()
             ->merge($selectedOption);

@@ -53,7 +53,7 @@
                 <x-table.heading>Actions</x-table.heading>
             @endcan
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
-                <x-table.heading sortable wire:click="sortBy('maintenance_id')" :direction="$sortField === 'maintenance_id' ? $sortDirection : null">Maintenance</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('maintenance_id')" :direction="$sortField === 'maintenance_id' ? $sortDirection : null">Maintenance</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_id')" :direction="$sortField === 'material_id' ? $sortDirection : null">Matériel</x-table.heading>
             <x-table.heading>Zone</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
@@ -199,17 +199,17 @@
                         {{ $incident->started_at->translatedFormat( 'D j M Y H:i') }}
                     </x-table.cell>
                     <x-table.cell>
-                        @switch(collect(\BDS\Models\Incident::IMPACT)->sole('id', $incident->impact)['name'])
+                        @switch($incident->impact)
                             @case("mineur")
-                                    <span class="font-bold text-yellow-500">Mineur</span>
+                                    <span class="font-bold text-yellow-500">{{ collect(\BDS\Models\Incident::IMPACT)->sole('id', $incident->impact)['name'] }}</span>
                                 @break
 
                             @case("moyen")
-                                    <span class="font-bold text-orange-500">Moyen</span>
+                                    <span class="font-bold text-orange-500">{{ collect(\BDS\Models\Incident::IMPACT)->sole('id', $incident->impact)['name'] }}</span>
                                 @break
 
                             @default
-                                    <span class="font-bold text-red-500">Critique</span>
+                                    <span class="font-bold text-red-500">{{ collect(\BDS\Models\Incident::IMPACT)->sole('id', $incident->impact)['name'] }}</span>
                         @endswitch
                     </x-table.cell>
                     <x-table.cell>
@@ -264,7 +264,7 @@
     </x-modal>
 
     <!-- Create/Edit Modal -->
-    <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer un Incident' : 'Editer l\'Incident' }}">
+    <x-modal wire:model="showModal" title="{!! $isCreating ? 'Créer un Incident' : 'Editer l\'Incident' !!}">
         @php $message = "Sélectionnez la maintenance qui a permis de résoudre l'incident.(Laissez vide si aucune maintenance)";@endphp
         <x-choices
             label="Maintenance"
@@ -351,8 +351,8 @@
         <x-select
             :options="\BDS\Models\Incident::IMPACT"
             class="select-primary"
-            wire:model.live="form.type"
-            name="form.type"
+            wire:model="form.impact"
+            name="form.impact"
             label="Impact de l'incident"
             :label-info="$message"
             placeholder="Sélectionnez l'impact"
