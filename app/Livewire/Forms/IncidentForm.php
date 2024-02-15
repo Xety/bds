@@ -22,10 +22,9 @@ class IncidentForm extends Form
 
     public ?string $impact = null;
 
-    public ?bool $is_finished = null;
+    public ?bool $is_finished = false;
 
     public ?string $finished_at = null;
-
 
     // Options list
     public Collection|array $maintenancesSearchable = [];
@@ -76,13 +75,13 @@ class IncidentForm extends Form
     public function setForm(Incident $incident): void
     {
         $this->fill([
-            'cleaning' => $incident,
+            'incident' => $incident,
             'material_id' => $incident->material_id,
             'maintenance_id' => $incident->maintenance_id,
             'description' => $incident->description,
-            'started_at' => $incident->started_at,
+            'started_at' => $incident->started_at->format('d-m-Y H:i'),
             'is_finished' => $incident->is_finished,
-            'finished_at' => $incident->finished_at,
+            'finished_at' => $incident->finished_at?->format('d-m-Y H:i'),
             'impact' => $incident->impact
         ]);
     }

@@ -171,9 +171,11 @@
                     @endcan
                     <x-table.cell>{{ $incident->getKey() }}</x-table.cell>
                     <x-table.cell>
-                        <a class="link link-hover link-primary font-bold tooltip tooltip-top " href="{{ $incident->maintenance->show_url }}" data-tip="Voir la maintenance">
-                            #{{ $incident->maintenance->id }}
-                        </a>
+                        @if($incident->maintenance)
+                            <a class="link link-hover link-primary font-bold tooltip tooltip-top " href="{{ $incident->maintenance->show_url }}" data-tip="Voir la maintenance">
+                                #{{ $incident->maintenance->id }}
+                            </a>
+                        @endif
                     </x-table.cell>
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $incident->material->show_url }}">
@@ -225,7 +227,7 @@
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="11">
+                    <x-table.cell colspan="12">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucun incident trouvé...</span>
                         </div>
