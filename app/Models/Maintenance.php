@@ -3,7 +3,6 @@
 namespace BDS\Models;
 
 use Eloquence\Behaviours\CountCache\Countable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -14,24 +13,38 @@ use BDS\Models\Presenters\MaintenancePresenter;
 class Maintenance extends Model
 {
     use Countable;
-    use HasFactory;
     use MaintenancePresenter;
 
     /**
      * All types with their labels. (Used for radio buttons)
      */
     public const TYPES = [
-        'curative' => 'Curative',
-        'preventive' => 'Préventive'
+        [
+            'id' => 'curative',
+            'name' => 'Curative'
+        ],
+        [
+            'id' => 'preventive',
+            'name' => 'Préventive'
+        ],
     ];
 
     /**
      * All realizations with their labels. (Used for radio buttons)
      */
     public const REALIZATIONS = [
-        'internal' => 'Interne',
-        'external' => 'Externe',
-        'both' => 'Interne et Externe'
+        [
+            'id' => 'internal',
+            'name' => 'Interne'
+        ],
+        [
+            'id' => 'external',
+            'name' => 'Externe'
+        ],
+        [
+            'id' => 'both',
+            'name' => 'Interne et Externe'
+        ],
     ];
 
     /**
@@ -125,6 +138,16 @@ class Maintenance extends Model
     public function partExits(): HasMany
     {
         return $this->hasMany(PartExit::class);
+    }
+
+    /**
+     * Get the incidents related to the maintenance.
+     *
+     * @return HasMany
+     */
+    public function incidents(): HasMany
+    {
+        return $this->hasMany(Incident::class);
     }
 
     /**

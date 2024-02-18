@@ -39,6 +39,13 @@
                 <x-menu-item wire:navigate title="Tableau de bord" icon="fas-gauge" link="{{ route('dashboard.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
             </x-menu-sub>
 
+            @if(auth()->user()->can('viewAny', \BDS\Models\Incident::class) && settings('incident_manage_enabled', true))
+                <x-menu-separator  />
+                <x-menu-sub title="Incidents" icon="fas-triangle-exclamation">
+                    <x-menu-item wire:navigate title="Gérer les Incidents" icon="fas-triangle-exclamation" link="{{ route('incidents.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                </x-menu-sub>
+            @endif
+
             @if(auth()->user()->can('viewAny', \BDS\Models\Part::class) && settings('part_manage_enabled', true))
                 <x-menu-separator />
                 <x-menu-sub title="Pièces Détachées" icon="fas-gear">

@@ -4,7 +4,6 @@ namespace BDS\Models;
 
 use BDS\Models\Presenters\ZonePresenter;
 use Eloquence\Behaviours\CountCache\Countable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Zone extends Model
 {
     use Countable;
-    use HasFactory;
     use ZonePresenter;
 
     /**

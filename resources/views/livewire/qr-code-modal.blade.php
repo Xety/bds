@@ -7,7 +7,9 @@
                 </div>
                 <div class="flex flex-col items-center">
                     <x-icon name="fas-microchip" class="w-16 h-16"></x-icon>
-                    <span class="block font-bold text-2xl">{{ $model?->name }}</span>
+                    <span class="block font-bold text-2xl">
+                        {{ $model?->name }}
+                    </span>
                     <div class="mt-4 text-center">
                         <span class="block mb-4">sur le site :</span>
                         <figure class="px-10">

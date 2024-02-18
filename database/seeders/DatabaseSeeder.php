@@ -56,5 +56,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CompanyMaintenanceTableSeeder::class);
         $this->call(MaintenanceUserTableSeeder::class);
 
+        // Incidents
+        $this->call(IncidentsTableSeeder::class);
+
     }
 }

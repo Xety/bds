@@ -3,7 +3,6 @@
 namespace BDS\Models;
 
 use Eloquence\Behaviours\CountCache\Countable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,7 +14,6 @@ class Part extends Model
 {
     use Countable;
     use PartPresenter;
-    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -66,7 +64,8 @@ class Part extends Model
     public function countCaches(): array
     {
         return [
-            Supplier::class
+            Supplier::class,
+            User::class
         ];
     }
 

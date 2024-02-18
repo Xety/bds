@@ -118,7 +118,7 @@ class Parts extends Component
         'description',
         'user_id',
         'reference',
-        'supplier',
+        'supplier_id',
         'price',
         'number_warning_enabled',
         'number_critical_enabled',

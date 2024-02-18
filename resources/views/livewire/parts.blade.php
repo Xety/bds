@@ -69,7 +69,7 @@
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Enregistré<br> par</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('reference')" :direction="$sortField === 'reference' ? $sortDirection : null">Référence</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('supplier')" :direction="$sortField === 'supplier' ? $sortDirection : null">Fournisseur</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('supplier_id')" :direction="$sortField === 'supplier_id' ? $sortDirection : null">Fournisseur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('price')" :direction="$sortField === 'price' ? $sortDirection : null">Prix Unitaire</x-table.heading>
             <x-table.heading>Nombre en stock</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('number_warning_enabled')" :direction="$sortField === 'number_warning_enabled' ? $sortDirection : null">Alerte<br> activée</x-table.heading>
@@ -259,7 +259,9 @@
                         @endforeach
                     </x-table.cell>
                     <x-table.cell>
-                        {{ $part->site->name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $part->site->show_url }}">
+                            {{ $part->site->name }}
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
                         <span class="tooltip tooltip-top text-left" data-tip="{{ $part->description }}">
@@ -267,7 +269,9 @@
                         </span>
                     </x-table.cell>
                     <x-table.cell>
-                        {{ $part->user->full_name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $part->user->show_url }}">
+                            {{ $part->user->full_name }}
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
                         <code class="code rounded-sm">

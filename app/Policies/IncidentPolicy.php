@@ -44,7 +44,7 @@ class IncidentPolicy
         // First check if user can update any material and a $material has been provided
         if($user->can('update incident') && !is_null($incident)) {
             // Check that the user is not trying to update a material from another site where the material does not belong to.
-            return $incident->site_id === getPermissionsTeamId();
+            return $incident->material->zone->site_id === getPermissionsTeamId();
         }
         return $user->can('update incident');
     }
@@ -55,7 +55,7 @@ class IncidentPolicy
     public function delete(User $user, ?Incident $incident = null): bool
     {
         if($user->can('delete incident') && !is_null($incident)) {
-            return $incident->site_id === getPermissionsTeamId();
+            return $incident->material->zone->site_id === getPermissionsTeamId();
         }
         return $user->can('delete incident');
     }

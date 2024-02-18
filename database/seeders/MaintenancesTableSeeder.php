@@ -27,6 +27,7 @@ class MaintenancesTableSeeder extends Seeder
                 'realization' => 'both',
                 'started_at' => '2023-06-08 22:02:34',
                 'finished_at' => null,
+                'incident_count' => 1,
                 'edit_count' => 0,
                 'is_edited' => 0,
                 'edited_user_id' => NULL,

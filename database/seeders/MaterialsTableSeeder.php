@@ -1016,7 +1016,7 @@ class MaterialsTableSeeder extends Seeder
                 'cleaning_alert_frequency_repeatedly' => 0,
                 'cleaning_alert_frequency_type' => 'daily',
                 'cleaning_count' => 0,
-                'incident_count' => 0,
+                'incident_count' => 1,
                 'part_count' => 1,
                 'maintenance_count' => 1,
                 'created_at' => '2023-08-09 22:02:34',

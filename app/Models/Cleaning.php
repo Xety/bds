@@ -3,7 +3,6 @@
 namespace BDS\Models;
 
 use Eloquence\Behaviours\CountCache\Countable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Cleaning extends Model
 {
     use Countable;
-    use HasFactory;
 
     /**
      * All types with their labels.

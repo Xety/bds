@@ -3,7 +3,6 @@
 namespace BDS\Models;
 
 use Eloquence\Behaviours\CountCache\Countable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,7 +12,6 @@ use BDS\Models\Presenters\MaterialPresenter;
 class Material extends Model
 {
     use Countable;
-    use HasFactory;
     use MaterialPresenter;
 
     /**

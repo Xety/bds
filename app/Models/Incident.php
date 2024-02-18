@@ -3,24 +3,30 @@
 namespace BDS\Models;
 
 use Eloquence\Behaviours\CountCache\Countable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Incident extends Model
 {
     use Countable;
-    use HasFactory;
 
     /**
      * All impact with their labels.
      */
     public const IMPACT = [
-        'mineur' => 'Mineur',
-        'moyen' => 'Moyen',
-        'critique' => 'Critique'
+        [
+            'id' => 'mineur',
+            'name' => 'Mineur'
+        ],
+        [
+            'id' => 'moyen',
+            'name' => 'Moyen'
+        ],
+        [
+            'id' => 'critique',
+            'name' => 'Critique'
+        ]
     ];
 
     /**
@@ -29,6 +35,7 @@ class Incident extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'maintenance_id',
         'material_id',
         'user_id',
         'description',
@@ -63,7 +70,8 @@ class Incident extends Model
     {
         return [
             Material::class,
-            User::class
+            User::class,
+            Maintenance::class
         ];
     }
 
@@ -75,6 +83,16 @@ class Incident extends Model
     public function material(): BelongsTo
     {
         return $this->belongsTo(Material::class);
+    }
+
+    /**
+     * Get the maintenance that owns the incident.
+     *
+     * @return BelongsTo
+     */
+    public function maintenance(): BelongsTo
+    {
+        return $this->belongsTo(Maintenance::class);
     }
 
     /**
