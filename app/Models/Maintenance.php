@@ -19,17 +19,32 @@ class Maintenance extends Model
      * All types with their labels. (Used for radio buttons)
      */
     public const TYPES = [
-        'curative' => 'Curative',
-        'preventive' => 'Préventive'
+        [
+            'id' => 'curative',
+            'name' => 'Curative'
+        ],
+        [
+            'id' => 'preventive',
+            'name' => 'Préventive'
+        ],
     ];
 
     /**
      * All realizations with their labels. (Used for radio buttons)
      */
     public const REALIZATIONS = [
-        'internal' => 'Interne',
-        'external' => 'Externe',
-        'both' => 'Interne et Externe'
+        [
+            'id' => 'internal',
+            'name' => 'Interne'
+        ],
+        [
+            'id' => 'external',
+            'name' => 'Externe'
+        ],
+        [
+            'id' => 'both',
+            'name' => 'Interne et Externe'
+        ],
     ];
 
     /**

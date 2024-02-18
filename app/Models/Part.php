@@ -64,7 +64,8 @@ class Part extends Model
     public function countCaches(): array
     {
         return [
-            Supplier::class
+            Supplier::class,
+            User::class
         ];
     }
 

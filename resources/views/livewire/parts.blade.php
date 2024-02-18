@@ -259,7 +259,9 @@
                         @endforeach
                     </x-table.cell>
                     <x-table.cell>
-                        {{ $part->site->name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $part->site->show_url }}">
+                            {{ $part->site->name }}
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
                         <span class="tooltip tooltip-top text-left" data-tip="{{ $part->description }}">
@@ -267,7 +269,9 @@
                         </span>
                     </x-table.cell>
                     <x-table.cell>
-                        {{ $part->user->full_name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $part->user->show_url }}">
+                            {{ $part->user->full_name }}
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
                         <code class="code rounded-sm">

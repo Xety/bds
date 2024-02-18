@@ -163,7 +163,9 @@
                         </a>
                     </x-table.cell>
                     <x-table.cell>
-                        {{ $partExit->user->full_name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $partExit->user->show_url }}">
+                            {{ $partExit->user->full_name }}
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
                         {{ Str::limit($partExit->description, 80) }}
