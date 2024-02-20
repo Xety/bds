@@ -23,7 +23,7 @@ class MaintenancePolicy
     public function view(User $user, Maintenance $maintenance): bool
     {
         if($user->can('view maintenance')) {
-            return $maintenance->material->site_id === getPermissionsTeamId();
+            return $maintenance->material->zone->site_id === getPermissionsTeamId();
         }
         return false;
     }

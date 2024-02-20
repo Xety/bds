@@ -23,7 +23,7 @@ class IncidentPolicy
     public function view(User $user, Incident $incident): bool
     {
         if($user->can('view incident')) {
-            return $incident->site_id === getPermissionsTeamId();
+            return $incident->material->zone->site_id === getPermissionsTeamId();
         }
         return false;
     }
