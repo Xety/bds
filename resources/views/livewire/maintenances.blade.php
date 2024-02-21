@@ -179,7 +179,11 @@
                             </a>
                         </x-table.cell>
                     @endcan
-                    <x-table.cell>{{ $maintenance->getKey() }}</x-table.cell>
+                    <x-table.cell>
+                        <a class="link link-hover link-primary tooltip tooltip-right text-left" href="{{ $maintenance->show_url }}" data-tip="Voir la fiche Maintenance">
+                            <span class="font-bold">#{{ $maintenance->getKey() }}</span>
+                        </a>
+                    </x-table.cell>
                     <x-table.cell>
                         @if($maintenance->gmao_id)
                             <code class="code rounded-sm">
@@ -280,8 +284,10 @@
     <!-- Create/Edit Modal -->
     <x-modal wire:model="showModal" title="{!! $isCreating ? 'Créer une Maintenance' : 'Editer la Maintenance' !!}">
 
+        <x-input wire:model="form.gmao_id" name="form.gmao_id" label="N° GMAO" placeholder="N° GMAO..." type="text" />
 
-        @php $message = "Sélectionnez le matériel qui a rencontré un problème dans la liste. (<b>Si plusieurs matériels, merci de créer un incident par matériel</b>)";@endphp
+
+        @php $message = "Sélectionnez le matériel pour lequel la maintenance a eu lieu.<br><i>Note: si la maintenance appartient à aucun matériel, laissez vide.</i> ";@endphp
         <x-choices
             label="Matériel"
             :label-info="$message"
@@ -321,10 +327,13 @@
             @endscope
         </x-choices>
 
-        @php $message = "Veuillez décrire au mieux le problème.";@endphp
-         <x-textarea wire:model="form.description" name="form.description" label="Description de l'incident" placeholder="Description de l'incident..." rows="3" :label-info="$message" />
+        @php $message = "Veuillez décrire au mieux le déroulé de la maintenance.";@endphp
+         <x-textarea wire:model="form.description" name="form.description" label="Description de la maintenance" placeholder="Description de la maintenance..." rows="3" :label-info="$message" />
 
-        @php $message = "Sélectionnez le type de la maintenance :<br><b>Mineur:</b> Incident légé sans impact sur la production.<br><b>Moyen:</b> Incident moyen ayant entrainé un arrêt partiel et/ou une perte de produit.<br><b>Critique:</b> Incident grave ayant impacté la production et/ou un arrêt.";@endphp
+        @php $message = "Veuillez décrire au mieux la raison de la maintenance.";@endphp
+        <x-textarea wire:model="form.reason" name="form.reason" label="Raison de la maintenance" placeholder="Raison de la maintenance..." rows="3" :label-info="$message" />
+
+        @php $message = "Sélectionnez le type de la maintenance :<br><b>Curative:</b> Maintenance servant à réparer un accident.<br><b>Préventive:</b> Maintenance servant à éviter un accident.";@endphp
         <x-select
             :options="\BDS\Models\Maintenance::TYPES"
             class="select-primary"
@@ -333,6 +342,17 @@
             label="Type de Maintenance"
             :label-info="$message"
             placeholder="Sélectionnez le type"
+        />
+
+        @php $message = "Sélectionnez la réalisation :<br><b>Interne:</b> Réalisé par un opérateur.<br><b>Externe:</b> Réalisé par une entreprise extérieur.<br><b>Interne et Externe:</b> Réalisé par une entreprise extérieur et un/des opérateur(s).";@endphp
+        <x-select
+            :options="\BDS\Models\Maintenance::REALIZATIONS"
+            class="select-primary"
+            wire:model="form.realization"
+            name="form.realization"
+            label="Type de Réalisation"
+            :label-info="$message"
+            placeholder="Sélectionnez la réalisation"
         />
 
         @php $message = "Date à laquelle à commencée la maintenance.";@endphp

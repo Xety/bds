@@ -18,6 +18,20 @@ return new class extends Migration
             $table->integer('maintenance_count')->default(0);
             $table->timestamps();
         });
+
+        Schema::table('companies', function (Blueprint $table) {
+            $table->foreignIdFor(\BDS\Models\Site::class)
+                ->after('id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignIdFor(\BDS\Models\User::class)
+                ->after('id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->unique(['name', 'site_id'], 'companies_name_site_primary');
+        });
     }
 
     /**
