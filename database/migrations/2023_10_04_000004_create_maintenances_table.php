@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('type', ['curative', 'preventive'])->default('curative');
             $table->enum('realization', ['internal', 'external', 'both'])->default('external');
             $table->timestamp('started_at')->nullable();
+            $table->boolean('is_finished')->default(0);
             $table->timestamp('finished_at')->nullable();
             $table->integer('incident_count')->default(0);
             $table->integer('edit_count')->default(0);

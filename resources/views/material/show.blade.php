@@ -300,7 +300,11 @@
                                             </a>
                                         </x-table.cell>
                                         <x-table.cell>{{ $incident->material->zone->name }}</x-table.cell>
-                                        <x-table.cell>{{ $incident->user->username }}</x-table.cell>
+                                        <x-table.cell>
+                                            <a class="link link-hover link-primary font-bold" href="{{ $incident->user->show_url }}">
+                                                {{ $incident->user->full_name }}
+                                            </a>
+                                        </x-table.cell>
                                         <x-table.cell>
                                         <span class="tooltip tooltip-top" data-tip="{{ $incident->description }}">
                                             {{ Str::limit($incident->description, 50) }}
@@ -397,7 +401,11 @@
                                             {{ Str::limit($maintenance->reason, 50) }}
                                         </span>
                                         </x-table.cell>
-                                        <x-table.cell>{{ $maintenance->user->username }}</x-table.cell>
+                                        <x-table.cell>
+                                            <a class="link link-hover link-primary font-bold" href="{{ $maintenance->user->show_url }}">
+                                                {{ $maintenance->user->full_name }}
+                                            </a>
+                                        </x-table.cell>
                                         <x-table.cell>
                                             @if ($maintenance->type === 'curative')
                                                 <span class="font-bold text-red-500">Curative</span>

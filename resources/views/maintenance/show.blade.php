@@ -133,11 +133,12 @@
                         @if (is_null($maintenance->finished_at))
                             <code class="text-red-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
                                 Non
-                                @else
-                                    <code class="text-green-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                        Oui
-                                        @endif
-                                    </code>
+                            </code>
+                        @else
+                            <code class="text-green-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                Oui
+                            </code>
+                        @endif
                     </div>
                 </div>
 
@@ -154,77 +155,162 @@
 
                 <div class="col-span-12">
                     <div class="font-bold">Description : </div>
-                    <div >
+                    <div>
                         {{ $maintenance->description }}
                     </div>
                 </div>
 
                 <div class="col-span-12">
                     <div class="font-bold">Raison : </div>
-                    <div >
+                    <div>
                         {{ $maintenance->reason }}
                     </div>
                 </div>
 
                 <div class="col-span-12">
-                    <div class="font-bold">Pièce(s) détachée(s) sortie(s) du stock : </div>
-                    <x-table.table class="mb-6">
-                        <x-slot name="head">
-                            <x-table.heading>#Id</x-table.heading>
-                            <x-table.heading>Maintenance n°</x-table.heading>
-                            <x-table.heading>Pièce Détachée</x-table.heading>
-                            <x-table.heading>Sortie par</x-table.heading>
-                            <x-table.heading>Description</x-table.heading>
-                            <x-table.heading>Nombre</x-table.heading>
-                            <x-table.heading>Créé le</x-table.heading>
-                        </x-slot>
+                    <x-tabs selected="part-exits">
+                        <x-tab name="part-exits" label="Pièce(s) détachée(s) sortie(s) du stock" icon="fas-gear">
+                            <x-table.table class="mb-6">
+                                <x-slot name="head">
+                                    <x-table.heading>#Id</x-table.heading>
+                                    <x-table.heading>Maintenance n°</x-table.heading>
+                                    <x-table.heading>Pièce Détachée</x-table.heading>
+                                    <x-table.heading>Sortie par</x-table.heading>
+                                    <x-table.heading>Description</x-table.heading>
+                                    <x-table.heading>Nombre</x-table.heading>
+                                    <x-table.heading>Créé le</x-table.heading>
+                                </x-slot>
 
-                        <x-slot name="body">
-                            @forelse($partExits as $partExit)
-                                <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $partExit->getKey() }}">
-                                    <x-table.cell>{{ $partExit->getKey() }}</x-table.cell>
-                                    <x-table.cell>
-                                        @unless (is_null($partExit->maintenance))
-                                            <a class="link link-hover link-primary tooltip tooltip-right" href="{{ $partExit->maintenance->show_url }}"  data-tip="Voir la fiche Maintenance">
-                                                <span class="font-bold">{{ $partExit->maintenance->getKey() }}</span>
-                                            </a>
-                                        @endunless
-                                    </x-table.cell>
-                                    <x-table.cell>
-                                        <a class="link link-hover link-primary font-bold" href="{{ $partExit->part->show_url }}">
-                                            {{ $partExit->part->name }}
-                                        </a>
-                                    </x-table.cell>
-                                    <x-table.cell>{{ $partExit->user->username }}</x-table.cell>
-                                    <x-table.cell>
-                                    <span class="tooltip tooltip-top" data-tip="{{ $partExit->description }}">
-                                        {{ Str::limit($partExit->description, 50) }}
-                                    </span>
-                                    </x-table.cell>
-                                    <x-table.cell class="prose">
-                                        <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                            {{ $partExit->number }}
-                                        </code>
-                                    </x-table.cell>
-                                    <x-table.cell class="capitalize">
-                                        {{ $partExit->created_at->translatedFormat( 'D j M Y H:i') }}
-                                    </x-table.cell>
-                                </x-table.row>
-                            @empty
-                                <x-table.row>
-                                    <x-table.cell colspan="17">
-                                        <div class="text-center p-2">
-                                            <span class="text-muted">Aucune sortie de pièce détachée trouvée pour cette maintenance...</span>
-                                        </div>
-                                    </x-table.cell>
-                                </x-table.row>
-                            @endforelse
-                        </x-slot>
-                    </x-table.table>
+                                <x-slot name="body">
+                                    @forelse($partExits as $partExit)
+                                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $partExit->getKey() }}">
+                                            <x-table.cell>{{ $partExit->getKey() }}</x-table.cell>
+                                            <x-table.cell>
+                                                @unless (is_null($partExit->maintenance))
+                                                    <a class="link link-hover link-primary tooltip tooltip-right" href="{{ $partExit->maintenance->show_url }}"  data-tip="Voir la fiche Maintenance">
+                                                        <span class="font-bold">{{ $partExit->maintenance->getKey() }}</span>
+                                                    </a>
+                                                @endunless
+                                            </x-table.cell>
+                                            <x-table.cell>
+                                                <a class="link link-hover link-primary font-bold" href="{{ $partExit->part->show_url }}">
+                                                    {{ $partExit->part->name }}
+                                                </a>
+                                            </x-table.cell>
+                                            <x-table.cell>
+                                                <a class="link link-hover link-primary font-bold" href="{{ $partExit->user->show_url }}">
+                                                    {{ $partExit->user->full_name }}
+                                                </a>
+                                            </x-table.cell>
+                                            <x-table.cell>
+                                            <span class="tooltip tooltip-top" data-tip="{{ $partExit->description }}">
+                                                {{ Str::limit($partExit->description, 50) }}
+                                            </span>
+                                            </x-table.cell>
+                                            <x-table.cell class="prose">
+                                                <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                    {{ $partExit->number }}
+                                                </code>
+                                            </x-table.cell>
+                                            <x-table.cell class="capitalize">
+                                                {{ $partExit->created_at->translatedFormat( 'D j M Y H:i') }}
+                                            </x-table.cell>
+                                        </x-table.row>
+                                    @empty
+                                        <x-table.row>
+                                            <x-table.cell colspan="17">
+                                                <div class="text-center p-2">
+                                                    <span class="text-muted">Aucune sortie de pièce détachée trouvée pour cette maintenance...</span>
+                                                </div>
+                                            </x-table.cell>
+                                        </x-table.row>
+                                    @endforelse
+                                </x-slot>
+                            </x-table.table>
 
-                    <div class="grid grid-cols-1">
-                        {{ $partExits->fragment('partExits')->links() }}
-                    </div>
+                            <div class="grid grid-cols-1">
+                                {{ $partExits->fragment('partExits')->links() }}
+                            </div>
+                        </x-tab>
+
+
+                        <x-tab name="incidents" label="Incident(s)" icon="fas-triangle-exclamation">
+                            <x-table.table class="mb-6">
+                                <x-slot name="head">
+                                    <x-table.heading>#Id</x-table.heading>
+                                    <x-table.heading>Matériel</x-table.heading>
+                                    <x-table.heading>Zone</x-table.heading>
+                                    <x-table.heading>Créateur</x-table.heading>
+                                    <x-table.heading>Description</x-table.heading>
+                                    <x-table.heading>Incident créé le</x-table.heading>
+                                    <x-table.heading>Impact</x-table.heading>
+                                    <x-table.heading>Résolu</x-table.heading>
+                                    <x-table.heading>Résolu le</x-table.heading>
+                                </x-slot>
+
+                                <x-slot name="body">
+                                    @forelse($incidents as $incident)
+                                        <x-table.row wire:loading.class.delay="opacity-50"
+                                                     wire:key="row-{{ $incident->getKey() }}">
+                                            <x-table.cell>{{ $incident->getKey() }}</x-table.cell>
+                                            <x-table.cell>
+                                                <a class="link link-hover link-primary font-bold"
+                                                   href="{{ $incident->material->show_url }}">
+                                                    {{ $incident->material->name }}
+                                                </a>
+                                            </x-table.cell>
+                                            <x-table.cell>{{ $incident->material->zone->name }}</x-table.cell>
+                                            <x-table.cell>
+                                                <a class="link link-hover link-primary font-bold" href="{{ $incident->user->show_url }}">
+                                                    {{ $incident->user->full_name }}
+                                                </a>
+                                            </x-table.cell>
+                                            <x-table.cell>
+                                        <span class="tooltip tooltip-top" data-tip="{{ $incident->description }}">
+                                            {{ Str::limit($incident->description, 50) }}
+                                        </span>
+                                            </x-table.cell>
+                                            <x-table.cell
+                                                class="capitalize">{{ $incident->started_at->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
+                                            <x-table.cell>
+                                                @if ($incident->impact == 'mineur')
+                                                    <span class="font-bold text-yellow-500">Mineur</span>
+                                                @elseif ($incident->impact == 'moyen')
+                                                    <span class="font-bold text-orange-500">Moyen</span>
+                                                @else
+                                                    <span class="font-bold text-red-500">Critique</span>
+                                                @endif
+                                            </x-table.cell>
+                                            <x-table.cell>
+                                                @if ($incident->is_finished)
+                                                    <span class="font-bold text-green-500">Oui</span>
+                                                @else
+                                                    <span class="font-bold text-red-500">Non</span>
+                                                @endif
+                                            </x-table.cell>
+                                            <x-table.cell
+                                                class="capitalize">{{ $incident->finished_at?->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
+                                        </x-table.row>
+                                    @empty
+                                        <x-table.row>
+                                            <x-table.cell colspan="11">
+                                                <div class="text-center p-2">
+                                            <span class="text-muted">
+                                                Aucun incident trouvé pour le matériel <span
+                                                    class="font-bold">{{ $material->name }}</span>...
+                                            </span>
+                                                </div>
+                                            </x-table.cell>
+                                        </x-table.row>
+                                    @endforelse
+                                </x-slot>
+                            </x-table.table>
+
+                            <div class="grid grid-cols-1">
+                                {{ $incidents->fragment('incidents')->links() }}
+                            </div>
+                        </x-tab>
+                    </x-tabs>
                 </div>
             </div>
 

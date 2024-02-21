@@ -47,7 +47,7 @@ class Parts extends Component
     public string $model = Part::class;
 
     /**
-     * The form used to create/update a part.
+     * The form used to create/update a model.
      *
      * @var PartForm
      */

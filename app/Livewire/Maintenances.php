@@ -3,15 +3,18 @@
 namespace BDS\Livewire;
 
 use BDS\Livewire\Forms\IncidentForm;
+use BDS\Livewire\Forms\MaintenanceForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Company;
 use BDS\Models\Incident;
 use BDS\Models\Maintenance;
 use BDS\Models\Material;
+use BDS\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -21,7 +24,7 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Incidents extends Component
+class Maintenances extends Component
 {
     use AuthorizesRequests;
     use WithBulkActions;
@@ -37,14 +40,14 @@ class Incidents extends Component
      *
      * @var string
      */
-    public string $model = Incident::class;
+    public string $model = Maintenance::class;
 
     /**
-     * The form used to create/update a cleaning.
+     * The form used to create/update a model.
      *
-     * @var IncidentForm
+     * @var MaintenanceForm
      */
-    public IncidentForm $form;
+    public MaintenanceForm $form;
 
     /**
      * The field to sort by.
@@ -94,12 +97,13 @@ class Incidents extends Component
      */
     public array $filters = [
         'id' => '',
-        'maintenance' => '',
+        'gmao' => '',
         'material' => '',
-        'zone' => '',
         'creator' => '',
         'description' => '',
-        'impact' => '',
+        'reason' => '',
+        'type' => '',
+        'realization' => '',
         'finished' => '',
         'started_min' => '',
         'started_max' => '',
@@ -114,11 +118,14 @@ class Incidents extends Component
      */
     public array $allowedFields = [
         'id',
+        'gmao_id',
         'material_id',
-        'user_id',
         'description',
+        'reason',
+        'user_id',
+        'type',
+        'realization',
         'started_at',
-        'impact',
         'is_finished',
         'finished_at'
     ];
@@ -130,16 +137,16 @@ class Incidents extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "L'incident n°<b>:id</b> a été créé avec succès !",
-            'danger' => "Une erreur s'est produite lors de la création de l'incident !"
+            'success' => "La maintenance n°<b>:id</b> a été créée avec succès !",
+            'danger' => "Une erreur s'est produite lors de la création de la maintenance !"
         ],
         'update' => [
-            'success' => "L'incident n°<b>:id</b> a été édité avec succès !",
-            'danger' => "Une erreur s'est produite lors de l'édition de l'incident !"
+            'success' => "La maintenance n°<b>:id</b> a été éditée avec succès !",
+            'danger' => "Une erreur s'est produite lors de l'édition de la maintenance !"
         ],
         'delete' => [
-            'success' => "<b>:count</b> incident(s) ont été supprimé(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression de(s) incident(s) !"
+            'success' => "<b>:count</b> maintenance(s) ont été supprimée(s) avec succès !",
+            'danger' => "Une erreur s'est produite lors de la suppression de(s) maintenance(s) !"
         ]
     ];
 
@@ -187,7 +194,7 @@ class Incidents extends Component
                 ->first();
 
             if ($material) {
-                $this->authorize('create', Incident::class);
+                $this->authorize('create', Maintenance::class);
 
                 $this->isCreating = true;
                 $this->useCachedRows();
@@ -195,8 +202,9 @@ class Incidents extends Component
                 $this->form->reset();
                 $this->form->material_id = $material->id;
 
-                $this->searchMaintenance();
                 $this->searchMaterial();
+                $this->searchOperators();
+                $this->searchCompanies();
 
                 $this->showModal = true;
             }
@@ -210,8 +218,8 @@ class Incidents extends Component
      */
     public function render(): View
     {
-        return view('livewire.incidents', [
-            'incidents' => $this->rows
+        return view('livewire.maintenances', [
+            'maintenances' => $this->rows
         ]);
     }
 
@@ -222,24 +230,16 @@ class Incidents extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Incident::query()
+        $query = Maintenance::query()
             ->with('material', 'user', 'material.zone', 'material.zone.site')
             ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
 
-        if (Gate::allows('search', Incident::class)) {
-            $query->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
-                ->when($this->filters['maintenance'], function ($query, $search) {
-                    return $query->whereHas('maintenance', function ($partQuery) use ($search) {
-                        $partQuery->where('id', 'LIKE', '%' . $search . '%');
-                    });
-                })
+        if (Gate::allows('search', Maintenance::class)) {
+            $query
+                ->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
+                ->when($this->filters['gmao'], fn($query, $id) => $query->where('gmao_id', $id))
                 ->when($this->filters['material'], function ($query, $search) {
                     return $query->whereHas('material', function ($partQuery) use ($search) {
-                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
-                    });
-                })
-                ->when($this->filters['zone'], function ($query, $search) {
-                    return $query->whereHas('material.zone', function ($partQuery) use ($search) {
                         $partQuery->where('name', 'LIKE', '%' . $search . '%');
                     });
                 })
@@ -250,11 +250,15 @@ class Incidents extends Component
                     });
                 })
                 ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['started_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-                ->when($this->filters['started_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
-                ->when($this->filters['impact'], function ($query, $search) {
+                ->when($this->filters['type'], function ($query, $search) {
                     if ($search !== 'Tous') {
-                        return $query->where('impact', $search);
+                        return $query->where('type', $search);
+                    }
+                    return $query;
+                })
+                ->when($this->filters['realization'], function ($query, $search) {
+                    if ($search !== 'Tous') {
+                        return $query->where('realization', $search);
                     }
                     return $query;
                 })
@@ -264,6 +268,9 @@ class Incidents extends Component
                     }
                     return $query->where('is_finished', false);
                 })
+                ->when($this->filters['started_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+                ->when($this->filters['started_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
+
                 ->when($this->filters['finished_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['finished_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
@@ -290,36 +297,39 @@ class Incidents extends Component
      */
     public function create(): void
     {
-        $this->authorize('create', Incident::class);
+        $this->authorize('create', Maintenance::class);
 
         $this->isCreating = true;
         $this->useCachedRows();
 
         $this->form->reset();
-        $this->searchMaintenance();
+
         $this->searchMaterial();
+        $this->searchOperators();
+        $this->searchCompanies();
 
         $this->showModal = true;
     }
 
     /**
-     * Set the model (used in modal) to the incident we want to edit.
+     * Set the model (used in modal) to the maintenance we want to edit.
      *
-     * @param Incident $incident The incident id to update.
+     * @param Maintenance $maintenance The maintenance id to update.
      * (Livewire will automatically fetch the model by the id)
      *
      * @return void
      */
-    public function edit(Incident $incident): void
+    public function edit(Maintenance $maintenance): void
     {
-        $this->authorize('update', $incident);
+        $this->authorize('update', $maintenance);
 
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setForm($incident);
-        $this->searchMaintenance();
+        $this->form->setForm($maintenance);
         $this->searchMaterial();
+        $this->searchOperators();
+        $this->searchCompanies();
 
         $this->showModal = true;
     }
@@ -331,7 +341,7 @@ class Incidents extends Component
      */
     public function save(): void
     {
-        $this->authorize($this->isCreating ? 'create' : 'update', Incident::class);
+        $this->authorize($this->isCreating ? 'create' : 'update', Maintenance::class);
 
         $this->validate();
 
@@ -343,27 +353,60 @@ class Incidents extends Component
     }
 
     /**
-     * Function to search maintenances in form.
+     * Function to search operators in form.
      *
      * @param string $value
      *
      * @return void
      */
-    public function searchMaintenance(string $value = ''): void
+    public function searchOperators(string $value = ''): void
     {
-        $selectedOption = Maintenance::where('id', $this->form->maintenance_id)->get();
+        // Besides the search results, you must include on demand selected option
+        if (!empty($this->form->operators)) {
+            $selectedOption = User::whereIn('id', $this->form->operators)->get();
+        } else {
+            $selectedOption = [];
+        }
 
-        $maintenances = Maintenance::query()
-            ->with(['material', 'material.zone.site'])
-            ->where('id', 'like', "%$value%")
-            ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
+        $recipients = User::whereRelation('sites', 'site_id', getPermissionsTeamId())
+            ->where(function($query) use ($value) {
+                return $query->where('first_name', 'like', "%$value%")
+                    ->orWhere('last_name', 'like', "%$value%");
+            });
 
-        $maintenances = $maintenances->take(10)
-            ->orderBy('id')
+        $recipients = $recipients->take(10)
+            ->orderBy('username')
             ->get()
             ->merge($selectedOption);
 
-        $this->form->maintenancesSearchable = $maintenances;
+        $this->form->operatorsSearchable = $recipients;
+    }
+
+    /**
+     * Function to search companies in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchCompanies(string $value = ''): void
+    {
+        // Besides the search results, you must include on demand selected option
+        if (!empty($this->form->companies)) {
+            $selectedOption = Company::whereIn('id', $this->form->companies)->get();
+        } else {
+            $selectedOption = [];
+        }
+
+        $operators = Company::where('site_id', getPermissionsTeamId())
+            ->where('name', 'like', "%$value%");
+
+        $operators = $operators->take(10)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->operatorsSearchable = $operators;
     }
 
     /**

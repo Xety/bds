@@ -1,7 +1,7 @@
 <!--
 Conçu et développé par Emeric Fèvre.
 
-@2023 Coopérative Bourgogne du Sud, Tous droits réservés.
+@2024 Coopérative Bourgogne du Sud, Tous droits réservés.
 -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
@@ -46,6 +46,7 @@ Conçu et développé par Emeric Fèvre.
         @stack('style')
 
         <!-- Styles -->
+        @livewireStyles
         @vite('resources/css/bds.css')
 
         <!-- Favicon -->
@@ -90,6 +91,7 @@ Conçu et développé par Emeric Fèvre.
         </script>
 
         @vite('resources/js/bds.js')
+        @livewireScriptConfig
 
         <!-- Change Livewire expiration message -->
         <script type="text/javascript">

@@ -8,7 +8,7 @@
                 {{ $head }}
             </tr>
         </thead>
-        <tbody>
+        <tbody x-auto-animate.linear>
             {{ $body }}
         </tbody>
     </table>

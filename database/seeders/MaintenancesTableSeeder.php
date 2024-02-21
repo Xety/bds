@@ -26,6 +26,7 @@ class MaintenancesTableSeeder extends Seeder
                 'type' => 'curative',
                 'realization' => 'both',
                 'started_at' => '2023-06-08 22:02:34',
+                'is_finished' => false,
                 'finished_at' => null,
                 'incident_count' => 1,
                 'edit_count' => 0,

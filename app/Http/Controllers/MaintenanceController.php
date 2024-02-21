@@ -47,8 +47,9 @@ class MaintenanceController extends Controller
             $maintenance->show_url
         );
 
-        $partExits = $maintenance->partExits()->paginate(25, ['*'], 'partExits');
+        $partExits = $maintenance->partExits()->paginate(25, ['*'], 'part-exits');
+        $incidents = $maintenance->incidents()->orderByDesc('created_at')->paginate(25, ['*'], 'incidents');
 
-        return view('maintenance.show', compact('breadcrumbs', 'maintenance', 'partExits'));
+        return view('maintenance.show', compact('breadcrumbs', 'maintenance', 'partExits', 'incidents'));
     }
 }
