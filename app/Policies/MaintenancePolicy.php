@@ -23,7 +23,7 @@ class MaintenancePolicy
     public function view(User $user, Maintenance $maintenance): bool
     {
         if($user->can('view maintenance')) {
-            return $maintenance->material->zone->site_id === getPermissionsTeamId();
+            return $maintenance->site_id === getPermissionsTeamId();
         }
         return false;
     }
@@ -44,7 +44,7 @@ class MaintenancePolicy
         // First check if user can update any material and a $material has been provided
         if($user->can('update maintenance') && !is_null($maintenance)) {
             // Check that the user is not trying to update a material from another site where the material does not belong to.
-            return $maintenance->material->site_id === getPermissionsTeamId();
+            return $maintenance->site_id === getPermissionsTeamId();
         }
         return $user->can('update maintenance');
     }
@@ -55,7 +55,7 @@ class MaintenancePolicy
     public function delete(User $user, ?Maintenance $maintenance = null): bool
     {
         if($user->can('delete maintenance') && !is_null($maintenance)) {
-            return $maintenance->material->site_id === getPermissionsTeamId();
+            return $maintenance->site_id === getPermissionsTeamId();
         }
         return $user->can('delete maintenance');
     }

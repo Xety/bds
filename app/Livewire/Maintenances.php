@@ -14,6 +14,7 @@ use BDS\Models\Company;
 use BDS\Models\Incident;
 use BDS\Models\Maintenance;
 use BDS\Models\Material;
+use BDS\Models\Part;
 use BDS\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
@@ -205,6 +206,8 @@ class Maintenances extends Component
                 $this->searchMaterial();
                 $this->searchOperators();
                 $this->searchCompanies();
+                $this->searchIncidents();
+                $this->searchPart();
 
                 $this->showModal = true;
             }
@@ -303,10 +306,15 @@ class Maintenances extends Component
         $this->useCachedRows();
 
         $this->form->reset();
+        $this->form->fill([
+            'parts' => collect([['part_id' => '', 'number' => '']])
+        ]);
 
         $this->searchMaterial();
         $this->searchOperators();
         $this->searchCompanies();
+        $this->searchIncidents();
+        $this->searchPart();
 
         $this->showModal = true;
     }
@@ -330,6 +338,7 @@ class Maintenances extends Component
         $this->searchMaterial();
         $this->searchOperators();
         $this->searchCompanies();
+        $this->searchIncidents();
 
         $this->showModal = true;
     }
@@ -368,18 +377,20 @@ class Maintenances extends Component
             $selectedOption = [];
         }
 
-        $recipients = User::whereRelation('sites', 'site_id', getPermissionsTeamId())
+        $operators = User::query()
+            ->with(['roles', 'sites'])
+            ->whereRelation('sites', 'site_id', getPermissionsTeamId())
             ->where(function($query) use ($value) {
                 return $query->where('first_name', 'like', "%$value%")
                     ->orWhere('last_name', 'like', "%$value%");
             });
 
-        $recipients = $recipients->take(10)
-            ->orderBy('username')
+        $operators = $operators->take(10)
+            ->orderBy('first_name')
             ->get()
             ->merge($selectedOption);
 
-        $this->form->operatorsSearchable = $recipients;
+        $this->form->operatorsSearchable = $operators;
     }
 
     /**
@@ -398,15 +409,46 @@ class Maintenances extends Component
             $selectedOption = [];
         }
 
-        $operators = Company::where('site_id', getPermissionsTeamId())
+        $companies = Company::where('site_id', getPermissionsTeamId())
             ->where('name', 'like', "%$value%");
 
-        $operators = $operators->take(10)
+        $companies = $companies->take(10)
             ->orderBy('name')
             ->get()
             ->merge($selectedOption);
 
-        $this->form->operatorsSearchable = $operators;
+        $this->form->companiesSearchable = $companies;
+    }
+
+    /**
+     * Function to search incidents in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchIncidents(string $value = ''): void
+    {
+        // Besides the search results, you must include on demand selected option
+        if (!empty($this->form->incidents)) {
+            $selectedOption = Incident::whereIn('id', $this->form->incidents)->get();
+        } else {
+            $selectedOption = [];
+        }
+
+        $incidents = Incident::query()
+            ->whereRelation('material.zone.site', 'id', getPermissionsTeamId())
+            ->where('id', 'like', "%$value%")
+            ->whereHas('material', function ($partQuery) use ($value) {
+                $partQuery->where('name', 'LIKE', '%' . $value . '%');
+            });
+
+        $incidents = $incidents->take(10)
+            ->orderBy('id', 'desc')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->incidentsSearchable = $incidents;
     }
 
     /**
@@ -431,5 +473,36 @@ class Maintenances extends Component
             ->merge($selectedOption);
 
         $this->form->materialsSearchable = $materials;
+    }
+
+    /**
+     * Function to search parts in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchPart(string $value = ''): void
+    {
+        // Besides the search results, you must include on demand selected option
+        if (!empty($this->form->incidents)) {
+            $selectedOption = Part::whereIn('id', collect($this->form->partExits)->map(function ($item) {
+                return $item['part_id'];
+            })->sort()->values())->get();
+        } else {
+            $selectedOption = [];
+        }
+
+        $parts = Part::query()
+            ->with(['site'])
+            ->where('name', 'like', "%$value%")
+            ->where('site_id', getPermissionsTeamId());
+
+        $parts = $parts->take(10)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->partsSearchable = $parts;
     }
 }

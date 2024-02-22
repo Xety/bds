@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class PartExitObserver
 {
     /**
-     * Handle the PartExit "creating" event.
+     * Handle the "creating" event.
      */
     public function creating(PartExit $partExit): void
     {

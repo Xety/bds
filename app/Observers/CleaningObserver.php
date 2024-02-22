@@ -9,7 +9,7 @@ use BDS\Models\Material;
 class CleaningObserver
 {
     /**
-     * Handle the Cleaning "creating" event.
+     * Handle the "creating" event.
      */
     public function creating(Cleaning $cleaning): void
     {
@@ -17,7 +17,7 @@ class CleaningObserver
     }
 
     /**
-     * Handle the Cleaning "created" event.
+     * Handle the "created" event.
      */
     public function created(Cleaning $cleaning): void
     {
@@ -27,7 +27,7 @@ class CleaningObserver
     }
 
     /**
-     * Handle the Cleaning "updating" event.
+     * Handle the "updating" event.
      */
     public function updating(Cleaning $cleaning): void
     {

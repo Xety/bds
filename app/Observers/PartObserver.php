@@ -8,7 +8,7 @@ use BDS\Models\Part;
 class PartObserver
 {
     /**
-     * Handle the Part "creating" event.
+     * Handle the "creating" event.
      */
     public function creating(Part $part): void
     {
@@ -16,6 +16,9 @@ class PartObserver
         $part->site_id = getPermissionsTeamId();
     }
 
+    /**
+     * Handle the "deleting" event.
+     */
     public function deleting(Part $part): void
     {
         $materials = $part->materials;
@@ -23,6 +26,5 @@ class PartObserver
         foreach ($materials as $material) {
             $material->parts()->detach($part->getKey());
         }
-
     }
 }

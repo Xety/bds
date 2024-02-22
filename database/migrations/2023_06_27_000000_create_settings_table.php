@@ -30,10 +30,7 @@ return new class extends Migration
 
         Schema::table('settings', function (Blueprint $table) {
             $table->index('site_id', 'settings_site_id_index');
-            $table->unique([
-                'key',
-                'site_id',
-            ], 'settings_key_site_id_unique');
+            $table->unique(['key', 'site_id'], 'settings_key_site_id_unique');
             $table->index(['model_id', 'model_type'], 'settings_model_id_model_type_index');
 
         });

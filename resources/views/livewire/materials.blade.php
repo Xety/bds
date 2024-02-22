@@ -342,7 +342,7 @@
             @php $message = "Cocher pour avoir l'alerte de nettoyage par Email ou laisser décocher pour avoir uniquement une notification.";@endphp
             <x-checkbox wire:model="form.cleaning_alert_email" name="form.cleaning_alert_email" label="Activer l'alerte par Email" text="Cochez pour activer l'alerte de nettoyage par E-mail" />
 
-            @php $message = "Sélectionnez les destinataires auquels seront envoyé les alertes de nettoyage."; @endphp
+            @php $message = "Sélectionnez les destinataires auquel seront envoyées les alertes de nettoyage."; @endphp
             <x-choices
                 label="Destinataires"
                 :label-info="$message"

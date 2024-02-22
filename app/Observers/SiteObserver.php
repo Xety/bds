@@ -8,7 +8,7 @@ use BDS\Models\Site;
 class SiteObserver
 {
     /**
-     * Handle the Site "created" event.
+     * Handle the "created" event.
      */
     public function created(Site $site): void
     {

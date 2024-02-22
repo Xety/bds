@@ -33,7 +33,7 @@ class Choices extends Component
         public ?string $optionAvatar = 'avatar',
         public ?string $height = 'max-h-64',
         public Collection|array $options = new Collection(),
-        public ?string $noResultText = 'No results found.',
+        public ?string $noResultText = 'Aucun résultat trouvé.',
 
         // slots
         public mixed $item = null,

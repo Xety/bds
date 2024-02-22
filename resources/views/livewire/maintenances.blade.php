@@ -282,10 +282,9 @@
     </x-modal>
 
     <!-- Create/Edit Modal -->
-    <x-modal wire:model="showModal" title="{!! $isCreating ? 'Créer une Maintenance' : 'Editer la Maintenance' !!}">
+    <x-modal wire:model="showModal" title="{!! $isCreating ? 'Créer une Maintenance' : 'Editer la Maintenance' !!}" modal-class="w-11/12 max-w-5xl">
 
         <x-input wire:model="form.gmao_id" name="form.gmao_id" label="N° GMAO" placeholder="N° GMAO..." type="text" />
-
 
         @php $message = "Sélectionnez le matériel pour lequel la maintenance a eu lieu.<br><i>Note: si la maintenance appartient à aucun matériel, laissez vide.</i> ";@endphp
         <x-choices
@@ -327,6 +326,45 @@
             @endscope
         </x-choices>
 
+        @php $message = "Sélectionnez le(s) incident(s) pour le(s)quel(s) la maintenance a eu lieu.<br><i>Note: si la maintenance n'a résolu aucun incident, laissez vide.</i> ";@endphp
+        <x-choices
+            label="Incident(s)"
+            :label-info="$message"
+            wire:model="form.incidents"
+            :options="$form->incidentsSearchable"
+            search-function="searchIncidents"
+            no-result-text="Aucun résultat..."
+            debounce="300ms"
+            min-chars="1"
+            searchable>
+
+            {{-- Item slot--}}
+            @scope('item', $option)
+            <x-list-item :item="$option">
+                <x-slot:avatar>
+                    <x-icon name="fas-triangle-exclamation" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                </x-slot:avatar>
+
+                <x-slot:value>
+                    #{{ $option->id }}
+                </x-slot:value>
+
+                <x-slot:sub-value>
+                    {{ $option?->material->name }}
+                </x-slot:sub-value>
+
+                <x-slot:actions>
+                    {{ $option?->material->zone->name }}
+                </x-slot:actions>
+            </x-list-item>
+            @endscope
+
+            {{-- Selection slot--}}
+            @scope('selection', $option)
+            #{{ $option->id }} ({{ $option?->material->name }})
+            @endscope
+        </x-choices>
+
         @php $message = "Veuillez décrire au mieux le déroulé de la maintenance.";@endphp
          <x-textarea wire:model="form.description" name="form.description" label="Description de la maintenance" placeholder="Description de la maintenance..." rows="3" :label-info="$message" />
 
@@ -348,12 +386,145 @@
         <x-select
             :options="\BDS\Models\Maintenance::REALIZATIONS"
             class="select-primary"
-            wire:model="form.realization"
+            wire:model.live="form.realization"
             name="form.realization"
             label="Type de Réalisation"
             :label-info="$message"
             placeholder="Sélectionnez la réalisation"
         />
+
+        @if($form->realization == 'internal' || $form->realization == 'both')
+            @php $message = "Indiquez le(s) opérateur(s) ayant effectué(s) la maintenance. <b>UNIQUEMENT si un opérateur est intervenu lors de la maintenance.</b>"; @endphp
+            <x-choices
+                label="Opérateur(s)"
+                :label-info="$message"
+                wire:model="form.operators"
+                :options="$form->operatorsSearchable"
+                search-function="searchOperators"
+                no-result-text="Aucun résultat..."
+                debounce="300ms"
+                min-chars="2"
+                searchable>
+
+                {{-- Item slot--}}
+                @scope('item', $option)
+                <x-list-item :item="$option">
+                    <x-slot:avatar>
+                        <x-icon name="fas-user" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                    </x-slot:avatar>
+
+                    <x-slot:value>
+                        {{ $option->full_name }}
+                    </x-slot:value>
+
+                    <x-slot:sub-value>
+                        {{ $option->username }}
+                    </x-slot:sub-value>
+
+                    <x-slot:actions>
+                        @foreach ($option->roles as $role)
+                            <span class="block font-semibold truncate" style="{{ $role->formatted_color }};">
+                                {{ $role->name }}
+                            </span>
+                        @endforeach
+                    </x-slot:actions>
+                </x-list-item>
+                @endscope
+
+                {{-- Selection slot--}}
+                @scope('selection', $option)
+                {{ $option->full_name }}
+                @endscope
+            </x-choices>
+        @endif
+
+        @if($form->realization == 'external' || $form->realization == 'both')
+            @php $message = "Indiquez l'(es) entreprise(s) ayant effectuée(s) la maintenance. ";@endphp
+            <x-choices
+                label="Entreprise(s)"
+                :label-info="$message"
+                wire:model="form.companies"
+                :options="$form->companiesSearchable"
+                search-function="searchCompanies"
+                no-result-text="Aucun résultat..."
+                debounce="300ms"
+                min-chars="2"
+                searchable>
+
+                {{-- Item slot--}}
+                @scope('item', $option)
+                <x-list-item :item="$option">
+                    <x-slot:avatar>
+                        <x-icon name="fas-briefcase" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                    </x-slot:avatar>
+
+                    <x-slot:value>
+                        {{ $option->name }}
+                    </x-slot:value>
+
+                    <x-slot:sub-value>
+                        {{ $option->site->name }}
+                    </x-slot:sub-value>
+                </x-list-item>
+                @endscope
+
+                {{-- Selection slot--}}
+                @scope('selection', $option)
+                {{ $option->name }}
+                @endscope
+            </x-choices>
+        @endif
+
+        <div class="divider text-base-content text-opacity-70 uppercase">PIÈCES DÉTACHÉES</div>
+
+        @if ($isCreating)
+            @foreach($form->parts as $key => $value)
+                @php $message = "Sélectionnez la pièce détachée que vous avez sortie du stock. ";@endphp
+                <x-choices
+                    label="Pièce Détachée"
+                    :label-info="$message"
+                    wire:model.live="form.parts.{{ $key }}.part_id"
+                    :options="$form->partsSearchable"
+                    search-function="searchParts"
+                    no-result-text="Aucun résultat..."
+                    debounce="300ms"
+                    min-chars="2"
+                    single
+                    searchable>
+
+                    {{-- Item slot--}}
+                    @scope('item', $option)
+                    <x-list-item :item="$option">
+
+                        <x-slot:avatar>
+                            <x-icon name="fas-gear" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                        </x-slot:avatar>
+
+                        <x-slot:value>
+                            {{ $option->name }} ({{ $option->id }})
+                        </x-slot:value>
+
+                        <x-slot:sub-value>
+                            {{ $option->site->name }}
+                        </x-slot:sub-value>
+                    </x-list-item>
+                    @endscope
+
+                    {{-- Selection slot--}}
+                    @scope('selection', $option)
+                    {{ $option->name }} ({{ $option->id }})
+                    @endscope
+
+                    <x-slot:prepend>
+                        <x-button icon="fas-trash" class="rounded-r-none btn-error h-full" />
+                    </x-slot:prepend>
+                    <x-slot:append>
+                        <x-input class="h-full" wire:model="form.parts.{{ $key }}.number" name="form.parts.{{ $key }}.number" type="number" placeholder="Nombre..." min="1" step="1"  />
+                        <x-button label="Create" icon="fas-plus" class="rounded-l-none btn-primary h-full" />
+                    </x-slot:append>
+                </x-choices>
+            @endforeach
+        @endif
 
         @php $message = "Date à laquelle à commencée la maintenance.";@endphp
         <x-date-picker wire:model="form.started_at" name="form.started_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance commencée le" placeholder="Maintenance commencée le..." />

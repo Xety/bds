@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('is_finished')->default(0);
             $table->timestamp('finished_at')->nullable();
             $table->integer('incident_count')->default(0);
+            $table->integer('company_count')->default(0);
             $table->integer('edit_count')->default(0);
             $table->boolean('is_edited')->default(false);
             $table->bigInteger('edited_user_id')->unsigned()->nullable()->index();
@@ -31,21 +32,11 @@ return new class extends Migration
         Schema::table('maintenances', function (Blueprint $table) {
             $table->foreignIdFor(\BDS\Models\Material::class)->after('gmao_id')->nullable();
             $table->foreignIdFor(\BDS\Models\User::class)->after('reason');
+            $table->foreignIdFor(\BDS\Models\Site::class)
+                ->after('id')
+                ->constrained()
+                ->cascadeOnDelete();
             //$table->foreign('edited_user_id')->references('id')->on('users');
-        });
-
-        Schema::create('company_maintenance', function (Blueprint $table) {
-            $table->foreignIdFor(\BDS\Models\Company::class);
-            $table->foreignIdFor(\BDS\Models\Maintenance::class);
-            $table->primary(['maintenance_id', 'company_id']);
-            $table->timestamps();
-        });
-
-        Schema::create('maintenance_user', function (Blueprint $table) {
-            $table->foreignIdFor(\BDS\Models\Maintenance::class);
-            $table->foreignIdFor(\BDS\Models\User::class);
-            $table->primary(['maintenance_id', 'user_id']);
-            $table->timestamps();
         });
 
         Schema::table('part_exits', function (Blueprint $table) {
@@ -68,8 +59,6 @@ return new class extends Migration
         Schema::table('part_exits', function (Blueprint $table) {
             $table->dropForeignIdFor(\BDS\Models\Maintenance::class);
         });
-        Schema::dropIfExists('maintenance_part_exit');
-        Schema::dropIfExists('company_maintenance');
         Schema::dropIfExists('maintenances');
         Schema::table('maintenances', function (Blueprint $table) {
             $table->dropForeignIdFor(\BDS\Models\Material::class);

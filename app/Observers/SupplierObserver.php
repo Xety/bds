@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class SupplierObserver
 {
     /**
-     * Handle the Supplier "creating" event.
+     * Handle the "creating" event.
      */
     public function creating(Supplier $part): void
     {

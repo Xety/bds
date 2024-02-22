@@ -9,6 +9,7 @@ class Modal extends Component
         public ?string $id = '',
         public ?string $title = null,
         public ?string $subtitle = null,
+        public ?string $modalClass = null,
 
         // Slots
         public ?string $actions = null
@@ -31,7 +32,7 @@ class Modal extends Component
                         @keydown.escape.window = "$wire.{{ $attributes->wire('model')->value() }} = false"
                     @endif
                 >
-                    <div class="modal-box">
+                    <div class="modal-box {{$modalClass}}">
                         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="$wire.{{ $attributes->wire('model')->value() }} = false" type="button">✕</button>
 
                         @if($title)

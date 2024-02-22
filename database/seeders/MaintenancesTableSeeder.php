@@ -18,6 +18,7 @@ class MaintenancesTableSeeder extends Seeder
         $maintenances = [
             [
                 'id' => 1,
+                'site_id' => 2,
                 'gmao_id' => NULL,
                 'material_id' => 46,
                 'description' => 'Démonté la presse (Franck et Alexis), changé les barreaux (OLEXA), puis remonté la presse (Franck, Emeric).',

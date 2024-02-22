@@ -34,6 +34,8 @@ class MaintenanceForm extends Form
 
     public array $companies = [];
 
+    public Collection|array $parts = [];
+
     // Options list
     public Collection|array $materialsSearchable = [];
 
@@ -42,6 +44,8 @@ class MaintenanceForm extends Form
     public Collection|array $operatorsSearchable = [];
 
     public Collection|array $companiesSearchable = [];
+
+    public Collection|array $partsSearchable = [];
 
     /**
      * Rules used for validating the model.

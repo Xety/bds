@@ -8,13 +8,16 @@ use BDS\Models\Material;
 class MaterialObserver
 {
     /**
-     * Handle the Material "creating" event.
+     * Handle the "creating" event.
      */
     public function creating(Material $material): void
     {
         $material->user_id = Auth::id();
     }
 
+    /**
+     * Handle the "deleting" event.
+     */
     public function deleting(Material $material): void
     {
         $parts = $material->parts;

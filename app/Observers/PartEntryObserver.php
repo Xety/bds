@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class PartEntryObserver
 {
     /**
-     * Handle the PartEntry "creating" event.
+     * Handle the "creating" event.
      */
     public function creating(PartEntry $partEntry): void
     {

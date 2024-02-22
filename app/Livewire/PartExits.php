@@ -369,7 +369,7 @@ class PartExits extends Component
             ->where('name', 'like', "%$value%")
             ->where('site_id', getPermissionsTeamId());
 
-        $parts = $parts->take(5)
+        $parts = $parts->take(10)
             ->orderBy('name')
             ->get()
             ->merge($selectedOption);
@@ -397,7 +397,7 @@ class PartExits extends Component
             ->where('id', 'like', "%$value%")
             ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
 
-        $maintenances = $maintenances->take(5)
+        $maintenances = $maintenances->take(10)
             ->orderBy('id')
             ->get()
             ->merge($selectedOption);

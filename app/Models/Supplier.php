@@ -52,7 +52,7 @@ class Supplier extends Model
     }
 
     /**
-     * Get the user that owns the supplier.
+     * Get the user that created the supplier.
      *
      * @return BelongsTo
      */

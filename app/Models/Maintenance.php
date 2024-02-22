@@ -53,6 +53,7 @@ class Maintenance extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'site_id',
         'gmao_id',
         'material_id',
         'description',
@@ -61,6 +62,7 @@ class Maintenance extends Model
         'type',
         'realization',
         'started_at',
+        'is_finished',
         'finished_at',
         'edit_count',
         'is_edited',
@@ -84,6 +86,7 @@ class Maintenance extends Model
     protected $casts = [
         'started_at' => 'datetime',
         'finished_at' => 'datetime',
+        'is_finished' => 'boolean',
         'is_edited' => 'boolean'
     ];
 
@@ -98,6 +101,16 @@ class Maintenance extends Model
             Material::class,
             User::class
         ];
+    }
+
+    /**
+     * Get the site that owns the zone.
+     *
+     * @return BelongsTo
+     */
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class);
     }
 
     /**
@@ -117,7 +130,9 @@ class Maintenance extends Model
      */
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class)->withTimestamps();
+        return $this->belongsToMany(Company::class)
+            ->using(CompanyMaintenance::class)
+            ->withTimestamps();
     }
 
     /**
