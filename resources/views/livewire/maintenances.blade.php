@@ -478,11 +478,11 @@
         <div class="divider text-base-content text-opacity-70 uppercase">PIÈCES DÉTACHÉES</div>
 
         @if ($isCreating)
+            <x-button wire:click="addPart" label="Ajouter une pièce détachée" icon="fas-plus" class="btn btn-primary" />
+
             @foreach($form->parts as $key => $value)
-                @php $message = "Sélectionnez la pièce détachée que vous avez sortie du stock. ";@endphp
                 <x-choices
-                    label="Pièce Détachée"
-                    :label-info="$message"
+                    flex-class="mt-4"
                     wire:model.live="form.parts.{{ $key }}.part_id"
                     :options="$form->partsSearchable"
                     search-function="searchParts"
@@ -516,13 +516,19 @@
                     @endscope
 
                     <x-slot:prepend>
-                        <x-button icon="fas-trash" class="rounded-r-none btn-error h-full" />
+                        <x-button wire:click="removePart({{ $key }})" icon="fas-trash" class="rounded-r-none btn-error h-full" />
                     </x-slot:prepend>
                     <x-slot:append>
-                        <x-input class="h-full" wire:model="form.parts.{{ $key }}.number" name="form.parts.{{ $key }}.number" type="number" placeholder="Nombre..." min="1" step="1"  />
-                        <x-button label="Create" icon="fas-plus" class="rounded-l-none btn-primary h-full" />
+                        <input wire:model="form.parts.{{ $key }}.number" placeholder="Quantité..." class="input input-primary w-full h-full rounded-l-none @error("form.parts." . $key . ".number") input-error @enderror" type="number" name="form.parts.{{ $key }}.number" min="1" step="1">
                     </x-slot:append>
                 </x-choices>
+                <!-- ERROR -->
+                @error("form.parts." . $key . ".number")
+                <div class="text-red-500 label-text-alt p-1">{{ $message }}</div>
+                @enderror
+                @error("form.parts." . $key)
+                <div class="text-red-500 label-text-alt p-1">{{ $message }}</div>
+                @enderror
             @endforeach
         @endif
 

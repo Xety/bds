@@ -306,9 +306,6 @@ class Maintenances extends Component
         $this->useCachedRows();
 
         $this->form->reset();
-        $this->form->fill([
-            'parts' => collect([['part_id' => '', 'number' => '']])
-        ]);
 
         $this->searchMaterial();
         $this->searchOperators();
@@ -359,6 +356,23 @@ class Maintenances extends Component
         $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['id' => $model->getKey()]);
 
         $this->showModal = false;
+    }
+
+    public function removePart($key)
+    {
+        $this->form->parts->pull($key);
+    }
+
+    public function addPart()
+    {
+        if (empty($this->form->parts)) {
+            $this->form->fill([
+                'parts' => collect([['part_id' => '', 'number' => '']])
+            ]);
+        } else {
+            $this->form->parts->push(['part_id' => '', 'number' => '']);
+        }
+
     }
 
     /**

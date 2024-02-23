@@ -3,6 +3,7 @@
 namespace BDS\Livewire\Forms;
 
 use BDS\Models\Maintenance;
+use BDS\Models\Part;
 use Illuminate\Support\Collection;
 use Livewire\Form;
 
@@ -70,6 +71,25 @@ class MaintenanceForm extends Form
             'is_finished' => 'required|boolean',
             'started_at' => 'required|date_format:"d-m-Y H:i"',
             'finished_at' => 'exclude_if:is_finished,false|date_format:"d-m-Y H:i"|required',
+            'parts.*.part_id' => 'required|distinct|numeric|exists:parts,id',
+            'parts.*.number' => 'required|numeric|min:1|max:1000000',
+            'parts.*' => [
+                function ($attribute, $value, $fail) {
+            //dd($value);
+                    // Check we stock related to the number the user want to exit.
+                    $part = Part::select('part_entry_total', 'part_exit_total')
+                        ->where('id', $value['part_id'])->first();
+
+                    // Need to handle the null value because all rules are validated before rendered.
+                    if ($part === null) {
+                        return $fail("");
+                    }
+
+                    if ($part->stock_total < $value['number']) {
+                        return $fail("Pas assez de quantité en stock. ({$part->stock_total})");
+                    }
+                }
+            ]
         ];
     }
 
@@ -89,7 +109,9 @@ class MaintenanceForm extends Form
             'operators' => 'opérateurs',
             'companies' => 'entreprises',
             'started_at' => 'commencée le',
-            'finished_at' => 'finie le'
+            'finished_at' => 'finie le',
+            'parts.*.part_id' => 'pièce détachée',
+            'parts.*.number' => 'nombre'
         ];
     }
 

@@ -17,6 +17,7 @@ class Choices extends Component
         public ?string $labelInfo = null,
         public ?string $icon = null,
         public ?string $hint = null,
+        public ?string $flexClass = null,
         public ?bool $searchable = false,
         public ?bool $single = false,
         public ?bool $compact = false,
@@ -196,7 +197,7 @@ class Choices extends Component
 
                         <!-- PREPEND/APPEND CONTAINER -->
                         @if($prepend || $append)
-                            <div class="flex">
+                            <div class="flex {{ $flexClass }}">
                         @endif
 
                         <!-- PREPEND -->
@@ -258,6 +259,7 @@ class Choices extends Component
                             <!-- INPUT SEARCH -->
                             <input
                                 x-ref="searchInput"
+                                placeholder="{{$attributes->get('placeholder')}}"
                                 @input="focus()"
                                 :required="isRequired && isSelectionEmpty"
                                 :readonly="isReadonly || ! isSearchable"
