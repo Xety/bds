@@ -14,6 +14,7 @@ class CompanyObserver
     public function creating(Company $company): void
     {
         $company->user_id = Auth::id();
+        $company->site_id = getPermissionsTeamId();
     }
 
     /**
@@ -21,10 +22,12 @@ class CompanyObserver
      */
     public function deleting(Company $company): void
     {
-        $maintenances = $company->maintenances();
+        $maintenances = $company->maintenances;
 
         foreach ($maintenances as $maintenance) {
             $maintenance->companies()->detach($company->getKey());
         }
+
+
     }
 }

@@ -50,8 +50,8 @@ class PartController extends Controller
         $this->authorize('view', $part);
 
         $materials = $part->materials()->paginate(25, ['*'], 'materials');
-        $partEntries = $part->partEntries()->paginate(25, ['*'], 'part-entries');
-        $partExits = $part->partExits()->paginate(25, ['*'], 'part-exits');
+        $partEntries = $part->partEntries()->orderByDesc('created_at')->paginate(25, ['*'], 'part-entries');
+        $partExits = $part->partExits()->orderByDesc('created_at')->paginate(25, ['*'], 'part-exits');
 
         $breadcrumbs = $this->breadcrumbs->addCrumb($part->name, $part->show_url);
 

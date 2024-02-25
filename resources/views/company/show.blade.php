@@ -10,21 +10,19 @@
 
     <section class="m-3 lg:m-10">
         <div class="grid grid-cols-12 gap-4 mb-4">
-            <div class="col-span-12 xl:col-span-6">
-                <div
-                    class="flex flex-col 2xl:flex-row text-center shadow-md border rounded-lg p-6 w-full h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-
-                    <div class="w-full 2xl:w-1/3">
-                        <div class="text-5xl m-2 mb-4 2xl:text-8xl 2xl:mb-2">
-                            <i class="fa-solid fa-briefcase"></i>
+            <div class="col-span-12 xl:col-span-6 h-full">
+                <div class="flex flex-col text-center shadow-md border rounded-lg p-6 w-full h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <div class="w-full">
+                        <div class="mb-4">
+                            <x-icon name="fas-briefcase" class="h-12 w-12 m-auto"></x-icon>
                         </div>
                     </div>
 
-                    <div class="w-full 2xl:w-2/3">
-                        <h1 class="text-2xl font-bds pb-2 mx-5 2xl:border-dotted 2xl:border-b 2xl:border-slate-500">
+                    <div class="w-full">
+                        <h1 class="text-2xl xl:text-4xl font-bds pb-2 mx-5 xl:border-dotted xl:border-b xl:border-slate-500">
                             {{ $company->name }}
                         </h1>
-                        <p class="hidden 2xl:block py-2 mx-5 text-gray-400">
+                        <p class="hidden xl:block py-2 mx-5 text-gray-400">
                             {{ $company->description }}
                         </p>
                     </div>
@@ -32,9 +30,8 @@
             </div>
 
             <div class="col-span-12 xl:col-span-6">
-                <div
-                    class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full text-center border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                    <i class="fa-solid fa-screwdriver-wrench text-[color:hsl(var(--wa))] text-8xl"></i>
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full text-center border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <x-icon name="fas-screwdriver-wrench" class="text-warning h-16 w-16 m-auto"></x-icon>
                     <div>
                         <div class="font-bold text-2xl">
                             {{ $company->maintenances->count() }}
@@ -85,7 +82,7 @@
                                     <x-table.cell>
                                         <a class="link link-hover link-primary tooltip tooltip-right text-left"
                                            href="{{ $maintenance->show_url }}" data-tip="Voir la fiche Maintenance">
-                                            <span class="font-bold">{{ $maintenance->getKey() }}</span>
+                                            <span class="font-bold">#{{ $maintenance->getKey() }}</span>
                                         </a>
                                     </x-table.cell>
                                     <x-table.cell>
@@ -115,7 +112,9 @@
                                         {{ Str::limit($maintenance->reason, 50) }}
                                     </span>
                                     </x-table.cell>
-                                    <x-table.cell>{{ $maintenance->user->username }}</x-table.cell>
+                                    <x-table.cell><a class="link link-hover link-primary font-bold" href="{{ $maintenance->user->show_url }}">
+                                            {{ $maintenance->user->full_name }}
+                                        </a></x-table.cell>
                                     <x-table.cell>
                                         @if ($maintenance->type === 'curative')
                                             <span class="font-bold text-red-500">Curative</span>

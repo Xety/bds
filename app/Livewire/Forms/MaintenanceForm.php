@@ -2,8 +2,12 @@
 
 namespace BDS\Livewire\Forms;
 
+use BDS\Events\Part\AlertEvent;
+use BDS\Events\Part\CriticalAlertEvent;
+use BDS\Models\Incident;
 use BDS\Models\Maintenance;
 use BDS\Models\Part;
+use BDS\Models\PartExit;
 use Illuminate\Support\Collection;
 use Livewire\Form;
 
@@ -164,6 +168,35 @@ class MaintenanceForm extends Form
         $maintenance->operators()->sync($this->operators);
         $maintenance->companies()->sync($this->companies);
 
+        // Incidents
+        if(!empty($this->incidents)) {
+            foreach ($this->incidents as $id) {
+                $incident = Incident::whereId($id)->first();
+                $incident->maintenance_id = $maintenance->getKey();
+                $incident->save();
+            }
+        }
+
+
+        // PartExits
+        if (!empty($this->parts)) {
+            foreach ($this->parts as $part) {
+                $partExit = PartExit::create([
+                    'maintenance_id' => $maintenance->getKey(),
+                    'part_id' => $part['part_id'],
+                    'number' => (int)$part['number']
+                ]);
+
+                if ($partExit->part->number_warning_enabled) {
+                    event(new AlertEvent($partExit));
+                }
+
+                if ($partExit->part->number_critical_enabled) {
+                    event(new CriticalAlertEvent($partExit));
+                }
+            }
+        }
+
         return $maintenance;
     }
 
@@ -186,10 +219,19 @@ class MaintenanceForm extends Form
             'finished_at',
         ]));
 
-        //$maintenance->incidents()->sync($this->incidents);
         $maintenance->operators()->sync($this->operators);
         $maintenance->companies()->sync($this->companies);
 
-        return $maintenance;
+        // Incidents
+        if(!empty($this->incidents)) {
+            $existingIds = $this->maintenance->incidents()->pluck('id')->toArray();
+
+            $idsToDelete = array_diff($existingIds, $this->incidents);
+
+            Incident::whereIn('id', $idsToDelete)->update(['maintenance_id' => null]);
+            Incident::whereIn('id', $this->incidents)->update(['maintenance_id' => $this->maintenance->getKey()]);
+        }
+
+        return $this->maintenance;
     }
 }

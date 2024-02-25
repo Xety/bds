@@ -475,17 +475,27 @@
             </x-choices>
         @endif
 
-        <div class="divider text-base-content text-opacity-70 uppercase">PIÈCES DÉTACHÉES</div>
+        @php $message = "Date à laquelle à commencée la maintenance.";@endphp
+        <x-date-picker wire:model="form.started_at" name="form.started_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance commencée le" placeholder="Maintenance commencée le..." />
+
+        <x-checkbox wire:model.live="form.is_finished" name="form.is_finished" label="Maintenance résolue ?" text="Cochez si la maintenance est résolue" />
+        @if ($form->is_finished)
+            @php $message = "Date à laquelle la maintenance a été résolue.";@endphp
+            <x-date-picker wire:model="form.finished_at" name="form.finished_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance résolue le" placeholder="Maintenance résolue le..." />
+        @endif
 
         @if ($isCreating)
+            <div class="divider text-base-content text-opacity-70 uppercase">PIÈCES DÉTACHÉES</div>
+
             <x-button wire:click="addPart" label="Ajouter une pièce détachée" icon="fas-plus" class="btn btn-primary" />
 
             @foreach($form->parts as $key => $value)
                 <x-choices
+                    class="!h-12"
                     flex-class="mt-4"
                     wire:model.live="form.parts.{{ $key }}.part_id"
                     :options="$form->partsSearchable"
-                    search-function="searchParts"
+                    search-function="searchPart"
                     no-result-text="Aucun résultat..."
                     debounce="300ms"
                     min-chars="2"
@@ -519,7 +529,7 @@
                         <x-button wire:click="removePart({{ $key }})" icon="fas-trash" class="rounded-r-none btn-error h-full" />
                     </x-slot:prepend>
                     <x-slot:append>
-                        <input wire:model="form.parts.{{ $key }}.number" placeholder="Quantité..." class="input input-primary w-full h-full rounded-l-none @error("form.parts." . $key . ".number") input-error @enderror" type="number" name="form.parts.{{ $key }}.number" min="1" step="1">
+                        <input wire:model="form.parts.{{ $key }}.number" placeholder="Quantité..." class="input input-primary w-full h-full rounded-l-none @error("form.parts." . $key . ".number") input-error @enderror pl-1" type="number" name="form.parts.{{ $key }}.number" min="1" step="1">
                     </x-slot:append>
                 </x-choices>
                 <!-- ERROR -->
@@ -530,15 +540,6 @@
                 <div class="text-red-500 label-text-alt p-1">{{ $message }}</div>
                 @enderror
             @endforeach
-        @endif
-
-        @php $message = "Date à laquelle à commencée la maintenance.";@endphp
-        <x-date-picker wire:model="form.started_at" name="form.started_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance commencée le" placeholder="Maintenance commencée le..." />
-
-        <x-checkbox wire:model.live="form.is_finished" name="form.is_finished" label="Maintenance résolue ?" text="Cochez si la maintenance est résolue" />
-        @if ($form->is_finished)
-            @php $message = "Date à laquelle la maintenance a été résolue.";@endphp
-            <x-date-picker wire:model="form.finished_at" name="form.finished_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance résolue le" placeholder="Maintenance résolue le..." />
         @endif
 
         <x-slot:actions>

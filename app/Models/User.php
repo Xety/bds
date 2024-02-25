@@ -143,6 +143,27 @@ class User extends Model implements
     }
 
     /**
+     * Get the maintenances assigned to user thought operators
+     *
+     * @return BelongsToMany
+     */
+    public function maintenancesOperators(): BelongsToMany
+    {
+        return $this->belongsToMany(Maintenance::class)
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the maintenances created by the user.
+     *
+     * @return HasMany
+     */
+    public function maintenances(): HasMany
+    {
+        return $this->hasMany(Maintenance::class);
+    }
+
+    /**
      * Get the setting for the user.
      *
      * @return MorphMany

@@ -296,8 +296,7 @@
                                             <x-table.cell colspan="11">
                                                 <div class="text-center p-2">
                                             <span class="text-muted">
-                                                Aucun incident trouvé pour le matériel <span
-                                                    class="font-bold">{{ $material->name }}</span>...
+                                                Aucun incident trouvé pour cette maintenance...
                                             </span>
                                                 </div>
                                             </x-table.cell>

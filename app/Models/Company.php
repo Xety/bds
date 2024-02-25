@@ -38,7 +38,7 @@ class Company extends Model
      */
     public function maintenances(): BelongsToMany
     {
-        return $this->belongsToMany(Material::class)
+        return $this->belongsToMany(Maintenance::class)
             ->using(CompanyMaintenance::class)
             ->withTimestamps();
     }

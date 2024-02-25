@@ -69,6 +69,12 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view supplier',
         'export supplier',
         'search supplier',
+
+        // Company
+        'viewAny company',
+        'view company',
+        'export company',
+        'search company',
     ];
 
     protected array $responsablePermissions = [
@@ -158,6 +164,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete supplier',
         'export supplier',
         'search supplier',
+
+        // Company
+        'viewAny company',
+        'view company',
+        'create company',
+        'update company',
+        'delete company',
+        'export company',
+        'search company',
     ];
 
     protected array $responsableMaintenancePermissions = [
@@ -219,6 +234,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete supplier',
         'export supplier',
         'search supplier',
+
+        // Company
+        'viewAny company',
+        'view company',
+        'create company',
+        'update company',
+        'delete company',
+        'export company',
+        'search company',
     ];
 
     protected array $operateurSelvahPermissions = [
@@ -357,6 +381,11 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'viewAny supplier',
         'view supplier',
         'search supplier',
+
+        // Company
+        'viewAny company',
+        'view company',
+        'search company',
     ];
 
     protected array $responsableQualite = [
@@ -558,6 +587,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete supplier',
             'export supplier',
             'search supplier',
+
+            // Supplier
+            'viewAny company',
+            'view company',
+            'create company',
+            'update company',
+            'delete company',
+            'export company',
+            'search company',
         ]);
 
         // Directeur Général

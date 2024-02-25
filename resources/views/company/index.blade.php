@@ -10,11 +10,11 @@
 
     <section class="m-3 lg:m-10">
         <hgroup class="text-center px-5 pb-5">
-            <h1 class="text-4xl font-bds">
-                <i class="fa-solid fa-briefcase"></i> Gestion des Entreprises
+            <h1 class="text-4xl">
+                <x-icon name="fas-briefcase" class="h-10 w-10 inline"></x-icon> Gestion des Entreprises
             </h1>
             <p class="text-gray-400 ">
-                Gérer les entreprises intervenantes dans l'usine.
+                Gérer les entreprises intervenantes dans l'entreprise.
             </p>
         </hgroup>
 

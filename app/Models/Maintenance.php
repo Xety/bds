@@ -142,7 +142,9 @@ class Maintenance extends Model
      */
     public function operators(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withTimestamps()->withTrashed();
+        return $this->belongsToMany(User::class)
+            ->withTimestamps()
+            ->withTrashed();
     }
 
     /**

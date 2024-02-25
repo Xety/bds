@@ -2,7 +2,9 @@
 
 namespace BDS\Observers;
 
+use BDS\Models\Incident;
 use BDS\Models\Maintenance;
+use BDS\Models\PartExit;
 use Illuminate\Support\Facades\Auth;
 
 class MaintenanceObserver
@@ -31,10 +33,24 @@ class MaintenanceObserver
      */
     public function deleting(Maintenance $maintenance): void
     {
-        $companies = $maintenance->companies();
-
+        // Detach all related companies.
+        $companies = $maintenance->companies;
         foreach ($companies as $company) {
             $company->maintenances()->detach($maintenance->getKey());
         }
+
+        // Detach all related operators.
+        $operators = $maintenance->operators;
+        foreach ($operators as $operator) {
+            $operator->maintenancesOperators()->detach($maintenance->getKey());
+        }
+
+        // Unassigned the maintenance_id for all related incidents.
+        $existingIds = $maintenance->incidents()->pluck('id')->toArray();
+        Incident::whereIn('id', $existingIds)->update(['maintenance_id' => null]);
+
+        // Unassigned the maintenance_id for all related partExits.
+        $existingIds = $maintenance->partExits()->pluck('id')->toArray();
+        PartExit::whereIn('id', $existingIds)->update(['maintenance_id' => null]);
     }
 }

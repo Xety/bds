@@ -453,7 +453,7 @@ class Maintenances extends Component
         $incidents = Incident::query()
             ->whereRelation('material.zone.site', 'id', getPermissionsTeamId())
             ->where('id', 'like', "%$value%")
-            ->whereHas('material', function ($partQuery) use ($value) {
+            ->orWhereHas('material', function ($partQuery) use ($value) {
                 $partQuery->where('name', 'LIKE', '%' . $value . '%');
             });
 
@@ -499,8 +499,8 @@ class Maintenances extends Component
     public function searchPart(string $value = ''): void
     {
         // Besides the search results, you must include on demand selected option
-        if (!empty($this->form->incidents)) {
-            $selectedOption = Part::whereIn('id', collect($this->form->partExits)->map(function ($item) {
+        if (!empty($this->form->parts)) {
+            $selectedOption = Part::whereIn('id', collect($this->form->parts)->map(function ($item) {
                 return $item['part_id'];
             })->sort()->values())->get();
         } else {

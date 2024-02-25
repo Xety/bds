@@ -2,14 +2,14 @@
 
 namespace BDS\Livewire;
 
-use BDS\Livewire\Forms\SupplierForm;
+use BDS\Livewire\Forms\CompanyForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
-use BDS\Models\Supplier;
+use BDS\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Suppliers extends Component
+class Companies extends Component
 {
     use AuthorizesRequests;
     use WithBulkActions;
@@ -35,14 +35,14 @@ class Suppliers extends Component
      *
      * @var string
      */
-    public string $model = Supplier::class;
+    public string $model = Company::class;
 
     /**
      * The form used to create/update a cleaning.
      *
-     * @var SupplierForm
+     * @var CompanyForm
      */
-    public SupplierForm $form;
+    public CompanyForm $form;
 
     /**
      * The field to sort by.
@@ -93,7 +93,7 @@ class Suppliers extends Component
         'site_id',
         'user_id',
         'description',
-        'part_count',
+        'maintenance_count',
         'created_at'
     ];
 
@@ -104,16 +104,16 @@ class Suppliers extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "Le fournisseur n°<b>:name</b> a été créé avec succès !",
-            'danger' => "Une erreur s'est produite lors de la création du fournisseur !"
+            'success' => "L'entreprise n°<b>:name</b> a été créé avec succès !",
+            'danger' => "Une erreur s'est produite lors de la création du entreprise !"
         ],
         'update' => [
-            'success' => "Le fournisseur n°<b>:name</b> a été édité avec succès !",
-            'danger' => "Une erreur s'est produite lors de l'édition du fournisseur !"
+            'success' => "L'entreprise n°<b>:name</b> a été édité avec succès !",
+            'danger' => "Une erreur s'est produite lors de l'édition du entreprise !"
         ],
         'delete' => [
-            'success' => "<b>:count</b> fournisseur(s) ont été supprimé(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression des fournisseurs !"
+            'success' => "<b>:count</b> entreprise(s) ont été supprimée(s) avec succès !",
+            'danger' => "Une erreur s'est produite lors de la suppression des entreprises !"
         ]
     ];
 
@@ -152,8 +152,8 @@ class Suppliers extends Component
      */
     public function render(): View
     {
-        return view('livewire.suppliers', [
-            'suppliers' => $this->rows
+        return view('livewire.companies', [
+            'companies' => $this->rows
         ]);
     }
 
@@ -164,14 +164,14 @@ class Suppliers extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = Supplier::query()
+        $query = Company::query()
             ->with('site');
 
         if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
             $query->where('site_id', getPermissionsTeamId());
         }
 
-        if (Gate::allows('search', Supplier::class)) {
+        if (Gate::allows('search', Company::class)) {
             // This filter is only present on Verdun Siege site.
             if(getPermissionsTeamId() === settings('site_id_verdun_siege')){
                 $query->when($this->filters['site'], function ($query, $search) {
@@ -215,7 +215,7 @@ class Suppliers extends Component
      */
     public function create(): void
     {
-        $this->authorize('create', Supplier::class);
+        $this->authorize('create', Company::class);
 
         $this->isCreating = true;
         $this->useCachedRows();
@@ -226,21 +226,21 @@ class Suppliers extends Component
     }
 
     /**
-     * Set the model (used in modal) to the supplier we want to edit.
+     * Set the model (used in modal) to the company we want to edit.
      *
-     * @param Supplier $supplier The supplier id to update.
+     * @param Company $company The company id to update.
      * (Livewire will automatically fetch the model by the id)
      *
      * @return void
      */
-    public function edit(Supplier $supplier): void
+    public function edit(Company $company): void
     {
-        $this->authorize('update', $supplier);
+        $this->authorize('update', $company);
 
         $this->isCreating = false;
         $this->useCachedRows();
 
-        $this->form->setSupplier($supplier);
+        $this->form->setForm($company);
 
         $this->showModal = true;
     }
@@ -252,7 +252,7 @@ class Suppliers extends Component
      */
     public function save(): void
     {
-        $this->authorize($this->isCreating ? 'create' : 'update', Supplier::class);
+        $this->authorize($this->isCreating ? 'create' : 'update', Company::class);
 
         $this->validate();
 

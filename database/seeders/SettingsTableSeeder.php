@@ -178,22 +178,35 @@ class SettingsTableSeeder extends Seeder
                 'label' => 'Activation du système de création des fournisseurs.',
                 'text' => 'Active/Désactive le système de création des fournisseurs.'
             ]);
-        }
 
-        // Settings for all sites except Verdun Siège.
-        for ($i = 2; $i < 52; $i++) {
+            // Company
+            Setting::create([
+                'key' => 'company_manage_enabled',
+                'site_id' => $a,
+                'value' => true,
+                'label' => 'Activation du système de gestion des entreprises.',
+                'text' => 'Active/Désactive le système de gestion des entreprises.'
+            ]);
+            Setting::create([
+                'key' => 'company_create_enabled',
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
+                'label' => 'Activation du système de création des entreprises.',
+                'text' => 'Active/Désactive le système de création des entreprises.'
+            ]);
+
             // Zone
             Setting::create([
                 'key' => 'zone_manage_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de gestion des zones.',
                 'text' => 'Active/Désactive le système de gestion des zones.'
             ]);
             Setting::create([
                 'key' => 'zone_create_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de création de zone.',
                 'text' => 'Active/Désactive le système de création de zone.'
             ]);
@@ -201,15 +214,15 @@ class SettingsTableSeeder extends Seeder
             // Material
             Setting::create([
                 'key' => 'material_manage_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de gestion des matériels.',
                 'text' => 'Active/Désactive le système de gestion des matériels.'
             ]);
             Setting::create([
                 'key' => 'material_create_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de création de matériel.',
                 'text' => 'Active/Désactive le système de création de matériel.'
             ]);
@@ -217,15 +230,15 @@ class SettingsTableSeeder extends Seeder
             // Incident
             Setting::create([
                 'key' => 'incident_manage_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de gestion des incidents.',
                 'text' => 'Active/Désactive le système de gestion des incidents.'
             ]);
             Setting::create([
                 'key' => 'incident_create_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de création d\'incident.',
                 'text' => 'Active/Désactive le système de création d\'incident.'
             ]);
@@ -233,15 +246,15 @@ class SettingsTableSeeder extends Seeder
             // Maintenance
             Setting::create([
                 'key' => 'maintenance_manage_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de gestion des maintenances.',
                 'text' => 'Active/Désactive le système de gestion des maintenances.'
             ]);
             Setting::create([
                 'key' => 'maintenance_create_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de création de maintenance.',
                 'text' => 'Active/Désactive le système de création de maintenance.'
             ]);
@@ -249,18 +262,23 @@ class SettingsTableSeeder extends Seeder
             // Cleaning
             Setting::create([
                 'key' => 'cleaning_manage_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de gestion des nettoyages.',
                 'text' => 'Active/Désactive le système de gestion des nettoyages.'
             ]);
             Setting::create([
                 'key' => 'cleaning_create_enabled',
-                'site_id' => $i,
-                'value' => true,
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
                 'label' => 'Activation du système de création de nettoyage.',
                 'text' => 'Active/Désactive le système de création de nettoyage.'
             ]);
+        }
+
+        // Settings for all sites except Verdun Siège.
+        for ($i = 2; $i < 52; $i++) {
+
         }
 
         // Setting for Selvah
