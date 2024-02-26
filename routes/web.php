@@ -65,6 +65,14 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => ['auth']], function () {
     /*
     |--------------------------------------------------------------------------
+    | Dashboard Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/', [BDS\Http\Controllers\DashboardController::class, 'index'])
+        ->name('dashboard.index');
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Routes
     |--------------------------------------------------------------------------
     */
@@ -84,14 +92,6 @@ Route::group(['middleware' => ['auth']], function () {
     |--------------------------------------------------------------------------
     */
     Route::put('password', [BDS\Http\Controllers\PasswordController::class, 'update'])->name('password.update');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Dashboard Routes
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/', [BDS\Http\Controllers\DashboardController::class, 'index'])
-        ->name('dashboard.index');
 
     /*
     |--------------------------------------------------------------------------
@@ -142,7 +142,7 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('sites', [BDS\Http\Controllers\SiteController::class, 'index'])
         ->name('sites.index');
-    Route::get('sites/{material}', [BDS\Http\Controllers\SiteController::class, 'show'])
+    Route::get('sites/{site}', [BDS\Http\Controllers\SiteController::class, 'show'])
         ->name('sites.show')
         ->missing(function (Request $request) {
             return Redirect::back()
@@ -267,6 +267,16 @@ Route::group(['middleware' => ['auth']], function () {
             return Redirect::back()
                 ->with('danger', "Ce fournisseur n'existe pas ou à été supprimé !");
         });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Calendars Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('calendars', [Selvah\Http\Controllers\CalendarController::class, 'index'])
+        ->name('calendars.index');
+    Route::get('calendars/events', [Selvah\Http\Controllers\CalendarEventController::class, 'index'])
+        ->name('calendarEvents.index');
 
     /*
     |--------------------------------------------------------------------------

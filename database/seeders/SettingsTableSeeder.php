@@ -274,6 +274,22 @@ class SettingsTableSeeder extends Seeder
                 'label' => 'Activation du système de création de nettoyage.',
                 'text' => 'Active/Désactive le système de création de nettoyage.'
             ]);
+
+            // Calendars
+            Setting::create([
+                'key' => 'calendar_manage_enabled',
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
+                'label' => 'Activation du système de gestion des calendriers.',
+                'text' => 'Active/Désactive le système de gestion des calendriers.'
+            ]);
+            Setting::create([
+                'key' => 'calendar_create_enabled',
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
+                'label' => 'Activation du système de création de calendrier.',
+                'text' => 'Active/Désactive le système de création de calendrier.'
+            ]);
         }
 
         // Settings for all sites except Verdun Siège.

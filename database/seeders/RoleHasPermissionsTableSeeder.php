@@ -75,6 +75,16 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view company',
         'export company',
         'search company',
+
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'search calendar event',
+
     ];
 
     protected array $responsablePermissions = [
@@ -173,6 +183,21 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete company',
         'export company',
         'search company',
+
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+        'create calendar',
+        'update calendar',
+        'delete calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'create calendar event',
+        'update calendar event',
+        'delete calendar event',
+        'search calendar event',
     ];
 
     protected array $responsableMaintenancePermissions = [
@@ -243,6 +268,21 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete company',
         'export company',
         'search company',
+
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+        'create calendar',
+        'update calendar',
+        'delete calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'create calendar event',
+        'update calendar event',
+        'delete calendar event',
+        'search calendar event',
     ];
 
     protected array $operateurSelvahPermissions = [
@@ -293,6 +333,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view partExit',
         'create partExit',
         'search partExit',
+
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'search calendar event',
     ];
 
     protected array $operateurExtruselPermissions = [
@@ -343,6 +392,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view partExit',
         'create partExit',
         'search partExit',
+
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'search calendar event',
     ];
 
     protected array $operateurMaintenancePermissions = [
@@ -426,6 +484,21 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'export cleaning',
         'create cleaning',
         'update cleaning',
+
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+        'create calendar',
+        'update calendar',
+        'delete calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'create calendar event',
+        'update calendar event',
+        'delete calendar event',
+        'search calendar event',
     ];
 
     protected array $assistanteQualiteBourgogneduSud = [
@@ -446,6 +519,21 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'export cleaning',
         'create cleaning',
         'update cleaning',
+
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+        'create calendar',
+        'update calendar',
+        'delete calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'create calendar event',
+        'update calendar event',
+        'delete calendar event',
+        'search calendar event',
     ];
 
     /**
@@ -588,7 +676,22 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'export supplier',
             'search supplier',
 
-            // Supplier
+            // Calendar
+            'viewAny calendar',
+            'view calendar',
+            'create calendar',
+            'update calendar',
+            'delete calendar',
+
+            // Calendar Event
+            'viewAny calendar event',
+            'view calendar event',
+            'create calendar event',
+            'update calendar event',
+            'delete calendar event',
+            'search calendar event',
+
+            // Company
             'viewAny company',
             'view company',
             'create company',

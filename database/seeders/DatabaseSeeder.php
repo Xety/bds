@@ -59,5 +59,7 @@ class DatabaseSeeder extends Seeder
         // Incidents
         $this->call(IncidentsTableSeeder::class);
 
+        // Calendars
+        $this->call(CalendarEventsTableSeeder::class);
     }
 }
