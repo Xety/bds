@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Models\CalendarEvent;
 use Carbon\Carbon;
 use Illuminate\View\View;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -84,7 +85,7 @@ class Calendars extends Component
         return [
             'model.title' => 'required',
             'model.allDay' => 'required|boolean',
-            'type' => 'required|in:' . collect(Calendar::EVENTS_TYPES)->keys()->implode(','),
+            //'type' => 'required|in:' . collect(Calendar::EVENTS_TYPES)->keys()->implode(','),
             'started_at' => 'exclude_if:model.allDay,true|date_format:"d-m-Y H:i"|required',
             'ended_at' => 'exclude_if:model.allDay,true|date_format:"d-m-Y H:i"|required',
         ];
@@ -133,8 +134,12 @@ class Calendars extends Component
         });
 
         $this->events = json_encode($events);
+        //dd($this->events);
 
-        return view('livewire.calendars');
+        $calendarEvents = CalendarEvent::pluck('name', 'id')->toArray();
+        //dd($calendarEvents);
+
+        return view('livewire.calendars', compact('calendarEvents'));
     }
 
     /**
@@ -193,7 +198,7 @@ class Calendars extends Component
 
         Calendar::destroy($this->deleteInfo['id']);
         $this->showDeleteModal = false;
-        $this->emit('evenDestroySuccess', $this->deleteInfo['id']);
+        $this->dispatch('evenDestroySuccess', $this->deleteInfo['id']);
         $this->deleteInfo = [];
         session()->flash('success', "Cet évènement a été supprimé avec succès !");
     }
@@ -230,7 +235,7 @@ class Calendars extends Component
         $this->model->id = Str::uuid();
         $this->model->started = Carbon::createFromFormat('d-m-Y H:i', $this->started_at);
         $this->model->ended = Carbon::createFromFormat('d-m-Y H:i', $this->ended_at);
-        $this->model->color = Calendar::EVENTS_TYPES[$this->type]['color'];
+        //$this->model->color = Calendar::EVENTS_TYPES[$this->type]['color'];
 
         if ($this->model->save()) {
             $array = $this->model->toArray();
@@ -242,7 +247,7 @@ class Calendars extends Component
                 $array['started'] = $this->model->started->toIso8601String();
                 $array['ended'] = $this->model->ended->toIso8601String();
             }
-            $this->emit('evenAddSuccess', $array);
+            $this->dispatch('evenAddSuccess', $array);
 
             $this->model = $this->makeBlankModel();
             session()->flash('success', "Cet évènement a été créée avec succès !");

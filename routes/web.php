@@ -273,9 +273,9 @@ Route::group(['middleware' => ['auth']], function () {
     | Calendars Routes
     |--------------------------------------------------------------------------
     */
-    Route::get('calendars', [Selvah\Http\Controllers\CalendarController::class, 'index'])
+    Route::get('calendars', [BDS\Http\Controllers\CalendarController::class, 'index'])
         ->name('calendars.index');
-    Route::get('calendars/events', [Selvah\Http\Controllers\CalendarEventController::class, 'index'])
+    Route::get('calendars/events', [BDS\Http\Controllers\CalendarEventController::class, 'index'])
         ->name('calendarEvents.index');
 
     /*
