@@ -409,9 +409,9 @@
         <x-slot:actions>
             <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
                 @if($isCreating)
-                    <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon> Créer
                 @else
-                    <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                    <x-icon name="fas-pen-to-square" class="h-5 w-5"></x-icon> Editer
                 @endif
             </x-button>
             <x-button @click="$wire.showModal = false" class="btn btn-neutral">

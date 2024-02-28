@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Livewire\Traits\WithToast;
 use BDS\Models\CalendarEvent;
 use Carbon\Carbon;
 use Illuminate\View\View;
@@ -15,16 +16,18 @@ use BDS\Models\Calendar;
 class Calendars extends Component
 {
     use AuthorizesRequests;
+    use WithToast;
 
-    /**
-     * The events listeners fo Livewire.
-     *
-     * @var string[]
-     */
-    protected $listeners = [
-        'eventAdd' => 'eventAdd',
-        'eventDestroy' => 'eventDestroy'
-    ];
+    public ?int $calendar_event_id = null;
+
+    public ?string $title = null;
+
+    public ?bool $allDay = true;
+
+    public ?string $started = null;
+
+    public ?string $ended = null;
+
 
     /**
      * All the events of the calendar.
@@ -46,13 +49,6 @@ class Calendars extends Component
      * @var bool
      */
     public bool $showDeleteModal = false;
-
-    /**
-     * The model used in the component.
-     *
-     * @var Calendar
-     */
-    public Calendar $model;
 
     /**
      * The information of the event to delete.
@@ -83,32 +79,28 @@ class Calendars extends Component
     public function rules(): array
     {
         return [
-            'model.title' => 'required',
-            'model.allDay' => 'required|boolean',
-            //'type' => 'required|in:' . collect(Calendar::EVENTS_TYPES)->keys()->implode(','),
-            'started_at' => 'exclude_if:model.allDay,true|date_format:"d-m-Y H:i"|required',
-            'ended_at' => 'exclude_if:model.allDay,true|date_format:"d-m-Y H:i"|required',
+            'title' => 'required',
+            'allDay' => 'required|boolean',
+            'calendar_event_id' => 'required|exists:calendar_events,id',
+            'started_at' => 'exclude_if:allDay,true|date_format:"d-m-Y H:i"|required',
+            'ended_at' => 'exclude_if:allDay,true|date_format:"d-m-Y H:i"|required',
         ];
     }
 
     /**
-     * Create a blank model and return it.
+     * Translated attribute used in failed messages.
      *
-     * @return Calendar
+     * @return array
      */
-    public function makeBlankModel(): Calendar
+    public function validationAttributes(): array
     {
-        return Calendar::make();
-    }
-
-    /**
-     * The Livewire Component constructor.
-     *
-     * @return void
-     */
-    public function mount(): void
-    {
-        $this->model = $this->makeBlankModel();
+        return [
+            'title' => 'titre',
+            'calendar_event_id' => 'type d\'évènement',
+            'allDay' => 'toute la journée',
+            'started_at' => 'début de l\'évènement',
+            'ended_at' => 'fin de l\'évènement'
+        ];
     }
 
     /**
@@ -118,26 +110,35 @@ class Calendars extends Component
      */
     public function render(): View
     {
-        $events = Calendar::all()->map(function ($array) {
-            if ($array['allDay']) {
-                $array['start'] = Carbon::parse($array['started'])->format('Y-m-d');
-                $array['end'] = is_null($array['ended']) ? null : Carbon::parse($array['ended'])->format('Y-m-d');
+        $events = Calendar::query()
+            ->with('calendarEvent')
+            ->where('site_id', getPermissionsTeamId())
+            ->get()
+            ->map(function (Calendar $calendar) {
+            if ($calendar->allDay) {
+                $calendar->start = Carbon::parse($calendar->started)->format('Y-m-d');
+                $calendar->end = is_null($calendar->ended) ? null : Carbon::parse($calendar->ended)->format('Y-m-d');
             } else {
-                $array['start'] = Carbon::parse($array['started'])->toIso8601String();
-                $array['end'] = Carbon::parse($array['ended'])->toIso8601String();
+                $calendar->start = Carbon::parse($calendar->started)->toIso8601String();
+                $calendar->end = Carbon::parse($calendar->ended)->toIso8601String();
             }
-            unset($array['started']);
-            unset($array['ended']);
-            unset($array['user_id']);
+            unset($calendar->started, $calendar->ended, $calendar->user_id);
 
-            return $array;
+            // Replace the color by the color event type.
+            $calendar->color = $calendar->calendarEvent->color;
+            unset($calendar->calendarEvent, $calendar->calendar_event_id);
+
+            return $calendar;
         });
 
         $this->events = json_encode($events);
-        //dd($this->events);
 
-        $calendarEvents = CalendarEvent::pluck('name', 'id')->toArray();
-        //dd($calendarEvents);
+        $calendarEvents = CalendarEvent::query()
+            ->where('site_id', getPermissionsTeamId())
+            ->select(['id', 'name', 'color'])
+            ->orderBy('name')
+            ->get()
+            ->toArray();
 
         return view('livewire.calendars', compact('calendarEvents'));
     }
@@ -194,13 +195,15 @@ class Calendars extends Component
      */
     public function destroy(): void
     {
-        $this->authorize('delete', Calendar::class);
+        $event = Calendar::find($this->deleteInfo['id']);
+        $this->authorize('delete', $event);
 
         Calendar::destroy($this->deleteInfo['id']);
         $this->showDeleteModal = false;
-        $this->dispatch('evenDestroySuccess', $this->deleteInfo['id']);
+        $this->dispatch('even-destroy-success', $this->deleteInfo['id']);
         $this->deleteInfo = [];
-        session()->flash('success', "Cet évènement a été supprimé avec succès !");
+
+        $this->success("Cet évènement a été supprimé avec succès !");
     }
 
     /**
@@ -214,7 +217,7 @@ class Calendars extends Component
     {
         $this->started_at = Carbon::parse($event['startStr'])->format('d-m-Y H:i');
         $this->ended_at = isset($event['endStr']) ? Carbon::parse($event['endStr'])->format('d-m-Y H:i') : null;
-        $this->model->allDay = true;
+        $this->allDay = true;
 
         $this->showModal = true;
     }
@@ -232,27 +235,32 @@ class Calendars extends Component
 
         $this->validate();
 
-        $this->model->id = Str::uuid();
-        $this->model->started = Carbon::createFromFormat('d-m-Y H:i', $this->started_at);
-        $this->model->ended = Carbon::createFromFormat('d-m-Y H:i', $this->ended_at);
-        //$this->model->color = Calendar::EVENTS_TYPES[$this->type]['color'];
+        $calendar = new Calendar;
 
-        if ($this->model->save()) {
-            $array = $this->model->toArray();
+        $calendar->id = Str::uuid();
+        $calendar->title = $this->title;
+        $calendar->calendar_event_id = $this->calendar_event_id;
+        $calendar->allDay = $this->allDay;
+        $calendar->started = Carbon::createFromFormat('d-m-Y H:i', $this->started_at);
+        $calendar->ended = Carbon::createFromFormat('d-m-Y H:i', $this->ended_at);
+
+        if ($calendar->save()) {
+            $array = $calendar->toArray();
 
             if ($array['allDay']) {
-                $array['started'] = $this->model->started->format('Y-m-d');
-                $array['ended'] = $this->model->ended->format('Y-m-d');
+                $array['started'] = $calendar->started->format('Y-m-d');
+                $array['ended'] = $calendar->ended->format('Y-m-d');
             } else {
-                $array['started'] = $this->model->started->toIso8601String();
-                $array['ended'] = $this->model->ended->toIso8601String();
+                $array['started'] = $calendar->started->toIso8601String();
+                $array['ended'] = $calendar->ended->toIso8601String();
             }
             $this->dispatch('evenAddSuccess', $array);
 
-            $this->model = $this->makeBlankModel();
-            session()->flash('success', "Cet évènement a été créée avec succès !");
+            $this->reset('title', 'calendar_event_id', 'allDay', 'started_at', 'ended_at');
+
+            $this->success("Cet évènement a été créée avec succès !");
         } else {
-            session()->flash('danger', "Une erreur s'est produite lors de la création de l'évènement !");
+            $this->error("Une erreur s'est produite lors de la création de l'évènement !");
         }
         $this->showModal = false;
     }

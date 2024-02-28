@@ -4,7 +4,6 @@ namespace BDS\Observers;
 
 use BDS\Models\Company;
 use Illuminate\Support\Facades\Auth;
-use BDS\Models\Material;
 
 class CompanyObserver
 {

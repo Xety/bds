@@ -7,6 +7,7 @@ use BDS\Listeners\Cleaning\AlertSubscriber as AlertCleaningSubscriber;
 use BDS\Listeners\Part\AlertSubscriber as AlertPartSubscriber;
 use BDS\Listeners\Site\SiteSubscriber;
 use BDS\Listeners\User\AuthSubscriber;
+use BDS\Models\Calendar;
 use BDS\Models\Company;
 use BDS\Models\Incident;
 use BDS\Models\Maintenance;
@@ -18,6 +19,7 @@ use BDS\Models\Supplier;
 use BDS\Models\Cleaning;
 use BDS\Models\Material;
 use BDS\Models\User;
+use BDS\Observers\CalendarObserver;
 use BDS\Observers\CleaningObserver;
 use BDS\Observers\CompanyObserver;
 use BDS\Observers\IncidentObserver;
@@ -72,7 +74,8 @@ class EventServiceProvider extends ServiceProvider
         Site::class => [SiteObserver::class],
         Incident::class => [IncidentObserver::class],
         Maintenance::class => [MaintenanceObserver::class],
-        Company::class => [CompanyObserver::class]
+        Company::class => [CompanyObserver::class],
+        Calendar::class => [CalendarObserver::class]
     ];
 
     /**

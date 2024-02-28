@@ -177,7 +177,39 @@ class SiteSubscriber
                 'value' => serialize(true),
                 'label' => 'Activation du système de création de nettoyage.',
                 'text' => 'Active/Désactive le système de création de nettoyage.'
-            ]
+            ],
+
+            // Company
+            [
+                'key' => 'company_manage_enabled',
+                'site_id' => $event->site->id,
+                'value' => serialize(true),
+                'label' => 'Activation du système de gestion des entreprises.',
+                'text' => 'Active/Désactive le système de gestion des entreprises.'
+            ],
+            [
+                'key' => 'company_create_enabled',
+                'site_id' => $event->site->id,
+                'value' => serialize(true),
+                'label' => 'Activation du système de création des entreprises.',
+                'text' => 'Active/Désactive le système de création des entreprises.'
+            ],
+
+            // Calendar
+            [
+                'key' => 'calendar_manage_enabled',
+                'site_id' => $event->site->id,
+                'value' => serialize(true),
+                'label' => 'Activation du système de gestion des calendriers.',
+                'text' => 'Active/Désactive le système de gestion des calendriers.'
+            ],
+            [
+                'key' => 'calendar_create_enabled',
+                'site_id' => $event->site->id,
+                'value' => serialize(true),
+                'label' => 'Activation du système de création de calendrier.',
+                'text' => 'Active/Désactive le système de création de calendrier.'
+            ],
         ]);
 
         $user = User::where('email', 'e.fevre@bds.coop')->first();
