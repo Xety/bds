@@ -38,6 +38,7 @@ Conçu et développé par Emeric Fèvre.
         @stack('style')
 
         <!-- Styles -->
+        @livewireStyles
         @vite('resources/css/bds.css')
 
         <!-- Favicon -->
@@ -65,7 +66,7 @@ Conçu et développé par Emeric Fèvre.
         </script>
 
         @vite('resources/js/bds.js')
-        @livewireScripts
+        @livewireScriptConfig
 
         <!-- Embed Scripts -->
         @stack('scripts')

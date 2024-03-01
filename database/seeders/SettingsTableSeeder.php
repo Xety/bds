@@ -290,6 +290,22 @@ class SettingsTableSeeder extends Seeder
                 'label' => 'Activation du système de création de calendrier.',
                 'text' => 'Active/Désactive le système de création de calendrier.'
             ]);
+
+            // CalendarEvents
+            Setting::create([
+                'key' => 'calendar_event_manage_enabled',
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
+                'label' => 'Activation du système de gestion des évènements de calendrier.',
+                'text' => 'Active/Désactive le système de gestion des évènements de calendrier.'
+            ]);
+            Setting::create([
+                'key' => 'calendar_event_create_enabled',
+                'site_id' => $a,
+                'value' => $a == 1 ? false : true,
+                'label' => 'Activation du système de création d\'évènement de calendrier.',
+                'text' => 'Active/Désactive le système de création d\'évènement de calendrier.'
+            ]);
         }
 
         // Settings for all sites except Verdun Siège.

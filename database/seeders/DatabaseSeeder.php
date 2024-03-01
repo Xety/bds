@@ -60,6 +60,7 @@ class DatabaseSeeder extends Seeder
         $this->call(IncidentsTableSeeder::class);
 
         // Calendars
+        $this->call(CalendarsTableSeeder::class);
         $this->call(CalendarEventsTableSeeder::class);
     }
 }

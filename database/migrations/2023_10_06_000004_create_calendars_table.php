@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('title');
             $table->string('color')->nullable();
+            $table->enum('status', ['incoming','waiting','progress', 'done', 'canceled'])->default('incoming');
             $table->boolean('allDay')->default(true);
             $table->timestamp('started');
             $table->timestamp('ended')->nullable();

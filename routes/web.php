@@ -275,8 +275,14 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('calendars', [BDS\Http\Controllers\CalendarController::class, 'index'])
         ->name('calendars.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | CalendarEvents Routes
+    |--------------------------------------------------------------------------
+    */
     Route::get('calendars/events', [BDS\Http\Controllers\CalendarEventController::class, 'index'])
-        ->name('calendarEvents.index');
+        ->name('calendar-events.index');
 
     /*
     |--------------------------------------------------------------------------

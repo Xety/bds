@@ -10,6 +10,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use BDS\Models\Calendar;
 
@@ -48,7 +49,7 @@ class Calendars extends Component
      *
      * @var bool
      */
-    public bool $showDeleteModal = false;
+    public bool $showOptionModal = false;
 
     /**
      * The information of the event to delete.
@@ -126,6 +127,7 @@ class Calendars extends Component
 
             // Replace the color by the color event type.
             $calendar->color = $calendar->calendarEvent->color;
+            $calendar->eventName = $calendar->calendarEvent->name;
             unset($calendar->calendarEvent, $calendar->calendar_event_id);
 
             return $calendar;
@@ -150,6 +152,7 @@ class Calendars extends Component
      *
      * @return void
      */
+    #[On('event-change')]
     public function eventChange(array $event): void
     {
         $e = Calendar::find($event['id']);
@@ -180,10 +183,12 @@ class Calendars extends Component
      *
      * @return void
      */
+    #[On('event-destroy')]
     public function eventDestroy(array $event): void
     {
+        //dd($event);
         $this->deleteInfo = $event;
-        $this->showDeleteModal = true;
+        $this->showOptionModal = true;
     }
 
     /**
@@ -199,7 +204,7 @@ class Calendars extends Component
         $this->authorize('delete', $event);
 
         Calendar::destroy($this->deleteInfo['id']);
-        $this->showDeleteModal = false;
+        $this->showOptionModal = false;
         $this->dispatch('even-destroy-success', $this->deleteInfo['id']);
         $this->deleteInfo = [];
 
@@ -213,6 +218,7 @@ class Calendars extends Component
      *
      * @return void
      */
+    #[On('event-create')]
     public function eventAdd(array $event): void
     {
         $this->started_at = Carbon::parse($event['startStr'])->format('d-m-Y H:i');
@@ -243,6 +249,7 @@ class Calendars extends Component
         $calendar->allDay = $this->allDay;
         $calendar->started = Carbon::createFromFormat('d-m-Y H:i', $this->started_at);
         $calendar->ended = Carbon::createFromFormat('d-m-Y H:i', $this->ended_at);
+        $calendar->color = CalendarEvent::find($this->calendar_event_id)->color;
 
         if ($calendar->save()) {
             $array = $calendar->toArray();
@@ -254,11 +261,11 @@ class Calendars extends Component
                 $array['started'] = $calendar->started->toIso8601String();
                 $array['ended'] = $calendar->ended->toIso8601String();
             }
-            $this->dispatch('evenAddSuccess', $array);
+            $this->dispatch('even-add-success', $array);
 
             $this->reset('title', 'calendar_event_id', 'allDay', 'started_at', 'ended_at');
 
-            $this->success("Cet évènement a été créée avec succès !");
+            $this->success("Cet évènement a été créé avec succès !");
         } else {
             $this->error("Une erreur s'est produite lors de la création de l'évènement !");
         }
