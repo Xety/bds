@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/bds.css',
                 'resources/js/bds.js',
+                'resources/js/calendars.js',
             ],
             refresh: true,
         }),

@@ -2,7 +2,6 @@
 
 namespace BDS\Livewire;
 
-use BDS\Livewire\Forms\IncidentForm;
 use BDS\Livewire\Forms\MaintenanceForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -294,7 +293,7 @@ class Maintenances extends Component
     }
 
     /**
-     * Create a blank model and assign it to the model. (Used in create modal)
+     * Initialize search functions and reset form.
      *
      * @return void
      */
@@ -358,12 +357,24 @@ class Maintenances extends Component
         $this->showModal = false;
     }
 
-    public function removePart($key)
+    /**
+     * Function to remove a part from the create form.
+     *
+     * @param $key
+     *
+     * @return void
+     */
+    public function removePart($key): void
     {
         $this->form->parts->pull($key);
     }
 
-    public function addPart()
+    /**
+     * Function to add a part to the create form.
+     *
+     * @return void
+     */
+    public function addPart(): void
     {
         if (empty($this->form->parts)) {
             $this->form->fill([
@@ -451,12 +462,15 @@ class Maintenances extends Component
         }
 
         $incidents = Incident::query()
-            ->whereRelation('material.zone.site', 'id', getPermissionsTeamId())
-            ->where('id', 'like', "%$value%")
-            ->orWhereHas('material', function ($partQuery) use ($value) {
-                $partQuery->where('name', 'LIKE', '%' . $value . '%');
+            ->whereRelation('material.zone', 'site_id', getPermissionsTeamId())
+            ->where(function ($partQuery) use ($value) {
+                $partQuery
+                    ->where('id', 'like', "%$value%")
+                    ->orWhereHas('material', function ($partQuery) use ($value) {
+                        $partQuery->where('name', 'like', "%$value%");
+                    });
             });
-
+        //dd($incidents->toSql());
         $incidents = $incidents->take(10)
             ->orderBy('id', 'desc')
             ->get()
@@ -478,8 +492,8 @@ class Maintenances extends Component
 
         $materials = Material::query()
             ->with(['zone', 'zone.site'])
-            ->where('name', 'like', "%$value%")
-            ->whereRelation('zone.site', 'id', getPermissionsTeamId());
+            ->whereRelation('zone.site', 'id', getPermissionsTeamId())
+            ->where('name', 'like', "%$value%");
 
         $materials = $materials->take(10)
             ->orderBy('name')

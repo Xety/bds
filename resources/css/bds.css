@@ -119,8 +119,11 @@ details > summary::-webkit-details-marker {
     @apply capitalize;
 }
 
-.fc-list-day-cushion {
-    @apply !bg-base-200 dark:!bg-base-100;
+.fc .fc-list-day .fc-list-day-cushion {
+    @apply bg-base-200 dark:bg-base-100;
+}
+.fc .fc-list-day.fc-day-today .fc-list-day-cushion {
+    @apply bg-[var(--fc-today-bg-color)];
 }
 
 .fc .fc-toolbar {
@@ -130,6 +133,10 @@ details > summary::-webkit-details-marker {
 
 .fc .fc-list-event:hover td {
     @apply bg-base-200 dark:bg-base-100;
+}
+.fc .fc-list-event .fc-list-event-time,
+.fc .fc-list-event .fc-list-event-graphic {
+    @apply align-middle;
 }
 
 /**

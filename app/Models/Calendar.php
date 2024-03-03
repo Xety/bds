@@ -4,7 +4,6 @@ namespace BDS\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Calendar extends Model
 {
@@ -77,7 +76,8 @@ class Calendar extends Model
         'started',
         'ended',
         'color',
-        'allDay'
+        'allDay',
+        'status'
     ];
 
     /**

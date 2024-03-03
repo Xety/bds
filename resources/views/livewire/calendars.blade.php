@@ -43,64 +43,83 @@
         <x-modal wire:model="showOptionModal" title="Gérer l'Évènement">
             <div class="border-l-[6px] pl-4" style="{{  isset($deleteInfo['backgroundColor']) ? 'border-color:' . $deleteInfo['backgroundColor'] : '' }}">
                 <h2 class="font-bold text-2xl">
-                    {{  isset($deleteInfo['title']) ? $deleteInfo['title'] : '' }}
+                    {{  isset($eventInfo['title']) ? $eventInfo['title'] : '' }}
                 </h2>
                 <div>
                     <span class="font-bold">
-                        {{ isset($deleteInfo['start']) ? \Carbon\Carbon::parse($deleteInfo['start'])->format('d-m-Y H:i') : '' }}
+                        {{ isset($eventInfo['start']) ? \Carbon\Carbon::parse($eventInfo['start'])->format('d-m-Y H:i') : '' }}
                     </span>
                     <span class="font-bold">
-                      {{ isset($deleteInfo['end']) ? ' - ' . \Carbon\Carbon::parse($deleteInfo['end'])->format('d-m-Y H:i') : '' }}
+                      {{ isset($eventInfo['end']) ? ' - ' . \Carbon\Carbon::parse($eventInfo['end'])->format('d-m-Y H:i') : '' }}
                     </span>
                 </div>
-                @if(isset($deleteInfo['allDay']) && $deleteInfo['allDay'] == true)
+                @if(isset($eventInfo['allDay']) && $eventInfo['allDay'] == true)
                     <div class="flex items-center">
                         <x-icon class="w-5 h-5 inline mr-2" name="fas-calendar-alt"></x-icon> Toute la journée
                     </div>
                 @endif
 
-                @if(isset($deleteInfo['extendedProps']) && isset($deleteInfo['extendedProps']['eventName']))
+                @if(isset($eventInfo['extendedProps']) && isset($eventInfo['extendedProps']['eventName']))
                     <sapn class="flex items-center font-bold tooltip tooltip-top" data-tip="Type de l'évènement">
-                        <x-icon class="w-5 h-5 inline mr-2" name="fas-flag"></x-icon> {{  $deleteInfo['extendedProps']['eventName'] }}
+                        <x-icon class="w-5 h-5 inline mr-2" name="fas-flag"></x-icon> {{  $eventInfo['extendedProps']['eventName'] }}
                     </sapn>
                 @endif
 
-                @if(isset($deleteInfo['extendedProps']) && isset($deleteInfo['extendedProps']['status']))
+                @if(isset($eventInfo['extendedProps']) && isset($eventInfo['extendedProps']['status']))
                     @php
-                        $status = collect(\BDS\Models\Calendar::STATUS)->sole('id', $deleteInfo['extendedProps']['status']);
+                        $status = collect(\BDS\Models\Calendar::STATUS)->sole('id', $eventInfo['extendedProps']['status']);
                     @endphp
 
                     <span class="font-bold flex items-center tooltip tooltip-top" data-tip="Statut de l'évènement" style="color: {{ $status['color'] }}">{!! $status['icon'] !!}  {{ $status['name'] }}</span>
                 @endif
-
             </div>
 
+
+            @can('update', \BDS\Models\Calendar::class)
+                <div class="divider text-base-content text-opacity-70 uppercase">CHANGER LE STATUT</div>
+                <div class="grid grid-cols-2 gap-2">
+                    @if(isset($eventInfo['extendedProps']) && isset($eventInfo['extendedProps']['status']))
+                        @foreach(collect(\BDS\Models\Calendar::STATUS) as $status)
+                                @if($status['id'] == $eventInfo['extendedProps']['status'])
+                                    @continue
+                                @endif
+                                <div class="col-span-1 flex justify-center">
+                                    <x-button class="btn gap-2" type="button" wire:click="changeStatus('{{ $status['id'] }}')" spinner>
+                                        {!! $status['icon'] !!}
+                                        {{ $status['name'] }}
+                                    </x-button>
+                                </div>
+                        @endforeach
+                    @endif
+                </div>
+            @endcan
+
             <x-slot:actions>
-                <x-button class="btn btn-success gap-2" type="button" wire:click="markAsDone" spinner>
-                    <x-icon name="fas-check" class="h-5 w-5"></x-icon>
-                    Maquer comme fait
-                </x-button>
-                <x-button class="btn btn-error gap-2" type="button" wire:click="destroy" spinner>
-                    <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
-                    Supprimer
-                </x-button>
+                @can('delete', \BDS\Models\Calendar::class)
+                    <x-button class="btn btn-error gap-2" type="button" wire:click="destroy" spinner>
+                        <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
+                        Supprimer
+                    </x-button>
+                @endcan
                 <x-button @click="$wire.showOptionModal = false" class="btn btn-neutral">
                     Fermer
                 </x-button>
             </x-slot:actions>
         </x-modal>
     </div>
-
-
 </div>
 
 @push('scripts')
+    @assets
+        @vite('resources/js/calendars.js')
+    @endassets
+
     @script
     <script>
         document.addEventListener('livewire:navigated', function () {
-            console.log({!! $events !!});
             const calendarEl = document.getElementById('calendar');
-            const calendar = new Calendar(calendarEl, {
+            if (calendarEl) {
+                const calendar = new Calendar(calendarEl, {
                     plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin ],
                     locales: [frLocale],
                     timeZone: 'Europe/Paris',
@@ -110,75 +129,138 @@
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,listWeek'
                     },
+                    eventTimeFormat: {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    },
                     locale: '{{ config('app.locale') }}',
                     events: {!! $events !!},
 
-                // Create Event
-                selectable: @js(Auth::user()->can('create', \BDS\Models\Calendar::class)),
-                select: arg => {
-                    Livewire.dispatch('event-create', { event: arg });
-                },
+                    // Create Event
+                    selectable: @js(Auth::user()->can('create', \BDS\Models\Calendar::class)),
+                    select: arg => {
+                        Livewire.dispatch('event-create', { event: arg });
+                    },
 
-                // Move/Resize Event
-                editable: @js(Auth::user()->can('update', \BDS\Models\Calendar::class)),
-                eventResize: info => {
-                    Livewire.dispatch('event-change', { event: info.event });
-                },
-                eventDrop: info => {
-                    Livewire.dispatch('event-change', { event: info.event });
-                },
+                    // Move/Resize Event
+                    editable: @js(Auth::user()->can('update', \BDS\Models\Calendar::class)),
+                    eventResize: info => {
+                        Livewire.dispatch('event-change', { event: info.event });
+                    },
+                    eventDrop: info => {
+                        Livewire.dispatch('event-change', { event: info.event });
+                    },
 
-                // Delete Event
-                eventClick: info => {
-                    if (@js(Auth::user()->can('delete', \BDS\Models\Calendar::class))) {
-                        Livewire.dispatch('event-destroy', { event: info.event });
-                    }
-                },
+                    // Option Event
+                    eventClick: info => {
+                        Livewire.dispatch('event-option', { event: info.event });
+                    },
 
-                // Runa after each event has been set
-                eventDidMount: function(info) {
-                    // DayGridMonth
-                    const titleEl = info.el.getElementsByClassName('fc-list-event-title')[0];
-                    //ListGrid
-                    const titleEl2 = info.el.getElementsByClassName('fc-event-title')[0];
-                    titleEl2.innerHTML = info.event.title + "<br>" + info.event.extendedProps.eventName;
+                    eventContent: function(info) {
+                        if (info.view.type === "dayGridMonth" || info.view.type === "timeGridWeek") {
+                            let divEl2 = document.createElement('div');
+                            divEl2.setAttribute('class', 'flex items-center');
+                            divEl2.innerHTML = info.event.extendedProps.icon;
 
-                    if (info.event.extendedProps.status === 'done') {
+                            // If it's allDay add the start time.
+                            if (info.event.allDay === false) {
+                                let divElTime = document.createElement('div');
+                                divElTime.setAttribute('class', 'fc-event-time');
+                                divElTime.innerHTML = info.timeText;
+                                divEl2.appendChild(divElTime);
+                            }
 
-                        // Change background color of row.
-                        info.el.style.backgroundColor = '#00b900';
-                        info.el.style.borderColor = '#00b900';
+                            // Add title
+                            let divElTitle = document.createElement('div');
+                            divElTitle.setAttribute('class', 'fc-event-title !font-medium');
 
-                        // Add a check in the title in ListGrid.
-                        const titleEl = info.el.getElementsByClassName('fc-list-event-title')[0];
-                        if (titleEl) {
-                            titleEl.innerHTML = "✅" + info.event.title;
+
+                            let spanElTitle = document.createElement('span');
+                            spanElTitle.setAttribute('class', 'block');
+                            spanElTitle.innerHTML = info.event.title;
+                            divElTitle.appendChild(spanElTitle);
+
+                            // Add Event Type
+                            let spanElEventName = document.createElement('span');
+                            spanElEventName.setAttribute('class', 'block');
+                            spanElEventName.innerHTML = info.event.extendedProps.eventName;
+                            divElTitle.appendChild(spanElEventName);
+
+                            divEl2.appendChild(divElTitle);
+
+                            let arrayOfDomNodes = [ divEl2 ];
+                            return { domNodes: arrayOfDomNodes };
                         }
 
-                        // Add a check in the title in DayGridMonth.
-                        if (titleEl2) {
-                            titleEl2.innerHTML = "✅" + info.event.title + "<br>" + info.event.extendedProps.eventName;
-                        }
-                    }
-                }
-            });
-            calendar.render();
 
-            Livewire.on('even-add-success', events =>  {
-                calendar.addEvent({
-                    id: events[0].id,
-                    title: events[0].title,
-                    start: events[0].started,
-                    end: events[0].ended,
-                    color: events[0].color,
-                    allDay: events[0].allDay
+                        let divEl2 = document.createElement('div');
+                        divEl2.setAttribute('class', 'flex items-center');
+                        divEl2.innerHTML = info.event.extendedProps.icon;
+
+                        // Add title
+                        let divElTitle = document.createElement('div');
+                        divElTitle.setAttribute('class', 'fc-event-title !font-medium');
+
+
+                        let spanElTitle = document.createElement('span');
+                        spanElTitle.setAttribute('class', 'block');
+                        spanElTitle.innerHTML = info.event.title;
+                        divElTitle.appendChild(spanElTitle);
+
+                        let spanElEventName = document.createElement('span');
+                        spanElEventName.setAttribute('class', 'block');
+                        spanElEventName.innerHTML = info.event.extendedProps.eventName;
+                        divElTitle.appendChild(spanElEventName);
+
+                        divEl2.appendChild(divElTitle);
+
+                        let arrayOfDomNodes = [ divEl2 ];
+                        return { domNodes: arrayOfDomNodes };
+
+                    }
                 });
-            });
+                calendar.render();
 
-            Livewire.on('even-destroy-success', id =>  {
-                let event = calendar.getEventById(id)
-                event.remove();
-            });
+                Livewire.on('even-add-success', events =>  {
+                    calendar.addEvent({
+                        id: events[0].id,
+                        title: events[0].title,
+                        start: events[0].started,
+                        end: events[0].ended,
+                        color: events[0].color,
+                        allDay: events[0].allDay,
+                        extendedProps: {
+                            status: events[0].status,
+                            eventName: events[0].eventName,
+                            icon: events[0].icon
+                        }
+                    });
+                });
+
+                Livewire.on('even-destroy-success', id =>  {
+                    let event = calendar.getEventById(id);
+                    event.remove();
+                });
+
+                Livewire.on('even-change-status-success', events =>  {
+                    let event = calendar.getEventById(events[0].id);
+                    event.remove();
+
+                    calendar.addEvent({
+                        id: events[0].id,
+                        title: events[0].title,
+                        start: events[0].started,
+                        end: events[0].ended,
+                        color: events[0].color,
+                        allDay: events[0].allDay,
+                        extendedProps: {
+                            status: events[0].status,
+                            eventName: events[0].eventName,
+                            icon: events[0].icon
+                        }
+                    });
+                });
+            }
         });
     </script>
     @endscript

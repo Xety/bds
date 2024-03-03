@@ -93,23 +93,6 @@ Conçu et développé par Emeric Fèvre.
         @vite('resources/js/bds.js')
         @livewireScriptConfig
 
-        <!-- Change Livewire expiration message -->
-        <script type="text/javascript">
-            document.addEventListener('livewire:init', () => {
-                Livewire.hook('request', ({fail}) => {
-                    fail(({status, preventDefault}) => {
-                        if (status === 419) {
-                            preventDefault()
-
-                            confirm('Cette page a expirée.') && window.location.reload()
-
-                            return false
-                        }
-                    })
-                });
-            });
-        </script>
-
         <!-- Embed Scripts -->
         @stack('scripts')
 

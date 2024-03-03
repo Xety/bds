@@ -56,7 +56,7 @@ class Calendars extends Component
      *
      * @var array
      */
-    public array $deleteInfo = [];
+    public array $eventInfo = [];
 
     /**
      * The date when the event started.
@@ -128,6 +128,7 @@ class Calendars extends Component
             // Replace the color by the color event type.
             $calendar->color = $calendar->calendarEvent->color;
             $calendar->eventName = $calendar->calendarEvent->name;
+            $calendar->icon = collect(Calendar::STATUS)->sole('id', $calendar->status)['icon'];
             unset($calendar->calendarEvent, $calendar->calendar_event_id);
 
             return $calendar;
@@ -183,11 +184,11 @@ class Calendars extends Component
      *
      * @return void
      */
-    #[On('event-destroy')]
-    public function eventDestroy(array $event): void
+    #[On('event-option')]
+    public function eventOption(array $event): void
     {
         //dd($event);
-        $this->deleteInfo = $event;
+        $this->eventInfo = $event;
         $this->showOptionModal = true;
     }
 
@@ -200,15 +201,43 @@ class Calendars extends Component
      */
     public function destroy(): void
     {
-        $event = Calendar::find($this->deleteInfo['id']);
+        $event = Calendar::find($this->eventInfo['id']);
         $this->authorize('delete', $event);
 
-        Calendar::destroy($this->deleteInfo['id']);
+        Calendar::destroy($this->eventInfo['id']);
         $this->showOptionModal = false;
-        $this->dispatch('even-destroy-success', $this->deleteInfo['id']);
-        $this->deleteInfo = [];
+        $this->dispatch('even-destroy-success', $this->eventInfo['id']);
+        $this->reset('eventInfo');
 
         $this->success("Cet évènement a été supprimé avec succès !");
+    }
+
+    public function changeStatus(string $status): void
+    {
+        $this->authorize('update', Calendar::class);
+
+        $calendar = Calendar::with('calendarEvent')->find($this->eventInfo['id']);
+        $calendar->status = $status;
+        $calendar->save();
+
+        $this->showOptionModal = false;
+        $this->reset('eventInfo');
+
+        $calendar->color = $calendar->calendarEvent->color;
+        $calendar->eventName = $calendar->calendarEvent->name;
+        $calendar->icon = collect(Calendar::STATUS)->sole('id', $calendar->status)['icon'];
+
+        $array = $calendar->toArray();
+
+        if ($array['allDay']) {
+            $array['started'] = $calendar->started->format('Y-m-d');
+            $array['ended'] = $calendar->ended->format('Y-m-d');
+        } else {
+            $array['started'] = $calendar->started->toIso8601String();
+            $array['ended'] = $calendar->ended->toIso8601String();
+        }
+
+        $this->dispatch('even-change-status-success', $array);
     }
 
     /**
@@ -242,6 +271,7 @@ class Calendars extends Component
         $this->validate();
 
         $calendar = new Calendar;
+        $calendarEvent = CalendarEvent::find($this->calendar_event_id);
 
         $calendar->id = Str::uuid();
         $calendar->title = $this->title;
@@ -249,9 +279,12 @@ class Calendars extends Component
         $calendar->allDay = $this->allDay;
         $calendar->started = Carbon::createFromFormat('d-m-Y H:i', $this->started_at);
         $calendar->ended = Carbon::createFromFormat('d-m-Y H:i', $this->ended_at);
-        $calendar->color = CalendarEvent::find($this->calendar_event_id)->color;
+        $calendar->color = $calendarEvent->color;
 
         if ($calendar->save()) {
+            $calendar->eventName = $calendarEvent->name;
+            $calendar->icon = collect(Calendar::STATUS)->sole('id', 'incoming')['icon'];
+
             $array = $calendar->toArray();
 
             if ($array['allDay']) {
