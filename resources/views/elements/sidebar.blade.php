@@ -41,8 +41,8 @@
 
             @if(auth()->user()->can('viewAny', \BDS\Models\Calendar::class) && settings('calendar_manage_enabled', true))
                 <x-menu-separator />
-                <x-menu-sub title="Calendriers" icon="fas-calendar">
-                    <x-menu-item title="Gérer les Calendriers" icon="fas-calendar" link="{{ route('calendars.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                <x-menu-sub title="Planning" icon="fas-calendar">
+                    <x-menu-item title="Gérer le Planning" icon="fas-calendar" link="{{ route('calendars.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     <x-menu-sub title="Évènements" icon="fas-flag">
                         <x-menu-item wire:navigate title="Gérer les Évènements" icon="fas-flag" link="{{ route('calendar-events.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     </x-menu-sub>
@@ -53,9 +53,12 @@
                 <x-menu-separator />
                 <x-menu-sub title="Maintenances" icon="fas-screwdriver-wrench">
                     <x-menu-item wire:navigate title="Gérer les Maintenances" icon="fas-screwdriver-wrench" link="{{ route('maintenances.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
-                    <x-menu-sub title="Entreprises" icon="fas-briefcase">
-                        <x-menu-item wire:navigate title="Gérer les Entreprises" icon="fas-briefcase" link="{{ route('companies.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
-                    </x-menu-sub>
+                    @if(auth()->user()->can('viewAny', \BDS\Models\Company::class) && settings('company_manage_enabled', true))
+                        <x-menu-sub title="Entreprises" icon="fas-briefcase">
+                            <x-menu-item wire:navigate title="Gérer les Entreprises" icon="fas-briefcase" link="{{ route('companies.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                        </x-menu-sub>
+                    @endcan
+
                 </x-menu-sub>
             @endif
 
@@ -74,8 +77,9 @@
                         <x-menu-item wire:navigate title="Gérer les Entrées" icon="fas-arrow-right-to-bracket" link="{{ route('part-entries.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                         <x-menu-item wire:navigate title="Gérer les Sorties" icon="fas-right-from-bracket" link="{{ route('part-exits.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                     </x-menu-sub>
-
-                    <x-menu-item wire:navigate title="Gérer les Fournisseurs" icon="fas-shop" link="{{ route('suppliers.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                    @if(auth()->user()->can('viewAny', \BDS\Models\Supplier::class) && settings('supplier_manage_enabled', true))
+                        <x-menu-item wire:navigate title="Gérer les Fournisseurs" icon="fas-shop" link="{{ route('suppliers.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                    @endif
                 </x-menu-sub>
             @endif
 

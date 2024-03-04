@@ -157,17 +157,17 @@
                     },
 
                     eventContent: function(info) {
-                        if (info.view.type === "dayGridMonth" || info.view.type === "timeGridWeek") {
-                            let divEl2 = document.createElement('div');
-                            divEl2.setAttribute('class', 'flex items-center');
-                            divEl2.innerHTML = info.event.extendedProps.icon;
+                        /*if (info.view.type === "dayGridMonth" || info.view.type === "timeGridWeek") {
+                            let divElContainer = document.createElement('div');
+                            divElContainer.setAttribute('class', 'flex items-center');
+                            divElContainer.innerHTML = info.event.extendedProps.icon;
 
                             // If it's allDay add the start time.
                             if (info.event.allDay === false) {
                                 let divElTime = document.createElement('div');
                                 divElTime.setAttribute('class', 'fc-event-time');
                                 divElTime.innerHTML = info.timeText;
-                                divEl2.appendChild(divElTime);
+                                divElContainer.appendChild(divElTime);
                             }
 
                             // Add title
@@ -186,35 +186,44 @@
                             spanElEventName.innerHTML = info.event.extendedProps.eventName;
                             divElTitle.appendChild(spanElEventName);
 
-                            divEl2.appendChild(divElTitle);
+                            divElContainer.appendChild(divElTitle);
 
-                            let arrayOfDomNodes = [ divEl2 ];
+                            let arrayOfDomNodes = [ divElContainer ];
                             return { domNodes: arrayOfDomNodes };
+                        }*/
+
+                        // Create container with status icon.
+                        let divElContainer = document.createElement('div');
+                        divElContainer.setAttribute('class', 'flex items-center');
+                        divElContainer.innerHTML = info.event.extendedProps.icon;
+
+                        // If it's allDay add the start time and only on `dayGridMonth` & `timeGridWeek` views.
+                        if (info.event.allDay === false && (info.view.type === "dayGridMonth" || info.view.type === "timeGridWeek")) {
+                            let divElTime = document.createElement('div');
+                            divElTime.setAttribute('class', 'fc-event-time !mr-2');
+                            divElTime.innerHTML = info.timeText;
+                            divElContainer.appendChild(divElTime);
                         }
 
-
-                        let divEl2 = document.createElement('div');
-                        divEl2.setAttribute('class', 'flex items-center');
-                        divEl2.innerHTML = info.event.extendedProps.icon;
-
-                        // Add title
+                        // Create title/event type container.
                         let divElTitle = document.createElement('div');
                         divElTitle.setAttribute('class', 'fc-event-title !font-medium');
 
-
+                        // Add title.
                         let spanElTitle = document.createElement('span');
                         spanElTitle.setAttribute('class', 'block');
                         spanElTitle.innerHTML = info.event.title;
                         divElTitle.appendChild(spanElTitle);
 
+                        // Add Event Type.
                         let spanElEventName = document.createElement('span');
                         spanElEventName.setAttribute('class', 'block');
                         spanElEventName.innerHTML = info.event.extendedProps.eventName;
                         divElTitle.appendChild(spanElEventName);
 
-                        divEl2.appendChild(divElTitle);
+                        divElContainer.appendChild(divElTitle);
 
-                        let arrayOfDomNodes = [ divEl2 ];
+                        let arrayOfDomNodes = [ divElContainer ];
                         return { domNodes: arrayOfDomNodes };
 
                     }

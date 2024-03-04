@@ -49,9 +49,9 @@
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \BDS\Models\Company::class)
+            @if(Gate::allows('update', \BDS\Models\Company::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                 <x-table.heading>Actions</x-table.heading>
-            @endcan
+            @endif
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
             @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
                 <x-table.heading sortable wire:click="sortBy('site_id')" :direction="$sortField === 'site_id' ? $sortDirection : null">Site</x-table.heading>
@@ -121,14 +121,12 @@
                             </label>
                         </x-table.cell>
                     @endif
-                    @if(Gate::allows('update', $company) && getPermissionsTeamId() === $company->site_id)
+                    @if(Gate::allows('update', $company))
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $company->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier cette entreprise">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
-                    @else
-                        <x-table.cell></x-table.cell>
                     @endif
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $company->show_url }}">

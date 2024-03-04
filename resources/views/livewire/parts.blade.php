@@ -46,20 +46,18 @@
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @if(Gate::any(['export', 'delete'], \BDS\Models\Part::class) && getPermissionsTeamId() === settings('site_id_verdun_siege'))
+            @if(Gate::any(['export', 'delete'], \BDS\Models\Part::class))
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
-            @else
-                <x-table.heading></x-table.heading>
             @endif
 
             @if (
-                Gate::any(['update', 'generateQrCode'], \BDS\Models\Part::class) ||
+                (Gate::any(['update', 'generateQrCode'], \BDS\Models\Part::class) ||
                 Gate::allows('create', \BDS\Models\PartEntry::class) ||
-                Gate::allows('create', \BDS\Models\PartExit::class))
+                Gate::allows('create', \BDS\Models\PartExit::class)) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                 <x-table.heading>Actions</x-table.heading>
             @endif
 
@@ -86,9 +84,12 @@
                     @canany(['export', 'delete'], \BDS\Models\Part::class)
                         <x-table.cell></x-table.cell>
                     @endcanany
-                    @can('update', \BDS\Models\Part::class)
+                    @if (
+                    (Gate::any(['update', 'generateQrCode'], \BDS\Models\Part::class) ||
+                    Gate::allows('create', \BDS\Models\PartEntry::class) ||
+                    Gate::allows('create', \BDS\Models\PartExit::class)) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endif
                     <x-table.cell>
                         <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text"  />
                     </x-table.cell>
@@ -169,14 +170,14 @@
                     <x-table.cell colspan="17">
                         @unless ($selectAll)
                             <div>
-                                <span>Vous avez sélectionné <strong>{{ $parts->count() }}</strong> pièce(s) détachée(s), voulez-vous tous les sélectionner <strong>{{ $parts->total() }}</strong>?</span>
+                                <span>Vous avez sélectionné <strong>{{ $parts->count() }}</strong> pièce(s) détachée(s), voulez-vous toutes les sélectionner <strong>{{ $parts->total() }}</strong>?</span>
                                 <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
                                     <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
                                 </x-button>
                             </div>
                         @else
-                            <span>Vous sélectionnez actuellement <strong>{{ $parts->total() }}</strong> pièce(s) détachée(s).</span>
+                            <span>Vous avez sélectionné actuellement <strong>{{ $parts->total() }}</strong> pièce(s) détachée(s).</span>
                         @endif
                     </x-table.cell>
                 </x-table.row>
@@ -191,14 +192,16 @@
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $part->getKey() }}" />
                             </label>
                         </x-table.cell>
-                    @else
+                    @elseif(getPermissionsTeamId() !== $part->site_id)
                         <x-table.cell></x-table.cell>
                     @endif
 
-                    @if ((Gate::any(['update', 'generateQrCode'], $part) ||
+                    @if (
+                        (Gate::any(['update', 'generateQrCode'], $part) ||
                         Gate::allows('create', \BDS\Models\PartEntry::class) ||
                         Gate::allows('create', \BDS\Models\PartExit::class)) &&
-                        getPermissionsTeamId() === $part->site_id)
+                        (getPermissionsTeamId() === $part->site_id &&  getPermissionsTeamId() !== settings('site_id_verdun_siege'))
+                    )
                         <x-table.cell>
                             <x-dropdown top hover class="w-60">
                                 <x-slot:trigger>
@@ -244,7 +247,7 @@
                                 @endcan
                             </x-dropdown>
                         </x-table.cell>
-                    @else
+                    @elseif (getPermissionsTeamId() !== $part->site_id && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
                     @endif
 
@@ -255,7 +258,9 @@
                     </x-table.cell>
                     <x-table.cell>
                         @foreach($part->materials as $material)
-                            {{ $material->name }}<br>
+                            <a class="link link-hover link-primary font-bold block" href="{{ $material->show_url }}">
+                                {{ $material->name }}
+                            </a>
                         @endforeach
                     </x-table.cell>
                     <x-table.cell>

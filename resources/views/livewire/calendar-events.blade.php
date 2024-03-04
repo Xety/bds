@@ -108,13 +108,11 @@
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
-                    @else
-                        <x-table.cell></x-table.cell>
                     @endif
                     <x-table.cell>
-                        <a class="link link-hover link-primary font-bold" href="{{ $event->show_url }}">
+                        <span class="text-primary font-bold">
                             {{ $event->name }}
-                        </a>
+                        </span>
                     </x-table.cell>
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $event->user->show_url }}">
@@ -155,7 +153,7 @@
             </p>
         @else
             <p class="my-7">
-                Voulez-vous vraiment supprimer ces évènements ? <span class="font-bold text-red-500">Cette opération n'est pas réversible.</span>
+                Voulez-vous vraiment supprimer ce(s) évènement(s) ? <span class="block font-bold text-red-500 italic">Supprimer un type d'évènement va automatiquement supprimer TOUS les évènements du calendrier ayant ce type d'évènement.<br> Cette opération n'est pas réversible.</span>
             </p>
         @endif
 

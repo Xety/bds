@@ -47,7 +47,7 @@
                                 </h1>
 
                                 <div class="grid grid-cols-12 gap-4">
-                                    <div class="col-span-6 flex gap-1 items-center">
+                                    <div class="col-span-6 flex flex-col gap-1 items-center">
                                         <div class="flex gap-1 font-bold items-center">
                                             <x-icon name="fas-calendar" class="w-4 h-4 inline"></x-icon>
                                             Création  :
@@ -58,7 +58,7 @@
                                             </code>
                                         </div>
                                     </div>
-                                    <div class="col-span-6 flex gap-1 items-center">
+                                    <div class="col-span-6 flex flex-col gap-1 items-center">
                                         <div class="flex gap-1 font-bold items-center">
                                             <x-icon name="fas-calendar" class="w-4 h-4 inline"></x-icon>
                                             Mis à jour  :
@@ -77,8 +77,8 @@
                     <div class="col-span-12 xl:col-span-6 h-full">
                         <div class="flex flex-col shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <div class="grid grid-cols-12 gap-2 mb-4">
-                                <div class="col-span-12 flex items-center">
-                                    <div class="flex gap-1 font-bold min-w-[200px] items-center">
+                                <div class="col-span-12 flex flex-col xl:flex-row items-center">
+                                    <div class="flex gap-1 font-bold xl:min-w-[200px] items-center">
                                         <x-icon name="fas-at" class="w-4 h-4 inline"></x-icon>
                                         Email :
                                     </div>
@@ -89,8 +89,8 @@
                                     </div>
                                 </div>
 
-                                <div class="col-span-12 flex items-center">
-                                    <div class="flex gap-1 font-bold min-w-[200px] items-center">
+                                <div class="col-span-12 flex flex-col xl:flex-row items-center">
+                                    <div class="flex gap-1 font-bold xl:min-w-[200px] items-center">
                                         <x-icon name="fas-phone" class="w-4 h-4 inline"></x-icon>
                                         Téléphone bureau :
                                     </div>
@@ -103,8 +103,8 @@
                                     </div>
                                 </div>
 
-                                <div class="col-span-12 flex items-center">
-                                    <div class="flex gap-1 font-bold min-w-[200px] items-center">
+                                <div class="col-span-12 flex flex-col xl:flex-row items-center">
+                                    <div class="flex gap-1 font-bold xl:min-w-[200px] items-center">
                                         <x-icon name="fas-mobile-alt" class="w-4 h-4 inline"></x-icon>
                                         Téléphone portable :
                                     </div>
@@ -118,8 +118,8 @@
                                 </div>
 
                                 @if($user->end_employment_contract)
-                                    <div class="col-span-12 flex items-center">
-                                        <div class="flex gap-1 font-bold min-w-[200px] items-center">
+                                    <div class="col-span-12 flex flex-col xl:flex-row items-center">
+                                        <div class="flex gap-1 font-bold xl:min-w-[200px] items-center">
                                             <x-icon name="fas-calendar" class="w-4 h-4 inline"></x-icon>
                                             Date fin de contract :
                                         </div>
@@ -132,8 +132,8 @@
                                 @endif
 
                                 @can('update', $user)
-                                    <div class="col-span-12 flex items-center">
-                                        <div class="flex gap-1 font-bold min-w-[200px] items-center">
+                                    <div class="col-span-12 flex flex-col xl:flex-row items-center">
+                                        <div class="flex gap-1 font-bold xl:min-w-[200px] items-center">
                                             <x-icon name="fas-calendar" class="w-4 h-4 inline"></x-icon>
                                             Dernière connexion :
                                         </div>
@@ -146,8 +146,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-span-12 flex items-center">
-                                        <div class="flex gap-1 font-bold min-w-[200px] items-center">
+                                    <div class="col-span-12 flex flex-col xl:flex-row items-center">
+                                        <div class="flex gap-1 font-bold xl:min-w-[200px] items-center">
                                             <x-icon name="fas-earth-europe" class="w-4 h-4 inline"></x-icon>
                                             IP dernière connexion :
                                         </div>
@@ -160,8 +160,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-span-12 flex items-center">
-                                        <div class="flex gap-1 font-bold min-w-[200px] items-center">
+                                    <div class="col-span-12 flex flex-col xl:flex-row items-center">
+                                        <div class="flex gap-1 font-bold xl:min-w-[200px] items-center">
                                             <x-icon name="fas-user-lock" class="w-4 h-4 inline"></x-icon>
                                             Compte configuré le :
                                         </div>

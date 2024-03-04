@@ -194,6 +194,17 @@ class RolesTableSeeder extends Seeder
                 'guard_name' => 'web',
                 'updated_at' => '2023-08-15 09:46:14',
             ),
+            array (
+                'id' => 17,
+                'name' => 'Responsable ValUnion',
+                'created_at' => '2023-08-15 09:46:14',
+                'color' => '#ef9a3c',
+                'description' => NULL,
+                'site_id' => 51,
+                'level' => 50,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
         ));
     }
 }

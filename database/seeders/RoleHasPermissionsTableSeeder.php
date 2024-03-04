@@ -317,6 +317,11 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'update maintenance',
         'search maintenance',
 
+        // Company
+        'viewAny company',
+        'view company',
+        'search company',
+
         // Part
         'viewAny part',
         'view part',
@@ -333,6 +338,11 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view partExit',
         'create partExit',
         'search partExit',
+
+        // Supplier
+        'viewAny supplier',
+        'view supplier',
+        'search supplier',
 
         // Calendar
         'viewAny calendar',
@@ -376,6 +386,11 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'update maintenance',
         'search maintenance',
 
+        // Company
+        'viewAny company',
+        'view company',
+        'search company',
+
         // Part
         'viewAny part',
         'view part',
@@ -392,6 +407,11 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view partExit',
         'create partExit',
         'search partExit',
+
+        // Supplier
+        'viewAny supplier',
+        'view supplier',
+        'search supplier',
 
         // Calendar
         'viewAny calendar',
@@ -764,5 +784,9 @@ class RoleHasPermissionsTableSeeder extends Seeder
         // Opérateur Maintenance
         $role = Role::findByName('Opérateur Maintenance');
         $role->syncPermissions($this->operateurMaintenancePermissions);
+
+        // Responsable ValUnion
+        $role = Role::where('name', 'Responsable ValUnion')->first();
+        $role->syncPermissions($this->responsablePermissions);
     }
 }

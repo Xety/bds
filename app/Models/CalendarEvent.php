@@ -4,6 +4,7 @@ namespace BDS\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CalendarEvent extends Model
 {
@@ -37,5 +38,15 @@ class CalendarEvent extends Model
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);
+    }
+
+    /**
+     * Get the site where belongs the event.
+     *
+     * @return HasMany
+     */
+    public function calendars(): HasMany
+    {
+        return $this->hasMany(Calendar::class);
     }
 }

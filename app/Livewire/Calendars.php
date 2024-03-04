@@ -283,6 +283,7 @@ class Calendars extends Component
 
         if ($calendar->save()) {
             $calendar->eventName = $calendarEvent->name;
+            $calendar->status = 'incoming';
             $calendar->icon = collect(Calendar::STATUS)->sole('id', 'incoming')['icon'];
 
             $array = $calendar->toArray();

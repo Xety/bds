@@ -16,4 +16,13 @@ class CalendarEventObserver
         $calendarEvent->user_id = Auth::id();
         $calendarEvent->site_id = getPermissionsTeamId();
     }
+
+    /**
+     * Handle the "deleting" event.
+     */
+    public function deleting(CalendarEvent $calendarEvent): void
+    {
+        $calendars = $calendarEvent->calendars()->pluck('id')->toArray();
+        Calendar::destroy($calendars);
+    }
 }

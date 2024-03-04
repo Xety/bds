@@ -46,19 +46,17 @@
 
     <x-table.table class="mb-6">
         <x-slot name="head">
-            @if(Gate::any(['export', 'delete'], \BDS\Models\PartExit::class) && getPermissionsTeamId() === settings('site_id_verdun_siege'))
+            @canany(['export', 'delete'], \BDS\Models\Company::class)
                 <x-table.heading>
                     <label>
                         <input type="checkbox" class="checkbox" wire:model.live="selectPage" />
                     </label>
                 </x-table.heading>
-            @else
-                <x-table.heading></x-table.heading>
-            @endif
+            @endcanany
 
-            @can('update', \BDS\Models\PartExit::class)
+            @if(Gate::allows('update', \BDS\Models\PartExit::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                 <x-table.heading>Actions</x-table.heading>
-            @endcan
+            @endif
             <x-table.heading sortable wire:click="sortBy('maintenance_id')" :direction="$sortField === 'maintenance_id' ? $sortDirection : null">Maintenance n°</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('part_id')" :direction="$sortField === 'part_id' ? $sortDirection : null">Pièce Détachée</x-table.heading>
             <x-table.heading>Site</x-table.heading>
@@ -75,9 +73,9 @@
                     @canany(['export', 'delete'], \BDS\Models\PartExit::class)
                         <x-table.cell></x-table.cell>
                     @endcanany
-                    @can('update', \BDS\Models\PartExit::class)
+                    @if(Gate::allows('update', \BDS\Models\PartExit::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endif
                     <x-table.cell>
                         <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.maintenance" name="filters.maintenance" type="text"  />
                     </x-table.cell>
@@ -110,14 +108,14 @@
                     <x-table.cell colspan="7">
                         @unless ($selectAll)
                             <div>
-                                <span>Vous avez sélectionné <strong>{{ $partExits->count() }}</strong> entrée(s), voulez-vous tous les sélectionner <strong>{{ $partExits->total() }}</strong>?</span>
-                                <button type="button" wire:click="selectAll" class="btn btn-neutral btn-sm gap-2 ml-1">
-                                    <i class="fa-solid fa-check"></i>
+                                <span>Vous avez sélectionné <strong>{{ $partExits->count() }}</strong> sortie(s), voulez-vous toutes les sélectionner <strong>{{ $partExits->total() }}</strong>?</span>
+                                <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
+                                    <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
-                                </button>
+                                </x-button>
                             </div>
                         @else
-                            <span>Vous sélectionnez actuellement <strong>{{ $partExits->total() }}</strong> entrée(s).</span>
+                            <span>Vous avez sélectionné actuellement <strong>{{ $partExits->total() }}</strong> sortie(s).</span>
                         @endif
                     </x-table.cell>
                 </x-table.row>
@@ -132,18 +130,14 @@
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $partExit->getKey() }}" />
                             </label>
                         </x-table.cell>
-                    @else
-                        <x-table.cell></x-table.cell>
                     @endif
 
-                    @if(Gate::allows('update', \BDS\Models\PartEntry::class) && getPermissionsTeamId() === $partExit->part->site_id)
+                    @if(Gate::allows('update', $partExit))
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $partExit->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier cette sortie">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
-                    @else
-                        <x-table.cell></x-table.cell>
                     @endif
                     <x-table.cell>
                         @unless (is_null($partExit->maintenance))

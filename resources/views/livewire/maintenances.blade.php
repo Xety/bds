@@ -484,14 +484,14 @@
             <x-date-picker wire:model="form.finished_at" name="form.finished_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance résolue le" placeholder="Maintenance résolue le..." />
         @endif
 
-        @if ($isCreating)
+        @if ($isCreating && Gate::allows('create', \BDS\Models\PartExit::class))
             <div class="divider text-base-content text-opacity-70 uppercase">PIÈCES DÉTACHÉES</div>
 
             <x-button wire:click="addPart" label="Ajouter une pièce détachée" icon="fas-plus" class="btn btn-primary" />
 
             @foreach($form->parts as $key => $value)
                 <x-choices
-                    class="!h-12"
+                    class="!h-12 !pr-8 xl:pr-16 pl-0 xl:pl-4"
                     flex-class="mt-4"
                     wire:model.live="form.parts.{{ $key }}.part_id"
                     :options="$form->partsSearchable"
