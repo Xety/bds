@@ -18,6 +18,7 @@ class IncidentsTableSeeder extends Seeder
         $incidents = [
             [
                 'id' => 1,
+                'site_id' => 2,
                 'maintenance_id' => 1,
                 'material_id' => 46,
                 'user_id' => 1,

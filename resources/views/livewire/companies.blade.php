@@ -68,9 +68,9 @@
                     @can('delete', \BDS\Models\Company::class)
                         <x-table.cell></x-table.cell>
                     @endcan
-                    @can('update', \BDS\Models\Company::class)
+                    @if(Gate::allows('update', \BDS\Models\Company::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text"  />
                     </x-table.cell>
@@ -98,14 +98,14 @@
                     <x-table.cell colspan="8">
                         @unless ($selectAll)
                             <div>
-                                <span>Vous avez sélectionné <strong>{{ $suppliers->count() }}</strong> entreprise(s), voulez-vous toutes les sélectionner <strong>{{ $suppliers->total() }}</strong>?</span>
+                                <span>Vous avez sélectionné <strong>{{ $companies->count() }}</strong> entreprise(s), voulez-vous toutes les sélectionner <strong>{{ $companies->total() }}</strong>?</span>
                                 <x-button type="button" wire:click='setSelectAll' class="btn btn-neutral btn-sm gap-2 ml-1" spinner>
                                     <x-icon name="fas-check" class="inline h-4 w-4"></x-icon>
                                     Tout sélectionner
                                 </x-button>
                             </div>
                         @else
-                            <span>Vous sélectionnez actuellement <strong>{{ $suppliers->total() }}</strong> entreprise(s).</span>
+                            <span>Vous sélectionnez actuellement <strong>{{ $companies->total() }}</strong> entreprise(s).</span>
                         @endif
                     </x-table.cell>
                 </x-table.row>

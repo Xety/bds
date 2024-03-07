@@ -23,7 +23,11 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
-        return $user->can('view company');
+        if($user->can('view company')) {
+            $siteId = getPermissionsTeamId();
+            return ($company->site_id === $siteId || $siteId === settings('site_id_verdun_siege'));
+        }
+        return false;
     }
 
     /**

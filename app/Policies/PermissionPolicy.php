@@ -30,7 +30,7 @@ class PermissionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create permission');
+        return $user->can('create permission') && settings('permission_create_enabled');
     }
 
     /**

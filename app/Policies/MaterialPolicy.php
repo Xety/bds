@@ -33,7 +33,7 @@ class MaterialPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create material');
+        return $user->can('create material') && settings('material_create_enabled', true);
     }
 
     /**

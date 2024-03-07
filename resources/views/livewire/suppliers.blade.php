@@ -49,9 +49,9 @@
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \BDS\Models\Supplier::class)
+            @if(Gate::allows('update', \BDS\Models\Supplier::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                 <x-table.heading>Actions</x-table.heading>
-            @endcan
+            @endif
             <x-table.heading sortable wire:click="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">Nom</x-table.heading>
             @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
                 <x-table.heading sortable wire:click="sortBy('site_id')" :direction="$sortField === 'site_id' ? $sortDirection : null">Site</x-table.heading>
@@ -68,9 +68,9 @@
                     @can('delete', \BDS\Models\Supplier::class)
                         <x-table.cell></x-table.cell>
                     @endcan
-                    @can('update', \BDS\Models\Supplier::class)
+                    @if(Gate::allows('update', \BDS\Models\Supplier::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.name" name="filters.name" type="text"  />
                     </x-table.cell>
@@ -121,26 +121,24 @@
                             </label>
                         </x-table.cell>
                     @endif
-                    @if(Gate::allows('update', $supplier) && getPermissionsTeamId() === $supplier->site_id)
+                    @can('update', $supplier)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $supplier->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier ce fournisseur">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
                             </a>
                         </x-table.cell>
-                    @else
-                        <x-table.cell></x-table.cell>
-                    @endif
+                    @endcan
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $supplier->show_url }}">
                             {{ $supplier->name }}
                         </a>
                     </x-table.cell>
                     @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
-                            <x-table.cell>
-                                <a class="link link-hover link-primary font-bold" href="{{ $supplier->site->show_url }}">
-                                    {{ $supplier->site->name }}
-                                </a>
-                            </x-table.cell>
+                        <x-table.cell>
+                            <a class="link link-hover link-primary font-bold" href="{{ $supplier->site->show_url }}">
+                                {{ $supplier->site->name }}
+                            </a>
+                        </x-table.cell>
                     @endif
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $supplier->user->show_url }}">

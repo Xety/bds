@@ -31,7 +31,7 @@ class PartEntryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create partEntry');
+        return $user->can('create partEntry') && settings('part_entry_create_enabled', true);
     }
 
     /**

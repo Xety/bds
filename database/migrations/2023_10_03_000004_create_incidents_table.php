@@ -28,6 +28,10 @@ return new class extends Migration {
             $table->foreignIdFor(\BDS\Models\Material::class)
                 ->after('id')
                 ->nullable();
+            $table->foreignIdFor(\BDS\Models\Site::class)
+                ->after('id')
+                ->constrained()
+                ->cascadeOnDelete();
         });
     }
 

@@ -186,7 +186,7 @@
             @forelse($parts as $part)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $part->getKey() }}">
                     @if(Gate::any(['export', 'delete'], $part) &&
-                        (getPermissionsTeamId() === $part->site_id ||  getPermissionsTeamId() === settings('site_id_verdun_siege')))
+                        (getPermissionsTeamId() === $part->site_id || getPermissionsTeamId() === settings('site_id_verdun_siege')))
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $part->getKey() }}" />

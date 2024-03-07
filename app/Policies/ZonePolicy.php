@@ -30,7 +30,7 @@ class ZonePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create zone');
+        return $user->can('create zone') && settings('zone_create_enabled', true);
     }
 
     /**

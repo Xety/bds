@@ -97,6 +97,7 @@ class Maintenances extends Component
      */
     public array $filters = [
         'id' => '',
+        'site' => '',
         'gmao' => '',
         'material' => '',
         'creator' => '',
@@ -118,6 +119,7 @@ class Maintenances extends Component
      */
     public array $allowedFields = [
         'id',
+        'site_id',
         'gmao_id',
         'material_id',
         'description',
@@ -233,10 +235,22 @@ class Maintenances extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Maintenance::query()
-            ->with('material', 'user', 'material.zone', 'material.zone.site')
-            ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
+            ->with('material', 'user', 'site');
+
+        if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+            $query->where('site_id', getPermissionsTeamId());
+        }
 
         if (Gate::allows('search', Maintenance::class)) {
+            // This filter is only present on Verdun Siege site.
+            if(getPermissionsTeamId() === settings('site_id_verdun_siege')){
+                $query->when($this->filters['site'], function ($query, $search) {
+                    return $query->whereHas('site', function ($partQuery) use ($search) {
+                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                    });
+                });
+            }
+
             $query
                 ->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
                 ->when($this->filters['gmao'], fn($query, $id) => $query->where('gmao_id', $id))

@@ -231,7 +231,7 @@ class SettingsTableSeeder extends Seeder
             Setting::create([
                 'key' => 'incident_manage_enabled',
                 'site_id' => $a,
-                'value' => $a == 1 ? false : true,
+                'value' => true,
                 'label' => 'Activation du système de gestion des incidents.',
                 'text' => 'Active/Désactive le système de gestion des incidents.'
             ]);
@@ -247,7 +247,7 @@ class SettingsTableSeeder extends Seeder
             Setting::create([
                 'key' => 'maintenance_manage_enabled',
                 'site_id' => $a,
-                'value' => $a == 1 ? false : true,
+                'value' => true,
                 'label' => 'Activation du système de gestion des maintenances.',
                 'text' => 'Active/Désactive le système de gestion des maintenances.'
             ]);
@@ -263,7 +263,7 @@ class SettingsTableSeeder extends Seeder
             Setting::create([
                 'key' => 'cleaning_manage_enabled',
                 'site_id' => $a,
-                'value' => $a == 1 ? false : true,
+                'value' => true,
                 'label' => 'Activation du système de gestion des nettoyages.',
                 'text' => 'Active/Désactive le système de gestion des nettoyages.'
             ]);

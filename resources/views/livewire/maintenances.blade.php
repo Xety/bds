@@ -18,7 +18,7 @@
                                 </button>
                             </li>
                         @endcan
-                        @can('delete', \BDS\Models\Maintenance::class)
+                        @can('delete', \BDS\Models\Maintenance::class && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
@@ -49,31 +49,34 @@
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \BDS\Models\Maintenance::class)
+            @if(Gate::allows('update', \BDS\Models\Maintenance::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                 <x-table.heading>Actions</x-table.heading>
-            @endcan
+            @endif
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('gmao_id')" :direction="$sortField === 'gmao_id' ? $sortDirection : null">GMAO ID</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_id')" :direction="$sortField === 'material_id' ? $sortDirection : null">Matériel</x-table.heading>
+            @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                <x-table.heading sortable wire:click="sortBy('site_id')" :direction="$sortField === 'site_id' ? $sortDirection : null">Site</x-table.heading>
+            @endif
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('reason')" :direction="$sortField === 'reason' ? $sortDirection : null">Raison</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('type')" :direction="$sortField === 'type' ? $sortDirection : null">Type</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('realization')" :direction="$sortField === 'realization' ? $sortDirection : null">Réalisation</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('started_at')" :direction="$sortField === 'started_at' ? $sortDirection : null">Incident créé le</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('started_at')" :direction="$sortField === 'started_at' ? $sortDirection : null">Commencé le</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('is_finished')" :direction="$sortField === 'is_finished' ? $sortDirection : null">Résolu</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('finished_at')" :direction="$sortField === 'finished_at' ? $sortDirection : null">Résolu le</x-table.heading>
         </x-slot>
 
         <x-slot name="body">
-            @can('search', \BDS\Models\Incident::class)
+            @can('search', \BDS\Models\Maintenance::class)
                 <x-table.row>
-                    @can('delete', \BDS\Models\Incident::class)
+                    @can('delete', \BDS\Models\Maintenance::class)
                         <x-table.cell></x-table.cell>
                     @endcan
-                    @can('update', \BDS\Models\Incident::class)
+                    @if(Gate::allows('update', \BDS\Models\Maintenance::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.id" name="filters.id" type="number" min="1" step="1"  />
                     </x-table.cell>
@@ -83,6 +86,11 @@
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.material" name="filters.material" type="text" />
                     </x-table.cell>
+                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                        <x-table.cell>
+                            <x-input wire:model.live.debounce.400ms="filters.site" name="filters.site" type="text" />
+                        </x-table.cell>
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.creator" name="filters.creator" type="text" />
                     </x-table.cell>
@@ -165,14 +173,14 @@
 
             @forelse($maintenances as $maintenance)
                 <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $maintenance->getKey() }}">
-                    @canany(['export', 'delete'], \BDS\Models\Maintenance::class)
+                    @if(Gate::any(['export', 'delete'], $maintenance))
                         <x-table.cell>
                             <label>
                                 <input type="checkbox" class="checkbox" wire:model.live="selected" value="{{ $maintenance->getKey() }}" />
                             </label>
                         </x-table.cell>
-                    @endcanany
-                    @can('update', \BDS\Models\Maintenance::class)
+                    @endif
+                    @can('update', $maintenance)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $maintenance->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier la maintenance">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
@@ -196,6 +204,13 @@
                             {{ $maintenance->material->name }}
                         </a>
                     </x-table.cell>
+                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                        <x-table.cell>
+                            <a class="link link-hover link-primary font-bold" href="{{ $maintenance->site->show_url }}">
+                                {{ $maintenance->site->name }}
+                            </a>
+                        </x-table.cell>
+                    @endif
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $maintenance->user->show_url }}">
                             {{ $maintenance->user->full_name }}

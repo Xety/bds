@@ -104,7 +104,7 @@ class Maintenance extends Model
     }
 
     /**
-     * Get the site that owns the zone.
+     * Get the site that owns the maintenance.
      *
      * @return BelongsTo
      */

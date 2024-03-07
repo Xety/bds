@@ -22,11 +22,12 @@ class PartPolicy
      */
     public function view(User $user, Part $part): bool
     {
-        // For restricting the view to the site where the part belong to.
-        /*if($user->can('view part')) {
-            return $part->site_id === getPermissionsTeamId();
-        }*/
-        return true;
+        // Restricting the view to the site where the part belong to or allow if
+        // the user has the permission to view others site parts.
+        if($user->can('view part')) {
+            return ($part->site_id === getPermissionsTeamId() || $this->viewOtherSite($user));
+        }
+        return false;
     }
 
     /**
@@ -34,7 +35,7 @@ class PartPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create part');
+        return $user->can('create part') && settings('part_create_enabled', true);
     }
 
     /**

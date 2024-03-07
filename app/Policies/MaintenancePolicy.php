@@ -23,7 +23,8 @@ class MaintenancePolicy
     public function view(User $user, Maintenance $maintenance): bool
     {
         if($user->can('view maintenance')) {
-            return $maintenance->site_id === getPermissionsTeamId();
+            $siteId = getPermissionsTeamId();
+            return ($maintenance->site_id === $siteId || $siteId === settings('site_id_verdun_siege'));
         }
         return false;
     }
@@ -33,7 +34,7 @@ class MaintenancePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create maintenance');
+        return $user->can('create maintenance') && settings('maintenance_create_enabled', true);
     }
 
     /**

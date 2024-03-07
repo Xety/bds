@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create user');
+        return $user->can('create user') && settings('user_create_enabled', true);
     }
 
     /**

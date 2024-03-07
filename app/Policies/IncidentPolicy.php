@@ -23,7 +23,8 @@ class IncidentPolicy
     public function view(User $user, Incident $incident): bool
     {
         if($user->can('view incident')) {
-            return $incident->material->zone->site_id === getPermissionsTeamId();
+            $siteId = getPermissionsTeamId();
+            return ($incident->site_id === $siteId || $siteId === settings('site_id_verdun_siege'));
         }
         return false;
     }
@@ -33,7 +34,7 @@ class IncidentPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create incident');
+        return $user->can('create incident') && settings('incident_create_enabled', true);
     }
 
     /**
@@ -44,7 +45,7 @@ class IncidentPolicy
         // First check if user can update any material and a $material has been provided
         if($user->can('update incident') && !is_null($incident)) {
             // Check that the user is not trying to update a material from another site where the material does not belong to.
-            return $incident->material->zone->site_id === getPermissionsTeamId();
+            return $incident->site_id === getPermissionsTeamId();
         }
         return $user->can('update incident');
     }
@@ -55,7 +56,7 @@ class IncidentPolicy
     public function delete(User $user, ?Incident $incident = null): bool
     {
         if($user->can('delete incident') && !is_null($incident)) {
-            return $incident->material->zone->site_id === getPermissionsTeamId();
+            return $incident->site_id === getPermissionsTeamId();
         }
         return $user->can('delete incident');
     }

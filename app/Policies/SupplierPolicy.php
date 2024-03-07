@@ -22,7 +22,11 @@ class SupplierPolicy
      */
     public function view(User $user, Supplier $supplier): bool
     {
-        return $user->can('view supplier');
+        if($user->can('view supplier')) {
+            $siteId = getPermissionsTeamId();
+            return ($supplier->site_id === $siteId || $siteId === settings('site_id_verdun_siege'));
+        }
+        return false;
     }
 
     /**

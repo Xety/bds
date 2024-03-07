@@ -31,7 +31,7 @@ class PartExitPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create partExit');
+        return $user->can('create partExit') && settings('part_exit_create_enabled', true);
     }
 
     /**

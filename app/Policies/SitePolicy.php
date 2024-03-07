@@ -30,7 +30,7 @@ class SitePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create site');
+        return $user->can('create site') && settings('site_create_enabled', true);
     }
 
     /**
