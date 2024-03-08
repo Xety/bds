@@ -49,13 +49,16 @@
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \BDS\Models\Incident::class)
+            @if(Gate::allows('update', \BDS\Models\Incident::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                 <x-table.heading>Actions</x-table.heading>
-            @endcan
+            @endif
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('maintenance_id')" :direction="$sortField === 'maintenance_id' ? $sortDirection : null">Maintenance</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_id')" :direction="$sortField === 'material_id' ? $sortDirection : null">Matériel</x-table.heading>
             <x-table.heading>Zone</x-table.heading>
+            @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                <x-table.heading sortable wire:click="sortBy('site_id')" :direction="$sortField === 'site_id' ? $sortDirection : null">Site</x-table.heading>
+            @endif
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('started_at')" :direction="$sortField === 'started_at' ? $sortDirection : null">Incident créé le</x-table.heading>
@@ -70,9 +73,9 @@
                     @can('delete', \BDS\Models\Incident::class)
                         <x-table.cell></x-table.cell>
                     @endcan
-                    @can('update', \BDS\Models\Incident::class)
+                    @if(Gate::allows('update', \BDS\Models\Incident::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.id" name="filters.id" type="number" min="1" step="1"  />
                     </x-table.cell>
