@@ -18,14 +18,14 @@
                                 </button>
                             </li>
                         @endcan
-                        @can('delete', \BDS\Models\Incident::class)
+                        @if (auth()->user()->can('delete', \BDS\Models\Incident::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
                                     Supprimer
                                 </button>
                             </li>
-                        @endcan
+                        @endif
                     </ul>
                 </div>
             @endcanany
@@ -88,6 +88,11 @@
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.zone" name="filters.zone" type="text" />
                     </x-table.cell>
+                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                        <x-table.cell>
+                            <x-input wire:model.live.debounce.400ms="filters.site" name="filters.site" type="text" />
+                        </x-table.cell>
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.creator" name="filters.creator" type="text" />
                     </x-table.cell>
@@ -165,7 +170,7 @@
                             </label>
                         </x-table.cell>
                     @endcanany
-                    @can('update', \BDS\Models\Incident::class)
+                    @can('update', $incident)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $incident->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier l'incident">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
@@ -190,6 +195,13 @@
                             {{ $incident->material->zone->name }}
                         </a>
                     </x-table.cell>
+                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                        <x-table.cell>
+                            <a class="link link-hover link-primary font-bold" href="{{ $incident->site->show_url }}">
+                                {{ $incident->site->name }}
+                            </a>
+                        </x-table.cell>
+                    @endif
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $incident->user->show_url }}">
                             {{ $incident->user->full_name }}

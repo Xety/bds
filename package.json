@@ -24,7 +24,7 @@
         "@fullcalendar/list": "^6.1.11",
         "@fullcalendar/timegrid": "^6.1.11",
         "@marcreichel/alpine-auto-animate": "^1.1.0",
-        "apexcharts": "^3.45.1",
+        "apexcharts": "^3.47.0",
         "flatpickr": "^4.6.13",
         "print-js": "^1.6.0"
     }

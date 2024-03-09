@@ -27,15 +27,6 @@ buttonBackToTop.addEventListener('click', function() {
 });
 
 // When the user scrolls down 60px from the top of the document, show the button
-/*drawer.onscroll = function () {
-    console.log('scroll');
-    if (drawer.scrollTop > 60) {
-        buttonBackToTop.style.display = 'block';
-    } else {
-        buttonBackToTop.style.display = 'none';
-    }
-};*/
-
 window.onscroll = function () {
     if (document.body.scrollTop > 60 || document.documentElement.scrollTop > 60) {
         buttonBackToTop.style.display = 'block';

@@ -89,6 +89,16 @@ class Cleaning extends Model
     }
 
     /**
+     * Get the site that owns the cleaning.
+     *
+     * @return BelongsTo
+     */
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class);
+    }
+
+    /**
      * Get the material that owns the cleaning.
      *
      * @return BelongsTo

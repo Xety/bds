@@ -14,6 +14,7 @@ class CleaningObserver
     public function creating(Cleaning $cleaning): void
     {
         $cleaning->user_id = Auth::id();
+        $cleaning->site_id = getPermissionsTeamId();
     }
 
     /**

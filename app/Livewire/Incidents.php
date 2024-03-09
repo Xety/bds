@@ -94,6 +94,7 @@ class Incidents extends Component
      */
     public array $filters = [
         'id' => '',
+        'site' => '',
         'maintenance' => '',
         'material' => '',
         'zone' => '',
@@ -114,6 +115,7 @@ class Incidents extends Component
      */
     public array $allowedFields = [
         'id',
+        'site_id',
         'material_id',
         'user_id',
         'description',
@@ -223,10 +225,22 @@ class Incidents extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Incident::query()
-            ->with('material', 'user', 'material.zone', 'material.zone.site')
-            ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
+            ->with('material', 'user', 'site');
+
+        if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+            $query->where('site_id', getPermissionsTeamId());
+        }
 
         if (Gate::allows('search', Incident::class)) {
+            // This filter is only present on Verdun Siege site.
+            if(getPermissionsTeamId() === settings('site_id_verdun_siege')){
+                $query->when($this->filters['site'], function ($query, $search) {
+                    return $query->whereHas('site', function ($partQuery) use ($search) {
+                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                    });
+                });
+            }
+
             $query->when($this->filters['id'], fn($query, $id) => $query->where('id', $id))
                 ->when($this->filters['maintenance'], function ($query, $search) {
                     return $query->whereHas('maintenance', function ($partQuery) use ($search) {

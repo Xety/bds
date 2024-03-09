@@ -76,6 +76,16 @@ class Incident extends Model
     }
 
     /**
+     * Get the site that owns the incident.
+     *
+     * @return BelongsTo
+     */
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class);
+    }
+
+    /**
      * Get the material that owns the incident.
      *
      * @return BelongsTo

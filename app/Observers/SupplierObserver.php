@@ -10,9 +10,9 @@ class SupplierObserver
     /**
      * Handle the "creating" event.
      */
-    public function creating(Supplier $part): void
+    public function creating(Supplier $supplier): void
     {
-        $part->user_id = Auth::id();
-        $part->site_id = getPermissionsTeamId();
+        $supplier->user_id = Auth::id();
+        $supplier->site_id = getPermissionsTeamId();
     }
 }

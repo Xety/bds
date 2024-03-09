@@ -13,6 +13,7 @@ class IncidentObserver
     public function creating(Incident $incident): void
     {
         $incident->user_id = Auth::id();
+        $incident->site_id = getPermissionsTeamId();
     }
 
     /**

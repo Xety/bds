@@ -33,7 +33,13 @@ return new class extends Migration
                 ->after('id')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->foreignIdFor(\BDS\Models\User::class, 'edited_user_id')->after('is_edited')->nullable();
+            $table->foreignIdFor(\BDS\Models\User::class, 'edited_user_id')
+                ->after('is_edited')
+                ->nullable();
+            $table->foreignIdFor(\BDS\Models\Site::class)
+                ->after('id')
+                ->constrained()
+                ->cascadeOnDelete();
         });
     }
 

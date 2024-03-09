@@ -30,9 +30,9 @@
                 </div>
             @endcanany
 
-            @can('viewOtherSite',\BDS\Models\Part::class)
+            @if(Gate::allows('viewOtherSite',\BDS\Models\Part::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                 <x-toggle label="Voir les Pièces des autres sites" wire:model.live="viewOtherSitePart" class="" />
-            @endcan
+            @endif
         </div>
         <div class="mb-4">
             @if (settings('part_create_enabled', true) && Gate::allows('create', \BDS\Models\Part::class))
@@ -284,7 +284,9 @@
                         </code>
                     </x-table.cell>
                     <x-table.cell>
-                        {{ $part->supplier->name }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $part->supplier->show_url }}">
+                            {{ $part->supplier->name }}
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
                         <code class="code rounded-sm">

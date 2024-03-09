@@ -8,8 +8,12 @@ export default defineConfig({
                 'resources/css/bds.css',
                 'resources/js/bds.js',
                 'resources/js/calendars.js',
+                'resources/js/apexcharts.js',
             ],
             refresh: true,
-        }),
+        })
     ],
+    build: {
+        chunkSizeWarningLimit: 1000
+    }
 });

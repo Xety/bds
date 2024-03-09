@@ -18,14 +18,14 @@
                                 </button>
                             </li>
                         @endcan
-                        @can('delete', \BDS\Models\Maintenance::class && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
+                        @if (auth()->user()->can('delete', \BDS\Models\Maintenance::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
                                     Supprimer
                                 </button>
                             </li>
-                        @endcan
+                        @endif
                     </ul>
                 </div>
             @endcanany

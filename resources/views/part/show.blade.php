@@ -6,6 +6,8 @@
 @endpush
 
 @push('scripts')
+    @vite('resources/js/apexcharts.js')
+
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
             let settings = {
@@ -81,7 +83,7 @@
         <div class="grid grid-cols-12 gap-4 mb-4">
             <div class="col-span-12">
                 <div class="grid grid-cols-12 gap-4 h-full">
-                    <div class="col-span-12 xl:col-span-6 h-full">
+                    <div class="col-span-12 xl:col-span-6">
                         <div class="flex flex-col text-center shadow-md border rounded-lg p-6 w-full h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <div class="w-full">
                                 <div class="text-5xl m-2 mb-4">
@@ -100,7 +102,7 @@
                         </div>
                     </div>
 
-                    <div class="col-span-12 xl:col-span-2 h-full">
+                    <div class="col-span-12 xl:col-span-2">
                         <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <div class="flex flex-col gap-4 p-5 items-center content-between">
                                 <div class="text-muted text-xl font-bds uppercase">
@@ -127,7 +129,7 @@
                         </div>
                     </div>
 
-                    <div class="col-span-12 xl:col-span-4 h-full">
+                    <div class="col-span-12 xl:col-span-4">
                         <div class="flex flex-col shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                             <div class="flex flex-col-reverse 2xl:flex-row justify-between">
                                 <div class="text-2xl font-bold">

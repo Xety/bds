@@ -10,7 +10,7 @@
 
     <section class="m-3 lg:m-10">
         <div class="grid grid-cols-12 gap-4 mb-4">
-            <div class="col-span-12 xl:col-span-6 h-full">
+            <div class="col-span-12 xl:col-span-5">
                 <div class="flex flex-col text-center shadow-md border rounded-lg p-6 w-full h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <div class="w-full">
                         <div class="mb-4">
@@ -29,7 +29,34 @@
                 </div>
             </div>
 
-            <div class="col-span-12 xl:col-span-6">
+            <div class="col-span-12 xl:col-span-2">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <div class="flex flex-col gap-4 p-5 items-center content-between">
+                        <div class="text-muted text-xl font-bds uppercase">
+                            Site
+                        </div>
+                        <figure class="px-10">
+                            @if ($company->site->id == settings('site_id_selvah'))
+                                <img src="{{ asset('images/logos/selvah.png') }}" alt="Selvah Logo" class="inline-block w-20">
+                            @elseif ($company->site->id == settings('site_id_extrusel'))
+                                <img src="{{ asset('images/logos/extrusel.png') }}" alt="Extrusel Logo" class="inline-block w-28">
+                            @elseif ($company->site->id == settings('site_id_moulin_jannet'))
+                                <img src="{{ asset('images/logos/moulin_jannet.png') }}" alt="Moulin Jannet Logo" class="inline-block w-16">
+                            @elseif ($company->site->id == settings('site_id_val_union'))
+                                <img src="{{ asset('images/logos/bfc_val_union.png') }}" alt="BFC Val Union Logo" class="inline-block dark:hidden h-14">
+                                <img src="{{ asset('images/logos/bfc_val_union_blanc.png') }}" alt="BFC Val Union Logo" class="hidden dark:inline-block h-14">
+                            @else
+                                <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
+                            @endif
+                        </figure>
+                        <div class="font-bold text-xl">
+                            {{ $company->site->name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-12 xl:col-span-5">
                 <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full text-center border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <x-icon name="fas-screwdriver-wrench" class="text-warning h-16 w-16 m-auto"></x-icon>
                     <div>
@@ -53,7 +80,7 @@
                         <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
                             <a class="text-xs font-bold uppercase px-5 py-3 shadow-md rounded block leading-normal cursor-pointer text-white bg-neutral dark:text-neutral dark:bg-white"
                                href="#">
-                                <i class="fa-solid fa-screwdriver-wrench mr-2"></i>Maintenances
+                                <x-icon name="fas-screwdriver-wrench" class="h-4 w-4 mr-2 inline"></x-icon>Maintenances
                             </a>
                         </li>
                     </ul>

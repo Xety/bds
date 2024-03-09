@@ -18,14 +18,14 @@
                                 </button>
                             </li>
                         @endcan
-                        @can('delete', \BDS\Models\Cleaning::class)
+                        @if (auth()->user()->can('delete', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
                                     Supprimer
                                 </button>
                             </li>
-                        @endcan
+                        @endif
                     </ul>
                 </div>
             @endcanany
@@ -49,12 +49,15 @@
                     </label>
                 </x-table.heading>
             @endcanany
-            @can('update', \BDS\Models\Cleaning::class)
+            @if(Gate::allows('update', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                 <x-table.heading>Actions</x-table.heading>
-            @endcan
+            @endif
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_id')" :direction="$sortField === 'material_id' ? $sortDirection : null">Matériel</x-table.heading>
             <x-table.heading>Zone</x-table.heading>
+            @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                <x-table.heading sortable wire:click="sortBy('site_id')" :direction="$sortField === 'site_id' ? $sortDirection : null">Site</x-table.heading>
+            @endif
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('type')" :direction="$sortField === 'type' ? $sortDirection : null">Type</x-table.heading>
@@ -71,9 +74,9 @@
                     @can('delete', \BDS\Models\Cleaning::class)
                         <x-table.cell></x-table.cell>
                     @endcan
-                    @can('update', \BDS\Models\Cleaning::class)
+                    @if(Gate::allows('update', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.id" name="filters.id" type="number" min="1" step="1"  />
                     </x-table.cell>
@@ -83,6 +86,11 @@
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.zone" name="filters.zone" type="text" />
                     </x-table.cell>
+                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                        <x-table.cell>
+                            <x-input wire:model.live.debounce.400ms="filters.site" name="filters.site" type="text" />
+                        </x-table.cell>
+                    @endif
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.creator" name="filters.creator" type="text" />
                     </x-table.cell>
@@ -98,10 +106,10 @@
                             placeholder="Tous"
                         />
                     </x-table.cell>
-                        @if(session('current_site_id') == 2)
-                            <x-table.cell></x-table.cell>
-                            <x-table.cell></x-table.cell>
-                        @endif
+                    @if(getPermissionsTeamId() === settings('site_id_selvah'))
+                        <x-table.cell></x-table.cell>
+                        <x-table.cell></x-table.cell>
+                    @endif
                     <x-table.cell>
                         <x-date-picker wire:model.live="filters.created_min" name="filters.created_min" class="input-sm" icon="fas-calendar" icon-class="h-4 w-4" placeholder="Date minimum de création" />
                         <x-date-picker wire:model.live="filters.created_max" name="filters.created_max" class="input-sm mt-2" icon="fas-calendar" icon-class="h-4 w-4 mt-[0.25rem]" placeholder="Date maximum de création" />
@@ -136,7 +144,7 @@
                             </label>
                         </x-table.cell>
                     @endcanany
-                    @can('update', \BDS\Models\Cleaning::class)
+                    @can('update', $cleaning)
                         <x-table.cell>
                             <a href="#" wire:click.prevent="edit({{ $cleaning->getKey() }})" class="tooltip tooltip-right" data-tip="Modifier ce nettoyage">
                                 <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
@@ -154,6 +162,13 @@
                             {{ $cleaning->material->zone->name }}
                         </a>
                     </x-table.cell>
+                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                        <x-table.cell>
+                            <a class="link link-hover link-primary font-bold" href="{{ $cleaning->site->show_url }}">
+                                {{ $cleaning->site->name }}
+                            </a>
+                        </x-table.cell>
+                    @endif
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $cleaning->user->show_url }}">
                             {{ $cleaning->user->full_name }}
