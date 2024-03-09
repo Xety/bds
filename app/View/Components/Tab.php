@@ -1,6 +1,9 @@
 <?php
 namespace BDS\View\Components;
 
+use Closure;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
@@ -13,36 +16,35 @@ class Tab extends Component
         public ?string $label = null,
         public ?string $icon = null
     ) {
-        $this->uuid = Str::uuid();
+        $this->uuid = md5(serialize($this));
     }
 
-    public function render(): string
+    public function tabLabel(): string
+    {
+        return $this->icon
+            ? Blade::render("<x-icon name='" . $this->icon . "' class='h-4 w-4 mr-2 inline'></x-icon>" . $this->label)
+            : $this->label;
+    }
+
+    public function render(): View|Closure|string
     {
         return <<<'HTML'
-                    @aware(['tabContainer' =>  ''])
-                    <li class="-mb-px xl:mr-2 last:mr-0 flex-auto text-center">
-                        <a
-                            @click="selected = '{{ $name }}'"
-                            class="text-xs font-bold uppercase px-5 py-3 shadow-md rounded block leading-normal cursor-pointer"
-                            :class="{ 'text-white bg-neutral dark:text-neutral dark:bg-white': selected === '{{ $name }}',
-                             'text-neutral bg-white dark:text-white dark:bg-neutral': selected !== '{{ $name }}' }"
-                            {{ $attributes->whereDoesntStartWith('class') }}
-                          >
+                    <a
+                        class="hidden"
+                        :class="{ 'tab-active': selected === '{{ $name }}' }"
+                        data-name="{{ $name }}"
+                        x-init="
+                                tabs.push({ name: '{{ $name }}', label: {{ json_encode($tabLabel()) }} });
+                                Livewire.hook('morph.removed', ({el}) => {
+                                    if (el.getAttribute('data-name') == '{{ $name }}'){
+                                        tabs = tabs.filter(i => i.name !== '{{ $name }}')
+                                    }
+                                })
+                            "
+                    ></a>
 
-                            @if($icon)
-                                <x-icon :name="$icon" class="h-4 w-4 mr-2 inline" />
-                            @endif
-
-                            {{ $label }}
-                        </a>
-                    </li>
-
-                    <div wire:key="{{ $name }}-{{ rand() }}">
-                        <template x-teleport="#{{ $tabContainer }}">
-                            <div x-show="selected === '{{ $name }}'" {{ $attributes->class(['py-5']) }}>
-                                {{ $slot }}
-                            </div>
-                        </template>
+                    <div x-show="selected === '{{ $name }}'" role="tabpanel" {{ $attributes->class("tab-content py-5 px-1") }}>
+                        {{ $slot }}
                     </div>
                 HTML;
     }

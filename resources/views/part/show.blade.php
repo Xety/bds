@@ -416,9 +416,7 @@
                                             </a>
                                         </x-table.cell>
                                         <x-table.cell>
-                                            <a class="link link-hover link-primary font-bold" href="{{ $material->zone->show_url }}">
-                                                {{ $material->zone->name }}
-                                            </a>
+                                            {{ $material->zone->name }}
                                         </x-table.cell>
                                         <x-table.cell>
                                         <span class="tooltip tooltip-top" data-tip="{{ $material->description }}">
@@ -471,7 +469,9 @@
                                             </a>
                                         </x-table.cell>
                                         <x-table.cell>
-                                            {{ $partEntry->user->full_name }}
+                                            <a class="link link-hover link-primary font-bold" href="{{ $partEntry->user->show_url }}">
+                                                {{ $partEntry->user->full_name }}
+                                            </a>
                                         </x-table.cell>
                                         <x-table.cell>
                                             <code class="code rounded-sm">
@@ -536,7 +536,9 @@
                                             </a>
                                         </x-table.cell>
                                         <x-table.cell>
-                                            {{ $partExit->user->full_name }}
+                                            <a class="link link-hover link-primary font-bold" href="{{ $partExit->user->show_url }}">
+                                                {{ $partExit->user->full_name }}
+                                            </a>
                                         </x-table.cell>
                                         <x-table.cell>
                                             <span class="tooltip tooltip-top" data-tip="{{ $part->description }}">

@@ -53,16 +53,18 @@ class QrCodeModal extends Component
     public bool $showQrCodeModal = false;
 
     /**
-     * The type of the scanned QR Code with their actions
+     * The type of the scanned QR Code with their permissions and views keys.
      *
      * @var array
      */
     public array $types = [
         'material' => [
-            'actions' => []
+            'permission' => [],
+            'view' => []
         ],
         'part' => [
-            'actions' => []
+            'permission' => [],
+            'view' => []
         ]
     ];
 
@@ -95,7 +97,7 @@ class QrCodeModal extends Component
     protected function rules(): array
     {
         return [
-            'action' => 'required|in:' . collect($this->types[$this->type]['actions'])->keys()->implode(','),
+            'action' => 'required|in:' . collect($this->types[$this->type]['permission'])->keys()->implode(','),
         ];
     }
 
@@ -116,7 +118,7 @@ class QrCodeModal extends Component
             }
 
             if ($this->model !== null) {
-                // We need to check the permission of the user for each actions regarding
+                // We need to check the permission of the user for each permissions regarding
                 // the site where the material/part belongs to.
 
                 // Get the siteId where the material/part belongs to.
@@ -139,21 +141,26 @@ class QrCodeModal extends Component
                 // Check the permission for each action.
                 // Material types
                 if ($user->can('create', Incident::class)) {
-                    $this->types['material']['actions']['incidents'] = 'Incident';
+                    $this->types['material']['permission']['incident'] = 'Incident';
+                    $this->types['material']['view']['incident'] = 'incidents';
                 }
                 if ($user->can('create', Maintenance::class)) {
-                    $this->types['material']['actions']['maintenances'] = 'Maintenance';
+                    $this->types['material']['permission']['maintenance'] = 'Maintenance';
+                    $this->types['material']['view']['maintenance'] = 'maintenances';
                 }
                 if ($user->can('create', Cleaning::class)) {
-                    $this->types['material']['actions']['cleanings'] = 'Nettoyage';
+                    $this->types['material']['permission']['cleaning'] = 'Nettoyage';
+                    $this->types['material']['view']['cleaning'] = 'cleanings';
                 }
 
                 //  Part types
                 if ($user->can('create', PartEntry::class)) {
-                    $this->types['part']['actions']['part-entries'] = 'Entrée de pièce';
+                    $this->types['part']['permission']['part-entry'] = 'Entrée de pièce';
+                    $this->types['part']['view']['part-entry'] = 'part-entries';
                 }
                 if ($user->can('create', PartExit::class)) {
-                    $this->types['part']['actions']['part-exits'] = 'Sortie de pièce';
+                    $this->types['part']['permission']['part-exit'] = 'Sortie de pièce';
+                    $this->types['part']['view']['part-exit'] = 'part-exits';
                 }
 
                 // Set back the teamId and remove the relations again.
@@ -161,6 +168,11 @@ class QrCodeModal extends Component
                 $user
                     ->unsetRelation('roles')
                     ->unsetRelation('permissions');
+
+                // If the user does not have any permission, don't show the modal.
+                if (empty($this->types['part']['permission']) && empty($this->types['material']['permission'])) {
+                    return;
+                }
 
 
                 // Increment the flash_count for the model.
@@ -201,7 +213,7 @@ class QrCodeModal extends Component
     {
         $this->validate();
 
-        if (in_array($this->action, array_keys($this->types[$this->type]['actions']))) {
+        if (in_array($this->action, array_keys($this->types[$this->type]['permission']))) {
             $params = [
                 'creating' => 'true'
             ];
@@ -224,7 +236,7 @@ class QrCodeModal extends Component
                 ->unsetRelation('roles')
                 ->unsetRelation('permissions');
 
-            $permission = $user->hasPermissionTo('viewAny ' . $this->type);
+            $permission = $user->hasPermissionTo('viewAny ' . $this->action);
 
             if (!$permission) {
                 setPermissionsTeamId($teamId);
@@ -236,11 +248,12 @@ class QrCodeModal extends Component
                 'current_site_id' => $permission ? $siteId : $teamId
             ]);
 
+            // Increment the QR Code counter.
             $user->current_site_id = $permission ? $siteId : $teamId;
             $user->save();
 
             return redirect()
-                ->route($this->action . '.index', $params);
+                ->route($this->types[$this->type]['view'][$this->action] . '.index', $params);
         }
 
         $this->showQrCodeModal = false;

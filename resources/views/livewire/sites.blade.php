@@ -113,9 +113,9 @@
                         {{ $site->getKey() }}
                     </x-table.cell>
                     <x-table.cell>
-                        <span class="text-primary font-bold">
+                        <a class="link link-hover link-primary font-bold" href="{{ $site->show_url }}">
                             {{ $site->name }}
-                        </span>
+                        </a>
                     </x-table.cell>
                     <x-table.cell>
                         @foreach($site->managers as $manager)

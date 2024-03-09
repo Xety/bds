@@ -69,7 +69,7 @@
                                                     title="Générer un QR Code"
                                                     icon="fas-qrcode"
                                                     tooltip
-                                                    tooltip-content="Générer un QR Code pour ce matériel"
+                                                    tooltip-content="Générer un QR Code pour ce matériel."
                                                     link="{{ route('materials.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
                                                     class="text-purple-500" />
                                             @endcan
@@ -79,8 +79,8 @@
                                                     title="Créer un Incident"
                                                     icon="fas-triangle-exclamation"
                                                     tooltip
-                                                    tooltip-content="Générer un QR Code pour ce matériel"
-                                                    link="{{ route('incidents.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                    tooltip-content="Créer un incident pour ce matériel."
+                                                    link="{{ route('incidents.index', ['materialId' => $material->getKey(), 'creating' => 'true']) }}"
                                                     class="text-red-500" />
                                             @endcan
                                             @can('create', \BDS\Models\Maintenance::class)
@@ -90,7 +90,7 @@
                                                     icon="fas-screwdriver-wrench"
                                                     tooltip
                                                     tooltip-content="Créer une maintenance pour ce matériel."
-                                                    link="{{ route('maintenances.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                    link="{{ route('maintenances.index', ['materialId' => $material->getKey(), 'creating' => 'true']) }}"
                                                     class="text-yellow-500" />
                                             @endcan
                                             @can('create', \BDS\Models\Cleaning::class)
@@ -100,7 +100,7 @@
                                                     icon="fas-broom"
                                                     tooltip
                                                     tooltip-content="Créer un nettoyage pour ce matériel."
-                                                    link="{{ route('cleanings.index', ['materialId' => $material->getKey(), 'qrcode' => 'true']) }}"
+                                                    link="{{ route('cleanings.index', ['materialId' => $material->getKey(), 'creating' => 'true']) }}"
                                                     class="text-green-500" />
                                             @endcan
                                         </x-dropdown>

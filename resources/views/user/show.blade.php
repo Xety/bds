@@ -272,12 +272,12 @@
         </div>
 
         <div class="grid grid-cols-12 gap-4 mb-7">
-            @forelse($sites as $site)
+            @foreach($sites as $site)
                 <div class="col-span-12
                     @if($loop->count >= 3)
-                    {{  'xl:col-span-3' }}
+                        {{  'xl:col-span-3' }}
                     @elseif($loop->count == 2)
-                    {{  'xl:col-span-6' }}
+                        {{  'xl:col-span-6' }}
                     @endif
                     shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <div class="flex flex-col gap-4 p-5 items-center content-between">
@@ -301,20 +301,14 @@
                         <div class=" text-center">
                             @foreach($site['roles'] as $role)
                                 <span class="block font-bold" style="{{ $role->formatted_color }};">
-                                {{ $role->name }}
-                            </span>
+                                    {{ $role->name }}
+                                </span>
                             @endforeach
                         </div>
-
                     </div>
-
-
-
                 </div>
-            @empty
-
-            @endforelse
-
+            @endforeach
         </div>
+
     </section>
 @endsection

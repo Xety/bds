@@ -22,7 +22,7 @@ class SitePolicy
      */
     public function view(User $user, Site $site): bool
     {
-        return $user->can('view site');
+        return $user->can('view site') && getPermissionsTeamId() === settings('site_id_verdun_siege');
     }
 
     /**

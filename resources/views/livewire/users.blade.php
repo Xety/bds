@@ -149,11 +149,9 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="text-primary font-bold">
-                                    <a href="{{ route('users.show', $user) }}" class="text-primary font-bold">
-                                        {{ $user->full_name }}
-                                    </a>
-                                </div>
+                                <a class="link link-hover link-primary font-bold" href="{{ $user->show_url }}">
+                                    {{ $user->full_name }}
+                                </a>
                             </div>
                         </div>
                     </x-table.cell>

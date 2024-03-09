@@ -191,9 +191,7 @@
                         </a>
                     </x-table.cell>
                     <x-table.cell>
-                        <a class="link link-hover link-primary font-bold" href="{{ $incident->material->zone->show_url }}">
-                            {{ $incident->material->zone->name }}
-                        </a>
+                        {{ $incident->material->zone->name }}
                     </x-table.cell>
                     @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
                         <x-table.cell>

@@ -66,7 +66,7 @@
             @php
                 $options = [];
 
-                foreach ($types[$type]['actions'] as $key => $value) {
+                foreach ($types[$type]['permission'] as $key => $value) {
                     $options[] = [
                     'id' => $key,
                     'name' => $value
