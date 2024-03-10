@@ -111,7 +111,7 @@ class CalendarEvents extends Component
         ],
         'delete' => [
             'success' => "<b>:count</b> évènement(s) ont été supprimé(s) avec succès !",
-            'danger' => "Une erreur s'est produite lors de la suppression des évènements !"
+            'danger' => "Une erreur s'est produite lors de la suppression des évènements  !"
         ]
     ];
 
