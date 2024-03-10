@@ -24,12 +24,13 @@ return [
     */
     'cache' => [
         //Dashboard
-        'incidents_count' => 7200,  // 2 hours
-        'maintenances_count' => 7200,
-        'parts_count' => 7200,
-        'graph_maintenance_incident' => 7200,
-        'graph_lots' => 7200,
-        'production_count' => 7200,
+        'incidents_count' => 1,  // 7200 / 2 hours
+        'maintenances_count' => 1,
+        'parts_count' => 1,
+        'cleanings_count' => 1,
+        'graph_maintenance_incident' => 1,
+        'graph_part_entries_part_exits' => 1,
+        'weather_timeout' => 600,
 
         // Parts
         'parts' => [
@@ -69,5 +70,17 @@ return [
             'monthly' => Carbon::now()->daysInMonth,
             'yearly' => Carbon::now()->daysInYear
         ]
+    ],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Weather
+    |--------------------------------------------------------------------------
+    |
+    | All weather settings.
+    */
+    'weather' => [
+        'api_key' => env('WEATHER_API_KEY')
     ]
 ];

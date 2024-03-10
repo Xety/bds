@@ -2,11 +2,13 @@
 
 namespace BDS\Providers;
 
+use BDS\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use BDS\Policies\PermissionPolicy;
 use BDS\Policies\RolePolicy;
 use BDS\Models\Permission;
 use BDS\Models\Role;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole('Développeur');
+        });
     }
 }

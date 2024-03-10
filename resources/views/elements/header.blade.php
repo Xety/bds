@@ -9,7 +9,7 @@
                 </label>
             </div>
             {{-- Logo Alliance --}}
-            <div class="navbar-start hidden lg:flex justify-start">
+            <div class="navbar-start hidden xl:flex justify-start">
                 <img class="block dark:hidden h-12" src="{{ asset('images/logos/alliance_bfc.png') }}" alt="Alliance BFC Logo">
                 <img class="hidden dark:block h-12" src="{{ asset('images/logos/alliance_bfc_blanc.png') }}" alt="Alliance BFC Logo">
             </div>
@@ -43,6 +43,9 @@
 
 
             <div class="navbar-end hidden lg:flex justify-end gap-2">
+                {{-- Weather --}}
+                <livewire:weather />
+
                 {{-- Select Site --}}
                 <livewire:site />
 

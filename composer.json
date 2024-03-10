@@ -11,6 +11,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "kirkbushell/eloquence": "^10.0",
         "laravel/framework": "^10.10",
+        "laravel/pulse": "^1.0@beta",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "league/flysystem-aws-s3-v3": "^3.0",
@@ -79,6 +80,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true
 }

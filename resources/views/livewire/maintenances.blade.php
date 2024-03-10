@@ -508,7 +508,7 @@
                 <x-choices
                     class="!h-12 !pr-8 xl:pr-16 pl-0 xl:pl-4"
                     flex-class="mt-4"
-                    wire:model.live="form.parts.{{ $key }}.part_id"
+                    wire:model="form.parts.{{ $key }}.part_id"
                     :options="$form->partsSearchable"
                     search-function="searchPart"
                     no-result-text="Aucun résultat..."
@@ -547,12 +547,12 @@
                         <input wire:model="form.parts.{{ $key }}.number" placeholder="Quantité..." class="input input-primary w-full h-full rounded-l-none @error("form.parts." . $key . ".number") input-error @enderror pl-1" type="number" name="form.parts.{{ $key }}.number" min="1" step="1">
                     </x-slot:append>
                 </x-choices>
-                <!-- ERROR -->
+                <!-- ERRORS -->
                 @error("form.parts." . $key . ".number")
-                <div class="text-red-500 label-text-alt p-1">{{ $message }}</div>
+                    <div class="text-red-500 label-text-alt p-1">{{ $message }}</div>
                 @enderror
                 @error("form.parts." . $key)
-                <div class="text-red-500 label-text-alt p-1">{{ $message }}</div>
+                    <div class="text-red-500 label-text-alt p-1">{{ $message }}</div>
                 @enderror
             @endforeach
         @endif

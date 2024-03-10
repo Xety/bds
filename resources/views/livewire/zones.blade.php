@@ -127,9 +127,39 @@
                     @endcanany
                     @can('update', \BDS\Models\Zone::class)
                          <x-table.cell>
-                            <a href="#" wire:click.prevent="edit({{ $zone->getKey() }})" class="tooltip tooltip-right" data-tip="Editer cette zone">
-                                <x-icon name="fas-pen-to-square" class="h-4 w-4"></x-icon>
-                            </a>
+                             <x-dropdown top hover class="w-60">
+                                 <x-slot:trigger>
+                                     <x-icon name="fas-ellipsis" class="h-5 w-5 cursor-pointer"></x-icon>
+                                 </x-slot:trigger>
+
+                                 @can('update', $zone)
+                                     <x-menu-item
+                                         title="Modifier cette Zone"
+                                         icon="fas-pen-to-square"
+                                         tooltip
+                                         tooltip-content="Modifier cette Zone"
+                                         wire:click.prevent="edit({{ $zone->getKey() }})" class="text-blue-500 text-left" />
+                                 @endcan
+                                 @can('create', \BDS\Models\Zone::class)
+                                     <x-menu-item
+                                         title="Créer une sous Zone"
+                                         icon="fas-plus"
+                                         tooltip
+                                         tooltip-content="Créer une sous zone dans cette zone."
+                                         link="{{ route('zones.index', ['zoneSubId' => $zone->getKey(), 'creating' => 'true']) }}"
+                                         class="text-green-500" />
+                                 @endcan
+                                 @if(Gate::allows('create', \BDS\Models\Material::class) && $zone->allow_material)
+                                     <x-menu-item
+                                         wire:navigate
+                                         title="Créer un Matériel"
+                                         icon="fas-microchip"
+                                         tooltip
+                                         tooltip-content="Créer un matériel dans cette Zone"
+                                         link="{{ route('materials.index', ['zoneId' => $zone->getKey(), 'creating' => 'true']) }}"
+                                         class="text-purple-500" />
+                                 @endif
+                             </x-dropdown>
                         </x-table.cell>
                     @endcan
                     <x-table.cell>

@@ -73,9 +73,11 @@ class Materials extends Component
     protected $queryString = [
         'sortField' => ['as' => 'f'],
         'sortDirection' => ['as' => 'd'],
+        'creating',
         'editing',
         'qrcode',
         'materialId',
+        'zoneId',
         'filters',
     ];
 
@@ -122,6 +124,13 @@ class Materials extends Component
     public bool|string $editing = '';
 
     /**
+     * Whatever the Creating url param is set or not.
+     *
+     * @var bool
+     */
+    public bool|string $creating = '';
+
+    /**
      * Whatever the QR Code url param is set or not.
      *
      * @var bool
@@ -134,6 +143,13 @@ class Materials extends Component
      * @var null|int
      */
     public null|int $materialId = null;
+
+    /**
+     * The zone id if set.
+     *
+     * @var null|int
+     */
+    public null|int $zoneId = null;
 
     /**
      * Used to show the Edit/Create modal.
@@ -201,6 +217,15 @@ class Materials extends Component
             }
         }
 
+        // If the Creating URL param is set, open the create modal.
+        if ($this->creating === true && $this->zoneId !== null) {
+            $zone = Zone::whereId($this->zoneId)->first();
+
+            if ($zone) {
+                $this->create($zone);
+            }
+        }
+
         // Check if the qrcode option are set into the url, and if yes, open the QR Code Modal if the user has the permissions.
         if ($this->qrcode === true && $this->materialId !== null) {
             // Display the modal of the Material ONLY on the site where the material belong to.
@@ -224,7 +249,7 @@ class Materials extends Component
         return view('livewire.materials', [
             'materials' => $this->rows,
             'users' => User::pluck('username', 'id')->toArray(),
-            'zones' => Zone::where('site_id', session('current_site_id'))
+            'zones' => Zone::where('site_id', getPermissionsTeamId())
                 ->where('allow_material', true)
                 ->orderBy('name')
                 ->get()
@@ -285,9 +310,11 @@ class Materials extends Component
     /**
      * Create a blank model and assign it to the model. (Used in create modal)
      *
+     * @param Zone|null $zone The zone id to set if specified.
+     *
      * @return void
      */
-    public function create(): void
+    public function create(Zone $zone = null): void
     {
         $this->authorize('create', Material::class);
 
@@ -295,6 +322,7 @@ class Materials extends Component
         $this->useCachedRows();
 
         $this->form->reset();
+        $this->form->zone_id = $zone->id;
         $this->searchRecipients();
 
         $this->showModal = true;

@@ -1,6 +1,6 @@
 <div>
     <x-modal wire:model="showQrCodeModal" title="Scan de QR Code">
-        <div class="text-gray-600 mb-3 flex flex-col items-center">
+        <div class=" mb-3 flex flex-col items-center">
             @if ($type == 'material')
                 <div class="mb-3">
                     Le QR Code que vous venez de scanner correspond au matériel :

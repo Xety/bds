@@ -196,7 +196,7 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('users.show', $user) }}" class="link link-hover link-primary font-bold">
+                                                    <a class="link link-hover link-primary font-bold" href="{{ $user->show_url }}">
                                                         {{ $user->full_name }}
                                                     </a>
                                                 </div>

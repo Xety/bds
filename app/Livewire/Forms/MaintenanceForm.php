@@ -79,13 +79,12 @@ class MaintenanceForm extends Form
             'parts.*.number' => 'required|numeric|min:1|max:1000000',
             'parts.*' => [
                 function ($attribute, $value, $fail) {
-            //dd($value);
                     // Check we stock related to the number the user want to exit.
                     $part = Part::select('part_entry_total', 'part_exit_total')
                         ->where('id', $value['part_id'])->first();
 
                     // Need to handle the null value because all rules are validated before rendered.
-                    if ($part === null) {
+                    if ($part === null || !isset($value['number'])) {
                         return $fail("");
                     }
 
