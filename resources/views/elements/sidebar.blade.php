@@ -37,6 +37,9 @@
         <x-menu activate-by-route>
             <x-menu-sub :title="auth()->user()->hasRole('Saisonnier Bourgogne du Sud') ? 'Bienvenue' : 'Administration'" icon="bxs-dashboard">
                 <x-menu-item title="Tableau de bord" icon="fas-gauge" link="{{ route('dashboard.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                @if(auth()->user()->hasRole('Développeur'))
+                    <x-menu-item title="Pulse" icon="fas-chart-column" link="{{ route('pulse.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                @endif
             </x-menu-sub>
 
             @if(

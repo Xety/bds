@@ -176,7 +176,7 @@ return [
             ],
         ],
 
-        Recorders\SlowOutgoingRequests::class => [
+        /*Recorders\SlowOutgoingRequests::class => [
             'enabled' => env('PULSE_SLOW_OUTGOING_REQUESTS_ENABLED', true),
             'sample_rate' => env('PULSE_SLOW_OUTGOING_REQUESTS_SAMPLE_RATE', 1),
             'threshold' => env('PULSE_SLOW_OUTGOING_REQUESTS_THRESHOLD', 1000),
@@ -188,7 +188,7 @@ return [
                 // '#^https?://([^/]*).*$#' => '\1',
                 // '#/\d+#' => '/*',
             ],
-        ],
+        ],*/
 
         Recorders\SlowQueries::class => [
             'enabled' => env('PULSE_SLOW_QUERIES_ENABLED', true),
@@ -212,13 +212,13 @@ return [
             ],
         ],
 
-        Recorders\UserJobs::class => [
+        /*Recorders\UserJobs::class => [
             'enabled' => env('PULSE_USER_JOBS_ENABLED', true),
             'sample_rate' => env('PULSE_USER_JOBS_SAMPLE_RATE', 1),
             'ignore' => [
                 // '/^Package\\\\Jobs\\\\/',
             ],
-        ],
+        ],*/
 
         Recorders\UserRequests::class => [
             'enabled' => env('PULSE_USER_REQUESTS_ENABLED', true),
@@ -227,6 +227,37 @@ return [
                 '#^/pulse$#', // Pulse dashboard...
                 '#^/telescope#', // Telescope dashboard...
             ],
+        ],
+
+        \Maantje\Pulse\Database\Recorders\DatabaseRecorder::class => [
+            'connections' => [
+                'mysql' => [
+                    'values' => [
+                        'Connections',
+                        'Threads_connected',
+                        'Threads_running',
+                        'Innodb_buffer_pool_reads',
+                        'Innodb_buffer_pool_read_requests',
+                        'Innodb_buffer_pool_pages_total',
+                        'Max_used_connections'
+                    ],
+                    'aggregates' => [
+                        'avg' => [
+                            'Threads_connected',
+                            'Threads_running',
+                            'Innodb_buffer_pool_reads',
+                            'Innodb_buffer_pool_read_requests',
+                            'Innodb_buffer_pool_pages_total',
+                        ],
+                        'max' => [
+                            //
+                        ],
+                        'count' => [
+                            //
+                        ],
+                    ],
+                ]
+            ]
         ],
     ],
 ];

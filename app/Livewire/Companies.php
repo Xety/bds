@@ -104,11 +104,11 @@ class Companies extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "L'entreprise n°<b>:name</b> a été créé avec succès !",
+            'success' => "L'entreprise <b>:name</b> a été créé avec succès !",
             'danger' => "Une erreur s'est produite lors de la création du entreprise !"
         ],
         'update' => [
-            'success' => "L'entreprise n°<b>:name</b> a été édité avec succès !",
+            'success' => "L'entreprise <b>:name</b> a été édité avec succès !",
             'danger' => "Une erreur s'est produite lors de l'édition du entreprise !"
         ],
         'delete' => [

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65f0d053d56262b669f53c30a2e10279",
+    "content-hash": "a912e30bfd027d52f4a899f5ebbc591e",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -2839,6 +2839,60 @@
                 "source": "https://github.com/livewire/volt"
             },
             "time": "2024-01-30T15:58:11+00:00"
+        },
+        {
+            "name": "maantje/pulse-database",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maantje/pulse-database.git",
+                "reference": "ec5408a4357923294412d3d12dd86951e19ec60f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maantje/pulse-database/zipball/ec5408a4357923294412d3d12dd86951e19ec60f",
+                "reference": "ec5408a4357923294412d3d12dd86951e19ec60f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "*",
+                "laravel/pulse": "^1.0.0@beta",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5.0",
+                "orchestra/testbench": "^8",
+                "phpunit/phpunit": "^10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maantje\\Pulse\\Database\\DatabaseServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maantje\\Pulse\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jamie Schouten",
+                    "email": "j4mie@hey.com"
+                }
+            ],
+            "description": "A Laravel Pulse card for database status",
+            "support": {
+                "issues": "https://github.com/maantje/pulse-database/issues",
+                "source": "https://github.com/maantje/pulse-database/tree/v0.1.0"
+            },
+            "time": "2023-12-10T21:55:46+00:00"
         },
         {
             "name": "mallardduck/blade-boxicons",
@@ -11406,7 +11460,9 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": [],
+    "stability-flags": {
+        "laravel/pulse": 10
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

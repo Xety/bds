@@ -102,11 +102,11 @@ class CalendarEvents extends Component
      */
     protected array $flashMessages = [
         'create' => [
-            'success' => "L'évènement n°<b>:name</b> a été créé avec succès !",
+            'success' => "L'évènement <b>:name</b> a été créé avec succès !",
             'danger' => "Une erreur s'est produite lors de la création de l'évènement !"
         ],
         'update' => [
-            'success' => "L'évènement n°<b>:name</b> a été édité avec succès !",
+            'success' => "L'évènement <b>:name</b> a été édité avec succès !",
             'danger' => "Une erreur s'est produite lors de l'édition de l'évènement !"
         ],
         'delete' => [

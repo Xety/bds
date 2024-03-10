@@ -291,4 +291,12 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('tree/zones-with-materials', [BDS\Http\Controllers\TreeController::class, 'zonesWithMaterials'])
         ->name('tree.zones-with-materials');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pulse Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('pulse', [BDS\Http\Controllers\PulseController::class, 'index'])
+        ->name('pulse.index');
 });

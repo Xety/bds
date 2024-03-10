@@ -26,7 +26,9 @@ class CompanyForm extends Form
                 "required",
                 "min:1",
                 "max:150",
-                Rule::unique('companies')->where(fn ($query) => $query->where('site_id', getPermissionsTeamId())),
+                Rule::unique('companies')
+                    ->ignore($this->company?->id)
+                    ->where(fn ($query) => $query->where('site_id', getPermissionsTeamId())),
             ],
             'description' => 'nullable',
         ];

@@ -200,7 +200,7 @@
     </x-modal>
 
     <!-- Create/Edit Modal -->
-    <x-modal wire:model="showModal" title="{!! $isCreating ? 'Créer une entreprise' : 'Editer l\'entreprise' !!}">
+    <x-modal wire:model="showModal" title="{!! $isCreating ? 'Créer une Entreprise' : 'Editer l\'Entreprise' !!}">
 
         <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
 

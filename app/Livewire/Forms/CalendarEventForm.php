@@ -26,7 +26,9 @@ class CalendarEventForm extends Form
                 "required",
                 "min:1",
                 "max:150",
-                Rule::unique('calendar_events')->where(fn ($query) => $query->where('site_id', getPermissionsTeamId())),
+                Rule::unique('calendar_events')
+                    ->ignore($this->calendarEvent?->id)
+                    ->where(fn ($query) => $query->where('site_id', getPermissionsTeamId())),
             ],
             'color' => 'required|min:7|max:7',
         ];
