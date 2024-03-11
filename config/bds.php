@@ -24,12 +24,12 @@ return [
     */
     'cache' => [
         //Dashboard
-        'incidents_count' => 1,  // 7200 / 2 hours
-        'maintenances_count' => 1,
-        'parts_count' => 1,
-        'cleanings_count' => 1,
-        'graph_maintenance_incident' => 1,
-        'graph_part_entries_part_exits' => 1,
+        'incidents_count' => 3600,  // 7200 / 2 hours
+        'maintenances_count' => 3600,
+        'parts_count' => 3600,
+        'cleanings_count' => 3600,
+        'graph_maintenance_incident' => 3600,
+        'graph_part_entries_part_exits' => 3600,
         'weather_timeout' => 600,
 
         // Parts

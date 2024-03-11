@@ -154,16 +154,16 @@ return [
             ],
         ],
 
-        Recorders\Queues::class => [
+        /*Recorders\Queues::class => [
             'enabled' => env('PULSE_QUEUES_ENABLED', true),
             'sample_rate' => env('PULSE_QUEUES_SAMPLE_RATE', 1),
             'ignore' => [
                 // '/^Package\\\\Jobs\\\\/',
             ],
-        ],
+        ],*/
 
         Recorders\Servers::class => [
-            'server_name' => env('PULSE_SERVER_NAME', gethostname()),
+            'server_name' => env('PULSE_SERVER_NAME', 'Bourgogne du Sud'),
             'directories' => explode(':', env('PULSE_SERVER_DIRECTORIES', '/')),
         ],
 
@@ -229,35 +229,10 @@ return [
             ],
         ],
 
-        \Maantje\Pulse\Database\Recorders\DatabaseRecorder::class => [
-            'connections' => [
-                'mysql' => [
-                    'values' => [
-                        'Connections',
-                        'Threads_connected',
-                        'Threads_running',
-                        'Innodb_buffer_pool_reads',
-                        'Innodb_buffer_pool_read_requests',
-                        'Innodb_buffer_pool_pages_total',
-                        'Max_used_connections'
-                    ],
-                    'aggregates' => [
-                        'avg' => [
-                            'Threads_connected',
-                            'Threads_running',
-                            'Innodb_buffer_pool_reads',
-                            'Innodb_buffer_pool_read_requests',
-                            'Innodb_buffer_pool_pages_total',
-                        ],
-                        'max' => [
-                            //
-                        ],
-                        'count' => [
-                            //
-                        ],
-                    ],
-                ]
-            ]
-        ],
+
+        \Chrysanthos\PulseRequests\Recorders\RequestRecorder::class => [],
+        \Vcian\Pulse\PulseActiveSessions\Recorders\PulseActiveSessionRecorder::class => [],
+        \AaronFrancis\Pulse\Outdated\Recorders\OutdatedRecorder::class => [],
+        \Schmeits\Pulse\DatabaseTableInfo\Recorders\TableInfoRecorder::class => [],
     ],
 ];

@@ -6,9 +6,12 @@ use BDS\Models\Material;
 use BDS\Models\Part;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
 use Endroid\QrCode\Label\Font\OpenSans;
+use Endroid\QrCode\Label\LabelAlignment;
+use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
 use ReflectionException;
@@ -124,16 +127,16 @@ trait WithQrCode
             ->writerOptions([])
             ->data(route('dashboard.index', ['qrcode' => 'true', 'type' => strtolower((new \ReflectionClass($this->model))->getShortName()), 'qrcodeId' => $this->modelQrCode->getKey()]))
             ->encoding(new Encoding('UTF-8'))
-            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->errorCorrectionLevel(ErrorCorrectionLevel::High)
             ->size($this->qrCodeSize)
             ->margin(0)
-            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->roundBlockSizeMode(RoundBlockSizeMode::Margin)
             ->logoPath(public_path('images/logos/selvah_600x600_fond_blanc_qrcode.png'))
             ->logoResizeToWidth($this->allowedQrCodeSize[$this->qrCodeSize]['image_size'])
             ->logoPunchoutBackground(true)
             ->labelText($this->qrCodeLabel)
             ->labelFont(new OpenSans($this->allowedQrCodeSize[$this->qrCodeSize]['font_size']))
-            ->labelAlignment(new LabelAlignmentCenter())
+            ->labelAlignment(LabelAlignment::Center)
             ->build();
 
         return $result->getDataUri();
