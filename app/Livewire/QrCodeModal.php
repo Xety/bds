@@ -155,12 +155,12 @@ class QrCodeModal extends Component
 
                 //  Part types
                 if ($user->can('create', PartEntry::class)) {
-                    $this->types['part']['permission']['part-entry'] = 'Entrée de pièce';
-                    $this->types['part']['view']['part-entry'] = 'part-entries';
+                    $this->types['part']['permission']['partEntry'] = 'Entrée de pièce';
+                    $this->types['part']['view']['partEntry'] = 'part-entries';
                 }
                 if ($user->can('create', PartExit::class)) {
-                    $this->types['part']['permission']['part-exit'] = 'Sortie de pièce';
-                    $this->types['part']['view']['part-exit'] = 'part-exits';
+                    $this->types['part']['permission']['partExit'] = 'Sortie de pièce';
+                    $this->types['part']['view']['partExit'] = 'part-exits';
                 }
 
                 // Set back the teamId and remove the relations again.

@@ -543,7 +543,7 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <div>
-                                <x-icon name="fas-cubes-stacked" class="text-green-500 w-20 h-20"></x-icon>
+                                <x-icon name="fas-cubes-stacked" class="text-green-500 w-16 h-16"></x-icon>
                             </div>
                             <div class="text-xl">
                                 PRIX TOTAL DES PIÈCES DÉTACHÉES EN STOCK
