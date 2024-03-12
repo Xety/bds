@@ -50,7 +50,9 @@
                 <livewire:site />
 
                 {{-- Switch Dark Mode --}}
-                <x-theme-toggle />
+                <div class="tooltip tooltip-bottom" data-tip="Changer de thème">
+                    <x-theme-toggle />
+                </div>
 
                 {{-- User Notifications Menu --}}
                 <livewire:users.notifications />

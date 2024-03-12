@@ -433,7 +433,7 @@
                                             </x-table.cell>
                                             <x-table.cell class="prose">
                                                 @unless (is_null($maintenance->material_id))
-                                                    <a class="link link-hover link-primary font-bold" href="{{ $maintenance->material_url }}">
+                                                    <a class="link link-hover link-primary font-bold" href="{{ $maintenance->material->show_url }}">
                                                         {{ $maintenance->material->name }}
                                                     </a>
                                                 @endunless
@@ -529,7 +529,32 @@
 
         <div class="col-span-12 2xl:col-span-4">
             <div class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex-shrink-0">
+                        <span class="text-xl font-bold sm:text-2xl">Statistiques des Pièces Détachées</span>
+                        <h3 class="hidden sm:block text-base font-light text-gray-500 ">Statistiques générales du site </h3>
+                    </div>
+                    <div class="flex items-center justify-end">
+                        <x-icon name="fas-chart-bar" class="h-12 w-12 text-purple-600"></x-icon>
+                    </div>
+                </div>
 
+                <div class="flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div>
+                                <x-icon name="fas-cubes-stacked" class="text-green-500 w-20 h-20"></x-icon>
+                            </div>
+                            <div class="text-xl">
+                                PRIX TOTAL DES PIÈCES DÉTACHÉES EN STOCK
+                            </div>
+                        </div>
+
+                        <div class="text-4xl font-bold font-bds">
+                            {{ $priceTotalAllPartInStock }} €
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

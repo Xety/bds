@@ -259,6 +259,24 @@ class DashboardController extends Controller
             ->paginate(5, ['*'], 'maintenances');
         array_push($viewDatas, 'incidents', 'maintenances');
 
+
+        // Price total of all part in stock
+        $priceTotalAllPartInStock = Cache::remember(
+            'Parts.count.price_total_all_part_in_stock'. $site,
+            config('bds.cache.parts.price_total_all_part_in_stock'),
+            function () {
+                return number_format(Part::query()->where(function($query) {
+                    if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+                        $query->where('site_id', getPermissionsTeamId());
+                    }
+
+                    return $query;
+                })->sum(DB::raw('price * (part_entry_total - part_exit_total)')));
+            }
+        );
+        $viewDatas[] = 'priceTotalAllPartInStock';
+
+
         return view('dashboard.index', compact($viewDatas));
     }
 }
