@@ -25,7 +25,7 @@
                 <div class="tooltip tooltip-bottom" data-tip="Changer de thème">
                     <div class="flex justify-between items-center">
                         <x-theme-toggle />
-                        
+
                         <livewire:weather />
                     </div>
                 </div>
