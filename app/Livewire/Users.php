@@ -94,7 +94,7 @@ class Users extends Component
      */
     public array $allowedFields = [
         'id',
-        'last_name',
+        'first_name',
         'email',
         'last_login_date',
         'created_at',
