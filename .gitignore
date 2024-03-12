@@ -19,9 +19,12 @@ yarn-error.log
 .idea
 /.vscode
 /.vagrant
+/.vemto
 after.sh
 aliases
 Vagrantfile
 .phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php
+composer.lock
+package-lock.json

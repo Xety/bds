@@ -53,6 +53,16 @@
 
             <livewire:pulse.table-info cols='4' rows='2' />
 
+            <livewire:database cols='6' title="Active threads" :values="['Threads_connected', 'Threads_running']" :graphs="[
+    'avg' => ['Threads_connected' => '#9333ea', 'Threads_running' => '#3c5dff'],
+]" />
+
+            <livewire:database cols='6' title="Connections" :values="['Connections', 'Max_used_connections']" />
+
+            <livewire:database cols='full' title="Innodb" :values="['Innodb_buffer_pool_reads', 'Innodb_buffer_pool_read_requests', 'Innodb_buffer_pool_pages_total']" :graphs="[
+    'avg' => ['Innodb_buffer_pool_reads' => '#9333ea', 'Innodb_buffer_pool_read_requests' => '#3c5dff'],
+]" />
+
         </div>
     </section>
 @endsection
