@@ -20,7 +20,7 @@ new class extends Component {
         $site = Site::find(getPermissionsTeamId());
 
         $this->weather = Cache::remember(
-            'Weather.current.' . $site,
+            'Weather.current.' . $site->getKey(),
             config('bds.cache.weather_timeout'),
             function () use ($site) {
                 $response = null;
