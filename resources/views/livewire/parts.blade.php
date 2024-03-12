@@ -481,6 +481,14 @@
                     <x-slot:sub-value>
                         {{ $option->username }}
                     </x-slot:sub-value>
+
+                    <x-slot:actions>
+                        @foreach ($option->roles as $role)
+                            <span class="block font-semibold truncate" style="{{ $role->formatted_color }};">
+                                {{ $role->name }}
+                            </span>
+                        @endforeach
+                    </x-slot:actions>
                 </x-list-item>
                 @endscope
 

@@ -474,7 +474,9 @@ class Parts extends Component
             $selectedOption = [];
         }
 
-        $recipients = User::whereRelation('sites', 'site_id', getPermissionsTeamId())
+        $recipients = User::query()
+            ->with(['roles', 'sites'])
+            ->whereRelation('sites', 'site_id', getPermissionsTeamId())
             ->where(function($query) use ($value) {
                 return $query->where('first_name', 'like', "%$value%")
                     ->orWhere('last_name', 'like', "%$value%");
