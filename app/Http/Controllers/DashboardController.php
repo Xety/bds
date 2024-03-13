@@ -254,17 +254,17 @@ class DashboardController extends Controller
             $query->where('site_id', getPermissionsTeamId());
         }
         $incidents = $query->orderBy('created_at', 'desc')
-            ->paginate(5, ['*'], 'incidents');
+            ->paginate(15, ['*'], 'incidents');
 
         $query = Maintenance::query()
             ->with('site', 'material', 'user')
             ->where('is_finished', false);
-    //dd(getPermissionsTeamId(), settings('site_id_verdun_siege'));
+
         if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
             $query->where('site_id', getPermissionsTeamId());
         }
         $maintenances = $query->orderBy('created_at', 'desc')
-            ->paginate(5, ['*'], 'maintenances');
+            ->paginate(15, ['*'], 'maintenances');
 
         array_push($viewDatas, 'incidents', 'maintenances');
 

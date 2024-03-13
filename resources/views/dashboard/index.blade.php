@@ -548,7 +548,7 @@
         </div>
 
         <div class="col-span-12 2xl:col-span-4">
-            <div class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+            <div class="p-6 flex flex-col shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                 <div class="flex lg:items-center justify-between mb-4">
                     <div class="flex flex-col">
                             <span class="text-xl font-bold sm:text-2xl">
@@ -563,104 +563,106 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col justify-between border-dotted border-b border-slate-500 pb-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center mr-2">
-                            <div class="mr-2">
-                                <x-icon name="fas-cubes-stacked" class="text-green-500 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                <div class="flex flex-col justify-between h-full">
+                    <div class="flex flex-col justify-between border-dotted border-b border-slate-500 pb-1">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center mr-2">
+                                <div class="mr-2">
+                                    <x-icon name="fas-cubes-stacked" class="text-green-500 w-8 h-8 lg:w-14 lg:h-14"></x-icon>
+                                </div>
+                                <div class="text-sm lg:text-xl">
+                                    Prix total des pièces détachées en stock
+                                </div>
                             </div>
-                            <div class="text-sm lg:text-xl">
-                                Prix total des pièces détachées en stock
-                            </div>
-                        </div>
 
-                        <div class="text-xl lg:text-3xl font-bold font-bds">
-                            {{ $priceTotalAllPartInStock }}€
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center mr-2">
-                            <div class="mr-2">
-                                <x-icon name="fas-arrow-right-to-bracket" class="text-yellow-500 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                            <div class="text-xl lg:text-3xl font-bold font-bds">
+                                {{ $priceTotalAllPartInStock }}€
                             </div>
-                            <div class="text-sm lg:text-xl">
-                                Prix total des pièces détachées entrées en stock
-                            </div>
-                        </div>
-
-                        <div class="text-xl lg:text-3xl font-bold font-bds">
-                            {{ $priceTotalAllPartEntries }}€
                         </div>
                     </div>
-                </div>
 
-                <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center mr-2">
-                            <div class="mr-2">
-                                <x-icon name="fas-right-from-bracket" class="text-red-500 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                    <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center mr-2">
+                                <div class="mr-2">
+                                    <x-icon name="fas-arrow-right-to-bracket" class="text-yellow-500 w-8 h-8 lg:w-14 lg:h-14"></x-icon>
+                                </div>
+                                <div class="text-sm lg:text-xl">
+                                    Prix total des pièces détachées entrées en stock
+                                </div>
                             </div>
-                            <div class="text-sm lg:text-xl">
-                                Prix total des pièces détachées sorties du stock
-                            </div>
-                        </div>
 
-                        <div class="text-xl lg:text-3xl font-bold font-bds">
-                            {{ $priceTotalAllPartExits }}€
+                            <div class="text-xl lg:text-3xl font-bold font-bds">
+                                {{ $priceTotalAllPartEntries }}€
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center mr-2">
-                            <div class="mr-2">
-                                <x-icon name="fas-cubes-stacked" class="text-blue-500 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                    <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center mr-2">
+                                <div class="mr-2">
+                                    <x-icon name="fas-right-from-bracket" class="text-red-500 w-8 h-8 lg:w-14 lg:h-14"></x-icon>
+                                </div>
+                                <div class="text-sm lg:text-xl">
+                                    Prix total des pièces détachées sorties du stock
+                                </div>
                             </div>
-                            <div class="text-sm lg:text-xl">
-                                Nombre de pièces détachées en stock actuellement
-                            </div>
-                        </div>
 
-                        <div class="text-xl lg:text-3xl font-bold font-bds">
-                            {{ $totalPartInStock }}
+                            <div class="text-xl lg:text-3xl font-bold font-bds">
+                                {{ $priceTotalAllPartExits }}€
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex flex-col justify-between  border-dotted border-b border-slate-500 py-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center mr-2">
-                            <div class="mr-2">
-                                <x-icon name="fas-arrow-right-to-bracket" class="text-cyan-600 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                    <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center mr-2">
+                                <div class="mr-2">
+                                    <x-icon name="fas-cubes-stacked" class="text-blue-500 w-8 h-8 lg:w-14 lg:h-14"></x-icon>
+                                </div>
+                                <div class="text-sm lg:text-xl">
+                                    Nombre de pièces détachées en stock actuellement
+                                </div>
                             </div>
-                            <div class="text-sm lg:text-xl">
-                                Nombre de pièces détachées entrées en stock
-                            </div>
-                        </div>
 
-                        <div class="text-xl lg:text-3xl font-bold font-bds">
-                            {{ $totalPartGetInStock }}
+                            <div class="text-xl lg:text-3xl font-bold font-bds">
+                                {{ $totalPartInStock }}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex flex-col justify-between pt-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center mr-2">
-                            <div class="mr-2">
-                                <x-icon name="fas-right-from-bracket" class="text-pink-600 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                    <div class="flex flex-col justify-between  border-dotted border-b border-slate-500 py-1">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center mr-2">
+                                <div class="mr-2">
+                                    <x-icon name="fas-arrow-right-to-bracket" class="text-cyan-600 w-8 h-8 lg:w-14 lg:h-14"></x-icon>
+                                </div>
+                                <div class="text-sm lg:text-xl">
+                                    Nombre de pièces détachées entrées en stock
+                                </div>
                             </div>
-                            <div class="text-sm lg:text-xl">
-                                Nombre de pièces détachées sorties du stock
+
+                            <div class="text-xl lg:text-3xl font-bold font-bds">
+                                {{ $totalPartGetInStock }}
                             </div>
                         </div>
+                    </div>
 
-                        <div class="text-xl lg:text-3xl font-bold font-bds">
-                            {{ $totalPartOutOfStock }}
+                    <div class="flex flex-col justify-between pt-1">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center mr-2">
+                                <div class="mr-2">
+                                    <x-icon name="fas-right-from-bracket" class="text-pink-600 w-8 h-8 lg:w-14 lg:h-14"></x-icon>
+                                </div>
+                                <div class="text-sm lg:text-xl">
+                                    Nombre de pièces détachées sorties du stock
+                                </div>
+                            </div>
+
+                            <div class="text-xl lg:text-3xl font-bold font-bds">
+                                {{ $totalPartOutOfStock }}
+                            </div>
                         </div>
                     </div>
                 </div>
