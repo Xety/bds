@@ -32,7 +32,7 @@ class AlertNotification extends Notification
      */
     public function __construct(private Material $material)
     {
-        $days = config('selvah.cleaning.multipliers.' . $this->material->cleaning_alert_frequency_type) * $this->material->cleaning_alert_frequency_repeatedly;
+        $days = config('bds.cleaning.multipliers.' . $this->material->cleaning_alert_frequency_type) * $this->material->cleaning_alert_frequency_repeatedly;
 
         // Get le next cleaning date or use the creat_at field if there's no last cleaning date.
         $this->nextCleaning = $this->material->last_cleaning_at === null ?

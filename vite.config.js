@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/bds.js',
                 'resources/js/calendars.js',
                 'resources/js/apexcharts.js',
+                'resources/js/chart.js',
             ],
             refresh: true,
         })

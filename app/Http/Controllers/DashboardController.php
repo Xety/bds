@@ -26,7 +26,7 @@ class DashboardController extends Controller
         $viewDatas = [];
 
         $breadcrumbs = $this->breadcrumbs;
-        array_push($viewDatas, 'breadcrumbs');
+        $viewDatas[] = 'breadcrumbs';
 
         // If the user is a Saisonnier, render directly.
         if (Auth::user()->hasRole('Saisonnier Bourgogne du Sud')) {
@@ -46,8 +46,8 @@ class DashboardController extends Controller
         $end2MonthsAgo = Carbon::now()->subMonthsNoOverflow()->endOfMonth()->toDateString();
         $lastMonthText = Carbon::now()->translatedFormat('F');
         $last2MonthsText = Carbon::now()->subMonth()->translatedFormat('F');
-        array_push($viewDatas, 'lastMonthText');
-        array_push($viewDatas, 'last2MonthsText');
+        $viewDatas[] = 'lastMonthText';
+        $viewDatas[] = 'last2MonthsText';
 
         // Incidents
         $lastMonthIncidents = Cache::remember(
@@ -64,7 +64,7 @@ class DashboardController extends Controller
                 return $query->count();
             }
         );
-        array_push($viewDatas, 'lastMonthIncidents');
+        $viewDatas[] = 'lastMonthIncidents';
 
         $last2Months = Cache::remember(
             'Dashboard.incidents.count.last_2months.' . $site,
@@ -84,24 +84,24 @@ class DashboardController extends Controller
         $percentIncidentsCount = round($last2Months == 0 ?
             $lastMonthIncidents * 100 :
             (($lastMonthIncidents - $last2Months) / $last2Months) * 100, 2);
-        array_push($viewDatas, 'percentIncidentsCount');
+        $viewDatas[] = 'percentIncidentsCount';
 
         // Maintenances
         $lastMonthMaintenances = Cache::remember(
             'Dashboard.maintenances.count.last_month.' . $site,
             config('bds.cache.maintenances_count'),
-            function () use ($startLastMonth, $endLastMonth) {
+            function () use ($startLastMonth, $endLastMonth, $site) {
                 $query = Maintenance::whereDate('created_at', '>=', $startLastMonth)
                     ->whereDate('created_at', '<=', $endLastMonth);
 
-                if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+                if ($site !== settings('site_id_verdun_siege')) {
                     $query->where('site_id', getPermissionsTeamId());
                 }
 
                 return $query->count();
             }
         );
-        array_push($viewDatas, 'lastMonthMaintenances');
+        $viewDatas[] = 'lastMonthMaintenances';
 
         $last2Months = Cache::remember(
             'Dashboard.maintenances.count.last_2months.' . $site,
@@ -121,12 +121,12 @@ class DashboardController extends Controller
         $percentMaintenancesCount = round($last2Months == 0 ?
             $lastMonthMaintenances * 100 :
             (($lastMonthMaintenances - $last2Months) / $last2Months) * 100, 2);
-        array_push($viewDatas, 'percentMaintenancesCount');
+        $viewDatas[] = 'percentMaintenancesCount';
 
         // Part
         $partInStock = Cache::remember(
             'Dashboard.parts.count.last_month.' . $site,
-            config('bds.cache.cleanings_count'),
+            config('bds.cache.parts_count'),
             function () {
                 return number_format(Part::query()->where(function($query) {
                     if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
@@ -137,12 +137,12 @@ class DashboardController extends Controller
                 })->sum(DB::raw('part_entry_total - part_exit_total')));
             }
         );
-        array_push($viewDatas, 'partInStock');
+        $viewDatas[] = 'partInStock';
 
         // Cleanings
         $lastMonthCleanings = Cache::remember(
             'Dashboard.cleanings.count.last_month.' . $site,
-            config('bds.cache.maintenances_count'),
+            config('bds.cache.cleanings_count'),
             function () use ($startLastMonth, $endLastMonth) {
                 $query =  Cleaning::whereDate('created_at', '>=', $startLastMonth)
                     ->whereDate('created_at', '<=', $endLastMonth);
@@ -154,7 +154,7 @@ class DashboardController extends Controller
                 return $query->count();
             }
         );
-        array_push($viewDatas, 'lastMonthCleanings');
+        $viewDatas[] = 'lastMonthCleanings';
 
         // Graph Incidents/Maintenances
         $incidentsMaintenancesGraphData = Cache::remember(
@@ -199,7 +199,7 @@ class DashboardController extends Controller
                 return $array;
             }
         );
-        array_push($viewDatas, 'incidentsMaintenancesGraphData');
+        $viewDatas[] = 'incidentsMaintenancesGraphData';
 
         // Graph PartEntries and PartExits.
         $partEntriesPartExitsGraphData = Cache::remember(
@@ -243,10 +243,12 @@ class DashboardController extends Controller
                 return $array;
             }
         );
-        array_push($viewDatas, 'partEntriesPartExitsGraphData');
+        $viewDatas[] = 'partEntriesPartExitsGraphData';
 
         // Incidents & Maintenances
-        $query = Incident::where('is_finished', false);
+        $query = Incident::query()
+            ->with('site', 'material', 'maintenance', 'user')
+            ->where('is_finished', false);
 
         if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
             $query->where('site_id', getPermissionsTeamId());
@@ -254,15 +256,22 @@ class DashboardController extends Controller
         $incidents = $query->orderBy('created_at', 'desc')
             ->paginate(5, ['*'], 'incidents');
 
-        $maintenances = Maintenance::where('is_finished', false)
-            ->orderBy('created_at', 'desc')
+        $query = Maintenance::query()
+            ->with('site', 'material', 'user')
+            ->where('is_finished', false);
+    //dd(getPermissionsTeamId(), settings('site_id_verdun_siege'));
+        if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+            $query->where('site_id', getPermissionsTeamId());
+        }
+        $maintenances = $query->orderBy('created_at', 'desc')
             ->paginate(5, ['*'], 'maintenances');
+
         array_push($viewDatas, 'incidents', 'maintenances');
 
 
-        // Price total of all part in stock
+        // Price total of all part in stock.
         $priceTotalAllPartInStock = Cache::remember(
-            'Parts.count.price_total_all_part_in_stock'. $site,
+            'Parts.count.price_total_all_part_in_stock.'. $site,
             config('bds.cache.parts.price_total_all_part_in_stock'),
             function () {
                 return number_format(Part::query()->where(function($query) {
@@ -275,6 +284,74 @@ class DashboardController extends Controller
             }
         );
         $viewDatas[] = 'priceTotalAllPartInStock';
+
+        // Price total of all part exits
+        $priceTotalAllPartExits = Cache::remember(
+            'Parts.count.price_total_all_part_exits.'. $site,
+            config('bds.cache.parts.price_total_all_part_exits'),
+            function () {
+                return number_format(Part::query()->where(function($query) {
+                    if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+                        $query->where('site_id', getPermissionsTeamId());
+                    }
+
+                    return $query;
+                })->sum(DB::raw('price * part_exit_total')));
+            }
+        );
+        $viewDatas[] = 'priceTotalAllPartExits';
+
+        // Price total of all part entries
+        $priceTotalAllPartEntries = Cache::remember(
+            'Parts.count.price_total_all_part_entries.'. $site,
+            config('bds.cache.parts.price_total_all_part_entries'),
+            function () {
+                return number_format(Part::query()->where(function($query) {
+                    if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+                        $query->where('site_id', getPermissionsTeamId());
+                    }
+
+                    return $query;
+                })->sum(DB::raw('price * part_entry_total')));
+            }
+        );
+        $viewDatas[] = 'priceTotalAllPartEntries';
+
+        // Total parts in stock
+        $totalPartInStock = Cache::remember(
+            'Parts.count.total_part_in_stock.'. $site,
+            config('bds.cache.parts.total_part_in_stock'),
+            function () {
+                return number_format(Part::query()->where(function($query) {
+                    if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+                        $query->where('site_id', getPermissionsTeamId());
+                    }
+
+                    return $query;
+                })->sum(DB::raw('part_entry_total - part_exit_total')));
+            }
+        );
+        $viewDatas[] = 'totalPartInStock';
+
+        // Total parts that got out of stock
+        $totalPartOutOfStock = Cache::remember(
+            'Parts.count.total_part_out_of_stock.'. $site,
+            config('bds.cache.parts.total_part_out_of_stock'),
+            function () {
+                return number_format(PartExit::sum(DB::raw('number')));
+            }
+        );
+        $viewDatas[] = 'totalPartOutOfStock';
+
+        // Total parts that get in stock
+        $totalPartGetInStock = Cache::remember(
+            'Parts.count.total_part_get_in_stock.'. $site,
+            config('bds.cache.parts.total_part_get_in_stock'),
+            function () {
+                return number_format(PartEntry::sum(DB::raw('number')));
+            }
+        );
+        $viewDatas[] = 'totalPartGetInStock';
 
 
         return view('dashboard.index', compact($viewDatas));

@@ -34,7 +34,7 @@ class CleaningAlerts extends Command
 
         // Filter only the expired cleaning.
         $cleaningsExpired = $materials->filter(function ($material) {
-            $days = config('selvah.cleaning.multipliers.' . $material->cleaning_alert_frequency_type) * $material->cleaning_alert_frequency_repeatedly;
+            $days = config('bds.cleaning.multipliers.' . $material->cleaning_alert_frequency_type) * $material->cleaning_alert_frequency_repeatedly;
 
             // If the last cleaning at is null that mean there's no cleaning at all, so return directly true.
             if ($material->last_cleaning_at === null) {
@@ -48,7 +48,7 @@ class CleaningAlerts extends Command
         // Send the Event
         $cleaningsExpired->each(function ($material) {
             // Check the last alert notification to prevent notification spam
-            if ($material->last_cleaning_alert_send_at >= now()->subHours(config('selvah.cleaning.send_alert_frequency'))) {
+            if ($material->last_cleaning_alert_send_at >= now()->subHours(config('bds.cleaning.send_alert_frequency'))) {
                 return;
             }
 

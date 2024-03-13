@@ -7,6 +7,7 @@
 
 @push('style')
     {!! Laravel\Pulse\Facades\Pulse::css() !!}
+    @vite('resources/js/chart.js')
 @endpush
 
 

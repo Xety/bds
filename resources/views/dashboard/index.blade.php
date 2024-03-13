@@ -170,7 +170,7 @@
                 <div class="flex justify-between">
                     <div class="text-2xl">
                         <span class="uppercase mr-2">Incidents</span>
-                        <div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
+                        <div class="dropdown dropdown-hover dropdown-bottom">
                             <label tabindex="0" class="hover:cursor-pointer text-info">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </label>
@@ -319,13 +319,13 @@
     <div class="grid grid-cols-12 gap-4 mb-4">
         <div class="col-span-12">
             <div class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex lg:items-center justify-between mb-4">
                     <div class="flex-shrink-0">
                         <span class="text-xl font-bold sm:text-2xl">Activité en cours</span>
                         <h3 class="hidden sm:block text-base font-light text-gray-500 ">Incidents et maintenances non résolus</h3>
                     </div>
-                    <div class="flex items-center justify-end">
-                        <x-icon name="fas-list-check" class="h-12 w-12 text-purple-600"></x-icon>
+                    <div class="flex lg:items-center justify-end">
+                        <x-icon name="fas-list-check" class="h-8 w-8 lg:h-12 lg:w-12 text-purple-600"></x-icon>
                     </div>
                 </div>
 
@@ -336,6 +336,9 @@
                                 <x-slot name="head">
                                     <x-table.heading>#Id</x-table.heading>
                                     <x-table.heading>Matériel</x-table.heading>
+                                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                                        <x-table.heading>Site</x-table.heading>
+                                    @endif
                                     <x-table.heading>Zone</x-table.heading>
                                     <x-table.heading>Créateur</x-table.heading>
                                     <x-table.heading>Description</x-table.heading>
@@ -358,6 +361,13 @@
                                                     {{ $incident->material->name }}
                                                 </a>
                                             </x-table.cell>
+                                            @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                                                <x-table.cell>
+                                                    <a class="link link-hover link-primary font-bold" href="{{ $incident->site->show_url }}">
+                                                        {{ $incident->site->name }}
+                                                    </a>
+                                                </x-table.cell>
+                                            @endif
                                             <x-table.cell>
                                                 {{ $incident->material->zone->name }}
                                             </x-table.cell>
@@ -408,6 +418,9 @@
                                     <x-table.heading>#Id</x-table.heading>
                                     <x-table.heading>N° GMAO</x-table.heading>
                                     <x-table.heading>Matériel</x-table.heading>
+                                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                                        <x-table.heading>Site</x-table.heading>
+                                    @endif
                                     <x-table.heading>Description</x-table.heading>
                                     <x-table.heading>Raison</x-table.heading>
                                     <x-table.heading>Créateur</x-table.heading>
@@ -438,6 +451,13 @@
                                                     </a>
                                                 @endunless
                                             </x-table.cell>
+                                            @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                                                <x-table.cell>
+                                                    <a class="link link-hover link-primary font-bold" href="{{ $maintenance->site->show_url }}">
+                                                        {{ $maintenance->site->name }}
+                                                    </a>
+                                                </x-table.cell>
+                                            @endif
                                             <x-table.cell>
                                                 <span class="tooltip tooltip-top" data-tip="{{ $maintenance->description }}">
                                                     {{ Str::limit($maintenance->description, 30) }}
@@ -493,13 +513,13 @@
 
         <div class="col-span-12">
             <div class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex lg:items-center justify-between mb-4">
                     <div class="flex-shrink-0">
                         <span class="text-xl font-bold sm:text-2xl">Incidents et Maintenances</span>
                         <h3 class="text-base font-light text-gray-500 ">Historique sur les 12 derniers mois</h3>
                     </div>
-                    <div class="flex items-center justify-end">
-                        <x-icon name="fas-chart-line" class="h-12 w-12 text-cyan-500"></x-icon>
+                    <div class="flex lg:items-center justify-end">
+                        <x-icon name="fas-chart-line" class="h-8 w-8 lg:h-12 lg:w-12 text-cyan-500"></x-icon>
                     </div>
                 </div>
                 <div id="incidents-maintenances-graph" height="420px"></div>
@@ -510,7 +530,7 @@
     <div class="grid grid-cols-12 gap-4 mb-4">
         <div class="col-span-12 2xl:col-span-8">
             <div class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex lg:items-center justify-between mb-4">
                     <div class="flex flex-col">
                             <span class="text-xl font-bold sm:text-2xl">
                                 Entrées et Sorties totales pour les Pièces Détachées
@@ -519,8 +539,8 @@
                             Historique sur les 12 derniers mois
                         </h3>
                     </div>
-                    <div class="flex items-center justify-end">
-                        <x-icon name="fas-chart-line" class="h-12 w-12 text-cyan-500"></x-icon>
+                    <div class="flex lg:items-center justify-end">
+                        <x-icon name="fas-chart-line" class="h-8 w-8 lg:h-12 lg:w-12 text-cyan-500"></x-icon>
                     </div>
                 </div>
                 <div id="part-entries-part-exits-graph" height="420px"></div>
@@ -529,29 +549,118 @@
 
         <div class="col-span-12 2xl:col-span-4">
             <div class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex-shrink-0">
-                        <span class="text-xl font-bold sm:text-2xl">Statistiques des Pièces Détachées</span>
-                        <h3 class="hidden sm:block text-base font-light text-gray-500 ">Statistiques générales du site </h3>
+                <div class="flex lg:items-center justify-between mb-4">
+                    <div class="flex flex-col">
+                            <span class="text-xl font-bold sm:text-2xl">
+                                Statistiques des Pièces Détachées
+                            </span>
+                        <h3 class="text-base font-light text-gray-500">
+                            Statistiques générales du site
+                        </h3>
                     </div>
-                    <div class="flex items-center justify-end">
-                        <x-icon name="fas-chart-bar" class="h-12 w-12 text-purple-600"></x-icon>
+                    <div class="flex lg:items-center justify-end">
+                        <x-icon name="fas-chart-bar" class="h-8 w-8 lg:h-12 lg:w-12 text-purple-600"></x-icon>
                     </div>
                 </div>
 
-                <div class="flex flex-col justify-between">
+                <div class="flex flex-col justify-between border-dotted border-b border-slate-500 pb-1">
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <div>
-                                <x-icon name="fas-cubes-stacked" class="text-green-500 w-16 h-16"></x-icon>
+                        <div class="flex items-center mr-2">
+                            <div class="mr-2">
+                                <x-icon name="fas-cubes-stacked" class="text-green-500 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
                             </div>
-                            <div class="text-xl">
-                                PRIX TOTAL DES PIÈCES DÉTACHÉES EN STOCK
+                            <div class="text-sm lg:text-xl">
+                                Prix total des pièces détachées en stock
                             </div>
                         </div>
 
-                        <div class="text-4xl font-bold font-bds">
-                            {{ $priceTotalAllPartInStock }} €
+                        <div class="text-xl lg:text-3xl font-bold font-bds">
+                            {{ $priceTotalAllPartInStock }}€
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center mr-2">
+                            <div class="mr-2">
+                                <x-icon name="fas-arrow-right-to-bracket" class="text-yellow-500 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                            </div>
+                            <div class="text-sm lg:text-xl">
+                                Prix total des pièces détachées entrées en stock
+                            </div>
+                        </div>
+
+                        <div class="text-xl lg:text-3xl font-bold font-bds">
+                            {{ $priceTotalAllPartEntries }}€
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center mr-2">
+                            <div class="mr-2">
+                                <x-icon name="fas-right-from-bracket" class="text-red-500 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                            </div>
+                            <div class="text-sm lg:text-xl">
+                                Prix total des pièces détachées sorties du stock
+                            </div>
+                        </div>
+
+                        <div class="text-xl lg:text-3xl font-bold font-bds">
+                            {{ $priceTotalAllPartExits }}€
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-between border-dotted border-b border-slate-500 py-1">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center mr-2">
+                            <div class="mr-2">
+                                <x-icon name="fas-cubes-stacked" class="text-blue-500 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                            </div>
+                            <div class="text-sm lg:text-xl">
+                                Nombre de pièces détachées en stock actuellement
+                            </div>
+                        </div>
+
+                        <div class="text-xl lg:text-3xl font-bold font-bds">
+                            {{ $totalPartInStock }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-between  border-dotted border-b border-slate-500 py-1">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center mr-2">
+                            <div class="mr-2">
+                                <x-icon name="fas-arrow-right-to-bracket" class="text-cyan-600 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                            </div>
+                            <div class="text-sm lg:text-xl">
+                                Nombre de pièces détachées entrées en stock
+                            </div>
+                        </div>
+
+                        <div class="text-xl lg:text-3xl font-bold font-bds">
+                            {{ $totalPartGetInStock }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-between pt-1">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center mr-2">
+                            <div class="mr-2">
+                                <x-icon name="fas-right-from-bracket" class="text-pink-600 w-8 h-8 lg:w-16 lg:h-16"></x-icon>
+                            </div>
+                            <div class="text-sm lg:text-xl">
+                                Nombre de pièces détachées sorties du stock
+                            </div>
+                        </div>
+
+                        <div class="text-xl lg:text-3xl font-bold font-bds">
+                            {{ $totalPartOutOfStock }}
                         </div>
                     </div>
                 </div>

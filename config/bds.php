@@ -30,7 +30,7 @@ return [
         'cleanings_count' => 3600,
         'graph_maintenance_incident' => 3600,
         'graph_part_entries_part_exits' => 3600,
-        'weather_timeout' => 600,
+        'weather_timeout' => 600, // 10 min
 
         // Parts
         'parts' => [
@@ -40,7 +40,7 @@ return [
             'total_part_in_stock' => 3600,
             'total_part_out_of_stock' => 3600,
             'total_part_get_in_stock' => 3600,
-            'part_entries_part_exits_count_last_12_months' => 600 // 10 min
+            'part_entries_part_exits_count_last_12_months' => 3600
         ]
     ],
 
