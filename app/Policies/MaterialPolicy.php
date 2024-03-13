@@ -23,7 +23,8 @@ class MaterialPolicy
     public function view(User $user, Material $material): bool
     {
         if($user->can('view material')) {
-            return $material->zone->site_id === getPermissionsTeamId();
+            $siteId = getPermissionsTeamId();
+            return ($material->zone->site_id === $siteId || $siteId === settings('site_id_verdun_siege'));
         }
         return false;
     }
@@ -79,8 +80,11 @@ class MaterialPolicy
     /**
      * Determine whether the user can generate QrCode for the model.
      */
-    public function generateQrCode(User $user): bool
+    public function generateQrCode(User $user, ?Material $material = null): bool
     {
+        if($user->can('generate-qrcode material') && !is_null($material)) {
+            return $material->zone->site_id === getPermissionsTeamId();
+        }
         return $user->can('generate-qrcode material');
     }
 

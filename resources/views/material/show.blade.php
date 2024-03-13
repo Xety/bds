@@ -493,7 +493,11 @@
                                                 {{ $part->reference }}
                                             </code>
                                         </x-table.cell>
-                                        <x-table.cell>{{ $part->supplier->name }}</x-table.cell>
+                                        <x-table.cell>
+                                            <a class="link link-hover link-primary font-bold" href="{{ $part->supplier->show_url }}">
+                                                {{ $part->supplier->name }}
+                                            </a>
+                                        </x-table.cell>
                                         <x-table.cell>
                                             <code class="code rounded-sm">
                                                 {{ $part->price }}€
