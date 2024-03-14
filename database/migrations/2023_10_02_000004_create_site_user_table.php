@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->foreignIdFor(\BDS\Models\Site::class)
                 ->constrained()
                 ->cascadeOnDelete();
+
+            $table->primary(['user_id', 'site_id']);
         });
     }
 

@@ -2,11 +2,14 @@
 
 namespace BDS\Models;
 
+use BDS\Observers\PartExitObserver;
 use Eloquence\Behaviours\CountCache\Countable;
 use Eloquence\Behaviours\SumCache\Summable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[ObservedBy([PartExitObserver::class])]
 class PartExit extends Model
 {
     use Countable;

@@ -8,6 +8,39 @@ use BDS\Models\User;
 class UserObserver
 {
     /**
+     * Handle the User "created" event.
+     */
+    public function created(User $user): void
+    {
+        activity()
+            ->performedOn($user)
+            ->event('created')
+            ->log('L\'utilisateur :causer.full_name à créer l\'utilisateur :subject.full_name.');
+    }
+
+    /**
+     * Handle the User "updated" event.
+     */
+    public function updated(User $user): void
+    {
+        activity()
+            ->performedOn($user)
+            ->event('updated')
+            ->withProperties($user)
+            ->log('L\'utilisateur :causer.full_name à mis à jour l\'utilisateur :subject.full_name.');
+    }
+
+    /**
+     * Handle the User "deleted" event.
+     */
+    public function deleted(User $user): void
+    {
+        /*activity()
+            ->performedOn($user)
+            ->event('deleted');*/
+    }
+
+    /**
      * Handle the User "deleting" event.
      */
     public function deleting(User $user): void

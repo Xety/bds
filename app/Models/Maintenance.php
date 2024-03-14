@@ -2,7 +2,9 @@
 
 namespace BDS\Models;
 
+use BDS\Observers\MaintenanceObserver;
 use Eloquence\Behaviours\CountCache\Countable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use BDS\Models\Presenters\MaintenancePresenter;
 
+#[ObservedBy([MaintenanceObserver::class])]
 class Maintenance extends Model
 {
     use Countable;

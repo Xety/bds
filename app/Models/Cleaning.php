@@ -2,11 +2,14 @@
 
 namespace BDS\Models;
 
+use BDS\Observers\CleaningObserver;
 use Eloquence\Behaviours\CountCache\Countable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+#[ObservedBy([CleaningObserver::class])]
 class Cleaning extends Model
 {
     use Countable;

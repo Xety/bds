@@ -169,7 +169,7 @@ class UserForm extends Form
 
         $user->syncRoles($this->roles);
 
-        if (auth()->user()->can('assignDirectPermission', User::class)) {
+        if (auth()->user()->can('assignDirectPermission', $user)) {
             $user->syncPermissions($this->permissions);
 
             $siteId = getPermissionsTeamId();

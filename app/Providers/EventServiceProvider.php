@@ -65,21 +65,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $observers = [
-        User::class => [UserObserver::class],
-        Cleaning::class => [CleaningObserver::class],
-        Material::class => [MaterialObserver::class],
-        Part::class => [PartObserver::class],
-        Supplier::class => [SupplierObserver::class],
-        PartEntry::class => [PartEntryObserver::class],
-        PartExit::class => [PartExitObserver::class],
-        Site::class => [SiteObserver::class],
-        Incident::class => [IncidentObserver::class],
-        Maintenance::class => [MaintenanceObserver::class],
-        Company::class => [CompanyObserver::class],
-        Calendar::class => [CalendarObserver::class],
-        CalendarEvent::class => [CalendarEventObserver::class]
-    ];
+    protected $observers = [];
 
     /**
      * Register any events for your application.

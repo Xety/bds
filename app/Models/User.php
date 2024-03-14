@@ -3,11 +3,15 @@
 namespace BDS\Models;
 
 use BackedEnum;
+use BDS\Http\Controllers\Auth\Traits\MustSetupPassword;
+use BDS\Models\Presenters\UserPresenter;
+use BDS\Observers\UserObserver;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,11 +24,10 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use BDS\Http\Controllers\Auth\Traits\MustSetupPassword;
-use BDS\Models\Presenters\UserPresenter;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 
+#[ObservedBy([UserObserver::class])]
 class User extends Model implements
     AuthenticatableContract,
     AuthorizableContract,

@@ -3,11 +3,14 @@
 namespace BDS\Models;
 
 use BDS\Models\Presenters\ZonePresenter;
+use BDS\Observers\ZoneObserver;
 use Eloquence\Behaviours\CountCache\Countable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ObservedBy([ZoneObserver::class])]
 class Zone extends Model
 {
     use Countable;

@@ -3,10 +3,13 @@
 namespace BDS\Models;
 
 use BDS\Models\Presenters\SupplierPresenter;
+use BDS\Observers\SupplierObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ObservedBy([SupplierObserver::class])]
 class Supplier extends Model
 {
     use SupplierPresenter;

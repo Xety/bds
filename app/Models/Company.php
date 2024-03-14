@@ -2,11 +2,14 @@
 
 namespace BDS\Models;
 
+use BDS\Observers\CompanyObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use BDS\Models\Presenters\CompanyPresenter;
 
+#[ObservedBy([CompanyObserver::class])]
 class Company extends Model
 {
     use CompanyPresenter;

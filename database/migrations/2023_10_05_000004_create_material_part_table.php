@@ -21,6 +21,8 @@ return new class extends Migration {
             $table->foreignIdFor(\BDS\Models\Part::class)
                 ->constrained()
                 ->cascadeOnDelete();
+
+            $table->primary(['material_id', 'part_id']);
         });
     }
 

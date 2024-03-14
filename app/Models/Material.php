@@ -2,13 +2,16 @@
 
 namespace BDS\Models;
 
+use BDS\Observers\MaterialObserver;
 use Eloquence\Behaviours\CountCache\Countable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use BDS\Models\Presenters\MaterialPresenter;
 
+#[ObservedBy([MaterialObserver::class])]
 class Material extends Model
 {
     use Countable;

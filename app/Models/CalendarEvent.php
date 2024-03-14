@@ -2,10 +2,13 @@
 
 namespace BDS\Models;
 
+use BDS\Observers\CalendarEventObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ObservedBy([CalendarEventObserver::class])]
 class CalendarEvent extends Model
 {
     /**
