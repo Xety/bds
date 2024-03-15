@@ -323,13 +323,19 @@
         <x-date-picker wire:model="form.end_employment_contract" name="form.end_employment_contract" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Date de fin de contrat" placeholder="Date de fin de contract..." />
 
         <x-slot:actions>
-            <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
-                @if($isCreating)
-                    <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
-                @else
-                    <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
-                @endif
-            </x-button>
+            @if ($form->user?->trashed() && auth()->user()->can('restore', $form->user))
+                <x-button class="btn btn-info gap-2" type="button" wire:click="restore" spinner>
+                    <x-icon name="fas-lock-open" class="h-5 w-5"></x-icon> Restaurer
+                </x-button>
+            @else
+                <x-button class="btn btn-success gap-2" type="button" wire:click="save" spinner>
+                    @if($isCreating)
+                        <x-icon name="fas-user-plus" class="h-5 w-5"></x-icon> Créer
+                    @else
+                        <x-icon name="fas-user-pen" class="h-5 w-5"></x-icon> Editer
+                    @endif
+                </x-button>
+            @endif
             <x-button @click="$wire.showModal = false" class="btn btn-neutral">
                 Fermer
             </x-button>

@@ -1,0 +1,21 @@
+
+   RedisException 
+
+  Connection refused
+
+  at /home/vagrant/bds/vendor/laravel/framework/src/Illuminate/Redis/Connectors/PhpRedisConnector.php:159
+    155▕         if (version_compare(phpversion('redis'), '5.3.0', '>=') && ! is_null($context = Arr::get($config, 'context'))) {
+    156▕             $parameters[] = $context;
+    157▕         }
+    158▕ 
+  ➜ 159▕         $client->{$persistent ? 'pconnect' : 'connect'}(...$parameters);
+    160▕     }
+    161▕ 
+    162▕     /**
+    163▕      * Create a new redis cluster instance.
+
+      [2m+23 vendor frames [22m
+
+  24  /home/vagrant/bds/artisan:35
+      Illuminate\Foundation\Console\Kernel::handle()
+

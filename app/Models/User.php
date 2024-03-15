@@ -24,6 +24,9 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -42,6 +45,8 @@ class User extends Model implements
     use Notifiable;
     use UserPresenter;
     use SoftDeletes;
+    //use LogsActivity;
+    use CausesActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -123,6 +128,20 @@ class User extends Model implements
         // Find the first record, or abort
         return $query->firstOrFail();
     }
+
+    /*public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->setDescriptionForEvent(function(string $eventName) {
+                return match ($eventName) {
+                    'created' => 'L\'utilisateur :causer.full_name à créer l\'utilisateur :subject.full_name.',
+                    'updated' => 'L\'utilisateur :causer.full_name à mis à jour l\'utilisateur :subject.full_name.',
+                    'deleted' => 'L\'utilisateur :causer.full_name à supprimé l\'utilisateur :subject.full_name.',
+                    'restored' => 'L\'utilisateur :causer.full_name à restauré l\'utilisateur :subject.full_name.',
+                };
+            });
+    }*/
 
     /**
      * Get the cleanings created by the user.

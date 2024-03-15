@@ -96,7 +96,7 @@ class UserForm extends Form
             'email' => $user->email,
             'office_phone' => $user->office_phone,
             'cell_phone' => $user->cell_phone,
-            'end_employment_contract' => $user->end_employment_contract,
+            'end_employment_contract' => $user->end_employment_contract?->format('d-m-Y H:i'),
             'can_bypass' => $user->hasPermissionTo('bypass login')
         ]);
         setPermissionsTeamId($siteId);
@@ -109,7 +109,7 @@ class UserForm extends Form
      */
     public function store(): User
     {
-        // Set the current site id to the new user so he will log in to the right site the first time.
+        // Set the current site id to the new user, so he will log in to the right site the first time.
         $this->current_site_id = getPermissionsTeamId();
 
         $user = User::create($this->only([
@@ -156,6 +156,7 @@ class UserForm extends Form
      */
     public function update(): User
     {
+        $oldUser = $this->user;
         $user = tap($this->user)->update($this->only([
             'username',
             'first_name',
@@ -183,6 +184,12 @@ class UserForm extends Form
 
             setPermissionsTeamId($siteId);
         }
+
+        activity()
+            ->performedOn($user)
+            ->event('updated')
+            ->withProperties(['old' => $oldUser, 'attributes' => $user])
+            ->log('L\'utilisateur :causer.full_name à mis à jour l\'utilisateur :subject.full_name.');
 
         return $user;
     }

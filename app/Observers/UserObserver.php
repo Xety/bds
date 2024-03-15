@@ -12,10 +12,10 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        activity()
+        /*activity()
             ->performedOn($user)
             ->event('created')
-            ->log('L\'utilisateur :causer.full_name à créer l\'utilisateur :subject.full_name.');
+            ->log('L\'utilisateur :causer.full_name à créer l\'utilisateur :subject.full_name.');*/
     }
 
     /**
@@ -23,11 +23,11 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        activity()
+        /*activity()
             ->performedOn($user)
             ->event('updated')
             ->withProperties($user)
-            ->log('L\'utilisateur :causer.full_name à mis à jour l\'utilisateur :subject.full_name.');
+            ->log('L\'utilisateur :causer.full_name à mis à jour l\'utilisateur :subject.full_name.');*/
     }
 
     /**
