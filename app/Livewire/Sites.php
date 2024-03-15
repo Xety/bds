@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Events\NewMessage;
 use BDS\Livewire\Forms\SiteForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -194,6 +195,8 @@ class Sites extends Component
     public function create(): void
     {
         $this->authorize('create', Site::class);
+
+        broadcast(new NewMessage("Chetot l'affreux vilain !"));
 
         $this->isCreating = true;
         $this->useCachedRows();

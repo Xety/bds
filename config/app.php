@@ -167,7 +167,7 @@ return [
          */
         BDS\Providers\AppServiceProvider::class,
         BDS\Providers\AuthServiceProvider::class,
-        // BDS\Providers\BroadcastServiceProvider::class,
+        BDS\Providers\BroadcastServiceProvider::class,
         BDS\Providers\EventServiceProvider::class,
         BDS\Providers\RouteServiceProvider::class,
         BDS\Providers\VoltServiceProvider::class,

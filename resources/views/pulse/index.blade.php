@@ -63,6 +63,8 @@
             <livewire:database cols='full' title="Innodb" :values="['Innodb_buffer_pool_reads', 'Innodb_buffer_pool_read_requests', 'Innodb_buffer_pool_pages_total']" :graphs="[
     'avg' => ['Innodb_buffer_pool_reads' => '#9333ea', 'Innodb_buffer_pool_read_requests' => '#3c5dff'],
 ]" />
+            <livewire:reverb.connections cols="full" />
+            <livewire:reverb.messages cols="full" />
 
         </div>
     </section>
