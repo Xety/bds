@@ -481,6 +481,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'viewAny material',
         'view material',
         'search material',
+        'generate-qrcode material',
         'scan-qrcode material',
 
         // Cleaning
@@ -489,6 +490,22 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'export cleaning',
         'create cleaning',
         'update cleaning',
+        'search cleaning',
+
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+        'create calendar',
+        'update calendar',
+        'delete calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'create calendar event',
+        'update calendar event',
+        'delete calendar event',
+        'search calendar event',
     ];
 
     protected array $assistanteQualiteFiliale = [
@@ -509,6 +526,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'export cleaning',
         'create cleaning',
         'update cleaning',
+        'search cleaning',
 
         // Calendar
         'viewAny calendar',

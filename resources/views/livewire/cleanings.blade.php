@@ -71,9 +71,9 @@
         <x-slot name="body">
             @can('search', \BDS\Models\Cleaning::class)
                 <x-table.row>
-                    @can('delete', \BDS\Models\Cleaning::class)
+                    @canany(['export', 'delete'], \BDS\Models\Cleaning::class)
                         <x-table.cell></x-table.cell>
-                    @endcan
+                    @endcanany
                     @if(Gate::allows('update', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
                     @endif
