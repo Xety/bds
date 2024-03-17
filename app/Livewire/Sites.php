@@ -196,8 +196,6 @@ class Sites extends Component
     {
         $this->authorize('create', Site::class);
 
-        broadcast(new NewMessage("Chetot l'affreux vilain !"));
-
         $this->isCreating = true;
         $this->useCachedRows();
 

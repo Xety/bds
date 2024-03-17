@@ -14,7 +14,6 @@
         "kirkbushell/eloquence": "^10.0",
         "laravel/framework": "^10.47",
         "laravel/pulse": "^1.0@beta",
-        "laravel/reverb": "^1.0@beta",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "league/flysystem-aws-s3-v3": "^3.0",
@@ -29,7 +28,6 @@
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-backup": "^8.1",
         "spatie/laravel-permission": "^6.0",
-        "spatie/simple-excel": "^3.2",
         "vcian/pulse-active-sessions": "^1.5",
         "xetaio/xetaravel-iptraceable": "^10.0",
         "xety/breadcrumbs": "^1.1"

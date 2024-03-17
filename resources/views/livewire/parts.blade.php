@@ -110,7 +110,7 @@
                         <x-input class="min-w-max" wire:model.live.debounce.400ms="filters.supplier" name="filters.supplier" type="text" />
                     </x-table.cell>
                     <x-table.cell>
-                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.price_min" name="filters.price_min" class="input-sm" placeholder="Min" type="number" min="0" step="0.01" />
+                        <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.price_min" name="filters.price_min" class="input-sm" placeholder="Mini" type="number" min="0" step="0.01" />
                         <x-input class="min-w-max" wire:model.live.debounce.250ms="filters.price_max" name="filters.price_max" class="input-sm mt-2" placeholder="Maxi" type="number" min="0" step="0.01" />
                     </x-table.cell>
                     <x-table.cell></x-table.cell>
@@ -545,11 +545,11 @@
                 </span>
             </label>
         </div>
-        @foreach ($allowedQrCodeSize as $key => $value)
-            <x-form.radio wire:model.live="qrCodeSize" value="{{ $key }}" name="size">
-                {{ $value['text'] }}
-            </x-form.radio>
-        @endforeach
+        <x-radio
+            :options="$allowedQrCodeSize"
+            option-label="text"
+            option-value="pixels"
+            wire:model.live="qrCodeSize" />
 
         <x-input wire:model.live.debounce.200ms="qrCodeLabel" name="qrCodeLabel" label="Label du QR Code" placeholder="Texte du label..." type="text" />
 

@@ -65,7 +65,8 @@ class UserForm extends Form
             'email' => 'email',
             'office_phone' => 'téléphone bureau',
             'cell_phone' => 'téléphone portable',
-            'roles' => 'rôles'
+            'roles' => 'rôles',
+            'end_employment_contract' => 'date de fin de contrat'
         ];
     }
 
@@ -146,6 +147,13 @@ class UserForm extends Form
             setPermissionsTeamId($siteId);
         }
 
+        // Log Activity
+        activity()
+            ->performedOn($user)
+            ->event('created')
+            ->withProperties(['attributes' => $user->toArray()])
+            ->log('L\'utilisateur :causer.full_name à créé l\'utilisateur :subject.full_name.');
+
         return $user;
     }
 
@@ -156,7 +164,9 @@ class UserForm extends Form
      */
     public function update(): User
     {
-        $oldUser = $this->user;
+        // Get the old user before tap it.
+        $activityLog['old'] = $this->user->toArray();
+
         $user = tap($this->user)->update($this->only([
             'username',
             'first_name',
@@ -185,10 +195,11 @@ class UserForm extends Form
             setPermissionsTeamId($siteId);
         }
 
+        // Log Activity
         activity()
             ->performedOn($user)
             ->event('updated')
-            ->withProperties(['old' => $oldUser, 'attributes' => $user])
+            ->withProperties(['old' => $activityLog['old'], 'attributes' => $user->toArray()])
             ->log('L\'utilisateur :causer.full_name à mis à jour l\'utilisateur :subject.full_name.');
 
         return $user;

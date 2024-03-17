@@ -206,6 +206,11 @@ class MaintenanceForm extends Form
      */
     public function update(): Maintenance
     {
+        // Set the finished date to null if the is_finished is false.
+        if (!$this->is_finished) {
+            $this->finished_at = null;
+        }
+
         $maintenance = tap($this->maintenance)->update($this->only([
             'gmao_id',
             'material_id',

@@ -60,31 +60,37 @@ trait WithQrCode
      */
     public array $allowedQrCodeSize = [
         100 => [
+            'pixels' => 100,
             'image_size' => 30,
             'text' => 'Très Petit',
             'font_size' => 8
         ],
         150 => [
+            'pixels' => 150,
             'image_size' => 40,
             'text' => 'Petit',
             'font_size' => 9
         ],
         200 => [
+            'pixels' => 200,
             'image_size' => 50,
             'text' => 'Normal',
             'font_size' => 10
         ],
         300 => [
+            'pixels' => 300,
             'image_size' => 50,
             'text' => 'Moyen',
             'font_size' => 12
         ],
         400 => [
+            'pixels' => 400,
             'image_size' => 70,
             'text' => 'Grand',
             'font_size' => 14
         ],
         500 => [
+            'pixels' => 500,
             'image_size' => 90,
             'text' => 'Très Grand',
             'font_size' => 17

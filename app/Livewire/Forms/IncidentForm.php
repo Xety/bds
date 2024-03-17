@@ -111,6 +111,11 @@ class IncidentForm extends Form
      */
     public function update(): Incident
     {
+        // Set the finished date to null if the is_finished is false.
+        if (!$this->is_finished) {
+            $this->finished_at = null;
+        }
+
         return tap($this->incident)->update($this->only([
             'material_id',
             'maintenance_id',

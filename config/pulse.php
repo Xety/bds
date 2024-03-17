@@ -3,8 +3,6 @@
 use Laravel\Pulse\Http\Middleware\Authorize;
 use Laravel\Pulse\Pulse;
 use Laravel\Pulse\Recorders;
-use Laravel\Reverb\Pulse\Recorders\ReverbConnections;
-use Laravel\Reverb\Pulse\Recorders\ReverbMessages;
 
 return [
 
@@ -268,12 +266,5 @@ return [
         \Vcian\Pulse\PulseActiveSessions\Recorders\PulseActiveSessionRecorder::class => [],
         \AaronFrancis\Pulse\Outdated\Recorders\OutdatedRecorder::class => [],
         \Schmeits\Pulse\DatabaseTableInfo\Recorders\TableInfoRecorder::class => [],
-        ReverbConnections::class => [
-            'sample_rate' => 1,
-        ],
-
-        ReverbMessages::class => [
-            'sample_rate' => 1,
-        ],
     ],
 ];

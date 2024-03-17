@@ -5,29 +5,6 @@
     <x-meta title="Gérer les Sites"/>
 @endpush
 
-@push('scripts')
-    <script  type="module">
-        window.Echo.connector.pusher.connection.bind("connected", () => {
-            console.log("connected");
-
-            // Subscribe to the "new-message" public channel
-            window.Echo.channel("new-message")
-                .listen(".PushNewMessage", (e) => {
-                    console.log(e);
-                    Toaster.success(e.msg);
-                })
-                .error((e) => {
-                    console.log(e);
-                    Toaster.error(e.msg);
-                });
-        });
-
-
-
-
-    </script>
-@endpush
-
 @section('content')
     <x-breadcrumbs :breadcrumbs="$breadcrumbs"/>
 

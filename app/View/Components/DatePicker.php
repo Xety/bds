@@ -30,11 +30,11 @@ class DatePicker extends Component
             'time_24hr' => true,
             'prevArrow' => '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z" /></svg>',
             'nextArrow' => '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z" /></svg>',
-            'defaultDate' => 'x',
+            //'defaultDate' => 'x',
         ], $this->config));
 
-        // Sets default date as current bound model
-        $config = str_replace('"x"', '$wire.'.$this->modelName(), $config);
+        // Sets default date as current bound model.
+        //$config = str_replace('"x"', '$wire.'.$this->modelName(), $config);
 
         return $config;
     }
@@ -75,18 +75,23 @@ class DatePicker extends Component
                 @endif
 
                 <div class="flex-1 relative">
-                        <div x-data x-init="flatpickr($refs.input, {{ $setup() }});">
+                        <div
+                            x-data="{
+                                date: $wire.{{ $modelName() }} ? $wire.{{ $modelName() }} : new Date()
+                            }"
+                            x-init="flatpickr($refs.input, {{ $setup() }}).setDate(date)"
+                        >
                             <input
                                 x-ref="input"
                                 {{
                                     $attributes
                                         ->merge(['type' => 'date'])
                                         ->class([
-                                            "input input-primary w-full peer",
-                                            '!pl-10' => ($icon),
+                                            "input input-primary w-full peer appearance-none",
+                                            'pl-10' => ($icon),
                                             'h-14' => ($inline),
                                             'pt-3' => ($inline && $label),
-                                            'border border-dashed' => $attributes->has('readonly'),
+                                            'border border-dashed' => $attributes->has('readonly') && $attributes->get('readonly') == true,
                                             'input-error' => $errors->has($modelName())
                                         ])
                                 }}
@@ -109,7 +114,6 @@ class DatePicker extends Component
                             {{ $label }}
                         </label>
                     @endif
-
                 </div>
 
                 <!-- ERROR -->

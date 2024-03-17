@@ -422,7 +422,6 @@
 
     <!-- QrCode Matériels Modal -->
     <x-modal wire:model="showQrCodeModal" title="Générer un QR Code">
-
         <span class="text-sm mb-3">
             Le QR Code sera généré pour le matériel <span class="font-bold">{{ $modelQrCode?->name }}</span>
         </span>
@@ -452,11 +451,11 @@
                 </span>
             </label>
         </div>
-        @foreach ($allowedQrCodeSize as $key => $value)
-            <x-form.radio wire:model.live="qrCodeSize" value="{{ $key }}" name="size">
-                {{ $value['text'] }}
-            </x-form.radio>
-        @endforeach
+        <x-radio
+            :options="$allowedQrCodeSize"
+            option-label="text"
+            option-value="pixels"
+            wire:model.live="qrCodeSize" />
 
         <x-input wire:model.live="qrCodeLabel" name="qrCodeLabel" label="Label du QR Code" placeholder="Texte du label..." type="text" />
 
