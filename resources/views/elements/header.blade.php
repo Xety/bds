@@ -67,7 +67,7 @@
                         </label>
                     </x-slot:trigger>
 
-                    <x-menu-item wire:navigate title="Mes Paramètres" link="{{ route('profile.edit') }}" icon="iconsax-bol-setting-5" tooltip tooltip-content="Gérer les paramètres de votre compte." />
+                    <x-menu-item title="Mes Paramètres" link="{{ route('profile.edit') }}" icon="iconsax-bol-setting-5" tooltip tooltip-content="Gérer les paramètres de votre compte." />
                     <x-menu-item title="Déconnexion" icon="fas-sign-out-alt" tooltip tooltip-content="A plus tard !" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-red-500" />
                     <x-form method="post" action="{{ route('auth.logout') }}" id="logout-form" style="display:none;"></x-form>
                 </x-dropdown>
