@@ -8,6 +8,7 @@ use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithConvertEmptyStringsToNull;
 use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
+use BDS\Livewire\Traits\WithRemoveRMFromArray;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Company;
@@ -227,6 +228,10 @@ class Maintenances extends Component
         return view('livewire.maintenances', [
             'maintenances' => $this->rows
         ]);
+    }
+
+    public function updatedFormOperators($value, $name) {
+        dd($value, $name);
     }
 
     /**

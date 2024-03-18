@@ -13,6 +13,11 @@ class SitesUsersTableSeeder extends Seeder
         26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
     ];
 
+    protected array $allSitesExceptVerdunSiege = [
+        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+        26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
+    ];
+
     /**
      * Run the database seeds.
      *
@@ -55,15 +60,18 @@ class SitesUsersTableSeeder extends Seeder
         $user->sites()->sync($this->allSites);
 
         $user = User::where('email', 'jl.fargere@bds.coop')->first();
-        $user->sites()->sync($this->allSites);
+        $user->sites()->sync($this->allSitesExceptVerdunSiege);
 
         $user = User::where('email', 's.seraut@bds.coop')->first();
-        $user->sites()->sync($this->allSites);
+        $user->sites()->sync($this->allSitesExceptVerdunSiege);
 
         $user = User::where('email', 's.nnier@bds.coop')->first();
         $user->sites()->sync([6, 7, 21, 30]);
 
         $user = User::where('email', 'm.allain@bds.coop')->first();
         $user->sites()->syncWithPivotValues([51], ['manager' => true]);
+
+        $user = User::where('email', 'c.poncet@bds.coop')->first();
+        $user->sites()->sync([3, 11]);
     }
 }

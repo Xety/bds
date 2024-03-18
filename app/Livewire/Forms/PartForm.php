@@ -166,6 +166,9 @@ class PartForm extends Form
      */
     public function update(): Part
     {
+        $this->materials = array_filter($this->materials, fn ($value) => $value !== '__rm__');
+        $this->recipients = array_filter($this->recipients, fn ($value) => $value !== '__rm__');
+
         $part = tap($this->part)->update($this->only([
             'name',
             'description',

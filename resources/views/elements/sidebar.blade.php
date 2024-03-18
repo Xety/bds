@@ -180,6 +180,13 @@
                 </x-menu-sub>
             @endcan
 
+            @can('viewAny', \BDS\Models\Activity::class)
+                <x-menu-separator  />
+                <x-menu-sub title="Activités" icon="fas-file-shield">
+                    <x-menu-item title="Voir les Activités" icon="fas-file-shield" link="{{ route('activities.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit"/>
+                </x-menu-sub>
+            @endcan
+
             <x-menu-separator hr-class="lg:hidden my-0" />
         </x-menu>
 

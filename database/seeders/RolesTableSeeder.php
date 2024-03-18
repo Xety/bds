@@ -205,6 +205,17 @@ class RolesTableSeeder extends Seeder
                 'guard_name' => 'web',
                 'updated_at' => '2023-08-15 09:46:14',
             ),
+            array (
+                'id' => 18,
+                'name' => 'Secrétaire',
+                'created_at' => '2023-08-15 09:46:14',
+                'color' => '#7490c1',
+                'description' => NULL,
+                'site_id' => NULL,
+                'level' => 20,
+                'guard_name' => 'web',
+                'updated_at' => '2023-08-15 09:46:14',
+            ),
         ));
     }
 }

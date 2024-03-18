@@ -579,6 +579,23 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'search calendar event',
     ];
 
+    protected array $secretaireBourgogneduSud = [
+        // Calendar
+        'viewAny calendar',
+        'view calendar',
+        'create calendar',
+        'update calendar',
+        'delete calendar',
+
+        // Calendar Event
+        'viewAny calendar event',
+        'view calendar event',
+        'create calendar event',
+        'update calendar event',
+        'delete calendar event',
+        'search calendar event',
+    ];
+
     /**
      * Auto generated seed file
      *
@@ -742,6 +759,13 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete company',
             'export company',
             'search company',
+
+            // Activity
+            'viewAny activity',
+            'view activity',
+            'delete activity',
+            'export activity',
+            'search activity',
         ]);
 
         // Directeur Général
@@ -811,5 +835,9 @@ class RoleHasPermissionsTableSeeder extends Seeder
         // Responsable ValUnion
         $role = Role::where('name', 'Responsable ValUnion')->first();
         $role->syncPermissions($this->responsablePermissions);
+
+        // Secrétaire
+        $role = Role::where('name', 'Secrétaire')->first();
+        $role->syncPermissions($this->secretaireBourgogneduSud);
     }
 }

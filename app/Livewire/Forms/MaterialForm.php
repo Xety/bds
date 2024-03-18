@@ -148,6 +148,8 @@ class MaterialForm extends Form
      */
     public function update(): Material
     {
+        $this->recipients = array_filter($this->recipients, fn ($value) => $value !== '__rm__');
+
         $data = [
             'name',
             'description',

@@ -164,6 +164,10 @@ class UserForm extends Form
      */
     public function update(): User
     {
+        $this->sites = array_filter($this->sites, fn ($value) => $value !== '__rm__');
+        $this->roles = array_filter($this->roles, fn ($value) => $value !== '__rm__');
+        $this->permissions = array_filter($this->permissions, fn ($value) => $value !== '__rm__');
+
         // Get the old user before tap it.
         $activityLog['old'] = $this->user->toArray();
 

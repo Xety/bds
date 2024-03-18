@@ -857,6 +857,43 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
+            [
+                'name' => 'viewAny activity',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut voir les activités.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'view activity',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut voir une activité.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'delete activity',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut supprimer une activité.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'export activity',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut exporter les activités.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'search activity',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut rechercher des activités.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
             [
                 'name' => 'bypass login',
                 'guard_name' => 'web',

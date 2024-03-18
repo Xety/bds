@@ -3,7 +3,6 @@ namespace BDS\Policies;
 
 use BDS\Models\Company;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use BDS\Models\Supplier;
 use BDS\Models\User;
 
 class CompanyPolicy

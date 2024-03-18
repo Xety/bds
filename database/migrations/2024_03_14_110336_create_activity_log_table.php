@@ -18,6 +18,13 @@ class CreateActivityLogTable extends Migration
             $table->timestamps();
             $table->index('log_name');
         });
+
+        Schema::connection(config('activitylog.database_connection'))->table(config('activitylog.table_name'), function (Blueprint $table) {
+            $table->foreignIdFor(\BDS\Models\Site::class)
+                ->after('id')
+                ->constrained()
+                ->cascadeOnDelete();
+        });
     }
 
     public function down()

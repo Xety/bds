@@ -162,8 +162,6 @@ class MaintenanceForm extends Form
             'is_finished',
             'finished_at',
         ]));
-
-        //$maintenance->incidents()->sync($this->incidents);
         $maintenance->operators()->sync($this->operators);
         $maintenance->companies()->sync($this->companies);
 
@@ -175,7 +173,6 @@ class MaintenanceForm extends Form
                 $incident->save();
             }
         }
-
 
         // PartExits
         if (!empty($this->parts)) {
@@ -206,6 +203,10 @@ class MaintenanceForm extends Form
      */
     public function update(): Maintenance
     {
+        $this->operators = array_filter($this->operators, fn ($value) => $value !== '__rm__');
+        $this->companies = array_filter($this->companies, fn ($value) => $value !== '__rm__');
+        $this->incidents = array_filter($this->incidents, fn ($value) => $value !== '__rm__');
+
         // Set the finished date to null if the is_finished is false.
         if (!$this->is_finished) {
             $this->finished_at = null;
