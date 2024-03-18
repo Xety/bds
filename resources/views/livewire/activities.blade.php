@@ -126,11 +126,11 @@
                             {{ $activity->event }}
                         </code>
                     </x-table.cell>
-                        <x-table.cell>
-                            <a class="link link-hover link-primary font-bold" href="{{ $activity->subject->show_url }}">
-                                {{ $activity->subject->id }}
-                            </a>
-                        </x-table.cell>
+                    <x-table.cell>
+                        <a class="link link-hover link-primary font-bold" href="{{ $activity->subject->show_url }}">
+                            {{ $activity->subject->id }}
+                        </a>
+                    </x-table.cell>
                     <x-table.cell>
                         <a class="link link-hover link-primary font-bold" href="{{ $activity->causer->show_url }}">
                             {{ $activity->causer->full_name }}
