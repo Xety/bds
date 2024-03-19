@@ -25,4 +25,19 @@ class IncidentObserver
         $incident->edit_count++;
         $incident->edited_user_id = Auth::id();
     }
+
+    /**
+     * Handle the "deleted" event.
+     */
+    public function deleted(Incident $incident): void
+    {
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($incident)
+                ->event('deleted')
+                ->withProperties(['attributes' => $incident->toArray()])
+                ->log('L\'utilisateur :causer.full_name à supprimé l\'incident N°:subject.id.');
+        }
+    }
 }

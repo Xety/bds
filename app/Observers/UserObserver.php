@@ -31,13 +31,18 @@ class UserObserver
     }
 
     /**
-     * Handle the User "deleted" event.
+     * Handle the "deleted" event.
      */
     public function deleted(User $user): void
     {
-        /*activity()
-            ->performedOn($user)
-            ->event('deleted');*/
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($user)
+                ->event('deleted')
+                ->withProperties(['attributes' => $user->toArray()])
+                ->log('L\'utilisateur :causer.full_name à supprimé l\'utilisateur :subject.full_name.');
+        }
     }
 
     /**

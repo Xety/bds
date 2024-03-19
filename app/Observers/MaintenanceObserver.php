@@ -53,4 +53,19 @@ class MaintenanceObserver
         $existingIds = $maintenance->partExits()->pluck('id')->toArray();
         PartExit::whereIn('id', $existingIds)->update(['maintenance_id' => null]);
     }
+
+    /**
+     * Handle the "deleted" event.
+     */
+    public function deleted(Maintenance $maintenance): void
+    {
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($maintenance)
+                ->event('deleted')
+                ->withProperties(['attributes' => $maintenance->toArray()])
+                ->log('L\'utilisateur :causer.full_name à supprimé la maintenance N°:subject.id.');
+        }
+    }
 }

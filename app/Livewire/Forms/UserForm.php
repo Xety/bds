@@ -148,11 +148,13 @@ class UserForm extends Form
         }
 
         // Log Activity
-        activity()
-            ->performedOn($user)
-            ->event('created')
-            ->withProperties(['attributes' => $user->toArray()])
-            ->log('L\'utilisateur :causer.full_name à créé l\'utilisateur :subject.full_name.');
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($user)
+                ->event('created')
+                ->withProperties(['attributes' => $user->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé l\'utilisateur :subject.full_name.');
+        }
 
         return $user;
     }
@@ -200,11 +202,13 @@ class UserForm extends Form
         }
 
         // Log Activity
-        activity()
-            ->performedOn($user)
-            ->event('updated')
-            ->withProperties(['old' => $activityLog['old'], 'attributes' => $user->toArray()])
-            ->log('L\'utilisateur :causer.full_name à mis à jour l\'utilisateur :subject.full_name.');
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($user)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $user->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour l\'utilisateur :subject.full_name.');
+        }
 
         return $user;
     }

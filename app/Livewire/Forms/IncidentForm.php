@@ -93,7 +93,7 @@ class IncidentForm extends Form
      */
     public function store(): Incident
     {
-        return Incident::create($this->only([
+        $incident = Incident::create($this->only([
             'material_id',
             'maintenance_id',
             'description',
@@ -102,6 +102,17 @@ class IncidentForm extends Form
             'finished_at',
             'impact'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($incident)
+                ->event('created')
+                ->withProperties(['attributes' => $incident->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé l\'incident :subject.id.');
+        }
+
+        return $incident;
     }
 
     /**
@@ -116,7 +127,10 @@ class IncidentForm extends Form
             $this->finished_at = null;
         }
 
-        return tap($this->incident)->update($this->only([
+        // Get the old incident before tap it.
+        $activityLog['old'] = $this->incident->toArray();
+
+        $incident = tap($this->incident)->update($this->only([
             'material_id',
             'maintenance_id',
             'description',
@@ -125,5 +139,16 @@ class IncidentForm extends Form
             'finished_at',
             'impact'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($incident)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $incident->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour l\'incident  N°:subject.id.');
+        }
+
+        return $incident;
     }
 }

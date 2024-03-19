@@ -306,6 +306,15 @@ class SettingsTableSeeder extends Seeder
                 'label' => 'Activation du système de création d\'évènement de calendrier.',
                 'text' => 'Active/Désactive le système de création d\'évènement de calendrier.'
             ]);
+
+            // Activity
+            Setting::create([
+                'key' => 'activity_log_enabled',
+                'site_id' => $a,
+                'value' => true,
+                'label' => 'Activation du système de log des activités.',
+                'text' => 'Active/Désactive le système de log des activités.'
+            ]);
         }
 
         // Settings for all sites except Verdun Siège.

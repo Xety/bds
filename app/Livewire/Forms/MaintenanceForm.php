@@ -193,6 +193,15 @@ class MaintenanceForm extends Form
             }
         }
 
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($maintenance)
+                ->event('created')
+                ->withProperties(['attributes' => $maintenance->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé la maintenance N°:subject.id.');
+        }
+
         return $maintenance;
     }
 
@@ -203,6 +212,8 @@ class MaintenanceForm extends Form
      */
     public function update(): Maintenance
     {
+        // Hack to counter a bug in Livewire
+        // https://github.com/livewire/livewire/discussions/6665
         $this->operators = array_filter($this->operators, fn ($value) => $value !== '__rm__');
         $this->companies = array_filter($this->companies, fn ($value) => $value !== '__rm__');
         $this->incidents = array_filter($this->incidents, fn ($value) => $value !== '__rm__');
@@ -211,6 +222,9 @@ class MaintenanceForm extends Form
         if (!$this->is_finished) {
             $this->finished_at = null;
         }
+
+        // Get the old incident before tap it.
+        $activityLog['old'] = $this->maintenance->toArray();
 
         $maintenance = tap($this->maintenance)->update($this->only([
             'gmao_id',
@@ -237,6 +251,15 @@ class MaintenanceForm extends Form
             Incident::whereIn('id', $this->incidents)->update(['maintenance_id' => $this->maintenance->getKey()]);
         }
 
-        return $this->maintenance;
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($maintenance)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $maintenance->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour la maintenance N°:subject.id.');
+        }
+
+        return $maintenance;
     }
 }
