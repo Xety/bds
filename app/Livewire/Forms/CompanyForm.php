@@ -70,10 +70,21 @@ class CompanyForm extends Form
      */
     public function store(): Company
     {
-        return Company::create($this->only([
+        $company = Company::create($this->only([
             'name',
             'description'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($company)
+                ->event('created')
+                ->withProperties(['attributes' => $company->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé l\'entreprise :subject.name.');
+        }
+
+        return $company;
     }
 
     /**
@@ -83,9 +94,23 @@ class CompanyForm extends Form
      */
     public function update(): Company
     {
-        return tap($this->company)->update($this->only([
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->company->toArray();
+
+        $company = tap($this->company)->update($this->only([
             'name',
             'description'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($company)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $company->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour l\'entreprise :subject.name.');
+        }
+
+        return $company;
     }
 }

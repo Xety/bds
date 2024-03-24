@@ -2,16 +2,22 @@
 
 namespace BDS\Observers;
 
-use BDS\Events\Site\CreatedEvent;
-use BDS\Models\Site;
+use BDS\Models\Zone;
 
 class ZoneObserver
 {
     /**
-     * Handle the "created" event.
+     * Handle the "deleted" event.
      */
-    public function created(Site $site): void
+    public function deleted(Zone $zone): void
     {
-        //
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($zone)
+                ->event('deleted')
+                ->withProperties(['attributes' => $zone->toArray()])
+                ->log('L\'utilisateur :causer.full_name à supprimé la zone :subject.name.');
+        }
     }
 }

@@ -60,18 +60,23 @@ class PartForm extends Form
             'name'  => [
                 "required",
                 "min:2",
-                Rule::unique('parts')->ignore($this->part?->id)->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
+                Rule::unique('parts')
+                    ->ignore($this->part?->id)
+                    ->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
             ],
             'description' => 'required|min:3',
             'reference' => [
                 'min:1',
                 'max:30',
-                Rule::unique('parts')->ignore($this->part?->id)->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
+                Rule::unique('parts')
+                    ->ignore($this->part?->id)
+                    ->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
             ],
             'supplier_id' => [
                 'required',
                 'numeric',
-                Rule::exists('suppliers', 'id')->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
+                Rule::exists('suppliers', 'id')
+                    ->where(fn ($query) => $query->where('site_id', getPermissionsTeamId()))
             ],
             'materials' => [
                 'required',
@@ -156,6 +161,15 @@ class PartForm extends Form
         $part->materials()->sync($this->materials);
         $part->recipients()->sync($this->recipients);
 
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($part)
+                ->event('created')
+                ->withProperties(['attributes' => $part->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé la pièce détachée :subject.name.');
+        }
+
         return $part;
     }
 
@@ -166,6 +180,9 @@ class PartForm extends Form
      */
     public function update(): Part
     {
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->part->toArray();
+
         $this->materials = array_filter($this->materials, fn ($value) => $value !== '__rm__');
         $this->recipients = array_filter($this->recipients, fn ($value) => $value !== '__rm__');
 
@@ -183,6 +200,15 @@ class PartForm extends Form
 
         $part->materials()->sync($this->materials);
         $part->recipients()->sync($this->recipients);
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($part)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $part->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour la pièce détachée :subject.name.');
+        }
 
         return $part;
     }

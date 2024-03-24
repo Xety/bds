@@ -93,6 +93,15 @@ class RoleForm extends Form
         // Link the selected roles to the user in the current site.
         $role->syncPermissions($this->permissions);
 
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($role)
+                ->event('created')
+                ->withProperties(['attributes' => $role->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé le rôle :subject.name.');
+        }
+
         return $role;
     }
 
@@ -103,6 +112,9 @@ class RoleForm extends Form
      */
     public function update(): Role
     {
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->role->toArray();
+
         $this->fill([
             'site_id' => $this->site === true ? getPermissionsTeamId() : null,
         ]);
@@ -115,6 +127,15 @@ class RoleForm extends Form
             'site_id'
         ]));
         $role->syncPermissions($this->permissions);
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($role)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $role->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour le rôle :subject.name.');
+        }
 
         return $role;
     }

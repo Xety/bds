@@ -36,4 +36,19 @@ class CleaningObserver
         $cleaning->edit_count++;
         $cleaning->edited_user_id = Auth::id();
     }
+
+    /**
+     * Handle the "deleted" event.
+     */
+    public function deleted(Cleaning $cleaning): void
+    {
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($cleaning)
+                ->event('deleted')
+                ->withProperties(['attributes' => $cleaning->toArray()])
+                ->log('L\'utilisateur :causer.full_name à supprimé le nettoyage N°:subject.id.');
+        }
+    }
 }

@@ -26,7 +26,20 @@ class CompanyObserver
         foreach ($maintenances as $maintenance) {
             $maintenance->companies()->detach($company->getKey());
         }
+    }
 
-
+    /**
+     * Handle the "deleted" event.
+     */
+    public function deleted(Company $company): void
+    {
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($company)
+                ->event('deleted')
+                ->withProperties(['attributes' => $company->toArray()])
+                ->log('L\'utilisateur :causer.full_name à supprimé l\'entreprise :subject.name.');
+        }
     }
 }

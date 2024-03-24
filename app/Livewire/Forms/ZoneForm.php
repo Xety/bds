@@ -73,12 +73,23 @@ class ZoneForm extends Form
             'site_id' => getPermissionsTeamId(),
         ]);
 
-        return Zone::create($this->only([
+        $zone = Zone::create($this->only([
             'site_id',
             'name',
             'parent_id',
             'allow_material'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($zone)
+                ->event('created')
+                ->withProperties(['attributes' => $zone->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé la zone :subject.name.');
+        }
+
+        return $zone;
     }
 
     /**
@@ -88,10 +99,22 @@ class ZoneForm extends Form
      */
     public function update(): Zone
     {
-        return tap($this->zone)->update($this->only([
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->zone->toArray();
+
+        $zone = tap($this->zone)->update($this->only([
             'name',
             'parent_id',
             'allow_material'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($zone)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $zone->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour la zone :subject.name.');
+        }
     }
 }

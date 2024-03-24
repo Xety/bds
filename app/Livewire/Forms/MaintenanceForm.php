@@ -89,7 +89,7 @@ class MaintenanceForm extends Form
                     }
 
                     if ($part->stock_total < $value['number']) {
-                        return $fail("Pas assez de quantité en stock. ({$part->stock_total})");
+                        return $fail("Pas assez de quantité en stock. (Actuellement {$part->stock_total} en stock)");
                     }
                 }
             ]
@@ -199,7 +199,7 @@ class MaintenanceForm extends Form
                 ->performedOn($maintenance)
                 ->event('created')
                 ->withProperties(['attributes' => $maintenance->toArray()])
-                ->log('L\'utilisateur :causer.full_name à créé la maintenance N°:subject.id.');
+                ->log('L\'utilisateur :causer.full_name à créé la maintenance N°:subject.id pour le matériel ' . $maintenance->material->name .'.');
         }
 
         return $maintenance;
@@ -257,7 +257,7 @@ class MaintenanceForm extends Form
                 ->performedOn($maintenance)
                 ->event('updated')
                 ->withProperties(['old' => $activityLog['old'], 'attributes' => $maintenance->toArray()])
-                ->log('L\'utilisateur :causer.full_name à mis à jour la maintenance N°:subject.id.');
+                ->log('L\'utilisateur :causer.full_name à mis à jour la maintenance N°:subject.id. pour le matériel ' . $maintenance->material->name .'.');
         }
 
         return $maintenance;

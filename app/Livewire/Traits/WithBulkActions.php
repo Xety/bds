@@ -133,7 +133,11 @@ trait WithBulkActions
 
             redirect(request()->header('Referer')); // Fix when deleting users to refresh the page so we can restore the users
         } else {
-            $this->error($this->flashMessages['delete']['error']);
+            if (Session::has('delete.error')) {
+                $this->error(Session::get('delete.error'));
+            } else {
+                $this->error($this->flashMessages['delete']['error']);
+            }
         }
         $this->showDeleteModal = false;
     }

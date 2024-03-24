@@ -51,7 +51,7 @@ class PartExitForm extends Form
                     'min:1',
                     'max:1000000',
                     function ($attribute, $value, $fail) {
-                        // Check we stock related to the number the user want to exit.
+                        // Check the stock related to the number the user want to exit.
                         $part = Part::select('part_entry_total', 'part_exit_total')
                             ->where('id', $this->part_id)->first();
 
@@ -61,7 +61,7 @@ class PartExitForm extends Form
                         }
 
                         if ($part->stock_total < $value) {
-                            return $fail("Pas assez de quantité en stock. ({$part->stock_total})");
+                            return $fail("Pas assez de quantité en stock. (Actuellement {$part->stock_total} en stock)");
                         }
                     }
                 ]
@@ -118,6 +118,15 @@ class PartExitForm extends Form
             event(new CriticalAlertEvent($partExit));
         }
 
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($partExit)
+                ->event('created')
+                ->withProperties(['attributes' => $partExit->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé une sortie de :subject.number pièce(s) pour la pièce détachée ' . $partExit->part->name . '.');
+        }
+
         return $partExit;
     }
 
@@ -128,6 +137,9 @@ class PartExitForm extends Form
      */
     public function update(): PartExit
     {
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->partExit->toArray();
+
         $partExit = tap($this->partExit)->update($this->only([
             'maintenance_id',
             'description'
@@ -139,6 +151,15 @@ class PartExitForm extends Form
 
         if ($partExit->part->number_critical_enabled) {
             event(new CriticalAlertEvent($partExit));
+        }
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($partExit)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $partExit->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour la sortie N°:subject.id de la pièce détachée ' . $partExit->part->name . '.');
         }
 
         return $partExit;

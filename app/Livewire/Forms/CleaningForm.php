@@ -105,13 +105,24 @@ class CleaningForm extends Form
      */
     public function store(): Cleaning
     {
-        return Cleaning::create($this->only([
+        $cleaning = Cleaning::create($this->only([
             'material_id',
             'description',
             'selvah_ph_test_water',
             'selvah_ph_test_water_after_cleaning',
             'type'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($cleaning)
+                ->event('created')
+                ->withProperties(['attributes' => $cleaning->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé le nettoyage N°:subject.id pour le matériel ' . $cleaning->material->name . '.');
+        }
+
+        return $cleaning;
     }
 
     /**
@@ -121,12 +132,26 @@ class CleaningForm extends Form
      */
     public function update(): Cleaning
     {
-        return tap($this->cleaning)->update($this->only([
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->cleaning->toArray();
+
+        $cleaning = tap($this->cleaning)->update($this->only([
             'material_id',
             'description',
             'selvah_ph_test_water',
             'selvah_ph_test_water_after_cleaning',
             'type'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($cleaning)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $cleaning->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour le nettoyage N°:subject.id pour le matériel ' . $cleaning->material->name . '.');
+        }
+
+        return $cleaning;
     }
 }

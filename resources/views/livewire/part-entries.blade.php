@@ -100,7 +100,7 @@
 
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="7">
+                    <x-table.cell colspan="8">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $partEntries->count() }}</strong> entrée(s), voulez-vous tous les sélectionner <strong>{{ $partEntries->total() }}</strong>?</span>

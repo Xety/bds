@@ -136,7 +136,17 @@ class MaterialForm extends Form
         }
 
         $material = Material::create($this->only($data));
+
         $material->recipients()->sync($this->recipients);
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($material)
+                ->event('created')
+                ->withProperties(['attributes' => $material->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé le matériel :subject.name.');
+        }
 
         return $material;
     }
@@ -148,6 +158,9 @@ class MaterialForm extends Form
      */
     public function update(): Material
     {
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->material->toArray();
+
         $this->recipients = array_filter($this->recipients, fn ($value) => $value !== '__rm__');
 
         $data = [
@@ -167,6 +180,15 @@ class MaterialForm extends Form
 
         $material = tap($this->material)->update($this->only($data));
         $material->recipients()->sync($this->recipients);
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($material)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $material->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour le matériel :subject.name.');
+        }
 
         return $material;
     }

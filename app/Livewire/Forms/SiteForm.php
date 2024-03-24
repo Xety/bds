@@ -84,7 +84,7 @@ class SiteForm extends Form
      */
     public function store(): Site
     {
-        return Site::create($this->only([
+        $site = Site::create($this->only([
             'name',
             'email',
             'office_phone',
@@ -93,6 +93,17 @@ class SiteForm extends Form
             'zip_code',
             'city'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($site)
+                ->event('created')
+                ->withProperties(['attributes' => $site->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé le site :subject.name.');
+        }
+
+        return $site;
     }
 
     /**
@@ -102,6 +113,9 @@ class SiteForm extends Form
      */
     public function update(): Site
     {
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->site->toArray();
+
         $site = tap($this->site)->update($this->only([
             'name',
             'email',
@@ -117,6 +131,15 @@ class SiteForm extends Form
 
         $site->managers()->updateExistingPivot($diff, ['manager' => false]);
         $site->managers()->updateExistingPivot($this->managers, ['manager' => true]);
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($site)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $site->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour le site :subject.name.');
+        }
 
         return $site;
     }

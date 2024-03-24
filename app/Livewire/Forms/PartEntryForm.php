@@ -72,11 +72,20 @@ class PartEntryForm extends Form
      */
     public function store(): PartEntry
     {
-        return PartEntry::create($this->only([
+        $partEntry = PartEntry::create($this->only([
             'part_id',
             'number',
             'order_id'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($partEntry)
+                ->event('created')
+                ->withProperties(['attributes' => $partEntry->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé une entrée de :subject.number pièce(s) pour la pièce détachée ' . $partEntry->part->name . '.');
+        }
     }
 
     /**
@@ -86,8 +95,22 @@ class PartEntryForm extends Form
      */
     public function update(): PartEntry
     {
-        return tap($this->partEntry)->update($this->only([
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->partEntry->toArray();
+
+        $partEntry = tap($this->partEntry)->update($this->only([
             'order_id'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($partEntry)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $partEntry->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour l\'entrée N°:subject.id de la pièce détachée ' . $partEntry->part->name . '.');
+        }
+
+        return $partEntry;
     }
 }

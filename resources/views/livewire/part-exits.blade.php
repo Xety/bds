@@ -105,7 +105,7 @@
 
             @if ($selectPage)
                 <x-table.row wire:key="row-message">
-                    <x-table.cell colspan="7">
+                    <x-table.cell colspan="10">
                         @unless ($selectAll)
                             <div>
                                 <span>Vous avez sélectionné <strong>{{ $partExits->count() }}</strong> sortie(s), voulez-vous toutes les sélectionner <strong>{{ $partExits->total() }}</strong>?</span>
@@ -180,7 +180,7 @@
                 </x-table.row>
             @empty
                 <x-table.row>
-                    <x-table.cell colspan="8">
+                    <x-table.cell colspan="10">
                         <div class="text-center p-2">
                             <span class="text-muted">Aucune sortie trouvée...</span>
                         </div>

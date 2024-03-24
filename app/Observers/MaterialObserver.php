@@ -26,4 +26,19 @@ class MaterialObserver
             $part->materials()->detach($material->getKey());
         }
     }
+
+    /**
+     * Handle the "deleted" event.
+     */
+    public function deleted(Material $material): void
+    {
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($material)
+                ->event('deleted')
+                ->withProperties(['attributes' => $material->toArray()])
+                ->log('L\'utilisateur :causer.full_name à supprimé le matériel :subject.name.');
+        }
+    }
 }

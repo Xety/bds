@@ -70,10 +70,21 @@ class SupplierForm extends Form
      */
     public function store(): Supplier
     {
-        return Supplier::create($this->only([
+        $supplier = Supplier::create($this->only([
             'name',
             'description'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($supplier)
+                ->event('created')
+                ->withProperties(['attributes' => $supplier->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé le fournisseur :subject.name.');
+        }
+
+        return $supplier;
     }
 
     /**
@@ -83,9 +94,23 @@ class SupplierForm extends Form
      */
     public function update(): Supplier
     {
-        return tap($this->supplier)->update($this->only([
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->supplier->toArray();
+
+        $supplier = tap($this->supplier)->update($this->only([
             'name',
             'description'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($supplier)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $supplier->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour le fournisseur :subject.name.');
+        }
+
+        return $supplier;
     }
 }

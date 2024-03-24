@@ -70,10 +70,21 @@ class CalendarEventForm extends Form
      */
     public function store(): CalendarEvent
     {
-        return CalendarEvent::create($this->only([
+        $calendarEvent = CalendarEvent::create($this->only([
             'name',
             'color'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($calendarEvent)
+                ->event('created')
+                ->withProperties(['attributes' => $calendarEvent->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé le type d\'évènement :subject.name.');
+        }
+
+        return $calendarEvent;
     }
 
     /**
@@ -83,9 +94,23 @@ class CalendarEventForm extends Form
      */
     public function update(): CalendarEvent
     {
-        return tap($this->calendarEvent)->update($this->only([
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->calendarEvent->toArray();
+
+        $calendarEvent = tap($this->calendarEvent)->update($this->only([
             'name',
             'color'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($calendarEvent)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $calendarEvent->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour le type d\'évènement :subject.name.');
+        }
+
+        return $calendarEvent;
     }
 }

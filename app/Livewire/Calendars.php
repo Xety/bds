@@ -187,7 +187,6 @@ class Calendars extends Component
     #[On('event-option')]
     public function eventOption(array $event): void
     {
-        //dd($event);
         $this->eventInfo = $event;
         $this->showOptionModal = true;
     }
@@ -210,13 +209,33 @@ class Calendars extends Component
         $this->reset('eventInfo');
 
         $this->success("Cet évènement a été supprimé avec succès !");
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($event)
+                ->event('deleted')
+                ->withProperties(['attributes' => $event->toArray()])
+                ->log('L\'utilisateur :causer.full_name à supprimé l\'évènement :subject.title.');
+        }
     }
 
+    /**
+     * Function to change the status of an event.
+     *
+     * @param string $status The new status.
+     *
+     * @return void
+     */
     public function changeStatus(string $status): void
     {
         $this->authorize('update', Calendar::class);
 
         $calendar = Calendar::with('calendarEvent')->find($this->eventInfo['id']);
+
+        // Get the old data before updating it.
+        $activityLog['old'] = $calendar->toArray();
+
         $calendar->status = $status;
         $calendar->save();
 
@@ -238,6 +257,15 @@ class Calendars extends Component
         }
 
         $this->dispatch('even-change-status-success', $array);
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($calendar)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $calendar->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour le statut de l\'évènement :subject.title à ' . collect(Calendar::STATUS)->sole('id', $calendar->status)['name'] . '.');
+        }
     }
 
     /**
@@ -300,6 +328,15 @@ class Calendars extends Component
             $this->reset('title', 'calendar_event_id', 'allDay', 'started_at', 'ended_at');
 
             $this->success("Cet évènement a été créé avec succès !");
+
+            // Log Activity
+            if (settings('activity_log_enabled', true)) {
+                activity()
+                    ->performedOn($calendar)
+                    ->event('created')
+                    ->withProperties(['attributes' => $calendar->toArray()])
+                    ->log('L\'utilisateur :causer.full_name à créé l\'évènement :subject.title.');
+            }
         } else {
             $this->error("Une erreur s'est produite lors de la création de l'évènement !");
         }

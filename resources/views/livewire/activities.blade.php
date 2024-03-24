@@ -46,7 +46,7 @@
                 <x-table.heading sortable wire:click="sortBy('site_id')" :direction="$sortField === 'site_id' ? $sortDirection : null">Site</x-table.heading>
             @endif
             <x-table.heading sortable wire:click="sortBy('event')" :direction="$sortField === 'event' ? $sortDirection : null">Évènement</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('subject_type')" :direction="$sortField === 'subject_type' ? $sortDirection : null">Type d'évènement</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('subject_type')" :direction="$sortField === 'subject_type' ? $sortDirection : null">Sujet</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('causer_id')" :direction="$sortField === 'causer_id' ? $sortDirection : null">L'exécutant</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">Créé le</x-table.heading>
         </x-slot>
@@ -115,11 +115,11 @@
                         </span>
                     </x-table.cell>
                     @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
-                            <x-table.cell>
-                                <a class="link link-hover link-primary font-bold" href="{{ $activity->site->show_url }}">
-                                    {{ $activity->site->name }}
-                                </a>
-                            </x-table.cell>
+                        <x-table.cell>
+                            <a class="link link-hover link-primary font-bold" href="{{ $activity->site->show_url }}">
+                                {{ $activity->site->name }}
+                            </a>
+                        </x-table.cell>
                     @endif
                     <x-table.cell>
                         <code class="code rounded-sm">
@@ -127,10 +127,18 @@
                         </code>
                     </x-table.cell>
                     <x-table.cell>
-                        @if($activity->subject)
+                        @if($activity->subject && $activity->subject->show_url)
                             <a class="link link-hover link-primary font-bold" href="{{ $activity->subject?->show_url }}">
-                                {{ $activity->subject?->id }}
+                                @if($activity->subject->full_name)
+                                    {{ $activity->subject->full_name }}
+                                @else
+                                    {{ $activity->subject->id }}
+                                @endif
                             </a>
+                        @else
+                            <code class="code rounded-sm">
+                                {{ $activity->subject_type }}
+                            </code>
                         @endif
                     </x-table.cell>
                     <x-table.cell>

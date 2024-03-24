@@ -109,7 +109,7 @@ class IncidentForm extends Form
                 ->performedOn($incident)
                 ->event('created')
                 ->withProperties(['attributes' => $incident->toArray()])
-                ->log('L\'utilisateur :causer.full_name à créé l\'incident :subject.id.');
+                ->log('L\'utilisateur :causer.full_name à créé l\'incident N°:subject.id.');
         }
 
         return $incident;
@@ -146,7 +146,7 @@ class IncidentForm extends Form
                 ->performedOn($incident)
                 ->event('updated')
                 ->withProperties(['old' => $activityLog['old'], 'attributes' => $incident->toArray()])
-                ->log('L\'utilisateur :causer.full_name à mis à jour l\'incident  N°:subject.id.');
+                ->log('L\'utilisateur :causer.full_name à mis à jour l\'incident N°:subject.id.');
         }
 
         return $incident;

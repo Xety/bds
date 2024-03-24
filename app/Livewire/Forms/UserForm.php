@@ -170,7 +170,7 @@ class UserForm extends Form
         $this->roles = array_filter($this->roles, fn ($value) => $value !== '__rm__');
         $this->permissions = array_filter($this->permissions, fn ($value) => $value !== '__rm__');
 
-        // Get the old user before tap it.
+        // Get the old data before tap it.
         $activityLog['old'] = $this->user->toArray();
 
         $user = tap($this->user)->update($this->only([

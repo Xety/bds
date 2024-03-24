@@ -55,10 +55,21 @@ class PermissionForm extends Form
      */
     public function store(): Permission
     {
-        return Permission::create($this->only([
+        $permission = Permission::create($this->only([
             'name',
             'description'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($permission)
+                ->event('created')
+                ->withProperties(['attributes' => $permission->toArray()])
+                ->log('L\'utilisateur :causer.full_name à créé la permission :subject.name.');
+        }
+
+        return $permission;
     }
 
     /**
@@ -68,11 +79,25 @@ class PermissionForm extends Form
      */
     public function update(): Permission
     {
-        return tap($this->permission)->update($this->only([
+        // Get the old data before tap it.
+        $activityLog['old'] = $this->permission->toArray();
+
+        $permission = tap($this->permission)->update($this->only([
             'name',
             'description',
             'color',
             'level'
         ]));
+
+        // Log Activity
+        if (settings('activity_log_enabled', true)) {
+            activity()
+                ->performedOn($permission)
+                ->event('updated')
+                ->withProperties(['old' => $activityLog['old'], 'attributes' => $permission->toArray()])
+                ->log('L\'utilisateur :causer.full_name à mis à jour la permission :subject.name.');
+        }
+
+        return $permission;
     }
 }
