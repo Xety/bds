@@ -158,7 +158,7 @@ class Roles extends Component
         return view('livewire.roles.roles', [
             'roles' => $this->rows,
             'permissions' => $permissions,
-            'site' => Site::find(session('current_site_id'))
+            'site' => Site::find(getPermissionsTeamId())
         ]);
     }
 

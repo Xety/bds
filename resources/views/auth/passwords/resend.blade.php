@@ -15,7 +15,7 @@
         <div class="flex flex-wrap">
             <div class="flex flex-col w-full max-w-full px-3 mx-auto lg:mx-0 shrink-0 md:flex-0 md:w-7/12 lg:w-5/12 xl:w-4/12">
                 <div class="flex flex-col items-center">
-                    <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="{{ config('bds.info.full_name') }} Logo" class="inline-block mb-5" width="200px">
+                    <img src="{{ asset('images/logos/cbds_324x383.png') }}" alt="{{ config('bds.info.full_name') }} Logo" class="inline-block mb-5" width="200px">
 
                     <h1 class="text-xl text-center">
                         Renvoyer le lien de configuration de votre mot de passe

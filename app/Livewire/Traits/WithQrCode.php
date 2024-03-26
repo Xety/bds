@@ -137,7 +137,7 @@ trait WithQrCode
             ->size($this->qrCodeSize)
             ->margin(0)
             ->roundBlockSizeMode(RoundBlockSizeMode::Margin)
-            ->logoPath(public_path('images/logos/selvah_600x600_fond_blanc_qrcode.png'))
+            ->logoPath($this->getLogoPath())
             ->logoResizeToWidth($this->allowedQrCodeSize[$this->qrCodeSize]['image_size'])
             ->logoPunchoutBackground(true)
             ->labelText($this->qrCodeLabel)
@@ -179,5 +179,25 @@ trait WithQrCode
 
         $result = $this->buildImage();
         $this->qrCodeImg = $result;
+    }
+
+    /**
+     * Get the path of the logo for the current site.
+     *
+     * @return string
+     */
+    private function getLogoPath(): string
+    {
+        $siteId = getPermissionsTeamId();
+
+        $path = match ($siteId) {
+            settings('site_id_selvah') => 'selvah_600x600_fond_blanc_qrcode.png',
+            settings('site_id_extrusel') => 'extrusel_600x600_fond_blanc_qrcode.png',
+            settings('site_id_moulin_jannet') => 'moulin_jannet_600x600_fond_blanc_qrcode.png',
+            settings('site_id_val_union') => 'bfc_val_union_600x600_fond_blanc_qrcode.png',
+            default => 'cbds_600x600_fond_blanc_qrcode.png'
+        };
+
+        return public_path('images/logos/qrcode/' . $path);
     }
 }

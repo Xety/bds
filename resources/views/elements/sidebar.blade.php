@@ -16,7 +16,7 @@
                     @elseif (getPermissionsTeamId() == settings('site_id_val_union'))
                         <img src="{{ asset('images/logos/bfc_val_union_blanc.png') }}" alt="BFC Val Union Logo" class="inline-block h-20">
                     @else
-                        <img src="{{ asset('images/logos/cbds_32x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
+                        <img src="{{ asset('images/logos/cbds_324x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
                     @endif
                 </a>
             </li>
