@@ -183,9 +183,6 @@ class PartForm extends Form
         // Get the old data before tap it.
         $activityLog['old'] = $this->part->toArray();
 
-        $this->materials = array_filter($this->materials, fn ($value) => $value !== '__rm__');
-        $this->recipients = array_filter($this->recipients, fn ($value) => $value !== '__rm__');
-
         $part = tap($this->part)->update($this->only([
             'name',
             'description',

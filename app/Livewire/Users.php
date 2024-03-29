@@ -6,7 +6,6 @@ use BDS\Events\Auth\RegisteredEvent;
 use BDS\Livewire\Forms\UserForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
-use BDS\Livewire\Traits\WithConvertEmptyStringsToNull;
 use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
@@ -29,7 +28,6 @@ class Users extends Component
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
-    use WithConvertEmptyStringsToNull;
     use WithFilters;
     use WithPerPagePagination;
     use WithSorting;

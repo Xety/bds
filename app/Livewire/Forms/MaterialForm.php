@@ -161,8 +161,6 @@ class MaterialForm extends Form
         // Get the old data before tap it.
         $activityLog['old'] = $this->material->toArray();
 
-        $this->recipients = array_filter($this->recipients, fn ($value) => $value !== '__rm__');
-
         $data = [
             'name',
             'description',

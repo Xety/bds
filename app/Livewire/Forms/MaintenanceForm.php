@@ -212,11 +212,6 @@ class MaintenanceForm extends Form
      */
     public function update(): Maintenance
     {
-        // Hack to counter a bug in Livewire
-        // https://github.com/livewire/livewire/discussions/6665
-        $this->operators = array_filter($this->operators, fn ($value) => $value !== '__rm__');
-        $this->companies = array_filter($this->companies, fn ($value) => $value !== '__rm__');
-        $this->incidents = array_filter($this->incidents, fn ($value) => $value !== '__rm__');
 
         // Set the finished date to null if the is_finished is false.
         if (!$this->is_finished) {

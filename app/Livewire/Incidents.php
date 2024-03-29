@@ -5,7 +5,6 @@ namespace BDS\Livewire;
 use BDS\Livewire\Forms\IncidentForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
-use BDS\Livewire\Traits\WithConvertEmptyStringsToNull;
 use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
@@ -27,7 +26,6 @@ class Incidents extends Component
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
-    use WithConvertEmptyStringsToNull;
     use WithFilters;
     use WithPagination;
     use WithPerPagePagination;
