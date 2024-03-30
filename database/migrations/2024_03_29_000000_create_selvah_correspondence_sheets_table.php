@@ -39,7 +39,7 @@ return new class extends Migration {
             $table->boolean('chaudiere_extrusion_niveau_glace')->default(0);
             $table->boolean('chaudiere_extrusion_niveau_sel')->default(0);
             $table->mediumText('chaudiere_commentaire')->nullable();
-            //Compteurs
+            // Compteurs
             $table->integer('compteur_huile_brute')->nullable();
             $table->float('compteur_eau_1',8, 1)->nullable();
             $table->float('compteur_eau_2')->nullable();
@@ -51,6 +51,7 @@ return new class extends Migration {
             $table->float('compteur_consommation_eau_3')->nullable();
             $table->float('compteur_consommation_eau_4')->nullable();
             $table->float('compteur_consommation_eau_5')->nullable();
+            //
 
 
 

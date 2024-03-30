@@ -5,6 +5,7 @@ namespace BDS\Livewire;
 use BDS\Livewire\Forms\MaintenanceForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
+use BDS\Livewire\Traits\WithConvertEmptyStringsToNull;
 use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
@@ -29,6 +30,7 @@ class Maintenances extends Component
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
+    use WithConvertEmptyStringsToNull;
     use WithFilters;
     use WithPagination;
     use WithPerPagePagination;

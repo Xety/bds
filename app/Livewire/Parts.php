@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Livewire\Traits\WithConvertEmptyStringsToNull;
 use BDS\Models\Site;
 use BDS\Models\Supplier;
 use Carbon\Carbon;
@@ -30,6 +31,7 @@ class Parts extends Component
     use AuthorizesRequests;
     use WithBulkActions;
     use WithCachedRows;
+    use WithConvertEmptyStringsToNull;
     use WithFilters;
     use WithPagination;
     use WithPerPagePagination;
