@@ -55,7 +55,6 @@
 
                                             @can('update', $material)
                                                 <x-menu-item
-                                                    wire:navigate
                                                     title="Modifier ce matériel"
                                                     icon="fas-pen-to-square"
                                                     tooltip
@@ -65,7 +64,6 @@
                                             @endcan
                                             @can('generateQrCode', $material)
                                                 <x-menu-item
-                                                    wire:navigate
                                                     title="Générer un QR Code"
                                                     icon="fas-qrcode"
                                                     tooltip
@@ -75,7 +73,6 @@
                                             @endcan
                                             @can('create', \BDS\Models\Incident::class)
                                                 <x-menu-item
-                                                    wire:navigate
                                                     title="Créer un Incident"
                                                     icon="fas-triangle-exclamation"
                                                     tooltip
@@ -85,7 +82,6 @@
                                             @endcan
                                             @can('create', \BDS\Models\Maintenance::class)
                                                 <x-menu-item
-                                                    wire:navigate
                                                     title="Créer une Maintenance"
                                                     icon="fas-screwdriver-wrench"
                                                     tooltip
@@ -95,7 +91,6 @@
                                             @endcan
                                             @can('create', \BDS\Models\Cleaning::class)
                                                 <x-menu-item
-                                                    wire:navigate
                                                     title="Créer un Nettoyage"
                                                     icon="fas-broom"
                                                     tooltip

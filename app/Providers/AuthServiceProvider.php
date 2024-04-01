@@ -2,7 +2,9 @@
 
 namespace BDS\Providers;
 
+use BDS\Models\Selvah\CorrespondenceSheet;
 use BDS\Models\User;
+use BDS\Policies\Selvah\CorrespondenceSheetPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use BDS\Policies\PermissionPolicy;
 use BDS\Policies\RolePolicy;
@@ -19,7 +21,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Permission::class => PermissionPolicy::class,
-        Role::class => RolePolicy::class
+        Role::class => RolePolicy::class,
+        CorrespondenceSheet::class => CorrespondenceSheetPolicy::class
     ];
 
     /**

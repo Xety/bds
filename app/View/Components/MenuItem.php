@@ -43,7 +43,7 @@ class MenuItem extends Component
         return <<<'HTML'
                 @aware([
                     'activateByRoute' => false,
-                    'activeBgColor' => 'bg-base-200 hover:bg-base-200 active:!bg-base-200 dark:bg-neutral',
+                    'activeBgColor' => 'bg-base-200 hover:bg-base-200 active:!bg-base-200 focus:!bg-base-200 dark:bg-neutral',
                     'activeColor' => 'text-neutral dark:text-primary-content active:dark:!text-primary-content'
                ])
 

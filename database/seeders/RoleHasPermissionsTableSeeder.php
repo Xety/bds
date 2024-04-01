@@ -203,6 +203,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'update calendar event',
         'delete calendar event',
         'search calendar event',
+
+        // Selvah CorrespondenceSheet
+        'viewAny selvah correspondence sheet',
+        'view selvah correspondence sheet',
+        'create selvah correspondence sheet',
+        'update selvah correspondence sheet',
+        'delete selvah correspondence sheet',
+        'search selvah correspondence sheet',
+        'export selvah correspondence sheet',
     ];
 
     protected array $responsableMaintenancePermissions = [
@@ -357,6 +366,13 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'viewAny calendar event',
         'view calendar event',
         'search calendar event',
+
+        // Selvah CorrespondenceSheet
+        'viewAny selvah correspondence sheet',
+        'view selvah correspondence sheet',
+        'create selvah correspondence sheet',
+        'update selvah correspondence sheet',
+        'search selvah correspondence sheet',
     ];
 
     protected array $operateurExtruselPermissions = [
@@ -506,6 +522,12 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'update calendar event',
         'delete calendar event',
         'search calendar event',
+
+        // Selvah CorrespondenceSheet
+        'viewAny selvah correspondence sheet',
+        'view selvah correspondence sheet',
+        'search selvah correspondence sheet',
+        'export selvah correspondence sheet',
     ];
 
     protected array $assistanteQualiteFiliale = [
@@ -542,6 +564,13 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'update calendar event',
         'delete calendar event',
         'search calendar event',
+
+        // Selvah CorrespondenceSheet
+        'viewAny selvah correspondence sheet',
+        'view selvah correspondence sheet',
+        'create selvah correspondence sheet',
+        'search selvah correspondence sheet',
+        'export selvah correspondence sheet',
     ];
 
     protected array $assistanteQualiteBourgogneduSud = [
@@ -766,6 +795,15 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete activity',
             'export activity',
             'search activity',
+
+            // Selvah CorrespondenceSheet
+            'viewAny selvah correspondence sheet',
+            'view selvah correspondence sheet',
+            'create selvah correspondence sheet',
+            'update selvah correspondence sheet',
+            'delete selvah correspondence sheet',
+            'search selvah correspondence sheet',
+            'export selvah correspondence sheet',
         ]);
 
         // Directeur Général

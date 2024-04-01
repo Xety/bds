@@ -895,6 +895,56 @@ class PermissionsTableSeeder extends Seeder
             ],
 
             [
+                'name' => 'viewAny selvah correspondence sheet',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut voir les fiches de correspondances de Selvah.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'view selvah correspondence sheet',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut voir une fiche de correspondance de Selvah.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'create selvah correspondence sheet',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut créer une fiche de correspondance de Selvah.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'update selvah correspondence sheet',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut mettre à jour une fiche de correspondance de Selvah.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'delete selvah correspondence sheet',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut supprimer une fiche de correspondance de Selvah.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'export selvah correspondence sheet',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut exporter les fiches de correspondances de Selvah.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'search selvah correspondence sheet',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut rechercher des fiches de correspondances de Selvah.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
                 'name' => 'bypass login',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut bypass la désactivation de la page connexion.',

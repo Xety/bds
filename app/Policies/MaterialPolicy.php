@@ -24,7 +24,7 @@ class MaterialPolicy
     {
         if($user->can('view material')) {
             $siteId = getPermissionsTeamId();
-            return ($material->zone->site_id === $siteId || $siteId === settings('site_id_verdun_siege'));
+            return ($material->zone->site_id === $siteId || $siteId === settings('site_id_verdun_siege') || $siteId === settings('site_id_maintenance_bds'));
         }
         return false;
     }

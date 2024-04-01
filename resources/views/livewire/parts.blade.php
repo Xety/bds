@@ -227,7 +227,6 @@
                                 @endcan
                                 @can('create', \BDS\Models\PartEntry::class)
                                     <x-menu-item
-                                        wire:navigate
                                         title="Créer une Entrée"
                                         icon="fas-arrow-right-to-bracket"
                                         tooltip
@@ -237,7 +236,6 @@
                                 @endcan
                                 @can('create', \BDS\Models\PartExit::class)
                                     <x-menu-item
-                                        wire:navigate
                                         title="Créer une Sortie"
                                         icon="fas-right-from-bracket"
                                         tooltip

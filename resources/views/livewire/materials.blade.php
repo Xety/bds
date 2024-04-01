@@ -190,7 +190,6 @@
                                 @endcan
                                 @can('create', \BDS\Models\Incident::class)
                                     <x-menu-item
-                                        wire:navigate
                                         title="Créer un Incident"
                                         icon="fas-triangle-exclamation"
                                         tooltip
@@ -200,7 +199,6 @@
                                 @endcan
                                 @can('create', \BDS\Models\Maintenance::class)
                                     <x-menu-item
-                                        wire:navigate
                                         title="Créer une Maintenance"
                                         icon="fas-screwdriver-wrench"
                                         tooltip
@@ -210,7 +208,7 @@
                                 @endcan
                                 @can('create', \BDS\Models\Cleaning::class)
                                     <x-menu-item
-                                        wire:navigate title="Créer un Nettoyage"
+                                        title="Créer un Nettoyage"
                                         icon="fas-broom"
                                         tooltip
                                         tooltip-content="Créer un nettoyage pour ce matériel"

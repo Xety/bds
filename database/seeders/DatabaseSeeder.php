@@ -62,5 +62,9 @@ class DatabaseSeeder extends Seeder
         // Calendars
         $this->call(CalendarsTableSeeder::class);
         $this->call(CalendarEventsTableSeeder::class);
+
+        // Selvah Correspondence Sheet
+        $this->call(SelvahCorrespondenceSheetTableSeeder::class);
+
     }
 }

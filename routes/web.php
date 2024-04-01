@@ -307,4 +307,19 @@ Route::group(['middleware' => ['auth']], function () {
     */
     Route::get('pulse', [BDS\Http\Controllers\PulseController::class, 'index'])
         ->name('pulse.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Selvah Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::group(['namespace' => 'Selvah', 'prefix' => 'selvah'], function () {
+        /*
+        |--------------------------------------------------------------------------
+        | Selvah Correspondence Sheets Routes
+        |--------------------------------------------------------------------------
+        */
+        Route::get('correspondence-sheets', [BDS\Http\Controllers\Selvah\CorrespondenceSheetController::class, 'index'])
+            ->name('correspondence-sheet.index');
+    });
 });

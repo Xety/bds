@@ -40,7 +40,7 @@ class ListItem extends Component
 
                     @if($link && data_get($item, $avatar) || !is_string($avatar))
                         <div>
-                            <a href="{{ $link }}" wire:navigate>
+                            <a href="{{ $link }}" {{ $attributes->has('wire:navigate') ? 'wire:navigate' : '' }}>
                     @endif
 
                     <!-- AVATAR -->
@@ -69,7 +69,7 @@ class ListItem extends Component
                     <!-- CONTENT -->
                     <div class="flex-1 overflow-hidden whitespace-nowrap text-ellipsis truncate w-0 mary-hideable">
                         @if($link)
-                            <a href="{{ $link }}" wire:navigate>
+                            <a href="{{ $link }}" {{ $attributes->has('wire:navigate') ? 'wire:navigate' : '' }}>
                         @endif
 
                         <div class="py-3">
@@ -90,7 +90,7 @@ class ListItem extends Component
                     <!-- ACTION -->
                     @if($actions)
                         @if($link && !Str::of($actions)->contains([':click', '@click' , 'href']))
-                            <a href="{{ $link }}" wire:navigate>
+                            <a href="{{ $link }}" {{ $attributes->has('wire:navigate') ? 'wire:navigate' : '' }}>
                         @endif
 
                             <div class="py-3 flex flex-col items-end gap-3 mary-hideable">

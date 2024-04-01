@@ -151,7 +151,6 @@
                                  @endcan
                                  @if(Gate::allows('create', \BDS\Models\Material::class) && $zone->allow_material)
                                      <x-menu-item
-                                         wire:navigate
                                          title="Créer un Matériel"
                                          icon="fas-microchip"
                                          tooltip

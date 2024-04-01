@@ -112,7 +112,7 @@ class MaintenanceForm extends Form
             'operators' => 'opérateurs',
             'companies' => 'entreprises',
             'started_at' => 'commencée le',
-            'finished_at' => 'finie le',
+            'finished_at' => 'terminée le',
             'parts.*.part_id' => 'pièce détachée',
             'parts.*.number' => 'nombre'
         ];

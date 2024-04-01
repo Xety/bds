@@ -493,10 +493,10 @@
         @php $message = "Date à laquelle à commencée la maintenance.";@endphp
         <x-date-picker wire:model="form.started_at" name="form.started_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance commencée le" placeholder="Maintenance commencée le..." />
 
-        <x-checkbox wire:model.live="form.is_finished" name="form.is_finished" label="Maintenance résolue ?" text="Cochez si la maintenance est résolue" />
+        <x-checkbox wire:model.live="form.is_finished" name="form.is_finished" label="Maintenance terminée ?" text="Cochez si la maintenance est terminée" />
         @if ($form->is_finished)
-            @php $message = "Date à laquelle la maintenance a été résolue.";@endphp
-            <x-date-picker wire:model="form.finished_at" name="form.finished_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance résolue le" placeholder="Maintenance résolue le..." />
+            @php $message = "Date à laquelle la maintenance a été terminée.";@endphp
+            <x-date-picker wire:model="form.finished_at" name="form.finished_at" class="form-control" :label-info="$message" icon="fas-calendar" icon-class="h-4 w-4" label="Maintenance terminée le" placeholder="Maintenance terminée le..." />
         @endif
 
         @if ($isCreating && Gate::allows('create', \BDS\Models\PartExit::class))
