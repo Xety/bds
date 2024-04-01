@@ -121,7 +121,7 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'bmp1_numero_lot' => '149-5-65-54887',
                 'bmp1_en_stock' => 0,
                 'bmp1_en_trituration' => 1,
-                'bmp1_heure_debut' => now(),
+                'bmp1_heure_debut' => null,
                 'bmp1_heure_fin' => null,
 
                 'bmp2_numero_lot' => '149-5-65-55187',
@@ -134,7 +134,7 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'btf1_en_stock' => 1,
                 'btf1_en_extrusion' => 1,
                 'btf1_heure_arret' => null,
-                'btf1_heure_redemarrage' => now(),
+                'btf1_heure_redemarrage' => null,
 
                 'chaudiere_trituration_durete_eau' => 1,
                 'chaudiere_trituration_niveau_glace' => 1,

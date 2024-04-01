@@ -42,10 +42,10 @@
                         </div>
 
                         <div>
-                            Poste : {{ $sheet->poste_type->label() }}
+                            <span class="font-bold">Poste</span> : {{ $sheet->poste_type->label() }}
                         </div>
                         <div>
-                            Date : {{ $sheet->created_at->translatedFormat( 'D j M Y') }}
+                            <span class="font-bold">Date</span> : {{ $sheet->created_at->translatedFormat( 'D j M Y') }}
                         </div>
                     </div>
 
@@ -222,31 +222,31 @@
                                 Huile brute : @if($sheet->compteur_huile_brute) <code class="code rounded-sm">{{ $sheet->compteur_huile_brute }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°1 (Général chaufferie) : @if($sheet->compteur_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_eau_1 }}</code> @endif
+                                Eau brute N°1 <span class="sm:hidden xl:inline">(Général chaufferie)</span> : @if($sheet->compteur_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_eau_1 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5">
                                 Consommation N°1 : @if($sheet->compteur_consommation_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_1 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°2 (Chaudière trituration) : @if($sheet->compteur_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_eau_2 }}</code> @endif
+                                Eau brute N°2 <span class="sm:hidden xl:inline">(Chaudière trituration)</span> : @if($sheet->compteur_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_eau_2 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5">
                                 Consommation N°2 : @if($sheet->compteur_consommation_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_2 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°3 (Chaudière extrusion) : @if($sheet->compteur_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_eau_3 }}</code> @endif
+                                Eau brute N°3 <span class="sm:hidden xl:inline">(Chaudière extrusion)</span> : @if($sheet->compteur_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_eau_3 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5">
                                 Consommation N°3 : @if($sheet->compteur_consommation_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_3 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°4 (Pompe à eau Extrudeur) : @if($sheet->compteur_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_eau_4 }}</code> @endif
+                                Eau brute N°4 <span class="sm:hidden xl:inline">(Pompe à eau Extrudeur)</span> : @if($sheet->compteur_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_eau_4 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5">
                                 Consommation N°4 : @if($sheet->compteur_consommation_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_4 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°5 (Pompe à eau Préconditionneur) : @if($sheet->compteur_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_eau_5 }}</code> @endif
+                                Eau brute N°5 <span class="sm:hidden xl:inline">(Pompe à eau Préconditionneur)</span> : @if($sheet->compteur_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_eau_5 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5">
                                 Consommation N°5 : @if($sheet->compteur_consommation_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_5 }}</code> @endif
