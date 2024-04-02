@@ -2,6 +2,7 @@
 
 namespace BDS\Models\Selvah;
 
+use BDS\Enums\Selvah\Conformes;
 use BDS\Enums\Selvah\Postes;
 use BDS\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -51,6 +52,13 @@ class CorrespondenceSheet extends Model
         'ns1_date_changement_lot' => 'datetime',
         'ns1_heure_controle' => 'datetime',
         'ns1_grille_conforme' => 'boolean',
+
+        'aimant_amont_broyeur_graine_1' => Conformes::class,
+        'aimant_broyeur_graine_2' => Conformes::class,
+        'aimant_broyeur_ttx_3' => Conformes::class,
+        'aimant_refroidisseur_4' => Conformes::class,
+        'aimant_tremie_boisseaux_5' => Conformes::class,
+        'aimant_tci1_6' => Conformes::class,
     ];
 
     /**

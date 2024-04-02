@@ -72,8 +72,8 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'aimant_amont_broyeur_graine_1' => 'conforme',
                 'aimant_broyeur_graine_2' => 'conforme',
                 'aimant_broyeur_ttx_3' => 'conforme',
-                'aimant_refroidisseur_4' => 'non-applicable',
-                'aimant_tremie_boisseaux_5' => 'non-applicable',
+                'aimant_refroidisseur_4' => 'conforme',
+                'aimant_tremie_boisseaux_5' => 'conforme',
                 'aimant_tci1_6' => 'conforme',
 
                 'magnetique_ensachage_en_cours' => 0,
@@ -170,7 +170,7 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'aimant_broyeur_ttx_3' => 'conforme',
                 'aimant_refroidisseur_4' => 'non-applicable',
                 'aimant_tremie_boisseaux_5' => 'non-applicable',
-                'aimant_tci1_6' => 'conforme',
+                'aimant_tci1_6' => 'non-applicable',
 
                 'magnetique_ensachage_en_cours' => 0,
                 'magnetique_ensachage_type' => 'non-applicable',

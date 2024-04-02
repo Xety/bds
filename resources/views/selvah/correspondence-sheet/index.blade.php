@@ -218,35 +218,35 @@
                             Relevé des compteurs
                         </h3>
                         <div class="grid grid-cols-12 xl:gap-4 mb-5 xl:mb-0">
-                            <div class="col-span-12">
+                            <div class="col-span-12 mb-2">
                                 Huile brute : @if($sheet->compteur_huile_brute) <code class="code rounded-sm">{{ $sheet->compteur_huile_brute }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°1 <span class="sm:hidden xl:inline">(Général chaufferie)</span> : @if($sheet->compteur_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_eau_1 }}</code> @endif
+                                Eau brute N°1 <span class="hidden xl:inline">(Général chaufferie)</span> : @if($sheet->compteur_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_eau_1 }}</code> @endif
                             </div>
-                            <div class="col-span-12 xl:col-span-5">
+                            <div class="col-span-12 xl:col-span-5 mb-2">
                                 Consommation N°1 : @if($sheet->compteur_consommation_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_1 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°2 <span class="sm:hidden xl:inline">(Chaudière trituration)</span> : @if($sheet->compteur_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_eau_2 }}</code> @endif
+                                Eau brute N°2 <span class="hidden xl:inline">(Chaudière trituration)</span> : @if($sheet->compteur_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_eau_2 }}</code> @endif
                             </div>
-                            <div class="col-span-12 xl:col-span-5">
+                            <div class="col-span-12 xl:col-span-5 mb-2">
                                 Consommation N°2 : @if($sheet->compteur_consommation_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_2 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°3 <span class="sm:hidden xl:inline">(Chaudière extrusion)</span> : @if($sheet->compteur_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_eau_3 }}</code> @endif
+                                Eau brute N°3 <span class="hidden xl:inline">(Chaudière extrusion)</span> : @if($sheet->compteur_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_eau_3 }}</code> @endif
                             </div>
-                            <div class="col-span-12 xl:col-span-5">
+                            <div class="col-span-12 xl:col-span-5 mb-2">
                                 Consommation N°3 : @if($sheet->compteur_consommation_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_3 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°4 <span class="sm:hidden xl:inline">(Pompe à eau Extrudeur)</span> : @if($sheet->compteur_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_eau_4 }}</code> @endif
+                                Eau brute N°4 <span class="hidden xl:inline">(Pompe à eau Extrudeur)</span> : @if($sheet->compteur_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_eau_4 }}</code> @endif
                             </div>
-                            <div class="col-span-12 xl:col-span-5">
+                            <div class="col-span-12 xl:col-span-5 mb-2">
                                 Consommation N°4 : @if($sheet->compteur_consommation_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_4 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°5 <span class="sm:hidden xl:inline">(Pompe à eau Préconditionneur)</span> : @if($sheet->compteur_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_eau_5 }}</code> @endif
+                                Eau brute N°5 <span class="hidden xl:inline">(Pompe à eau Préconditionneur)</span> : @if($sheet->compteur_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_eau_5 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5">
                                 Consommation N°5 : @if($sheet->compteur_consommation_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_5 }}</code> @endif
@@ -314,9 +314,50 @@
                                     @endif
                                 </div>
                             </div>
-
                         </div>
+                    </div>
 
+                    <div class="flex-col xl:flex xl:flex-row justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <div>
+                            <hgroup>
+                                <h3 class="font-bold mb-2">
+                                    Fonctionnement des aimants
+                                </h3>
+                                <p class="underline">
+                                    Salle Grise
+                                </p>
+                                <p class="text-gray-400">
+                                    1 FOIS PAR POSTE
+                                </p>
+                            </hgroup>
+                            <div>
+                                Aimant amont broyeur graines N°1 : <span class="tooltip" data-tip="{{ $sheet->aimant_amont_broyeur_graine_1->label() }}">{!! $sheet->aimant_amont_broyeur_graine_1->icon() !!}</span>
+                            </div>
+                            <div>
+                                Aimant broyeur graines N°2 : <span class="tooltip" data-tip="{{ $sheet->aimant_broyeur_graine_2->label() }}">{!! $sheet->aimant_broyeur_graine_2->icon() !!}</span>
+                            </div>
+                            <div>
+                                Aimant broyeur TTX N°3 : <span class="tooltip" data-tip="{{ $sheet->aimant_broyeur_ttx_3->label() }}">{!! $sheet->aimant_broyeur_ttx_3->icon() !!}</span>
+                            </div>
+                            <p class="text-gray-400 mt-4">
+                                A CHAQUE DEMARRAGE TRITURATION
+                            </p>
+                            <div>
+                                Aimant TCI1 N°6 : <span class="tooltip" data-tip="{{ $sheet->aimant_tci1_6->label() }}">{!! $sheet->aimant_tci1_6->icon() !!}</span>
+                            </div>
+                            <p class="underline mt-4">
+                                Salle Blanche
+                            </p>
+                            <p class="text-gray-400">
+                                A CHAQUE DEMARRAGE EXTRUSION
+                            </p>
+                            <div>
+                                Aimant derrière refroidisseur N°4 : <span class="tooltip" data-tip="{{ $sheet->aimant_refroidisseur_4->label() }}">{!! $sheet->aimant_refroidisseur_4->icon() !!}</span>
+                            </div>
+                            <div>
+                                Aimant trémie boisseaux N°5 : <span class="tooltip" data-tip="{{ $sheet->aimant_tremie_boisseaux_5->label() }}">{!! $sheet->aimant_tremie_boisseaux_5->icon() !!}</span>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
