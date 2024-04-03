@@ -4,6 +4,7 @@ namespace BDS\Models\Selvah;
 
 use BDS\Enums\Selvah\Conformes;
 use BDS\Enums\Selvah\Detections;
+use BDS\Enums\Selvah\EnsachageCircuit;
 use BDS\Enums\Selvah\EnsachageType;
 use BDS\Enums\Selvah\Postes;
 use BDS\Enums\Selvah\Validations;
@@ -90,6 +91,14 @@ class CorrespondenceSheet extends Model
         'echantillon_ttx_controle_visuel' => Conformes::class,
         'echantillon_farine_ttx' => 'boolean',
         'echantillon_farine_ttx_controle_visuel' => Conformes::class,
+
+        'echantillon_ensachage_circuit' => EnsachageCircuit::class,
+        'echantillon_pvt_sachet_debut_production' => 'boolean',
+        'echantillon_pvt_sachet_debut_production_controle_visuel' => Conformes::class,
+        'echantillon_pvt_sachet_prise_poste' => 'boolean',
+        'echantillon_pvt_sachet_prise_poste_controle_visuel' => Conformes::class,
+        'echantillon_pvt_pot_sterile' => 'boolean',
+        'echantillon_pvt_pot_sterile_controle_visuel' => Conformes::class,
     ];
 
     /**

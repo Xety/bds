@@ -585,7 +585,7 @@
                                 Réalisation échantillons production zone Trituration
                             </h3>
                             <p>
-                                Suivant le <a class="link link-primary" href="https://qualios.ads.corp/servlet/qualios.index?mod=0&Tri=120&Ref=27&Chap=111&LienlDClic=1489&NavPortail=0" target="_blank">MOP-SEL-010</a>
+                                Suivant le <a class="link link-primary" href="http://qualios.ads.corp/servlet/qualios.index?mod=0&Tri=120&Ref=27&Chap=111&LienlDClic=1489&NavPortail=0" target="_blank">MOP-SEL-010</a>
                             </p>
                         </hgroup>
 
@@ -655,10 +655,91 @@
                                     Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_farine_ttx_controle_visuel->label() }}">{!! $sheet->echantillon_farine_ttx_controle_visuel->icon() !!}</span>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
+
+                    <div class="flex-col justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Réalisation échantillons production et analyses manuelles zone Extrusion/Ensachage
+                            </h3>
+                            <p>
+                                Suivant le <a class="link link-primary" href="http://qualios.ads.corp/servlet/qualios.index?mod=0&Tri=120&Ref=27&Chap=111&LienlDClic=1489&NavPortail=0" target="_blank">MOP-SEL-010</a> et <a class="link link-primary" href="http://qualios.ads.corp/servlet/qualios.index?mod=0&Tri=120&Ref=27&Chap=111&LienlDClic=1489&NavPortail=0" target="_blank">ENR-SEL-021</a>
+                            </p>
+                        </hgroup>
+
+                        <div class="grid grid-cols-12">
+                            <div class="col-span-12">
+                                PVT à l'ensachage :
+                                <span class="tooltip" data-tip="{{ $sheet->echantillon_ensachage_circuit->label() }}">{!! $sheet->echantillon_ensachage_circuit->icon() !!}</span>
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                PVT <span class="font-bold">SACHET</span> début de production (+1 heure) :
+                                @if($sheet->echantillon_pvt_sachet_debut_production)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                <div>
+                                    Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_pvt_sachet_debut_production_controle_visuel->label() }}">{!! $sheet->echantillon_pvt_sachet_debut_production_controle_visuel->icon() !!}</span>
+                                </div>
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                PVT <span class="font-bold">SACHET</span> prise de poste et milieu de poste :
+                                @if($sheet->echantillon_pvt_sachet_prise_poste)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                <div>
+                                    Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_pvt_sachet_prise_poste_controle_visuel->label() }}">{!! $sheet->echantillon_pvt_sachet_prise_poste_controle_visuel->icon() !!}</span>
+                                </div>
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                PVT <span class="font-bold">POT STERILE</span> début de poste (+4 heure et 24 heures plus tard) :
+                                @if($sheet->echantillon_pvt_pot_sterile)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                <div>
+                                    Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_pvt_pot_sterile_controle_visuel->label() }}">{!! $sheet->echantillon_pvt_pot_sterile_controle_visuel->icon() !!}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-col justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <h3 class="font-bold mb-2">
+                            Remarques suite à la visite de l'usine (obligatoirement en début de poste)
+                        </h3>
+
+                        <p>
+                            {{ $sheet->remarques_apres_visite_usine }}
+                        </p>
+                    </div>
+
+                    <div class="flex-col justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Problèmes / défauts rencontrés pendant le poste
+                            </h3>
+                            <p class="text-gray-400">
+                                Travail réalisé durant le poste
+                            </p>
+                        </hgroup>
+
+                        <p class="mt-4">
+                            {{ $sheet->problemes_defauts_rencontrer_pendant_poste }}
+                        </p>
+                    </div>
+
                 </div>
             @empty
 
