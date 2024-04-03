@@ -79,14 +79,24 @@ return new class extends Migration {
             $table->enum('magnetique_big_bag_etalon_nfe', ['detecte', 'non-detecte', 'non-applicable'])->default('non-applicable');
             $table->enum('magnetique_big_bag_etalon_ss', ['detecte', 'non-detecte', 'non-applicable'])->default('non-applicable');
             $table->enum('magnetique_validation_ccp', ['oui', 'non', 'non-applicable'])->default('non-applicable');
+            // BRC1
+            $table->tinyText('brc_numero_lot')->nullable();
+            $table->boolean('brc_grille_conforme')->default(0);
+            $table->boolean('brc_couteaux_conforme')->default(0);
+            // BRT1
+            $table->tinyText('brt1_numero_lot')->nullable();
+            $table->boolean('brt1_grille_conforme')->default(0);
+            $table->boolean('brt1_couteaux_conforme')->default(0);
             // Echantillons Trituration
             $table->boolean('echantillon_graines_broyees')->default(0);
             $table->enum('echantillon_graines_broyees_controle_visuel', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
             $table->boolean('echantillon_coques')->default(0);
             $table->enum('echantillon_coques_controle_visuel', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
-            $table->boolean('echantillon_huile_brute_broyees')->default(0);
+            $table->boolean('echantillon_huile_brute')->default(0);
             $table->enum('echantillon_huile_brute_controle_visuel', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
-            $table->boolean('echantillon_farine_ttx_broyees')->default(0);
+            $table->boolean('echantillon_ttx')->default(0);
+            $table->enum('echantillon_ttx_controle_visuel', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
+            $table->boolean('echantillon_farine_ttx')->default(0);
             $table->enum('echantillon_farine_ttx_controle_visuel', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
             // Echantillons Extrusion
             $table->enum('echantillon_ensachage_circuit', ['bpf1', 'bpf2', 'big-bag', 'non-applicable'])->default('non-applicable');

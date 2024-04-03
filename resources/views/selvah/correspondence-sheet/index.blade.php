@@ -137,9 +137,14 @@
                     </div>
 
                     <div class="flex-col justify-between items-center border border-t-0 border-gray-200 dark:border-gray-700 p-4">
-                        <h3 class="font-bold mb-2">
-                            Suivi des chaudières
-                        </h3>
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Suivi des chaudières
+                            </h3>
+                            <p class="text-gray-400">
+                                A CHAQUE DÉBUT DE POSTE SI CHAUDIÈRES EN FONCTIONNEMENT
+                            </p>
+                        </hgroup>
                         <div class="grid grid-cols-12 xl:gap-4 mb-5 xl:mb-0">
                             <div class="col-span-12 xl:col-span-4">
                                 Vérification de la dureté de l'eau :
@@ -214,39 +219,102 @@
                     </div>
 
                     <div class="flex-col justify-between items-center border border-t-0 border-gray-200 dark:border-gray-700 p-4">
-                        <h3 class="font-bold mb-2">
-                            Relevé des compteurs
-                        </h3>
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Relevé des compteurs
+                            </h3>
+                            <p class="text-gray-400">
+                                A CHAQUE POSTE
+                            </p>
+                        </hgroup>
                         <div class="grid grid-cols-12 xl:gap-4 mb-5 xl:mb-0">
                             <div class="col-span-12 mb-2">
                                 Huile brute : @if($sheet->compteur_huile_brute) <code class="code rounded-sm">{{ $sheet->compteur_huile_brute }}</code> @endif
                             </div>
+                            <p class="col-span-12 text-gray-400">
+                                AU 1ER DÉMARRAGE TRITURATION DE LA SEMAINE
+                            </p>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°1 <span class="hidden xl:inline">(Général chaufferie)</span> : @if($sheet->compteur_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_eau_1 }}</code> @endif
+                                Eau brute N°1
+                                <div class="dropdown dropdown-hover dropdown-bottom">
+                                    <label tabindex="0" class="hover:cursor-pointer text-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </label>
+                                    <div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 dark:bg-base-200 rounded-box w-64">
+                                        <div class="card-body">
+                                            <p>Général chaufferie</p>
+                                        </div>
+                                    </div>
+                                </div> :
+                                @if($sheet->compteur_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_eau_1 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5 mb-2">
                                 Consommation N°1 : @if($sheet->compteur_consommation_eau_1) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_1 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°2 <span class="hidden xl:inline">(Chaudière trituration)</span> : @if($sheet->compteur_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_eau_2 }}</code> @endif
+                                Eau brute N°2
+                                <div class="dropdown dropdown-hover dropdown-bottom">
+                                    <label tabindex="0" class="hover:cursor-pointer text-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </label>
+                                    <div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 dark:bg-base-200 rounded-box w-64">
+                                        <div class="card-body">
+                                            <p>Chaudière trituration</p>
+                                        </div>
+                                    </div>
+                                </div> :
+                                @if($sheet->compteur_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_eau_2 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5 mb-2">
                                 Consommation N°2 : @if($sheet->compteur_consommation_eau_2) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_2 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°3 <span class="hidden xl:inline">(Chaudière extrusion)</span> : @if($sheet->compteur_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_eau_3 }}</code> @endif
+                                Eau brute N°3
+                                <div class="dropdown dropdown-hover dropdown-bottom">
+                                    <label tabindex="0" class="hover:cursor-pointer text-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </label>
+                                    <div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 dark:bg-base-200 rounded-box w-64">
+                                        <div class="card-body">
+                                            <p>Chaudière extrusion</p>
+                                        </div>
+                                    </div>
+                                </div> :
+                                @if($sheet->compteur_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_eau_3 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5 mb-2">
                                 Consommation N°3 : @if($sheet->compteur_consommation_eau_3) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_3 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°4 <span class="hidden xl:inline">(Pompe à eau Extrudeur)</span> : @if($sheet->compteur_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_eau_4 }}</code> @endif
+                                Eau brute N°4
+                                <div class="dropdown dropdown-hover dropdown-bottom">
+                                    <label tabindex="0" class="hover:cursor-pointer text-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </label>
+                                    <div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 dark:bg-base-200 rounded-box w-64">
+                                        <div class="card-body">
+                                            <p>Pompe à eau Extrudeur</p>
+                                        </div>
+                                    </div>
+                                </div> :
+                                @if($sheet->compteur_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_eau_4 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5 mb-2">
                                 Consommation N°4 : @if($sheet->compteur_consommation_eau_4) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_4 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-7">
-                                Eau brute N°5 <span class="hidden xl:inline">(Pompe à eau Préconditionneur)</span> : @if($sheet->compteur_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_eau_5 }}</code> @endif
+                                Eau brute N°5
+                                <div class="dropdown dropdown-hover dropdown-bottom">
+                                    <label tabindex="0" class="hover:cursor-pointer text-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </label>
+                                    <div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 dark:bg-base-200 rounded-box w-64">
+                                        <div class="card-body">
+                                            <p>Pompe à eau Préconditionneur</p>
+                                        </div>
+                                    </div>
+                                </div> :
+                                @if($sheet->compteur_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_eau_5 }}</code> @endif
                             </div>
                             <div class="col-span-12 xl:col-span-5">
                                 Consommation N°5 : @if($sheet->compteur_consommation_eau_5) <code class="code rounded-sm">{{ $sheet->compteur_consommation_eau_5 }}</code> @endif
@@ -256,9 +324,14 @@
 
                     <div class="flex-col xl:flex xl:flex-row justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
                         <div>
-                            <h3 class="font-bold mb-2">
-                                Fonctionnement Filtration
-                            </h3>
+                            <hgroup>
+                                <h3 class="font-bold mb-2">
+                                    Fonctionnement Filtration
+                                </h3>
+                                <p class="text-gray-400">
+                                    A CHAQUE FILTRATION
+                                </p>
+                            </hgroup>
                             <div class="flex-col mb-4">
                                 <div>
                                     Nettoyage des plateaux de filtration :
@@ -307,18 +380,20 @@
                                 </div>
                                 <div>
                                     Intégrité de la grille conforme :
-                                    @if($sheet->ns1_grille_conforme)
-                                        <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
-                                    @else
-                                        <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                    @if($sheet->ns1_numero_lot)
+                                        @if($sheet->ns1_grille_conforme)
+                                            <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                        @else
+                                            <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex-col xl:flex xl:flex-row justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
-                        <div>
+                    <div class="grid grid-cols-12 xl:gap-4 mb-5 xl:mb-0 border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
                             <hgroup>
                                 <h3 class="font-bold mb-2">
                                     Fonctionnement des aimants
@@ -340,7 +415,7 @@
                                 Aimant broyeur TTX N°3 : <span class="tooltip" data-tip="{{ $sheet->aimant_broyeur_ttx_3->label() }}">{!! $sheet->aimant_broyeur_ttx_3->icon() !!}</span>
                             </div>
                             <p class="text-gray-400 mt-4">
-                                A CHAQUE DEMARRAGE TRITURATION
+                                A CHAQUE DÉMARRAGE TRITURATION
                             </p>
                             <div>
                                 Aimant TCI1 N°6 : <span class="tooltip" data-tip="{{ $sheet->aimant_tci1_6->label() }}">{!! $sheet->aimant_tci1_6->icon() !!}</span>
@@ -349,7 +424,7 @@
                                 Salle Blanche
                             </p>
                             <p class="text-gray-400">
-                                A CHAQUE DEMARRAGE EXTRUSION
+                                A CHAQUE DÉMARRAGE EXTRUSION
                             </p>
                             <div>
                                 Aimant derrière refroidisseur N°4 : <span class="tooltip" data-tip="{{ $sheet->aimant_refroidisseur_4->label() }}">{!! $sheet->aimant_refroidisseur_4->icon() !!}</span>
@@ -357,6 +432,230 @@
                             <div>
                                 Aimant trémie boisseaux N°5 : <span class="tooltip" data-tip="{{ $sheet->aimant_tremie_boisseaux_5->label() }}">{!! $sheet->aimant_tremie_boisseaux_5->icon() !!}</span>
                             </div>
+                        </div>
+
+                        <div class="col-span-12 xl:col-span-6">
+                            <hgroup>
+                                <h3 class="font-bold mb-2">
+                                    Fonctionnement des magnétiques ensacheuse sacs et/ou big-bag CCP1
+                                </h3>
+                                <p class="text-gray-400">
+                                    A CHAQUE DÉBUT DE PRODUCTION ET A CHAQUE DÉBUT DE POSTE
+                                </p>
+                            </hgroup>
+                            <div>
+                                Ensachage en cours :
+                                @if($sheet->magnetique_ensachage_en_cours)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div>
+                                Type d'ensachage : <span class="tooltip" data-tip="{{ $sheet->magnetique_ensachage_type->label() }}">{!! $sheet->magnetique_ensachage_type->icon() !!}</span>
+                            </div>
+                            <div class="border border-dotted border-b-0 border-r-0 border-l-0 border-gray-200 my-2">
+                                <p class="underline">
+                                    Ensacheuse sacs
+                                </p>
+                                <div>
+                                    Heure contrôle : {{ $sheet->magnetique_sacs_heure_controle?->translatedFormat( 'H:i') }}
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    Étalon FE : <span class="tooltip" data-tip="{{ $sheet->magnetique_sacs_etalon_fe->label() }}">{!! $sheet->magnetique_sacs_etalon_fe->icon() !!}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    Étalon NFE : <span class="tooltip" data-tip="{{ $sheet->magnetique_sacs_etalon_nfe->label() }}">{!! $sheet->magnetique_sacs_etalon_nfe->icon() !!}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    Étalon SS : <span class="tooltip" data-tip="{{ $sheet->magnetique_sacs_etalon_ss->label() }}">{!! $sheet->magnetique_sacs_etalon_ss->icon() !!}</span>
+                                </div>
+                            </div>
+                            <div class="border border-dotted border-b-0 border-r-0 border-l-0 border-gray-200 my-2">
+                                <p class="underline">
+                                    Station remplissage Big-bag
+                                </p>
+                                <div>
+                                    Heure contrôle : {{ $sheet->magnetique_big_bag_heure_controle?->translatedFormat( 'H:i') }}
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    Étalon FE : <span class="tooltip" data-tip="{{ $sheet->magnetique_big_bag_etalon_fe->label() }}">{!! $sheet->magnetique_big_bag_etalon_fe->icon() !!}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    Étalon NFE : <span class="tooltip" data-tip="{{ $sheet->magnetique_big_bag_etalon_nfe->label() }}">{!! $sheet->magnetique_big_bag_etalon_nfe->icon() !!}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    Étalon SS : <span class="tooltip" data-tip="{{ $sheet->magnetique_big_bag_etalon_ss->label() }}">{!! $sheet->magnetique_big_bag_etalon_ss->icon() !!}</span>
+                                </div>
+                            </div>
+                            <div class="border border-dotted border-b-0 border-r-0 border-l-0 border-gray-200 my-2">
+                                <div class="flex items-center gap-1">
+                                    Validation du CCP
+                                    <div class="dropdown dropdown-hover dropdown-bottom">
+                                        <label tabindex="0" class="hover:cursor-pointer text-info">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        </label>
+                                        <div tabindex="0" class="card compact dropdown-content z-[1] shadow bg-base-100 dark:bg-base-200 rounded-box w-64">
+                                            <div class="card-body">
+                                                <p>Tous les étalons doivent être détectés</p>
+                                            </div>
+                                        </div>
+                                    </div> :
+                                    <span class="tooltip" data-tip="{{ $sheet->magnetique_validation_ccp->label() }}">{!! $sheet->magnetique_validation_ccp->icon() !!}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 xl:gap-4 mb-5 xl:mb-0 border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                            <hgroup>
+                                <h3 class="font-bold mb-2">
+                                    Fonctionnement du BRC
+                                </h3>
+                                <p class="text-gray-400">
+                                    A CHAQUE CHANGEMENT DE LOT
+                                </p>
+                            </hgroup>
+
+                            <div>
+                                N° de lot : @if($sheet->brc_numero_lot) <code class="code rounded-sm">{{ $sheet->brc_numero_lot }}</code> @endif
+                            </div>
+                            <div>
+                                Intégrité de la grille conforme :
+                                @if($sheet->brc_numero_lot)
+                                    @if($sheet->brc_grille_conforme)
+                                        <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                    @else
+                                        <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                    @endif
+                                @endif
+                            </div>
+                            <div>
+                                État des couteaux conforme :
+                                @if($sheet->brc_numero_lot)
+                                    @if($sheet->brc_couteaux_conforme)
+                                        <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                    @else
+                                        <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                    @endif
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                            <hgroup>
+                                <h3 class="font-bold mb-2">
+                                    Fonctionnement du BRT1
+                                </h3>
+                                <p class="text-gray-400">
+                                    A CHAQUE CHANGEMENT DE LOT
+                                </p>
+                            </hgroup>
+
+                            <div>
+                                N° de lot : @if($sheet->brt1_numero_lot) <code class="code rounded-sm">{{ $sheet->brt1_numero_lot }}</code> @endif
+                            </div>
+                            <div>
+                                Intégrité des grilles conformes :
+                                @if($sheet->brt1_numero_lot)
+                                    @if($sheet->brt1_grille_conforme)
+                                        <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                    @else
+                                        <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                    @endif
+                                @endif
+                            </div>
+                            <div>
+                                État des couteaux conforme :
+                                @if($sheet->brt1_numero_lot)
+                                    @if($sheet->brt1_couteaux_conforme)
+                                        <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                    @else
+                                        <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                    @endif
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-col justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Réalisation échantillons production zone Trituration
+                            </h3>
+                            <p>
+                                Suivant le <a class="link link-primary" href="https://qualios.ads.corp/servlet/qualios.index?mod=0&Tri=120&Ref=27&Chap=111&LienlDClic=1489&NavPortail=0" target="_blank">MOP-SEL-010</a>
+                            </p>
+                        </hgroup>
+
+                        <div class="grid grid-cols-12">
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                Graines Broyées :
+                                @if($sheet->echantillon_graines_broyees)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                <div>
+                                    Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_graines_broyees_controle_visuel->label() }}">{!! $sheet->echantillon_graines_broyees_controle_visuel->icon() !!}</span>
+                                </div>
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                Coques :
+                                @if($sheet->echantillon_coques)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                <div>
+                                    Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_coques_controle_visuel->label() }}">{!! $sheet->echantillon_coques_controle_visuel->icon() !!}</span>
+                                </div>
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                Huile Brute :
+                                @if($sheet->echantillon_huile_brute)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                <div>
+                                    Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_huile_brute_controle_visuel->label() }}">{!! $sheet->echantillon_huile_brute_controle_visuel->icon() !!}</span>
+                                </div>
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                TTX :
+                                @if($sheet->echantillon_ttx)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                <div>
+                                    Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_ttx_controle_visuel->label() }}">{!! $sheet->echantillon_ttx_controle_visuel->icon() !!}</span>
+                                </div>
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                Farine TTX :
+                                @if($sheet->echantillon_farine_ttx)
+                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
+                                @else
+                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
+                                @endif
+                            </div>
+                            <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
+                                <div>
+                                    Contrôle visuel : <span class="tooltip" data-tip="{{ $sheet->echantillon_farine_ttx_controle_visuel->label() }}">{!! $sheet->echantillon_farine_ttx_controle_visuel->icon() !!}</span>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
