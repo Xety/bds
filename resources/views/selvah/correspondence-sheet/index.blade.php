@@ -584,7 +584,7 @@
                             <h3 class="font-bold mb-2">
                                 Réalisation échantillons production zone Trituration
                             </h3>
-                            <p>
+                            <p class="text-gray-400">
                                 Suivant le <a class="link link-primary" href="http://qualios.ads.corp/servlet/qualios.index?mod=0&Tri=120&Ref=27&Chap=111&LienlDClic=1489&NavPortail=0" target="_blank">MOP-SEL-010</a>
                             </p>
                         </hgroup>
@@ -663,7 +663,7 @@
                             <h3 class="font-bold mb-2">
                                 Réalisation échantillons production et analyses manuelles zone Extrusion/Ensachage
                             </h3>
-                            <p>
+                            <p class="text-gray-400">
                                 Suivant le <a class="link link-primary" href="http://qualios.ads.corp/servlet/qualios.index?mod=0&Tri=120&Ref=27&Chap=111&LienlDClic=1489&NavPortail=0" target="_blank">MOP-SEL-010</a> et <a class="link link-primary" href="http://qualios.ads.corp/servlet/qualios.index?mod=0&Tri=120&Ref=27&Chap=111&LienlDClic=1489&NavPortail=0" target="_blank">ENR-SEL-021</a>
                             </p>
                         </hgroup>
@@ -700,7 +700,7 @@
                                 </div>
                             </div>
                             <div class="col-span-12 xl:col-span-6 mb-4 xl:mb-0">
-                                PVT <span class="font-bold">POT STERILE</span> début de poste (+4 heure et 24 heures plus tard) :
+                                PVT <span class="font-bold">POT STERILE</span> début de poste (+4 heures et 24 heures plus tard) :
                                 @if($sheet->echantillon_pvt_pot_sterile)
                                     <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
                                 @else
@@ -716,9 +716,14 @@
                     </div>
 
                     <div class="flex-col justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
-                        <h3 class="font-bold mb-2">
-                            Remarques suite à la visite de l'usine (obligatoirement en début de poste)
-                        </h3>
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Remarques suite à la visite de l'usine
+                            </h3>
+                            <p class="text-gray-400">
+                                Obligatoire en début de poste
+                            </p>
+                        </hgroup>
 
                         <p>
                             {{ $sheet->remarques_apres_visite_usine }}
@@ -738,6 +743,50 @@
                         <p class="mt-4">
                             {{ $sheet->problemes_defauts_rencontrer_pendant_poste }}
                         </p>
+                    </div>
+
+                    <div class="flex-col justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Consignes poste à poste
+                            </h3>
+                            <p class="text-gray-400">
+                                Travail restant à faire
+                            </p>
+                        </hgroup>
+
+                        <p class="mt-4">
+                            {{ $sheet->consignes_poste_a_poste }}
+                        </p>
+                    </div>
+
+                    <div class="flex-col justify-between border border-t-0 border-gray-200 dark:border-gray-700 p-4">
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Visa responsable production ou adjoint et remarques éventuelles
+                            </h3>
+                        </hgroup>
+
+                        <div class="flex justify-between">
+                            @if($sheet->responsable_signature_id)
+                                <div>
+                                    {{ $sheet->responsable_commentaire }}
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">
+                                        Signé par :
+                                    </p>
+                                    <a class="link link-hover link-primary font-bold" href="{{ $sheet->responsable->show_url }}">
+                                        {{ $sheet->responsable->full_name }}
+                                    </a>
+                                </div>
+                            @else
+                                <div>
+                                    Cette fiche n'a pas encore été signé par un responsable.
+                                </div>
+                            @endif
+
+                        </div>
                     </div>
 
                 </div>

@@ -110,6 +110,9 @@ return new class extends Migration {
             $table->mediumText('remarques_apres_visite_usine')->nullable();
             $table->longText('problemes_defauts_rencontrer_pendant_poste')->nullable();
             $table->mediumText('consignes_poste_a_poste')->nullable();
+            // Responsable
+            $table->mediumText('responsable_commentaire')->nullable();
+            $table->foreignId('responsable_signature_id')->nullable();
 
             $table->timestamps();
         });

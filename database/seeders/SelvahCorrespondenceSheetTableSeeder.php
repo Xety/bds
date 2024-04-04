@@ -119,6 +119,9 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'problemes_defauts_rencontrer_pendant_poste' => '-Démarrage de la zone Broyage à 6h00',
                 'consignes_poste_a_poste' => null,
 
+                'responsable_commentaire' => null,
+                'responsable_signature_id' => null,
+
                 'created_at' => '2024-04-02 05:50:13',
                 'updated_at' => '2024-04-02 05:50:13',
             ],
@@ -221,9 +224,12 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'echantillon_pvt_pot_sterile' => 1,
                 'echantillon_pvt_pot_sterile_controle_visuel' => 'conforme',
 
-                'remarques_apres_visite_usine' => 'Usine à l\'arrêt',
-                'problemes_defauts_rencontrer_pendant_poste' => '-Démarrage de la zone Broyage à 6h00',
-                'consignes_poste_a_poste' => null,
+                'remarques_apres_visite_usine' => 'Broyage, Trituration, Extrusion et Ensachage en cours.',
+                'problemes_defauts_rencontrer_pendant_poste' => '- Changement camion Took-Took 30 palettes',
+                'consignes_poste_a_poste' => 'Mettre les plateaux de filtration à sécher.',
+
+                'responsable_commentaire' => 'Bien avertir les responsables qualité et production lorsque le CPP est non-conforme.',
+                'responsable_signature_id' => 1,
 
                 'created_at' => '2024-04-02 11:50:13',
                 'updated_at' => '2024-04-02 11:50:13',

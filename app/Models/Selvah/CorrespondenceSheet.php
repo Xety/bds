@@ -11,6 +11,7 @@ use BDS\Enums\Selvah\Validations;
 use BDS\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CorrespondenceSheet extends Model
 {
@@ -109,5 +110,15 @@ class CorrespondenceSheet extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();
+    }
+
+    /**
+     * Get the responsable that signed the sheet.
+     *
+     * @return HasOne
+     */
+    public function responsable(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'responsable_signature_id')->withTrashed();
     }
 }
