@@ -443,7 +443,7 @@ class Parts extends Component
 
         $materials = Material::query()
             ->with(['zone', 'zone.site'])
-            ->where('name', 'like', "$value%");
+            ->where('name', 'like', "%$value%");
 
         // Only the maintenance site can access to all materials from all sites.
         if(getPermissionsTeamId() !== settings('site_id_maintenance_bds')) {

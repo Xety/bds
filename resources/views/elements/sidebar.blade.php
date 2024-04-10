@@ -51,7 +51,7 @@
             @can('viewAny', \BDS\Models\Selvah\CorrespondenceSheet::class)
                 <x-menu-separator  />
                 <x-menu-sub title="Fiches de Correspondances" icon="fas-file-invoice">
-                    <x-menu-item title="Gérer les Fiches de Correspondances" icon="fas-file-invoice" link="{{ route('correspondence-sheet.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 focus:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
+                    <x-menu-item title="Gérer les Fiches de Correspondances" icon="fas-file-invoice" link="{{ route('correspondence-sheets.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 focus:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit" />
                 </x-menu-sub>
             @endif
 

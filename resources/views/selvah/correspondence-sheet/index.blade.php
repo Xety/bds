@@ -22,7 +22,9 @@
             @forelse($sheets as $sheet)
                 <div class="col-span-12 xl:col-span-6 shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <h2 class="text-2xl text-center mb-3">
-                        Fiche de Correspondance N°{{  $sheet->id }}
+                        <a class="link link-hover link-primary font-bold" href="{{ $sheet->show_url }}">
+                            Fiche de Correspondance N°{{  $sheet->id }}
+                        </a>
                     </h2>
                     @php $online = $sheet->user->online; @endphp
                     <div class="flex-col xl:flex xl:flex-row justify-between items-center border border-gray-200 dark:border-gray-700 rounded-tl-lg rounded-tr-lg p-4">
@@ -783,6 +785,12 @@
                             @else
                                 <div>
                                     Cette fiche n'a pas encore été signé par un responsable.
+                                </div>
+                                <div>
+                                    <a class="btn btn-info gap-2" href="{{ route('correspondence-sheets.show', ['sheet' => $sheet, 'signing' => true]) }}">
+                                        <x-icon name="fas-file-signature" class="h-5 w-5"></x-icon>
+                                        Signer la fiche
+                                    </a>
                                 </div>
                             @endif
 

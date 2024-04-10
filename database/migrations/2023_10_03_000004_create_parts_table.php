@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('reference')->nullable();
+            $table->string('reference')->nullable()->index();
             $table->float('price')->default(0.00);
             $table->integer('part_entry_total')->default(0);
             $table->integer('part_exit_total')->default(0);
@@ -29,7 +29,6 @@ return new class extends Migration
             $table->integer('qrcode_flash_count')->default(0);
             $table->integer('edit_count')->default(0);
             $table->boolean('is_edited')->default(false);
-            $table->bigInteger('edited_user_id')->unsigned()->nullable()->index();
             $table->timestamps();
         });
 
@@ -45,6 +44,9 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignIdFor(\BDS\Models\User::class)
                 ->after('description');
+            $table->foreignIdFor(\BDS\Models\User::class, 'edited_user_id')
+                ->after('is_edited')
+                ->nullable();
 
             $table->unique(['name', 'site_id'], 'parts_name_site_primary');
             $table->unique(['reference', 'site_id'], 'parts_reference_site_primary');
@@ -56,10 +58,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parts');
         Schema::table('parts', function (Blueprint $table) {
-            $table->dropForeignIdFor(\BDS\Models\Material::class);
+            $table->dropForeignIdFor(\BDS\Models\Site::class);
+            $table->dropForeignIdFor(\BDS\Models\Supplier::class);
             $table->dropForeignIdFor(\BDS\Models\User::class);
+            $table->dropForeignIdFor(\BDS\Models\User::class, 'edited_user_id');
         });
+
+        Schema::dropIfExists('parts');
     }
 };

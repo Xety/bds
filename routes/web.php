@@ -320,6 +320,14 @@ Route::group(['middleware' => ['auth']], function () {
         |--------------------------------------------------------------------------
         */
         Route::get('correspondence-sheets', [BDS\Http\Controllers\Selvah\CorrespondenceSheetController::class, 'index'])
-            ->name('correspondence-sheet.index');
+            ->name('correspondence-sheets.index');
+        Route::get('correspondence-sheets/{sheet}', [BDS\Http\Controllers\Selvah\CorrespondenceSheetController::class, 'show'])
+            ->name('correspondence-sheets.show')
+            ->missing(function (Request $request) {
+                return Redirect::back()
+                    ->with('danger', "Cette fiche de correspondance n'existe pas ou à été supprimée !");
+            });
+        Route::get('correspondence-sheets/create', [BDS\Http\Controllers\Selvah\CorrespondenceSheetController::class, 'create'])
+            ->name('correspondence-sheets.create');
     });
 });

@@ -105,13 +105,6 @@ class Activities extends Component
     ];
 
     /**
-     * Used to show the delete modal.
-     *
-     * @var bool
-     */
-    public bool $showDeleteModal = false;
-
-    /**
      * Number of rows displayed on a page.
      *
      * @var int

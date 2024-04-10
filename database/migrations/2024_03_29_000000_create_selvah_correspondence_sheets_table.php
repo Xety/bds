@@ -112,7 +112,6 @@ return new class extends Migration {
             $table->mediumText('consignes_poste_a_poste')->nullable();
             // Responsable
             $table->mediumText('responsable_commentaire')->nullable();
-            $table->foreignId('responsable_signature_id')->nullable();
 
             $table->timestamps();
         });
@@ -123,6 +122,10 @@ return new class extends Migration {
                 ->after('id')
                 ->constrained()
                 ->cascadeOnDelete();
+            $table->foreignIdFor(\BDS\Models\User::class, 'responsable_signature_id')
+                ->after('responsable_commentaire')
+                ->index()
+                ->nullable();
         });
     }
 

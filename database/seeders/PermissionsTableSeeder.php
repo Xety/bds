@@ -943,6 +943,13 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'sign selvah correspondence sheet',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut signer des fiches de correspondances de Selvah.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
 
             [
                 'name' => 'bypass login',

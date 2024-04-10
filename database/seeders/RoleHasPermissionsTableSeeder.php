@@ -212,6 +212,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'delete selvah correspondence sheet',
         'search selvah correspondence sheet',
         'export selvah correspondence sheet',
+        'sign selvah correspondence sheet',
     ];
 
     protected array $responsableMaintenancePermissions = [
@@ -804,6 +805,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete selvah correspondence sheet',
             'search selvah correspondence sheet',
             'export selvah correspondence sheet',
+            'sign selvah correspondence sheet',
         ]);
 
         // Directeur Général

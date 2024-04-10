@@ -25,18 +25,22 @@ return new class extends Migration
             $table->integer('company_count')->default(0);
             $table->integer('edit_count')->default(0);
             $table->boolean('is_edited')->default(false);
-            $table->bigInteger('edited_user_id')->unsigned()->nullable()->index();
             $table->timestamps();
         });
 
         Schema::table('maintenances', function (Blueprint $table) {
+            $table->foreignIdFor(\BDS\Models\Selvah\CorrespondenceSheet::class, 'selvah_correspondence_sheet_id')
+                ->after('id')
+                ->nullable();
             $table->foreignIdFor(\BDS\Models\Material::class)->after('gmao_id')->nullable();
             $table->foreignIdFor(\BDS\Models\User::class)->after('reason');
             $table->foreignIdFor(\BDS\Models\Site::class)
                 ->after('id')
                 ->constrained()
                 ->cascadeOnDelete();
-            //$table->foreign('edited_user_id')->references('id')->on('users');
+            $table->foreignIdFor(\BDS\Models\User::class, 'edited_user_id')
+                ->after('is_edited')
+                ->nullable();
         });
 
         Schema::table('part_exits', function (Blueprint $table) {
@@ -59,11 +63,13 @@ return new class extends Migration
         Schema::table('part_exits', function (Blueprint $table) {
             $table->dropForeignIdFor(\BDS\Models\Maintenance::class);
         });
-        Schema::dropIfExists('maintenances');
         Schema::table('maintenances', function (Blueprint $table) {
+            $table->dropForeignIdFor(\BDS\Models\Selvah\CorrespondenceSheet::class, 'selvah_correspondence_sheet_id');
             $table->dropForeignIdFor(\BDS\Models\Material::class);
             $table->dropForeignIdFor(\BDS\Models\User::class);
-            //$table->dropForeign('edited_user_id');
+            $table->dropForeignIdFor(\BDS\Models\Site::class);
+            $table->dropForeignIdFor(\BDS\Models\User::class, 'edited_user_id');
         });
+        Schema::dropIfExists('maintenances');
     }
 };

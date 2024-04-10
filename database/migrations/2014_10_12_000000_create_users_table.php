@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique()->index();
+            $table->string('username')->unique();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -32,10 +32,17 @@ return new class extends Migration
             $table->ipAddress('last_login_ip')->nullable();
             $table->timestamp('last_login_date')->nullable();
             $table->timestamp('password_setup_at')->nullable();
-            $table->bigInteger('deleted_user_id')->unsigned()->nullable()->index();
 
             $table->timestamps();
             $table->softDeletes();
+
+
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignIdFor(\BDS\Models\User::class, 'deleted_user_id')
+                ->after('password_setup_at')
+                ->nullable();
         });
     }
 

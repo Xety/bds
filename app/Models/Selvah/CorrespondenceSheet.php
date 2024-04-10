@@ -8,6 +8,7 @@ use BDS\Enums\Selvah\EnsachageCircuit;
 use BDS\Enums\Selvah\EnsachageType;
 use BDS\Enums\Selvah\Postes;
 use BDS\Enums\Selvah\Validations;
+use BDS\Models\Presenters\Selvah\CorrespondenceSheetPresenter;
 use BDS\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,12 +16,33 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CorrespondenceSheet extends Model
 {
+    use CorrespondenceSheetPresenter;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'selvah_correspondence_sheets';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'responsable_commentaire',
+        'responsable_signature_id',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'show_url'
+    ];
 
     /**
      * The attributes that should be cast.

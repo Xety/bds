@@ -22,7 +22,7 @@ class CorrespondenceSheetPolicy
      */
     public function view(User $user, CorrespondenceSheet $sheet): bool
     {
-        return $user->can('view selvah correspondence sheet');
+        return $user->can('view selvah correspondence sheet') && getPermissionsTeamId() === settings('site_id_selvah');
     }
 
     /**
@@ -69,5 +69,16 @@ class CorrespondenceSheetPolicy
     public function search(User $user): bool
     {
         return $user->can('search selvah correspondence sheet');
+    }
+
+    /**
+     * Determine whether the user can sign the model.
+     */
+    public function sign(User $user, ?CorrespondenceSheet $sheet = null): bool
+    {
+        if($user->can('sign selvah correspondence sheet') && !is_null($sheet)) {
+            return $sheet->site_id === getPermissionsTeamId();
+        }
+        return $user->can('sign selvah correspondence sheet');
     }
 }
