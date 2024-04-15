@@ -122,6 +122,10 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'responsable_commentaire' => null,
                 'responsable_signature_id' => null,
 
+                'edit_count' => 0,
+                'is_edited' => false,
+                'edited_user_id' => null,
+
                 'created_at' => '2024-04-02 05:50:13',
                 'updated_at' => '2024-04-02 05:50:13',
             ],
@@ -230,6 +234,10 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
 
                 'responsable_commentaire' => 'Bien avertir les responsables qualité et production lorsque le CPP est non-conforme.',
                 'responsable_signature_id' => 1,
+
+                'edit_count' => 0,
+                'is_edited' => false,
+                'edited_user_id' => null,
 
                 'created_at' => '2024-04-02 11:50:13',
                 'updated_at' => '2024-04-02 11:50:13',

@@ -113,6 +113,10 @@ return new class extends Migration {
             // Responsable
             $table->mediumText('responsable_commentaire')->nullable();
 
+            // Edited
+            $table->integer('edit_count')->default(0);
+            $table->boolean('is_edited')->default(false);
+
             $table->timestamps();
         });
 
@@ -125,6 +129,9 @@ return new class extends Migration {
             $table->foreignIdFor(\BDS\Models\User::class, 'responsable_signature_id')
                 ->after('responsable_commentaire')
                 ->index()
+                ->nullable();
+            $table->foreignIdFor(\BDS\Models\User::class, 'edited_user_id')
+                ->after('is_edited')
                 ->nullable();
         });
     }

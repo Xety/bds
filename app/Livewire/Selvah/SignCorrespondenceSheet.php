@@ -95,7 +95,6 @@ class SignCorrespondenceSheet extends Component
     {
         $this->authorize('sign', CorrespondenceSheet::class);
 
-
         $this->showSignModal = true;
     }
 
@@ -115,8 +114,6 @@ class SignCorrespondenceSheet extends Component
             'responsable_commentaire' => $this->responsable_commentaire,
             'responsable_signature_id' => auth()->user()->id
         ]);
-
-
 
         $this->showSignModal = false;
     }

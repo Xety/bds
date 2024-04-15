@@ -29,9 +29,9 @@ class CorrespondenceSheetController extends Controller
     {
         $this->authorize('viewAny', CorrespondenceSheet::class);
 
-        $sheets = CorrespondenceSheet::with('user')->orderByDesc('created_at')->paginate(15);
+        //$sheets = CorrespondenceSheet::with('user')->orderByDesc('created_at')->paginate(15);
 
-        return view('selvah.correspondence-sheet.index', ['breadcrumbs' => $this->breadcrumbs, 'sheets' => $sheets]);
+        return view('selvah.correspondence-sheet.index', ['breadcrumbs' => $this->breadcrumbs]);
     }
 
     /**
