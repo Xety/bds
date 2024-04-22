@@ -63,17 +63,28 @@ class CorrespondenceSheets extends Component
         'bmp1_numero_lot' => '',
         'bmp2_numero_lot' => '',
         'btf1_numero_lot' => '',
-        'compteur_huile_brute' => '',
-        'compteur_eau_1' => '',
-        'compteur_eau_2' => '',
-        'compteur_eau_3' => '',
-        'compteur_eau_4' => '',
-        'compteur_eau_5' => '',
-        'compteur_consommation_eau_1' => '',
-        'compteur_consommation_eau_2' => '',
-        'compteur_consommation_eau_3' => '',
-        'compteur_consommation_eau_4' => '',
-        'compteur_consommation_eau_5' => '',
+        'compteur_huile_brute_min' => '',
+        'compteur_huile_brute_max' => '',
+        'compteur_eau_1_min' => '',
+        'compteur_eau_1_max' => '',
+        'compteur_eau_2_min' => '',
+        'compteur_eau_2_max' => '',
+        'compteur_eau_3_min' => '',
+        'compteur_eau_3_max' => '',
+        'compteur_eau_4_min' => '',
+        'compteur_eau_4_max' => '',
+        'compteur_eau_5_min' => '',
+        'compteur_eau_5_max' => '',
+        'compteur_consommation_eau_1_min' => '',
+        'compteur_consommation_eau_1_max' => '',
+        'compteur_consommation_eau_2_min' => '',
+        'compteur_consommation_eau_2_max' => '',
+        'compteur_consommation_eau_3_min' => '',
+        'compteur_consommation_eau_3_max' => '',
+        'compteur_consommation_eau_4_min' => '',
+        'compteur_consommation_eau_4_max' => '',
+        'compteur_consommation_eau_5_min' => '',
+        'compteur_consommation_eau_5_max' => '',
         'filtration_nettoyage_filtre' => '',
         'filtration_commentaire' => '',
         'ns1_numero_lot' => '',
@@ -176,8 +187,165 @@ class CorrespondenceSheets extends Component
                     });
                 })
                 ->when($this->filters['poste_type'], fn($query, $search) => $query->where('poste_type', $search))
-                ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
-
+                // BMP1
+                ->when($this->filters['bmp1_numero_lot'], fn($query, $search) => $query->where('bmp1_numero_lot', 'LIKE', '%' . $search . '%'))
+                // BMP2
+                ->when($this->filters['bmp2_numero_lot'], fn($query, $search) => $query->where('bmp2_numero_lot', 'LIKE', '%' . $search . '%'))
+                // BTF1
+                ->when($this->filters['btf1_numero_lot'], fn($query, $search) => $query->where('btf1_numero_lot', 'LIKE', '%' . $search . '%'))
+                // Compteurs
+                ->when($this->filters['compteur_huile_brute_min'], fn($query, $search) => $query->where('compteur_huile_brute', '>=', $search))
+                ->when($this->filters['compteur_huile_brute_max'], fn($query, $search) => $query->where('compteur_huile_brute', '<=', $search))
+                ->when($this->filters['compteur_eau_1_min'], fn($query, $search) => $query->where('compteur_eau_1_min', '>=', $search))
+                ->when($this->filters['compteur_eau_1_max'], fn($query, $search) => $query->where('compteur_eau_1_max', '<=', $search))
+                ->when($this->filters['compteur_eau_2_min'], fn($query, $search) => $query->where('compteur_eau_2_min', '>=', $search))
+                ->when($this->filters['compteur_eau_2_max'], fn($query, $search) => $query->where('compteur_eau_2_max', '<=', $search))
+                ->when($this->filters['compteur_eau_3_min'], fn($query, $search) => $query->where('compteur_eau_3_min', '>=', $search))
+                ->when($this->filters['compteur_eau_3_max'], fn($query, $search) => $query->where('compteur_eau_3_max', '<=', $search))
+                ->when($this->filters['compteur_eau_4_min'], fn($query, $search) => $query->where('compteur_eau_4_min', '>=', $search))
+                ->when($this->filters['compteur_eau_4_max'], fn($query, $search) => $query->where('compteur_eau_4_max', '<=', $search))
+                ->when($this->filters['compteur_eau_5_min'], fn($query, $search) => $query->where('compteur_eau_5_min', '>=', $search))
+                ->when($this->filters['compteur_eau_5_max'], fn($query, $search) => $query->where('compteur_eau_5_max', '<=', $search))
+                ->when($this->filters['compteur_consommation_eau_1_min'], fn($query, $search) => $query->where('compteur_consommation_eau_1_min', '>=', $search))
+                ->when($this->filters['compteur_consommation_eau_1_max'], fn($query, $search) => $query->where('compteur_consommation_eau_1_max', '<=', $search))
+                ->when($this->filters['compteur_consommation_eau_2_min'], fn($query, $search) => $query->where('compteur_consommation_eau_2_min', '>=', $search))
+                ->when($this->filters['compteur_consommation_eau_2_max'], fn($query, $search) => $query->where('compteur_consommation_eau_2_max', '<=', $search))
+                ->when($this->filters['compteur_consommation_eau_3_min'], fn($query, $search) => $query->where('compteur_consommation_eau_3_min', '>=', $search))
+                ->when($this->filters['compteur_consommation_eau_3_max'], fn($query, $search) => $query->where('compteur_consommation_eau_3_max', '<=', $search))
+                ->when($this->filters['compteur_consommation_eau_4_min'], fn($query, $search) => $query->where('compteur_consommation_eau_4_min', '>=', $search))
+                ->when($this->filters['compteur_consommation_eau_4_max'], fn($query, $search) => $query->where('compteur_consommation_eau_4_max', '<=', $search))
+                ->when($this->filters['compteur_consommation_eau_5_min'], fn($query, $search) => $query->where('compteur_consommation_eau_5_min', '>=', $search))
+                ->when($this->filters['compteur_consommation_eau_5_max'], fn($query, $search) => $query->where('compteur_consommation_eau_5_max', '<=', $search))
+                // Filtration
+                ->when($this->filters['filtration_nettoyage_filtre'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('filtration_nettoyage_filtre', true);
+                    }
+                    return $query->where('filtration_nettoyage_filtre', false);
+                })
+                ->when($this->filters['filtration_commentaire'], fn($query, $search) => $query->where('filtration_commentaire', 'LIKE', '%' . $search . '%'))
+                // NS1
+                ->when($this->filters['ns1_numero_lot'], fn($query, $search) => $query->where('ns1_numero_lot', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['ns1_grille_conforme'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('ns1_grille_conforme', true);
+                    }
+                    return $query->where('ns1_grille_conforme', false);
+                })
+                // Aimants
+                ->when($this->filters['aimant_amont_broyeur_graine_1'], fn($query, $search) => $query->where('aimant_amont_broyeur_graine_1', $search))
+                ->when($this->filters['aimant_broyeur_graine_2'], fn($query, $search) => $query->where('aimant_broyeur_graine_2', $search))
+                ->when($this->filters['aimant_broyeur_ttx_3'], fn($query, $search) => $query->where('aimant_broyeur_ttx_3', $search))
+                ->when($this->filters['aimant_refroidisseur_4'], fn($query, $search) => $query->where('aimant_refroidisseur_4', $search))
+                ->when($this->filters['aimant_tremie_boisseaux_5'], fn($query, $search) => $query->where('aimant_tremie_boisseaux_5', $search))
+                ->when($this->filters['aimant_tci1_6'], fn($query, $search) => $query->where('aimant_tci1_6', $search))
+                // Magnétique ensacheuse
+                ->when($this->filters['magnetique_ensachage_en_cours'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('magnetique_ensachage_en_cours', true);
+                    }
+                    return $query->where('magnetique_ensachage_en_cours', false);
+                })
+                ->when($this->filters['magnetique_ensachage_type'], fn($query, $search) => $query->where('magnetique_ensachage_type', $search))
+                ->when($this->filters['magnetique_sacs_etalon_fe'], fn($query, $search) => $query->where('magnetique_sacs_etalon_fe', $search))
+                ->when($this->filters['magnetique_sacs_etalon_nfe'], fn($query, $search) => $query->where('magnetique_sacs_etalon_nfe', $search))
+                ->when($this->filters['magnetique_sacs_etalon_ss'], fn($query, $search) => $query->where('magnetique_sacs_etalon_ss', $search))
+                ->when($this->filters['magnetique_big_bag_etalon_fe'], fn($query, $search) => $query->where('magnetique_big_bag_etalon_fe', $search))
+                ->when($this->filters['magnetique_big_bag_etalon_nfe'], fn($query, $search) => $query->where('magnetique_big_bag_etalon_nfe', $search))
+                ->when($this->filters['magnetique_big_bag_etalon_ss'], fn($query, $search) => $query->where('magnetique_big_bag_etalon_ss', $search))
+                ->when($this->filters['magnetique_validation_ccp'], fn($query, $search) => $query->where('magnetique_validation_ccp', $search))
+                // BRC1
+                ->when($this->filters['ns1_numero_lot'], fn($query, $search) => $query->where('ns1_numero_lot', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['ns1_grille_conforme'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('ns1_grille_conforme', true);
+                    }
+                    return $query->where('ns1_grille_conforme', false);
+                })
+                ->when($this->filters['brt1_couteaux_conforme'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('brt1_couteaux_conforme', true);
+                    }
+                    return $query->where('brt1_couteaux_conforme', false);
+                })
+                // BRT1
+                ->when($this->filters['brt1_numero_lot'], fn($query, $search) => $query->where('ns1_numero_lot', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['brt1_grille_conforme'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('brt1_grille_conforme', true);
+                    }
+                    return $query->where('brt1_grille_conforme', false);
+                })
+                ->when($this->filters['brt1_couteaux_conforme'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('brt1_couteaux_conforme', true);
+                    }
+                    return $query->where('brt1_couteaux_conforme', false);
+                })
+                // Echantillons Trituration
+                ->when($this->filters['echantillon_graines_broyees'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('echantillon_graines_broyees', true);
+                    }
+                    return $query->where('echantillon_graines_broyees', false);
+                })
+                ->when($this->filters['echantillon_graines_broyees_controle_visuel'], fn($query, $search) => $query->where('echantillon_graines_broyees_controle_visuel', $search))
+                ->when($this->filters['echantillon_coques'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('echantillon_coques', true);
+                    }
+                    return $query->where('echantillon_coques', false);
+                })
+                ->when($this->filters['echantillon_coques_controle_visuel'], fn($query, $search) => $query->where('echantillon_coques_controle_visuel', $search))
+                ->when($this->filters['echantillon_huile_brute'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('echantillon_huile_brute', true);
+                    }
+                    return $query->where('echantillon_huile_brute', false);
+                })
+                ->when($this->filters['echantillon_huile_brute_controle_visuel'], fn($query, $search) => $query->where('echantillon_huile_brute_controle_visuel', $search))
+                ->when($this->filters['echantillon_ttx'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('echantillon_ttx', true);
+                    }
+                    return $query->where('echantillon_ttx', false);
+                })
+                ->when($this->filters['echantillon_ttx_controle_visuel'], fn($query, $search) => $query->where('echantillon_ttx_controle_visuel', $search))
+                ->when($this->filters['echantillon_farine_ttx'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('echantillon_farine_ttx', true);
+                    }
+                    return $query->where('echantillon_farine_ttx', false);
+                })
+                ->when($this->filters['echantillon_farine_ttx_controle_visuel'], fn($query, $search) => $query->where('echantillon_farine_ttx_controle_visuel', $search))
+                // Echantillons Extrusion
+                ->when($this->filters['echantillon_ensachage_circuit'], fn($query, $search) => $query->where('echantillon_ensachage_circuit', $search))
+                ->when($this->filters['echantillon_pvt_sachet_debut_production'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('echantillon_pvt_sachet_debut_production', true);
+                    }
+                    return $query->where('echantillon_pvt_sachet_debut_production', false);
+                })
+                ->when($this->filters['echantillon_pvt_sachet_debut_production_controle_visuel'], fn($query, $search) => $query->where('echantillon_pvt_sachet_debut_production_controle_visuel', $search))
+                ->when($this->filters['echantillon_pvt_sachet_prise_poste'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('echantillon_pvt_sachet_prise_poste', true);
+                    }
+                    return $query->where('echantillon_pvt_sachet_prise_poste', false);
+                })
+                ->when($this->filters['echantillon_pvt_sachet_prise_poste_controle_visuel'], fn($query, $search) => $query->where('echantillon_pvt_sachet_prise_poste_controle_visuel', $search))
+                ->when($this->filters['echantillon_pvt_pot_sterile'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('echantillon_pvt_pot_sterile', true);
+                    }
+                    return $query->where('echantillon_pvt_pot_sterile', false);
+                })
+                ->when($this->filters['echantillon_pvt_pot_sterile_controle_visuel'], fn($query, $search) => $query->where('echantillon_pvt_pot_sterile_controle_visuel', $search))
+                // Zones Textes
+                ->when($this->filters['remarques_apres_visite_usine'], fn($query, $search) => $query->where('remarques_apres_visite_usine', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['problemes_defauts_rencontrer_pendant_poste'], fn($query, $search) => $query->where('problemes_defauts_rencontrer_pendant_poste', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['consignes_poste_a_poste'], fn($query, $search) => $query->where('consignes_poste_a_poste', 'LIKE', '%' . $search . '%'))
+                // Responsable
                 ->when($this->filters['responsable_signature_id'], function ($query, $search) {
                     return $query->whereHas('responsable', function ($partQuery) use ($search) {
                         $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
