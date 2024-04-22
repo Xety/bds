@@ -122,10 +122,6 @@ return new class extends Migration {
 
         Schema::table('selvah_correspondence_sheets', function (Blueprint $table) {
             $table->foreignIdFor(\BDS\Models\User::class)->after('id');
-            $table->foreignIdFor(\BDS\Models\Site::class)
-                ->after('id')
-                ->constrained()
-                ->cascadeOnDelete();
             $table->foreignIdFor(\BDS\Models\User::class, 'responsable_signature_id')
                 ->after('responsable_commentaire')
                 ->index()

@@ -18,7 +18,6 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
         $correspondenceSheets = [
             [
                 'id' => 1,
-                'site_id' => 2,
                 'user_id'=> 1,
                 'poste_type' => 'matin',
 
@@ -131,7 +130,6 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'site_id' => 2,
                 'user_id'=> 3,
                 'poste_type' => 'apres-midi',
 

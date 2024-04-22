@@ -58,11 +58,69 @@ class CorrespondenceSheets extends Component
      * @var array
      */
     public array $filters = [
-        'site' => '',
-        'description' => '',
-        'event' => '',
-        'subject' => '',
-        'causer' => '',
+        'user_id' => '',
+        'poste_type' => '',
+        'bmp1_numero_lot' => '',
+        'bmp2_numero_lot' => '',
+        'btf1_numero_lot' => '',
+        'compteur_huile_brute' => '',
+        'compteur_eau_1' => '',
+        'compteur_eau_2' => '',
+        'compteur_eau_3' => '',
+        'compteur_eau_4' => '',
+        'compteur_eau_5' => '',
+        'compteur_consommation_eau_1' => '',
+        'compteur_consommation_eau_2' => '',
+        'compteur_consommation_eau_3' => '',
+        'compteur_consommation_eau_4' => '',
+        'compteur_consommation_eau_5' => '',
+        'filtration_nettoyage_filtre' => '',
+        'filtration_commentaire' => '',
+        'ns1_numero_lot' => '',
+        'ns1_grille_conforme' => '',
+        'aimant_amont_broyeur_graine_1' => '',
+        'aimant_broyeur_graine_2' => '',
+        'aimant_broyeur_ttx_3' => '',
+        'aimant_refroidisseur_4' => '',
+        'aimant_tremie_boisseaux_5' => '',
+        'aimant_tci1_6' => '',
+        'magnetique_ensachage_en_cours' => '',
+        'magnetique_ensachage_type' => '',
+        'magnetique_sacs_etalon_fe' => '',
+        'magnetique_sacs_etalon_nfe' => '',
+        'magnetique_sacs_etalon_ss' => '',
+        'magnetique_big_bag_etalon_fe' => '',
+        'magnetique_big_bag_etalon_nfe' => '',
+        'magnetique_big_bag_etalon_ss' => '',
+        'magnetique_validation_ccp' => '',
+        'brc_numero_lot' => '',
+        'brc_grille_conforme' => '',
+        'brc_couteaux_conforme' => '',
+        'brt1_numero_lot' => '',
+        'brt1_grille_conforme' => '',
+        'brt1_couteaux_conforme' => '',
+        'echantillon_graines_broyees' => '',
+        'echantillon_graines_broyees_controle_visuel' => '',
+        'echantillon_coques' => '',
+        'echantillon_coques_controle_visuel' => '',
+        'echantillon_huile_brute' => '',
+        'echantillon_huile_brute_controle_visuel' => '',
+        'echantillon_ttx' => '',
+        'echantillon_ttx_controle_visuel' => '',
+        'echantillon_farine_ttx' => '',
+        'echantillon_farine_ttx_controle_visuel' => '',
+        'echantillon_ensachage_circuit' => '',
+        'echantillon_pvt_sachet_debut_production' => '',
+        'echantillon_pvt_sachet_debut_production_controle_visuel' => '',
+        'echantillon_pvt_sachet_prise_poste' => '',
+        'echantillon_pvt_sachet_prise_poste_controle_visuel' => '',
+        'echantillon_pvt_pot_sterile' => '',
+        'echantillon_pvt_pot_sterile_controle_visuel' => '',
+        'remarques_apres_visite_usine' => '',
+        'problemes_defauts_rencontrer_pendant_poste' => '',
+        'consignes_poste_a_poste' => '',
+        'responsable_commentaire' => '',
+        'responsable_signature_id' => '',
         'created_min' => '',
         'created_max' => '',
     ];
@@ -86,7 +144,7 @@ class CorrespondenceSheets extends Component
      *
      * @var int
      */
-    public int $perPage = 15;
+    public int $perPage = 12;
 
     /**
      * Function to render the component.
@@ -107,21 +165,27 @@ class CorrespondenceSheets extends Component
      */
     public function getRowsQueryProperty(): Builder
     {
-        $query = CorrespondenceSheet::query()
-            ->where('site_id', getPermissionsTeamId());
+        $query = CorrespondenceSheet::query();
 
         if (Gate::allows('search', CorrespondenceSheet::class)) {
-            /*$query
+            $query
+                ->when($this->filters['user_id'], function ($query, $search) {
+                    return $query->whereHas('user', function ($partQuery) use ($search) {
+                        $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+                    });
+                })
+                ->when($this->filters['poste_type'], fn($query, $search) => $query->where('poste_type', $search))
                 ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['event'], fn($query, $search) => $query->where('event', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['causer'], function ($query, $search) {
-                    return $query->whereHas('causer', function ($partQuery) use ($search) {
+
+                ->when($this->filters['responsable_signature_id'], function ($query, $search) {
+                    return $query->whereHas('responsable', function ($partQuery) use ($search) {
                         $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
                             ->orWhere('last_name', 'LIKE', '%' . $search . '%');
                     });
                 })
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-                ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));*/
+                ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
 
         return $this->applySorting($query);

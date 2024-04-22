@@ -29,7 +29,7 @@ class SignCorrespondenceSheet extends Component
      *
      * @var bool
      */
-    public bool $signing;
+    public  bool|null $signing = null;
 
     /**
      * Used to show the sign modal.
