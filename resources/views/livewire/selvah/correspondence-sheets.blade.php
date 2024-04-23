@@ -32,6 +32,8 @@
         </div>
     </div>
 
+    <x-selvah.correspondence-sheets.filters />
+
 
     <div class="grid grid-cols-12 gap-6 mb-7">
         @forelse($sheets as $sheet)

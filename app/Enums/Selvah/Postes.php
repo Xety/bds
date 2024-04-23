@@ -12,10 +12,26 @@ enum Postes: string
     public function label(): string
     {
         return match ($this) {
-            static::Matin => 'Matin',
-            static::Apres_Midi => 'Après-Midi',
-            static::Nuit => 'Nuit',
-            static::Journee => 'Journée',
+            Postes::Matin => 'Matin',
+            Postes::Apres_Midi => 'Après-Midi',
+            Postes::Nuit => 'Nuit',
+            Postes::Journee => 'Journée',
         };
+    }
+
+    public static function toSelectArray(): array
+    {
+        $array[] = [
+            'id' => '',
+            'name' => 'Tous les postes',
+        ];
+
+        foreach (Postes::cases() as $case) {
+            $array[] = [
+                'id' => $case->value,
+                'name' => $case->label(),
+            ];
+        }
+        return $array;
     }
 }

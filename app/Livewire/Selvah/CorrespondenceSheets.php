@@ -65,26 +65,6 @@ class CorrespondenceSheets extends Component
         'btf1_numero_lot' => '',
         'compteur_huile_brute_min' => '',
         'compteur_huile_brute_max' => '',
-        'compteur_eau_1_min' => '',
-        'compteur_eau_1_max' => '',
-        'compteur_eau_2_min' => '',
-        'compteur_eau_2_max' => '',
-        'compteur_eau_3_min' => '',
-        'compteur_eau_3_max' => '',
-        'compteur_eau_4_min' => '',
-        'compteur_eau_4_max' => '',
-        'compteur_eau_5_min' => '',
-        'compteur_eau_5_max' => '',
-        'compteur_consommation_eau_1_min' => '',
-        'compteur_consommation_eau_1_max' => '',
-        'compteur_consommation_eau_2_min' => '',
-        'compteur_consommation_eau_2_max' => '',
-        'compteur_consommation_eau_3_min' => '',
-        'compteur_consommation_eau_3_max' => '',
-        'compteur_consommation_eau_4_min' => '',
-        'compteur_consommation_eau_4_max' => '',
-        'compteur_consommation_eau_5_min' => '',
-        'compteur_consommation_eau_5_max' => '',
         'filtration_nettoyage_filtre' => '',
         'filtration_commentaire' => '',
         'ns1_numero_lot' => '',
@@ -196,27 +176,7 @@ class CorrespondenceSheets extends Component
                 // Compteurs
                 ->when($this->filters['compteur_huile_brute_min'], fn($query, $search) => $query->where('compteur_huile_brute', '>=', $search))
                 ->when($this->filters['compteur_huile_brute_max'], fn($query, $search) => $query->where('compteur_huile_brute', '<=', $search))
-                ->when($this->filters['compteur_eau_1_min'], fn($query, $search) => $query->where('compteur_eau_1_min', '>=', $search))
-                ->when($this->filters['compteur_eau_1_max'], fn($query, $search) => $query->where('compteur_eau_1_max', '<=', $search))
-                ->when($this->filters['compteur_eau_2_min'], fn($query, $search) => $query->where('compteur_eau_2_min', '>=', $search))
-                ->when($this->filters['compteur_eau_2_max'], fn($query, $search) => $query->where('compteur_eau_2_max', '<=', $search))
-                ->when($this->filters['compteur_eau_3_min'], fn($query, $search) => $query->where('compteur_eau_3_min', '>=', $search))
-                ->when($this->filters['compteur_eau_3_max'], fn($query, $search) => $query->where('compteur_eau_3_max', '<=', $search))
-                ->when($this->filters['compteur_eau_4_min'], fn($query, $search) => $query->where('compteur_eau_4_min', '>=', $search))
-                ->when($this->filters['compteur_eau_4_max'], fn($query, $search) => $query->where('compteur_eau_4_max', '<=', $search))
-                ->when($this->filters['compteur_eau_5_min'], fn($query, $search) => $query->where('compteur_eau_5_min', '>=', $search))
-                ->when($this->filters['compteur_eau_5_max'], fn($query, $search) => $query->where('compteur_eau_5_max', '<=', $search))
-                ->when($this->filters['compteur_consommation_eau_1_min'], fn($query, $search) => $query->where('compteur_consommation_eau_1_min', '>=', $search))
-                ->when($this->filters['compteur_consommation_eau_1_max'], fn($query, $search) => $query->where('compteur_consommation_eau_1_max', '<=', $search))
-                ->when($this->filters['compteur_consommation_eau_2_min'], fn($query, $search) => $query->where('compteur_consommation_eau_2_min', '>=', $search))
-                ->when($this->filters['compteur_consommation_eau_2_max'], fn($query, $search) => $query->where('compteur_consommation_eau_2_max', '<=', $search))
-                ->when($this->filters['compteur_consommation_eau_3_min'], fn($query, $search) => $query->where('compteur_consommation_eau_3_min', '>=', $search))
-                ->when($this->filters['compteur_consommation_eau_3_max'], fn($query, $search) => $query->where('compteur_consommation_eau_3_max', '<=', $search))
-                ->when($this->filters['compteur_consommation_eau_4_min'], fn($query, $search) => $query->where('compteur_consommation_eau_4_min', '>=', $search))
-                ->when($this->filters['compteur_consommation_eau_4_max'], fn($query, $search) => $query->where('compteur_consommation_eau_4_max', '<=', $search))
-                ->when($this->filters['compteur_consommation_eau_5_min'], fn($query, $search) => $query->where('compteur_consommation_eau_5_min', '>=', $search))
-                ->when($this->filters['compteur_consommation_eau_5_max'], fn($query, $search) => $query->where('compteur_consommation_eau_5_max', '<=', $search))
-                // Filtration
+                 // Filtration
                 ->when($this->filters['filtration_nettoyage_filtre'], function ($query, $search) {
                     if ($search === 'yes') {
                         return $query->where('filtration_nettoyage_filtre', true);
