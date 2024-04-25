@@ -73,12 +73,12 @@ class CorrespondenceSheet extends Model
         'chaudiere_extrusion_niveau_glace' => 'boolean',
         'chaudiere_extrusion_niveau_sel' => 'boolean',
 
-        'filtration_nettoyage_filtre' => 'boolean',
-        'filtration_conformite_plateaux' => 'boolean',
+        'filtration_nettoyage_plateaux' => 'boolean',
+        'filtration_plateaux_conforme' => Conformes::class,
 
         'ns1_date_changement_lot' => 'datetime',
         'ns1_heure_controle' => 'datetime',
-        'ns1_grille_conforme' => 'boolean',
+        'ns1_grille_conforme' => Conformes::class,
 
         'aimant_amont_broyeur_graine_1' => Conformes::class,
         'aimant_broyeur_graine_2' => Conformes::class,

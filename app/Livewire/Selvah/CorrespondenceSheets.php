@@ -65,7 +65,8 @@ class CorrespondenceSheets extends Component
         'btf1_numero_lot' => '',
         'compteur_huile_brute_min' => '',
         'compteur_huile_brute_max' => '',
-        'filtration_nettoyage_filtre' => '',
+        'filtration_nettoyage_plateaux' => '',
+        'filtration_plateaux_conforme' => '',
         'filtration_commentaire' => '',
         'ns1_numero_lot' => '',
         'ns1_grille_conforme' => '',
@@ -177,21 +178,12 @@ class CorrespondenceSheets extends Component
                 ->when($this->filters['compteur_huile_brute_min'], fn($query, $search) => $query->where('compteur_huile_brute', '>=', $search))
                 ->when($this->filters['compteur_huile_brute_max'], fn($query, $search) => $query->where('compteur_huile_brute', '<=', $search))
                  // Filtration
-                ->when($this->filters['filtration_nettoyage_filtre'], function ($query, $search) {
-                    if ($search === 'yes') {
-                        return $query->where('filtration_nettoyage_filtre', true);
-                    }
-                    return $query->where('filtration_nettoyage_filtre', false);
-                })
+                ->when($this->filters['filtration_nettoyage_plateaux'], fn($query, $search) => $query->where('filtration_nettoyage_plateaux', $search))
+                ->when($this->filters['filtration_plateaux_conforme'], fn($query, $search) => $query->where('filtration_plateaux_conforme', $search))
                 ->when($this->filters['filtration_commentaire'], fn($query, $search) => $query->where('filtration_commentaire', 'LIKE', '%' . $search . '%'))
                 // NS1
                 ->when($this->filters['ns1_numero_lot'], fn($query, $search) => $query->where('ns1_numero_lot', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['ns1_grille_conforme'], function ($query, $search) {
-                    if ($search === 'yes') {
-                        return $query->where('ns1_grille_conforme', true);
-                    }
-                    return $query->where('ns1_grille_conforme', false);
-                })
+                ->when($this->filters['ns1_grille_conforme'], fn($query, $search) => $query->where('ns1_grille_conforme', $search))
                 // Aimants
                 ->when($this->filters['aimant_amont_broyeur_graine_1'], fn($query, $search) => $query->where('aimant_amont_broyeur_graine_1', $search))
                 ->when($this->filters['aimant_broyeur_graine_2'], fn($query, $search) => $query->where('aimant_broyeur_graine_2', $search))
@@ -215,18 +207,18 @@ class CorrespondenceSheets extends Component
                 ->when($this->filters['magnetique_big_bag_etalon_ss'], fn($query, $search) => $query->where('magnetique_big_bag_etalon_ss', $search))
                 ->when($this->filters['magnetique_validation_ccp'], fn($query, $search) => $query->where('magnetique_validation_ccp', $search))
                 // BRC1
-                ->when($this->filters['ns1_numero_lot'], fn($query, $search) => $query->where('ns1_numero_lot', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['ns1_grille_conforme'], function ($query, $search) {
+                ->when($this->filters['brc_numero_lot'], fn($query, $search) => $query->where('brc_numero_lot', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['brc_grille_conforme'], function ($query, $search) {
                     if ($search === 'yes') {
-                        return $query->where('ns1_grille_conforme', true);
+                        return $query->where('brc_grille_conforme', true);
                     }
-                    return $query->where('ns1_grille_conforme', false);
+                    return $query->where('brc_grille_conforme', false);
                 })
-                ->when($this->filters['brt1_couteaux_conforme'], function ($query, $search) {
+                ->when($this->filters['brc_couteaux_conforme'], function ($query, $search) {
                     if ($search === 'yes') {
-                        return $query->where('brt1_couteaux_conforme', true);
+                        return $query->where('brc_couteaux_conforme', true);
                     }
-                    return $query->where('brt1_couteaux_conforme', false);
+                    return $query->where('brc_couteaux_conforme', false);
                 })
                 // BRT1
                 ->when($this->filters['brt1_numero_lot'], fn($query, $search) => $query->where('ns1_numero_lot', 'LIKE', '%' . $search . '%'))
@@ -312,6 +304,7 @@ class CorrespondenceSheets extends Component
                             ->orWhere('last_name', 'LIKE', '%' . $search . '%');
                     });
                 })
+                // Dates
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }

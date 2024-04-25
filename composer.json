@@ -5,7 +5,7 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "aaronfrancis/pulse-outdated": "^0.1.2",
         "anhskohbo/no-captcha": "^3.5",
         "chrysanthos/pulse-requests": "^1.0",

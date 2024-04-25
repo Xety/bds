@@ -52,14 +52,14 @@ return new class extends Migration {
             $table->float('compteur_consommation_eau_4')->nullable();
             $table->float('compteur_consommation_eau_5')->nullable();
             // Filtration
-            $table->boolean('filtration_nettoyage_filtre')->default(0);
-            $table->boolean('filtration_conformite_plateaux')->default(0);
+            $table->boolean('filtration_nettoyage_plateaux')->default(0);
+            $table->enum('filtration_plateaux_conforme', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
             $table->mediumText('filtration_commentaire')->nullable();
             // NS1
             $table->tinyText('ns1_numero_lot')->nullable();
             $table->timestamp('ns1_date_changement_lot')->nullable();
             $table->timestamp('ns1_heure_controle')->nullable();
-            $table->boolean('ns1_grille_conforme')->default(0);
+            $table->enum('ns1_grille_conforme', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
             // Aimants
             $table->enum('aimant_amont_broyeur_graine_1', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
             $table->enum('aimant_broyeur_graine_2', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');

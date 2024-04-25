@@ -59,14 +59,14 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'compteur_consommation_eau_4' => 3.96,
                 'compteur_consommation_eau_5' => 2.78,
 
-                'filtration_nettoyage_filtre' => 0,
-                'filtration_conformite_plateaux' => 0,
+                'filtration_nettoyage_plateaux' => 0,
+                'filtration_plateaux_conforme' => 'non-applicable',
                 'filtration_commentaire' => null,
 
                 'ns1_numero_lot' => '519-037',
                 'ns1_date_changement_lot' => '2024-03-28 04:50:13',
                 'ns1_heure_controle' => '2024-04-02 05:59:13',
-                'ns1_grille_conforme' => 1,
+                'ns1_grille_conforme' => 'conforme',
 
                 'aimant_amont_broyeur_graine_1' => 'conforme',
                 'aimant_broyeur_graine_2' => 'conforme',
@@ -171,14 +171,14 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'compteur_consommation_eau_4' => null,
                 'compteur_consommation_eau_5' => null,
 
-                'filtration_nettoyage_filtre' => 1,
-                'filtration_conformite_plateaux' => 0,
+                'filtration_nettoyage_plateaux' => 1,
+                'filtration_plateaux_conforme' => 'non-conforme',
                 'filtration_commentaire' => '1 filtre percé',
 
                 'ns1_numero_lot' => null,
                 'ns1_date_changement_lot' => null,
                 'ns1_heure_controle' => null,
-                'ns1_grille_conforme' => 0,
+                'ns1_grille_conforme' => 'non-applicable',
 
                 'aimant_amont_broyeur_graine_1' => 'conforme',
                 'aimant_broyeur_graine_2' => 'conforme',

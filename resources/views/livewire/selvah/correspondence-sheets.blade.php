@@ -354,7 +354,7 @@
                         <div class="flex-col mb-4">
                             <div>
                                 Nettoyage des plateaux de filtration :
-                                @if($sheet->filtration_nettoyage_filtre)
+                                @if($sheet->filtration_nettoyage_plateaux)
                                     <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
                                 @else
                                     <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
@@ -362,11 +362,7 @@
                             </div>
                             <div>
                                 Conformité de l'état des plateaux de filtration :
-                                @if($sheet->filtration_conformite_plateaux)
-                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
-                                @else
-                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
-                                @endif
+                                <span class="tooltip" data-tip="{{ $sheet->filtration_plateaux_conforme->label() }}">{!! $sheet->filtration_plateaux_conforme->icon() !!}</span>
                             </div>
                             <div>
                                 <h4 class="font-bold my-2">
@@ -399,13 +395,7 @@
                             </div>
                             <div>
                                 Intégrité de la grille conforme :
-                                @if($sheet->ns1_numero_lot)
-                                    @if($sheet->ns1_grille_conforme)
-                                        <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
-                                    @else
-                                        <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
-                                    @endif
-                                @endif
+                                <span class="tooltip" data-tip="{{ $sheet->ns1_grille_conforme->label() }}">{!! $sheet->ns1_grille_conforme->icon() !!}</span>
                             </div>
                         </div>
                     </div>
