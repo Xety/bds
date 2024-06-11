@@ -1,5 +1,5 @@
 @can('search', \BDS\Models\Selvah\CorrespondenceSheet::class)
-    <div class="shadow-md border rounded-lg p-3 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+    <div class="shadow-md border rounded-lg p-3 mb-4 border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
         <x-tabs selected="operateur">
             <x-tab name="operateur" label="Opérateur / Poste">
                 <div class="grid grid-cols-12 gap-4">
@@ -232,6 +232,635 @@
                     </div>
                 </div>
             </x-tab>
+
+            <x-tab name="magnetiques" label="Magnétiques Ensacheuse/BB">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 xl:col-span-4">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_ensachage_en_cours"
+                            name="filters.magnetique_ensachage_en_cours"
+                            label="Ensachage en cours"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\EnsachageType::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_ensachage_type"
+                            name="filters.magnetique_ensachage_type"
+                            label="Type d'ensachage"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Validations::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_validation_ccp"
+                            name="filters.magnetique_validation_ccp"
+                            label="Validation CCP"
+                        />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 mt-4">
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Etalons magnétique
+                            </h3>
+                            <p class="text-gray-400">
+                                Ensacheuse
+                            </p>
+                        </hgroup>
+                    </div>
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Detections::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_sacs_etalon_fe"
+                            name="filters.magnetique_sacs_etalon_fe"
+                            label=" Etalon FE Sacs"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Detections::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_sacs_etalon_nfe"
+                            name="filters.magnetique_sacs_etalon_nfe"
+                            label=" Etalon NFE Sacs"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Detections::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_sacs_etalon_ss"
+                            name="filters.magnetique_sacs_etalon_ss"
+                            label=" Etalon SS Sacs"
+                        />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 mt-4">
+                        <hgroup>
+                            <h3 class="font-bold mb-2">
+                                Etalons magnétique
+                            </h3>
+                            <p class="text-gray-400">
+                                Big-Bag
+                            </p>
+                        </hgroup>
+                    </div>
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Detections::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_big_bag_etalon_fe"
+                            name="filters.magnetique_big_bag_etalon_fe"
+                            label=" Etalon FE BB"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Detections::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_big_bag_etalon_nfe"
+                            name="filters.magnetique_big_bag_etalon_nfe"
+                            label=" Etalon NFE BB"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Detections::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.magnetique_big_bag_etalon_ss"
+                            name="filters.magnetique_big_bag_etalon_ss"
+                            label=" Etalon SS BB"
+                        />
+                    </div>
+                </div>
+            </x-tab>
+
+            <x-tab name="brcbrt1" label="BRC/BRT1">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold mb-2">
+                            Fonctionnement BRC
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-input
+                            class="min-w-max"
+                            wire:model.live.debounce.400ms="filters.brc_numero_lot"
+                            name="filters.brc_numero_lot"
+                            type="text"
+                            label="Numéro lot"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.brc_grille_conforme"
+                            name="filters.brc_grille_conforme"
+                            label="Intégrité grille conforme"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.brc_couteaux_conforme"
+                            name="filters.brc_couteaux_conforme"
+                            label=" Etat des couteaux conforme"
+                        />
+                    </div>
+
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold mb-2">
+                            Fonctionnement BRT1
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-input
+                            class="min-w-max"
+                            wire:model.live.debounce.400ms="filters.brt1_numero_lot"
+                            name="filters.brt1_numero_lot"
+                            type="text"
+                            label="Numéro lot"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.brc_grille_conforme"
+                            name="filters.brc_grille_conforme"
+                            label="Intégrité grille conforme"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.brc_couteaux_conforme"
+                            name="filters.brc_couteaux_conforme"
+                            label=" Etat des couteaux conforme"
+                        />
+                    </div>
+                </div>
+            </x-tab>
+
+            <x-tab name="echantillontrituration" label="Echantillon Trituration">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold">
+                            Graine Broyées
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_graines_broyees"
+                            name="filters.echantillon_graines_broyees"
+                            label="Echantillon"
+                        />
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_graines_broyees_controle_visuel"
+                            name="filters.echantillon_graines_broyees_controle_visuel"
+                            label="Conformité"
+                        />
+                    </div>
+
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold">
+                            Coques
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_coques"
+                            name="filters.echantillon_coques"
+                            label="Echantillon"
+                        />
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_coques_controle_visuel"
+                            name="filters.echantillon_coques_controle_visuel"
+                            label="Conformité"
+                        />
+                    </div>
+
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold">
+                            Huile Brute
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_huile_brute"
+                            name="filters.echantillon_huile_brute"
+                            label="Echantillon"
+                        />
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_huile_brute_controle_visuel"
+                            name="filters.echantillon_huile_brute_controle_visuel"
+                            label="Conformité"
+                        />
+                    </div>
+
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold">
+                            TTX
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_ttx"
+                            name="filters.echantillon_ttx"
+                            label="Echantillon"
+                        />
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_ttx_controle_visuel"
+                            name="filters.echantillon_ttx_controle_visuel"
+                            label="Conformité"
+                        />
+                    </div>
+
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold">
+                            Farine TTX
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_farine_ttx"
+                            name="filters.echantillon_farine_ttx"
+                            label="Echantillon"
+                        />
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_farine_ttx_controle_visuel"
+                            name="filters.echantillon_farine_ttx_controle_visuel"
+                            label="Conformité"
+                        />
+                    </div>
+                </div>
+            </x-tab>
+
+            <x-tab name="echantillonextrusion" label="Echantillon Extrusion/Ensachage">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold">
+                            PVT SACHET début de production (+1 heure)
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_pvt_sachet_debut_production"
+                            name="filters.echantillon_pvt_sachet_debut_production"
+                            label="Echantillon"
+                        />
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_pvt_sachet_debut_production_controle_visuel"
+                            name="filters.echantillon_pvt_sachet_debut_production_controle_visuel"
+                            label="Conformité"
+                        />
+                    </div>
+
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold">
+                            PVT SACHET prise de poste et milieu de poste
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_pvt_sachet_prise_poste"
+                            name="filters.echantillon_pvt_sachet_prise_poste"
+                            label="Echantillon"
+                        />
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_pvt_sachet_prise_poste_controle_visuel"
+                            name="filters.echantillon_pvt_sachet_prise_poste_controle_visuel"
+                            label="Conformité"
+                        />
+                    </div>
+
+                    <div class="col-span-12 mt-4">
+                        <h3 class="font-bold">
+                            PVT POT STERILE début de poste (+4 heures et 24 heures plus tard)
+                        </h3>
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        @php
+                            $options = [
+                                [
+                                    'id' => '',
+                                    'name' => 'Tous'
+                                ],
+                                [
+                                    'id' => 'yes',
+                                    'name' => 'Oui'
+                                ],
+                                [
+                                    'id' => 'no',
+                                    'name' => 'Non'
+                                ]
+                            ];
+                        @endphp
+                        <x-select
+                            :options="$options"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_pvt_pot_sterile"
+                            name="filters.echantillon_pvt_pot_sterile"
+                            label="Echantillon"
+                        />
+                    </div>
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-select
+                            :options="\BDS\Enums\Selvah\Conformes::toSelectArray()"
+                            class="select-primary min-w-max"
+                            wire:model.live="filters.echantillon_pvt_pot_sterile_controle_visuel"
+                            name="filters.echantillon_pvt_pot_sterile_controle_visuel"
+                            label="Conformité"
+                        />
+                    </div>
+                </div>
+            </x-tab>
+
+            <x-tab name="recherchetexte" label="Recherche par texte">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-input
+                            class="min-w-max"
+                            wire:model.live.debounce.400ms="filters.remarques_apres_visite_usine"
+                            name="filters.remarques_apres_visite_usine"
+                            type="text"
+                            label="Remarques suite à la visite de l'usine"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-input
+                            class="min-w-max"
+                            wire:model.live.debounce.400ms="filters.problemes_defauts_rencontrer_pendant_poste"
+                            name="filters.problemes_defauts_rencontrer_pendant_poste"
+                            type="text"
+                            label="Problèmes / défauts rencontrés pendant le poste"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-input
+                            class="min-w-max"
+                            wire:model.live.debounce.400ms="filters.consignes_poste_a_poste"
+                            name="filters.consignes_poste_a_poste"
+                            type="text"
+                            label="Consignes poste à poste"
+                        />
+                    </div>
+                </div>
+            </x-tab>
+
+            <x-tab name="responsables" label="Responsables">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-input
+                            class="min-w-max"
+                            wire:model.live.debounce.400ms="filters.responsable_signature_id"
+                            name="filters.responsable_signature_id"
+                            type="text"
+                            label="Rechercher par signataire"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-input
+                            class="min-w-max"
+                            wire:model.live.debounce.400ms="filters.responsable_commentaire"
+                            name="filters.responsable_commentaire"
+                            type="text"
+                            label="Commentaire responsable"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-4">
+                        <x-input
+                            class="min-w-max"
+                            wire:model.live.debounce.400ms="filters.consignes_poste_a_poste"
+                            name="filters.consignes_poste_a_poste"
+                            type="text"
+                            label="Consignes poste à poste"
+                        />
+                    </div>
+                </div>
+            </x-tab>
+
+            <x-tab name="dates" label="Date Création">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-date-picker
+                            wire:model.live="filters.created_min"
+                            name="filters.created_min"
+                            icon="fas-calendar"
+                            icon-class="h-4 w-4"
+                            label="Date minimum de création de la fiche"
+                        />
+                    </div>
+
+                    <div class="col-span-12 xl:col-span-6">
+                        <x-date-picker
+                            wire:model.live="filters.created_max"
+                            name="filters.created_max"
+                            icon="fas-calendar"
+                            icon-class="h-4 w-4"
+                            label="Date maximum de création de la fiche"
+                        />
+                    </div>
+                </div>
+            </x-tab>
+
         </x-tabs>
     </div>
 @endcan

@@ -99,10 +99,10 @@ class CorrespondenceSheet extends Model
         'magnetique_big_bag_etalon_ss' => Detections::class,
         'magnetique_validation_ccp' => Validations::class,
 
-        'brc_grille_conforme' => 'boolean',
-        'brc_couteaux_conforme' => 'boolean',
-        'brt1_grille_conforme' => 'boolean',
-        'brt1_couteaux_conforme' => 'boolean',
+        'brc_grille_conforme' => Conformes::class,
+        'brc_couteaux_conforme' => Conformes::class,
+        'brt1_grille_conforme' => Conformes::class,
+        'brt1_couteaux_conforme' => Conformes::class,
 
         'echantillon_graines_broyees' => 'boolean',
         'echantillon_graines_broyees_controle_visuel' => Conformes::class,

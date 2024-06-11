@@ -7,12 +7,14 @@ use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Company;
 use BDS\Models\Selvah\CorrespondenceSheet;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -178,7 +180,12 @@ class CorrespondenceSheets extends Component
                 ->when($this->filters['compteur_huile_brute_min'], fn($query, $search) => $query->where('compteur_huile_brute', '>=', $search))
                 ->when($this->filters['compteur_huile_brute_max'], fn($query, $search) => $query->where('compteur_huile_brute', '<=', $search))
                  // Filtration
-                ->when($this->filters['filtration_nettoyage_plateaux'], fn($query, $search) => $query->where('filtration_nettoyage_plateaux', $search))
+                ->when($this->filters['filtration_nettoyage_plateaux'], function ($query, $search) {
+                    if ($search === 'yes') {
+                        return $query->where('filtration_nettoyage_plateaux', true);
+                    }
+                    return $query->where('filtration_nettoyage_plateaux', false);
+                })
                 ->when($this->filters['filtration_plateaux_conforme'], fn($query, $search) => $query->where('filtration_plateaux_conforme', $search))
                 ->when($this->filters['filtration_commentaire'], fn($query, $search) => $query->where('filtration_commentaire', 'LIKE', '%' . $search . '%'))
                 // NS1
@@ -208,32 +215,12 @@ class CorrespondenceSheets extends Component
                 ->when($this->filters['magnetique_validation_ccp'], fn($query, $search) => $query->where('magnetique_validation_ccp', $search))
                 // BRC1
                 ->when($this->filters['brc_numero_lot'], fn($query, $search) => $query->where('brc_numero_lot', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['brc_grille_conforme'], function ($query, $search) {
-                    if ($search === 'yes') {
-                        return $query->where('brc_grille_conforme', true);
-                    }
-                    return $query->where('brc_grille_conforme', false);
-                })
-                ->when($this->filters['brc_couteaux_conforme'], function ($query, $search) {
-                    if ($search === 'yes') {
-                        return $query->where('brc_couteaux_conforme', true);
-                    }
-                    return $query->where('brc_couteaux_conforme', false);
-                })
+                ->when($this->filters['brc_grille_conforme'], fn($query, $search) => $query->where('brc_grille_conforme', $search))
+                ->when($this->filters['brc_couteaux_conforme'], fn($query, $search) => $query->where('brc_couteaux_conforme', $search))
                 // BRT1
-                ->when($this->filters['brt1_numero_lot'], fn($query, $search) => $query->where('ns1_numero_lot', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['brt1_grille_conforme'], function ($query, $search) {
-                    if ($search === 'yes') {
-                        return $query->where('brt1_grille_conforme', true);
-                    }
-                    return $query->where('brt1_grille_conforme', false);
-                })
-                ->when($this->filters['brt1_couteaux_conforme'], function ($query, $search) {
-                    if ($search === 'yes') {
-                        return $query->where('brt1_couteaux_conforme', true);
-                    }
-                    return $query->where('brt1_couteaux_conforme', false);
-                })
+                ->when($this->filters['brt1_numero_lot'], fn($query, $search) => $query->where('brt1_numero_lot', 'LIKE', '%' . $search . '%'))
+                ->when($this->filters['brt1_grille_conforme'], fn($query, $search) => $query->where('brt1_grille_conforme', $search))
+                ->when($this->filters['brt1_couteaux_conforme'], fn($query, $search) => $query->where('brt1_couteaux_conforme', $search))
                 // Echantillons Trituration
                 ->when($this->filters['echantillon_graines_broyees'], function ($query, $search) {
                     if ($search === 'yes') {
@@ -304,6 +291,7 @@ class CorrespondenceSheets extends Component
                             ->orWhere('last_name', 'LIKE', '%' . $search . '%');
                     });
                 })
+                ->when($this->filters['responsable_commentaire'], fn($query, $search) => $query->where('responsable_commentaire', 'LIKE', '%' . $search . '%'))
                 // Dates
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
@@ -322,5 +310,27 @@ class CorrespondenceSheets extends Component
         return $this->cache(function () {
             return $this->applyPagination($this->rowsQuery);
         });
+    }
+
+    /**
+     * @return void
+     */
+    public function create()
+    {
+        $this->authorize('create', CorrespondenceSheet::class);
+
+        // Check the user has not created a sheet in the last 8 hours.
+        $sheet = CorrespondenceSheet::query()
+            ->where('user_id', Auth::id())
+            ->whereDate('created_at', '>=', Carbon::now()->addHours(8))
+            ->first();
+
+        if (!is_null($sheet)) {
+            $this->error('Vous avez créé une fiche de correspondance (N°:id) il y a moins de 8 heures, vous ne pouvez pas en créer une nouvelle.', ['id' => $sheet->getKey()]);
+
+            return;
+        }
+
+        $this->redirect(route('correspondence-sheets.create'));
     }
 }

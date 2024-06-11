@@ -30,6 +30,14 @@
                 </div>
             @endcanany
         </div>
+        <div class="mb-4">
+            @if (auth()->user()->can('create', \BDS\Models\Selvah\CorrespondenceSheet::class))
+                <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
+                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
+                    Nouvelle Fiche
+                </x-button>
+            @endif
+        </div>
     </div>
 
     <x-selvah.correspondence-sheets.filters />
@@ -532,23 +540,11 @@
                         </div>
                         <div>
                             Intégrité de la grille conforme :
-                            @if($sheet->brc_numero_lot)
-                                @if($sheet->brc_grille_conforme)
-                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
-                                @else
-                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
-                                @endif
-                            @endif
+                            <span class="tooltip" data-tip="{{ $sheet->brc_grille_conforme->label() }}">{!! $sheet->brc_grille_conforme->icon() !!}</span>
                         </div>
                         <div>
                             État des couteaux conforme :
-                            @if($sheet->brc_numero_lot)
-                                @if($sheet->brc_couteaux_conforme)
-                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
-                                @else
-                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
-                                @endif
-                            @endif
+                            <span class="tooltip" data-tip="{{ $sheet->brc_couteaux_conforme->label() }}">{!! $sheet->brc_couteaux_conforme->icon() !!}</span>
                         </div>
                     </div>
 
@@ -567,23 +563,11 @@
                         </div>
                         <div>
                             Intégrité des grilles conformes :
-                            @if($sheet->brt1_numero_lot)
-                                @if($sheet->brt1_grille_conforme)
-                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
-                                @else
-                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
-                                @endif
-                            @endif
+                            <span class="tooltip" data-tip="{{ $sheet->brt1_grille_conforme->label() }}">{!! $sheet->brt1_grille_conforme->icon() !!}</span>
                         </div>
                         <div>
                             État des couteaux conforme :
-                            @if($sheet->brt1_numero_lot)
-                                @if($sheet->brt1_couteaux_conforme)
-                                    <x-icon name="fas-check" class="inline h-4 w-4 text-success"></x-icon>
-                                @else
-                                    <x-icon name="fas-xmark" class="inline h-4 w-4 text-danger"></x-icon>
-                                @endif
-                            @endif
+                            <span class="tooltip" data-tip="{{ $sheet->brt1_couteaux_conforme->label() }}">{!! $sheet->brt1_couteaux_conforme->icon() !!}</span>
                         </div>
                     </div>
                 </div>

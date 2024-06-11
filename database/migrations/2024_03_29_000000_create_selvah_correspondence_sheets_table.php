@@ -81,12 +81,13 @@ return new class extends Migration {
             $table->enum('magnetique_validation_ccp', ['oui', 'non', 'non-applicable'])->default('non-applicable');
             // BRC1
             $table->tinyText('brc_numero_lot')->nullable();
-            $table->boolean('brc_grille_conforme')->default(0);
-            $table->boolean('brc_couteaux_conforme')->default(0);
+            $table->enum('brc_grille_conforme', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
+            $table->enum('brc_couteaux_conforme', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
             // BRT1
             $table->tinyText('brt1_numero_lot')->nullable();
-            $table->boolean('brt1_grille_conforme')->default(0);
-            $table->boolean('brt1_couteaux_conforme')->default(0);
+            $table->enum('brt1_grille_conforme', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
+            $table->enum('brt1_couteaux_conforme', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');
+
             // Echantillons Trituration
             $table->boolean('echantillon_graines_broyees')->default(0);
             $table->enum('echantillon_graines_broyees_controle_visuel', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');

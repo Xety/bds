@@ -76,9 +76,9 @@ class CorrespondenceSheetPolicy
      */
     public function sign(User $user, ?CorrespondenceSheet $sheet = null): bool
     {
-        if($user->can('sign selvah correspondence sheet') && !is_null($sheet)) {
+        /*if($user->can('sign selvah correspondence sheet') && !is_null($sheet)) {
             return $sheet->site_id === getPermissionsTeamId();
-        }
+        }*/
         return $user->can('sign selvah correspondence sheet');
     }
 }

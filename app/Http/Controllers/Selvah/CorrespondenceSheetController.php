@@ -46,7 +46,7 @@ class CorrespondenceSheetController extends Controller
         $this->authorize('view', $sheet);
 
         $breadcrumbs = $this->breadcrumbs->addCrumb(
-            'Fiche de correspondence N° ' . $sheet->getKey(),
+            'Fiche de correspondance N° ' . $sheet->getKey(),
             $sheet->show_url
         );
 
@@ -63,9 +63,10 @@ class CorrespondenceSheetController extends Controller
         $this->authorize('create', CorrespondenceSheet::class);
 
         $breadcrumbs = $this->breadcrumbs->addCrumb(
-            'Créer une fiche de correspondence',
+            'Créer une fiche de correspondance',
             route('correspondence-sheets.create')
         );
+
 
         return view('selvah.correspondence-sheet.create', compact('breadcrumbs'));
     }

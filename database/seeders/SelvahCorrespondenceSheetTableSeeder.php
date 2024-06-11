@@ -88,12 +88,12 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'magnetique_validation_ccp' => 'oui',
 
                 'brc_numero_lot' => '519-037',
-                'brc_grille_conforme' => 1,
-                'brc_couteaux_conforme' => 1,
+                'brc_grille_conforme' => 'conforme',
+                'brc_couteaux_conforme' => 'conforme',
 
                 'brt1_numero_lot' => '519-037',
-                'brt1_grille_conforme' => 1,
-                'brt1_couteaux_conforme' => 1,
+                'brt1_grille_conforme' => 'conforme',
+                'brt1_couteaux_conforme' => 'conforme',
 
                 'echantillon_graines_broyees' => 1,
                 'echantillon_graines_broyees_controle_visuel' => 'conforme',
@@ -200,12 +200,12 @@ class SelvahCorrespondenceSheetTableSeeder extends Seeder
                 'magnetique_validation_ccp' => 'non',
 
                 'brc_numero_lot' => null,
-                'brc_grille_conforme' => 0,
-                'brc_couteaux_conforme' => 0,
+                'brc_grille_conforme' => 'non-applicable',
+                'brc_couteaux_conforme' => 'non-applicable',
 
                 'brt1_numero_lot' => null,
-                'brt1_grille_conforme' => 0,
-                'brt1_couteaux_conforme' => 0,
+                'brt1_grille_conforme' => 'non-applicable',
+                'brt1_couteaux_conforme' => 'non-applicable',
 
                 'echantillon_graines_broyees' => 0,
                 'echantillon_graines_broyees_controle_visuel' => 'non-applicable',
