@@ -3,8 +3,10 @@
 namespace BDS\Models;
 
 use BDS\Observers\PartEntryObserver;
-use Eloquence\Behaviours\CountCache\Countable;
-use Eloquence\Behaviours\SumCache\Summable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
+use Eloquence\Behaviours\SumCache\HasSums;
+use Eloquence\Behaviours\SumCache\SummedBy;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ObservedBy([PartEntryObserver::class])]
 class PartEntry extends Model
 {
-    use Countable;
-    use Summable;
+    use HasCounts;
+    use HasSums;
 
     /**
      * The attributes that are mass assignable.
@@ -28,34 +30,12 @@ class PartEntry extends Model
     ];
 
     /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
-    {
-        return [
-            'part_entry_count' => [Part::class, 'part_id', 'id']
-        ];
-    }
-
-    /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function sumCaches(): array
-    {
-        return [
-            'part_entry_total' => [Part::class, 'number', 'part_id', 'id']
-        ];
-    }
-
-    /**
      * Get the part that owns the part_entry.
      *
      * @return BelongsTo
      */
+    #[CountedBy(as: 'part_entry_count')]
+    #[SummedBy(from: 'number', as: 'part_entry_total')]
     public function part(): BelongsTo
     {
         return $this->belongsTo(Part::class);

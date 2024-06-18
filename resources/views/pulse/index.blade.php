@@ -50,7 +50,7 @@
 
             <livewire:pulse_active_session cols='4' rows='2' />
 
-            <livewire:outdated cols='4' rows='2' />
+            <livewire:pulse.about-application cols='4' rows='2' />
 
             <livewire:pulse.table-info cols='4' rows='2' />
 

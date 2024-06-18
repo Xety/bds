@@ -2,8 +2,10 @@
 
 namespace BDS\Models;
 
+use BDS\Enums\Frequences;
 use BDS\Observers\CleaningObserver;
-use Eloquence\Behaviours\CountCache\Countable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,45 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 #[ObservedBy([CleaningObserver::class])]
 class Cleaning extends Model
 {
-    use Countable;
-
-    /**
-     * All types with their labels.
-     */
-    public const TYPES = [
-        [
-            'id' => 'daily',
-            'name' => 'Journalier'
-        ],
-        [
-            'id' => 'weekly',
-            'name' => 'Hebdomadaire'
-        ],
-        [
-            'id' => 'bimonthly',
-            'name' => 'Bi-mensuel'
-        ],
-        [
-            'id' => 'monthly',
-            'name' => 'Mensuel'
-        ],
-        [
-            'id' => 'quarterly',
-            'name' => 'Trimestrielle'
-        ],
-        [
-            'id' => 'biannual',
-            'name' => 'Bi-annuel'
-        ],
-        [
-            'id' => 'annual',
-            'name' => 'Annuel'
-        ],
-        [
-            'id' => 'casual',
-            'name' => 'Occasionnel'
-        ]
-    ];
+    use HasCounts;
 
     /**
      * The attributes that are mass assignable.
@@ -75,21 +39,9 @@ class Cleaning extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'type' => Frequences::class,
         'is_edited' => 'boolean'
     ];
-
-    /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
-    {
-        return [
-            Material::class,
-            User::class
-        ];
-    }
 
     /**
      * Get the site that owns the cleaning.
@@ -106,6 +58,7 @@ class Cleaning extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function material(): BelongsTo
     {
         return $this->belongsTo(Material::class);
@@ -116,6 +69,7 @@ class Cleaning extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();

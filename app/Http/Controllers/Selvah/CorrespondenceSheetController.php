@@ -67,7 +67,6 @@ class CorrespondenceSheetController extends Controller
             route('correspondence-sheets.create')
         );
 
-
         return view('selvah.correspondence-sheet.create', compact('breadcrumbs'));
     }
 }

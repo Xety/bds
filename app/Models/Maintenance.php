@@ -3,7 +3,8 @@
 namespace BDS\Models;
 
 use BDS\Observers\MaintenanceObserver;
-use Eloquence\Behaviours\CountCache\Countable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +16,7 @@ use BDS\Models\Presenters\MaintenancePresenter;
 #[ObservedBy([MaintenanceObserver::class])]
 class Maintenance extends Model
 {
-    use Countable;
+    use HasCounts;
     use MaintenancePresenter;
 
     /**
@@ -94,19 +95,6 @@ class Maintenance extends Model
     ];
 
     /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
-    {
-        return [
-            Material::class,
-            User::class
-        ];
-    }
-
-    /**
      * Get the site that owns the maintenance.
      *
      * @return BelongsTo
@@ -121,6 +109,7 @@ class Maintenance extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function material(): BelongsTo
     {
         return $this->belongsTo(Material::class);
@@ -175,6 +164,7 @@ class Maintenance extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();

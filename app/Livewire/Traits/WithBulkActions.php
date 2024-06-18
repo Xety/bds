@@ -101,7 +101,11 @@ trait WithBulkActions
      */
     public function getSelectedRowsQueryProperty() : Builder
     {
-        return app($this->model)->unless($this->selectAll, fn($query) => $query->whereKey($this->selected));
+        return app($this->model)
+            ->unless($this->selectAll, function($query) {
+                $query->whereKey($this->selected);
+            });
+            //->where('site_id', getPermissionsTeamId());
     }
 
     /**
@@ -111,7 +115,12 @@ trait WithBulkActions
      */
     public function deleteSelected(): void
     {
-        $models = collect($this->selectedRowsQuery->get()->pluck('id')->toArray());
+        $models = collect(
+            $this->selectedRowsQuery
+                ->get()
+                ->pluck('id')
+                ->toArray()
+        );
 
         $deleteCount = $models->count();
 

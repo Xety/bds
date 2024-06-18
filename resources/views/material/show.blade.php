@@ -354,7 +354,7 @@
                                 <x-table.heading>Description</x-table.heading>
                                 <x-table.heading>Raison</x-table.heading>
                                 <x-table.heading>Créateur</x-table.heading>
-                                <x-table.heading>Type</x-table.heading>
+                                <x-table.heading>Fréquence</x-table.heading>
                                 <x-table.heading>Réalisation</x-table.heading>
                                 <x-table.heading>Commencée le</x-table.heading>
                                 <x-table.heading>Finie le</x-table.heading>
@@ -557,7 +557,7 @@
                                 <x-table.heading>Zone</x-table.heading>
                                 <x-table.heading>Créateur</x-table.heading>
                                 <x-table.heading>Description</x-table.heading>
-                                <x-table.heading>Type</x-table.heading>
+                                <x-table.heading>Fréquence</x-table.heading>
                                 <x-table.heading>PH de l'eau</x-table.heading>
                                 <x-table.heading>PH de l'eau <br>après nettoyage</x-table.heading>
                                 <x-table.heading>Créé le</x-table.heading>
@@ -588,7 +588,7 @@
                                         </span>
                                         </x-table.cell>
                                         <x-table.cell>
-                                            {{ collect(\BDS\Models\Cleaning::TYPES)->sole('id', $cleaning->type)['name'] }}
+                                            {{ $cleaning->type->label() }}
                                         </x-table.cell>
                                         <x-table.cell>
                                             @if ($cleaning->type == 'weekly' && $cleaning->ph_test_water !== null)

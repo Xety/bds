@@ -3,7 +3,8 @@
 namespace BDS\Models;
 
 use BDS\Observers\MaterialObserver;
-use Eloquence\Behaviours\CountCache\Countable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ use BDS\Models\Presenters\MaterialPresenter;
 #[ObservedBy([MaterialObserver::class])]
 class Material extends Model
 {
-    use Countable;
+    use HasCounts;
     use MaterialPresenter;
 
     /**
@@ -73,22 +74,11 @@ class Material extends Model
     ];
 
     /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
-    {
-        return [
-            Zone::class
-        ];
-    }
-
-    /**
      * Get the zone that owns the material.
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function zone(): BelongsTo
     {
         return $this->belongsTo(Zone::class);

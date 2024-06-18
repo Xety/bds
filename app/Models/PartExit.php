@@ -3,8 +3,10 @@
 namespace BDS\Models;
 
 use BDS\Observers\PartExitObserver;
-use Eloquence\Behaviours\CountCache\Countable;
-use Eloquence\Behaviours\SumCache\Summable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
+use Eloquence\Behaviours\SumCache\HasSums;
+use Eloquence\Behaviours\SumCache\SummedBy;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ObservedBy([PartExitObserver::class])]
 class PartExit extends Model
 {
-    use Countable;
-    use Summable;
+    use HasCounts;
+    use HasSums;
 
     /**
      * The attributes that are mass assignable.
@@ -30,45 +32,12 @@ class PartExit extends Model
     ];
 
     /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
-    {
-        return [
-            [
-                'model'      => Part::class,
-                'field'      => 'part_exit_count',
-                'foreignKey' => 'part_id',
-                'key'        => 'id'
-            ],
-            [
-                'model'      => User::class,
-                'field'      => 'part_exit_count',
-                'foreignKey' => 'user_id',
-                'key'        => 'id'
-            ]
-        ];
-    }
-
-    /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function sumCaches(): array
-    {
-        return [
-            'part_exit_total' => [Part::class, 'number', 'part_id', 'id']
-        ];
-    }
-
-    /**
      * Get the part that owns the part_exit.
      *
      * @return BelongsTo
      */
+    #[CountedBy(as: 'part_exit_count')]
+    #[SummedBy(from: 'number', as: 'part_exit_total')]
     public function part(): BelongsTo
     {
         return $this->belongsTo(Part::class);
@@ -79,9 +48,11 @@ class PartExit extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy(as: 'part_exit_count')]
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class)->withTrashed();
+        return $this->belongsTo(User::class)
+            ->withTrashed();
     }
 
     /**

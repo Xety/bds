@@ -264,7 +264,6 @@ return [
 
         \Chrysanthos\PulseRequests\Recorders\RequestRecorder::class => [],
         \Vcian\Pulse\PulseActiveSessions\Recorders\PulseActiveSessionRecorder::class => [],
-        \AaronFrancis\Pulse\Outdated\Recorders\OutdatedRecorder::class => [],
         \Schmeits\Pulse\DatabaseTableInfo\Recorders\TableInfoRecorder::class => [],
     ],
 ];

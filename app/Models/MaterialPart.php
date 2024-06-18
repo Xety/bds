@@ -2,33 +2,24 @@
 
 namespace BDS\Models;
 
-use Eloquence\Behaviours\CountCache\Countable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class MaterialPart extends Pivot
 {
-    use Countable;
+    use HasCounts;
 
-    /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
+    #[CountedBy(as: 'part_count')]
+    public function material(): BelongsTo
     {
-        return [
-            [
-                'model'      => Material::class,
-                'field'      => 'part_count',
-                'foreignKey' => 'material_id',
-                'key'        => 'id'
-            ],
-            [
-                'model'      => Part::class,
-                'field'      => 'material_count',
-                'foreignKey' => 'part_id',
-                'key'        => 'id'
-            ]
-        ];
+        return $this->belongsTo(Material::class);
+    }
+
+    #[CountedBy(as: 'material_count')]
+    public function part(): BelongsTo
+    {
+        return $this->belongsTo(Part::class);
     }
 }

@@ -31,6 +31,12 @@
             @endcanany
         </div>
         <div class="mb-4">
+            @if (getPermissionsTeamId() == settings('site_id_selvah') && auth()->user()->can('export', \BDS\Models\Cleaning::class))
+                <x-button type="button" class="btn btn-success gap-2" wire:click="exportLastWeek" spinner>
+                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
+                    Exporter la semaine dernière
+                </x-button>
+            @endif
             @if (settings('cleaning_create_enabled', true) && auth()->user()->can('create', \BDS\Models\Cleaning::class))
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
@@ -60,7 +66,7 @@
             @endif
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('description')" :direction="$sortField === 'description' ? $sortDirection : null">Description</x-table.heading>
-            <x-table.heading sortable wire:click="sortBy('type')" :direction="$sortField === 'type' ? $sortDirection : null">Type</x-table.heading>
+            <x-table.heading sortable wire:click="sortBy('type')" :direction="$sortField === 'type' ? $sortDirection : null">Fréquence</x-table.heading>
             @if(getPermissionsTeamId() === settings('site_id_selvah'))
                 <x-table.heading sortable wire:click="sortBy('ph_test_water')" :direction="$sortField === 'ph_test_water' ? $sortDirection : null">PH de l'eau</x-table.heading>
                 <x-table.heading sortable wire:click="sortBy('ph_test_water_after_cleaning')" :direction="$sortField === 'ph_test_water_after_cleaning' ? $sortDirection : null">PH de l'eau <br>après nettoyage</x-table.heading>
@@ -99,11 +105,10 @@
                     </x-table.cell>
                     <x-table.cell>
                         <x-select
-                            :options="\BDS\Models\Cleaning::TYPES"
+                            :options="\BDS\Enums\Frequences::toSelectArray()"
                             class="select-primary"
                             wire:model.live="filters.type"
                             name="filters.type"
-                            placeholder="Tous"
                         />
                     </x-table.cell>
                     @if(getPermissionsTeamId() === settings('site_id_selvah'))
@@ -178,7 +183,7 @@
                         </span>
                     </x-table.cell>
                     <x-table.cell>
-                        {{ collect(\BDS\Models\Cleaning::TYPES)->sole('id', $cleaning->type)['name'] }}
+                        {{ $cleaning->type->label()  }}
                     </x-table.cell>
                     @if(session('current_site_id') == 2)
                         <x-table.cell>
@@ -263,7 +268,7 @@
         <x-choices
             label="Matériel"
             :label-info="$message"
-            wire:model="form.material_id"
+            wire:model.live="form.material_id"
             :options="$form->materialsSearchable"
             search-function="search"
             no-result-text="Aucun résultat..."
@@ -302,15 +307,15 @@
         @php $message = "Si vous avez des informations complémentaires à renseigner, veuillez le faire dans la case ci-dessous.";@endphp
          <x-textarea wire:model="form.description" name="form.description" label="Description du nettoyage" placeholder="Informations complémentaires..." rows="3" :label-info="$message" />
 
-        @php $message = "Sélectionnez le type de nettoyage.";@endphp
+        @php $message = "Sélectionnez la fréquence de nettoyage.";@endphp
         <x-select
-            :options="\BDS\Models\Cleaning::TYPES"
+            :options="\BDS\Enums\Frequences::toSelectArray(false)"
             class="select-primary"
             wire:model.live="form.type"
             name="form.type"
-            label="Type de nettoyage"
+            label="Fréquence de nettoyage"
             :label-info="$message"
-            placeholder="Sélectionnez le type"
+            placeholder="Sélectionnez la fréquence"
         />
 
         @if ($form->type == 'weekly' && $materialCleaningTestPhEnabled && getPermissionsTeamId() === settings('site_id_selvah'))

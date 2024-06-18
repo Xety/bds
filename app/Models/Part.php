@@ -3,7 +3,8 @@
 namespace BDS\Models;
 
 use BDS\Observers\PartObserver;
-use Eloquence\Behaviours\CountCache\Countable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +16,7 @@ use BDS\Models\Presenters\PartPresenter;
 #[ObservedBy([PartObserver::class])]
 class Part extends Model
 {
-    use Countable;
+    use HasCounts;
     use PartPresenter;
 
     /**
@@ -60,19 +61,6 @@ class Part extends Model
     ];
 
     /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
-    {
-        return [
-            Supplier::class,
-            User::class
-        ];
-    }
-
-    /**
      * Get the site that owns the part.
      *
      * @return BelongsTo
@@ -87,6 +75,7 @@ class Part extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
@@ -109,6 +98,7 @@ class Part extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();

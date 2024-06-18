@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Exports\CleaningsExport;
 use BDS\Livewire\Forms\CleaningForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -11,16 +12,17 @@ use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Cleaning;
 use BDS\Models\Material;
-use BDS\Models\User;
-use BDS\Models\Zone;
+use BDS\Models\Site;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Cleanings extends Component
 {
@@ -257,12 +259,7 @@ class Cleanings extends Component
                     });
                 })
                 ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
-                ->when($this->filters['type'], function ($query, $search) {
-                    if ($search !== 'Tous') {
-                        return $query->where('type', $search);
-                    }
-                    return $query;
-                })
+                ->when($this->filters['type'], fn ($query, $search) => $query->where('type', $search))
                 ->when($this->filters['created_min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
                 ->when($this->filters['created_max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)));
         }
@@ -362,5 +359,20 @@ class Cleanings extends Component
             ->merge($selectedOption);
 
         $this->form->materialsSearchable = $materials;
+    }
+
+    public function exportSelected()
+    {
+        $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
+        //dd($this->selectedRowsQuery->get()->pluck('id')->toArray());
+        return Excel::download(
+            new CleaningsExport(
+                $this->selectedRowsQuery->get()->pluck('id')->toArray(),
+                $this->sortField,
+                $this->sortDirection,
+                $site
+            ),
+            'nettoyages-' . Str::slug($site->name) . '.xlsx'
+        );
     }
 }

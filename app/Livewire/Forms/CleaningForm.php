@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire\Forms;
 
+use BDS\Enums\Frequences;
 use BDS\Models\Cleaning;
 use BDS\Models\Material;
 use Illuminate\Support\Collection;
@@ -35,9 +36,7 @@ class CleaningForm extends Form
         return [
             'material_id' => 'required|exists:materials,id',
             'description' => 'nullable',
-            'type' => 'required|in:' . collect(Cleaning::TYPES)->map(function ($item) {
-                    return $item['id'];
-                })->sort()->values()->implode(','),
+            'type' => ['required', Rule::enum(Frequences::class)],
             'selvah_ph_test_water' => [
                 Rule::requiredIf(function () {
                     $material = Material::find($this->material_id);

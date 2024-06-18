@@ -86,6 +86,8 @@ class PartEntryForm extends Form
                 ->withProperties(['attributes' => $partEntry->toArray()])
                 ->log('L\'utilisateur :causer.full_name à créé une entrée de :subject.number pièce(s) pour la pièce détachée ' . $partEntry->part->name . '.');
         }
+
+        return $partEntry;
     }
 
     /**

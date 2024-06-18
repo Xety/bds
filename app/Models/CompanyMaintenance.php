@@ -2,34 +2,25 @@
 
 namespace BDS\Models;
 
-use Eloquence\Behaviours\CountCache\Countable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class CompanyMaintenance extends Pivot
 {
-    use Countable;
+    use HasCounts;
 
-    /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
+    #[CountedBy(as: 'maintenance_count')]
+    public function company(): BelongsTo
     {
-        return [
-            [
-                'model'      => Company::class,
-                'field'      => 'maintenance_count',
-                'foreignKey' => 'company_id',
-                'key'        => 'id'
-            ],
-            [
-                'model'      => Maintenance::class,
-                'field'      => 'company_count',
-                'foreignKey' => 'maintenance_id',
-                'key'        => 'id'
-            ]
-        ];
+        return $this->belongsTo(Company::class);
+    }
+
+    #[CountedBy(as: 'company_count')]
+    public function maintenance(): BelongsTo
+    {
+        return $this->belongsTo(Maintenance::class);
     }
 
 }

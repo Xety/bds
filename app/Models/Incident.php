@@ -3,7 +3,8 @@
 namespace BDS\Models;
 
 use BDS\Observers\IncidentObserver;
-use Eloquence\Behaviours\CountCache\Countable;
+use Eloquence\Behaviours\CountCache\CountedBy;
+use Eloquence\Behaviours\CountCache\HasCounts;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 #[ObservedBy([IncidentObserver::class])]
 class Incident extends Model
 {
-    use Countable;
+    use HasCounts;
 
     /**
      * All impact with their labels.
@@ -65,20 +66,6 @@ class Incident extends Model
     ];
 
     /**
-     * Return the count cache configuration.
-     *
-     * @return array
-     */
-    public function countCaches(): array
-    {
-        return [
-            Material::class,
-            User::class,
-            Maintenance::class
-        ];
-    }
-
-    /**
      * Get the site that owns the incident.
      *
      * @return BelongsTo
@@ -93,6 +80,7 @@ class Incident extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function material(): BelongsTo
     {
         return $this->belongsTo(Material::class);
@@ -103,6 +91,7 @@ class Incident extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function maintenance(): BelongsTo
     {
         return $this->belongsTo(Maintenance::class);
@@ -113,6 +102,7 @@ class Incident extends Model
      *
      * @return BelongsTo
      */
+    #[CountedBy]
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)
