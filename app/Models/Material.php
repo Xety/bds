@@ -53,18 +53,6 @@ class Material extends Model
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'selvah_cleaning_test_ph_enabled' => 'boolean',
-        'cleaning_alert' => 'boolean',
-        'cleaning_alert_email' => 'boolean',
-        'last_cleaning_at' => 'datetime'
-    ];
-
-    /**
      * The accessors to append to the model's array form.
      *
      * @var array
@@ -72,6 +60,21 @@ class Material extends Model
     protected $appends = [
         'show_url'
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array
+     */
+    protected function casts(): array
+    {
+        return [
+            'selvah_cleaning_test_ph_enabled' => 'boolean',
+            'cleaning_alert' => 'boolean',
+            'cleaning_alert_email' => 'boolean',
+            'last_cleaning_at' => 'datetime'
+        ];
+    }
 
     /**
      * Get the zone that owns the material.

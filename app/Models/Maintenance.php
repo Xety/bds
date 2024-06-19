@@ -85,14 +85,17 @@ class Maintenance extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array
      */
-    protected $casts = [
-        'started_at' => 'datetime',
-        'finished_at' => 'datetime',
-        'is_finished' => 'boolean',
-        'is_edited' => 'boolean'
-    ];
+    protected function casts(): array
+    {
+        return [
+            'started_at' => 'datetime',
+            'finished_at' => 'datetime',
+            'is_finished' => 'boolean',
+            'is_edited' => 'boolean'
+        ];
+    }
 
     /**
      * Get the site that owns the maintenance.

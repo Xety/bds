@@ -4,7 +4,6 @@ namespace BDS\Http\Controllers\Auth;
 
 use BDS\Http\Controllers\Controller;
 use BDS\Models\User;
-use BDS\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -33,7 +32,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected string $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = '/';
 
     /**
      * Create a new controller instance.

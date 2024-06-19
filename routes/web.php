@@ -103,11 +103,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('users/permissions', [BDS\Http\Controllers\UserController::class, 'permissions'])
         ->name('users.permissions');
     Route::get('users/{user}', [BDS\Http\Controllers\UserController::class, 'show'])
-        ->name('users.show')
-        ->missing(function (Request $request) {
-            return Redirect::back()
-                ->error("Cet utilisateur n'existe pas ou à été supprimé !");
-        });
+        ->name('users.show');
 
     /*
     |--------------------------------------------------------------------------
@@ -143,11 +139,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sites', [BDS\Http\Controllers\SiteController::class, 'index'])
         ->name('sites.index');
     Route::get('sites/{site}', [BDS\Http\Controllers\SiteController::class, 'show'])
-        ->name('sites.show')
-        ->missing(function (Request $request) {
-            return Redirect::back()
-                ->error("Ce site n'existe pas ou à été supprimé !");
-        });
+        ->name('sites.show');
 
     /*
     |--------------------------------------------------------------------------
@@ -157,11 +149,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('zones', [BDS\Http\Controllers\ZoneController::class, 'index'])
         ->name('zones.index');
     Route::get('zones/{zone}', [BDS\Http\Controllers\ZoneController::class, 'show'])
-        ->name('zones.show')
-        ->missing(function (Request $request) {
-            return Redirect::back()
-                ->error("Cette zone n'existe pas ou à été supprimée !");
-        });
+        ->name('zones.show');
 
     /*
     |--------------------------------------------------------------------------
@@ -174,10 +162,6 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('materials.arbre');
     Route::get('materials/{material}', [BDS\Http\Controllers\MaterialController::class, 'show'])
         ->name('materials.show');
-        /*->missing(function (Request $request) {
-            return Redirect::back()
-                ->error("Ce matériel n'existe pas ou à été supprimé !");
-        });*/
 
     /*
     |--------------------------------------------------------------------------
@@ -203,11 +187,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('maintenances', [BDS\Http\Controllers\MaintenanceController::class, 'index'])
         ->name('maintenances.index');
     Route::get('maintenances/{maintenance}', [BDS\Http\Controllers\MaintenanceController::class, 'show'])
-        ->name('maintenances.show')
-        ->missing(function (Request $request) {
-            return Redirect::back()
-                ->with('danger', "Cette maintenance n'existe pas ou à été supprimée !");
-        });
+        ->name('maintenances.show');
 
 
     /*
@@ -218,11 +198,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('companies', [BDS\Http\Controllers\CompanyController::class, 'index'])
         ->name('companies.index');
     Route::get('companies/{company}', [BDS\Http\Controllers\CompanyController::class, 'show'])
-        ->name('companies.show')
-        ->missing(function (Request $request) {
-            return Redirect::back()
-                ->with('danger', "Cette entreprise n'existe pas ou à été supprimée !");
-        });
+        ->name('companies.show');
 
     /*
     |--------------------------------------------------------------------------
@@ -232,11 +208,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('parts', [BDS\Http\Controllers\PartController::class, 'index'])
         ->name('parts.index');
     Route::get('parts/{part}', [BDS\Http\Controllers\PartController::class, 'show'])
-        ->name('parts.show')
-        ->missing(function (Request $request) {
-            return Redirect::back()
-                ->with('danger', "Cette pièce détachée n'existe pas ou à été supprimée !");
-        });
+        ->name('parts.show');
 
     /*
     |--------------------------------------------------------------------------
@@ -262,11 +234,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('suppliers', [BDS\Http\Controllers\SupplierController::class, 'index'])
         ->name('suppliers.index');
     Route::get('suppliers/{supplier}', [BDS\Http\Controllers\SupplierController::class, 'show'])
-        ->name('suppliers.show')
-        ->missing(function (Request $request) {
-            return Redirect::back()
-                ->with('danger', "Ce fournisseur n'existe pas ou à été supprimé !");
-        });
+        ->name('suppliers.show');
 
     /*
     |--------------------------------------------------------------------------
@@ -322,11 +290,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('correspondence-sheets', [BDS\Http\Controllers\Selvah\CorrespondenceSheetController::class, 'index'])
             ->name('correspondence-sheets.index');
         Route::get('correspondence-sheets/{sheet}', [BDS\Http\Controllers\Selvah\CorrespondenceSheetController::class, 'show'])
-            ->name('correspondence-sheets.show')
-            ->missing(function (Request $request) {
-                return Redirect::back()
-                    ->with('danger', "Cette fiche de correspondance n'existe pas ou à été supprimée !");
-            });
+            ->name('correspondence-sheets.show');
         Route::get('correspondence-sheets/create', [BDS\Http\Controllers\Selvah\CorrespondenceSheetController::class, 'create'])
             ->name('correspondence-sheets.create');
     });

@@ -41,16 +41,16 @@ return new class extends Migration {
             $table->mediumText('chaudiere_commentaire')->nullable();
             // Compteurs
             $table->integer('compteur_huile_brute')->nullable();
-            $table->float('compteur_eau_1',8, 1)->nullable();
-            $table->float('compteur_eau_2')->nullable();
-            $table->float('compteur_eau_3')->nullable();
-            $table->float('compteur_eau_4')->nullable();
-            $table->float('compteur_eau_5')->nullable();
-            $table->float('compteur_consommation_eau_1',8, 1)->nullable();
-            $table->float('compteur_consommation_eau_2')->nullable();
-            $table->float('compteur_consommation_eau_3')->nullable();
-            $table->float('compteur_consommation_eau_4')->nullable();
-            $table->float('compteur_consommation_eau_5')->nullable();
+            $table->decimal('compteur_eau_1',8, 1)->nullable();
+            $table->decimal('compteur_eau_2')->nullable();
+            $table->decimal('compteur_eau_3')->nullable();
+            $table->decimal('compteur_eau_4')->nullable();
+            $table->decimal('compteur_eau_5')->nullable();
+            $table->decimal('compteur_consommation_eau_1',8, 1)->nullable();
+            $table->decimal('compteur_consommation_eau_2')->nullable();
+            $table->decimal('compteur_consommation_eau_3')->nullable();
+            $table->decimal('compteur_consommation_eau_4')->nullable();
+            $table->decimal('compteur_consommation_eau_5')->nullable();
             // Filtration
             $table->boolean('filtration_nettoyage_plateaux')->default(0);
             $table->enum('filtration_plateaux_conforme', ['conforme', 'non-conforme', 'non-applicable'])->default('non-applicable');

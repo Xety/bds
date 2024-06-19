@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('reference')->nullable()->index();
-            $table->float('price')->default(0.00);
+            $table->decimal('price')->default(0.00);
             $table->integer('part_entry_total')->default(0);
             $table->integer('part_exit_total')->default(0);
             $table->boolean('number_warning_enabled')->default(false);

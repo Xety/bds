@@ -12,7 +12,7 @@ return [
     */
     'info' => [
         'full_name' => 'Coopérative Bourgogne du Sud',
-        'site_description' => 'Site de gestion interne de la Coopérative Bourgogne du Sud, Extrusel et Selvah.'
+        'site_description' => 'Site de gestion interne de la Coopérative Bourgogne du Sud et ces filiales.'
     ],
 
     /*
@@ -24,7 +24,7 @@ return [
     */
     'cache' => [
         //Dashboard
-        'incidents_count' => 3600,  // 7200 / 2 hours
+        'incidents_count' => 3600,
         'maintenances_count' => 3600,
         'parts_count' => 3600,
         'cleanings_count' => 3600,

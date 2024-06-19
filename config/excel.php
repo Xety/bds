@@ -14,7 +14,7 @@ return [
         | Here you can specify how big the chunk should be.
         |
         */
-        'chunk_size'             => 1000,
+        'chunk_size' => 1000,
 
         /*
         |--------------------------------------------------------------------------
@@ -41,15 +41,15 @@ return [
         | Configure e.g. delimiter, enclosure and line ending for CSV exports.
         |
         */
-        'csv'                    => [
-            'delimiter'              => ',',
-            'enclosure'              => '"',
-            'line_ending'            => PHP_EOL,
-            'use_bom'                => false,
+        'csv' => [
+            'delimiter' => ',',
+            'enclosure' => '"',
+            'line_ending' => PHP_EOL,
+            'use_bom' => false,
             'include_separator_line' => false,
-            'excel_compatibility'    => false,
-            'output_encoding'        => '',
-            'test_auto_detect'       => true,
+            'excel_compatibility' => false,
+            'output_encoding' => '',
+            'test_auto_detect' => true,
         ],
 
         /*
@@ -60,20 +60,20 @@ return [
         | Configure e.g. default title, creator, subject,...
         |
         */
-        'properties'             => [
-            'creator'        => '',
+        'properties' => [
+            'creator' => '',
             'lastModifiedBy' => '',
-            'title'          => '',
-            'description'    => '',
-            'subject'        => '',
-            'keywords'       => '',
-            'category'       => '',
-            'manager'        => '',
-            'company'        => '',
+            'title' => '',
+            'description' => '',
+            'subject' => '',
+            'keywords' => '',
+            'category' => '',
+            'manager' => '',
+            'company' => '',
         ],
     ],
 
-    'imports'            => [
+    'imports' => [
 
         /*
         |--------------------------------------------------------------------------
@@ -86,7 +86,7 @@ return [
         | you can enable it by setting read_only to false.
         |
         */
-        'read_only'    => true,
+        'read_only' => true,
 
         /*
         |--------------------------------------------------------------------------

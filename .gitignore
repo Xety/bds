@@ -29,3 +29,4 @@ _ide_helper_models.php
 composer.lock
 package-lock.json
 laravel-pulse-worker.log
+.vemto_settings

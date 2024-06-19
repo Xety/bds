@@ -39,18 +39,6 @@ class Part extends Model
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'number_warning_enabled' => 'boolean',
-        'number_warning_minimum' => 'integer',
-        'number_critical_enabled' => 'boolean',
-        'number_critical_minimum' => 'integer'
-    ];
-
-    /**
      * The accessors to append to the model's array form.
      *
      * @var array
@@ -59,6 +47,21 @@ class Part extends Model
         'show_url',
         'stock_total'
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array
+     */
+    protected function casts(): array
+    {
+        return [
+            'number_warning_enabled' => 'boolean',
+            'number_warning_minimum' => 'integer',
+            'number_critical_enabled' => 'boolean',
+            'number_critical_minimum' => 'integer'
+        ];
+    }
 
     /**
      * Get the site that owns the part.

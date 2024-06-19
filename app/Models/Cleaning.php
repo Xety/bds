@@ -36,12 +36,15 @@ class Cleaning extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array
      */
-    protected $casts = [
-        'type' => Frequences::class,
-        'is_edited' => 'boolean'
-    ];
+    protected function casts(): array
+    {
+        return [
+            'type' => Frequences::class,
+            'is_edited' => 'boolean'
+        ];
+    }
 
     /**
      * Get the site that owns the cleaning.

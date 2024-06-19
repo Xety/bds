@@ -2,18 +2,29 @@
 
 namespace BDS\Providers;
 
+use BDS\Listeners\Cleaning\AlertSubscriber as AlertCleaningSubscriber;
+use BDS\Listeners\Part\AlertSubscriber as AlertPartSubscriber;
+use BDS\Listeners\Site\SiteSubscriber;
+use BDS\Listeners\User\AuthSubscriber;
+use BDS\Models\Permission;
+use BDS\Models\Role;
+use BDS\Models\Selvah\CorrespondenceSheet;
+use BDS\Models\User;
+use BDS\Policies\PermissionPolicy;
+use BDS\Policies\RolePolicy;
+use BDS\Policies\Selvah\CorrespondenceSheetPolicy;
 use BDS\Settings\Settings;
-use Carbon\Carbon;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Validation\Rules\Password;
-use BDS\Models\Setting;
+use Livewire\Volt\Volt;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +41,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Routes
+        Route::namespace('BDS\Http\Controllers');
+        Route::pattern('id', '[0-9]+');
+
+        // Policies
+        Gate::policy(Permission::class, PermissionPolicy::class);
+        Gate::policy(Role::class, RolePolicy::class);
+        Gate::policy(CorrespondenceSheet::class, CorrespondenceSheetPolicy::class);
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole('Développeur');
+        });
+
+        // Subscribers
+        Event::subscribe(AlertCleaningSubscriber::class);
+        Event::subscribe(AlertPartSubscriber::class);
+        Event::subscribe(SiteSubscriber::class);
+        Event::subscribe(AuthSubscriber::class);
+
+        // Volt
+        Volt::mount([
+            resource_path('views/livewire'),
+            resource_path('views/pages'),
+        ]);
+
         // Set default password rule for the application.
         Password::defaults(function () {
             $rule = Password::min(8);

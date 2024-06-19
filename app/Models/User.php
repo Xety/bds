@@ -94,14 +94,17 @@ class User extends Model implements
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @return array
      */
-    protected $casts = [
-        'password_setup_at' => 'datetime',
-        'password' => 'hashed',
-        'last_login_date' => 'datetime',
-        'end_employment_contract' => 'datetime'
-    ];
+    protected function casts(): array
+    {
+        return [
+            'password_setup_at' => 'datetime',
+            'password' => 'hashed',
+            'last_login_date' => 'datetime',
+            'end_employment_contract' => 'datetime'
+        ];
+    }
 
     /**
     * Retrieve the model for a bound value.

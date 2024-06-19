@@ -86,13 +86,16 @@ class Calendar extends Model
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array
      */
-    protected $casts = [
-        'started' => 'datetime',
-        'ended' => 'datetime',
-        'allDay' => 'boolean'
-    ];
+    protected function casts(): array
+    {
+        return [
+            'started' => 'datetime',
+            'ended' => 'datetime',
+            'allDay' => 'boolean'
+        ];
+    }
 
     /**
      * Get the user that created the Calendar.
