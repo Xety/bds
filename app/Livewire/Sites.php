@@ -2,7 +2,6 @@
 
 namespace BDS\Livewire;
 
-use BDS\Events\NewMessage;
 use BDS\Livewire\Forms\SiteForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -16,7 +15,6 @@ use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
