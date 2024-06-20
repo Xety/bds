@@ -25,6 +25,13 @@ trait WithBulkActions
     public bool $selectAll = false;
 
     /**
+     * Whatever the model has a `site_id` field to filter the rows.
+     *
+     * @var bool
+     */
+    public bool $hasSite = true;
+
+    /**
      * The id array of selected rows.
      *
      * @var array|Collection
@@ -101,11 +108,23 @@ trait WithBulkActions
      */
     public function getSelectedRowsQueryProperty() : Builder
     {
+        // For Verdun site, we can export all rows.
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
+            $this->hasSite = false;
+        }
+
         return app($this->model)
             ->unless($this->selectAll, function($query) {
                 $query->whereKey($this->selected);
+
+                if ($this->hasSite) {
+                    $query->where('site_id', getPermissionsTeamId());
+                }
+            }, function($query) {
+                if ($this->hasSite) {
+                    $query->where('site_id', getPermissionsTeamId());
+                }
             });
-            //->where('site_id', getPermissionsTeamId());
     }
 
     /**

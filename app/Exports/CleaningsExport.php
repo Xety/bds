@@ -3,6 +3,7 @@ namespace BDS\Exports;
 
 use BDS\Models\Cleaning;
 use BDS\Models\Site;
+use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithDefaultStyles;
@@ -24,10 +25,39 @@ class CleaningsExport implements
     WithDefaultStyles
 {
 
+    /**
+     * The selected rows by their ids.
+     *
+     * @var array
+     */
     private array $selected;
+
+    /**
+     * The field to sort by.
+     *
+     * @var string
+     */
     private string $sortField;
+
+    /**
+     * The direction of the ordering.
+     *
+     * @var string
+     */
     private string $sortDirection;
+
+    /**
+     * The actual site.
+     *
+     * @var Site
+     */
     private Site $site;
+
+    /**
+     * Whatever the site is Selvah or not.
+     *
+     * @var bool
+     */
     private bool $isSelvah;
 
     public function __construct(array $selected, string $sortField, string $sortDirection, Site $site)
@@ -39,16 +69,23 @@ class CleaningsExport implements
         $this->isSelvah = $site->id === settings('site_id_selvah');
     }
 
-    public function query()
+    /**
+     * The query used to the rows.
+     *
+     * @return Builder
+     */
+    public function query(): Builder
     {
         return Cleaning::query()
             ->whereKey($this->selected)
-            ->select(['id', 'material_id', 'user_id', 'description', 'selvah_ph_test_water', 'selvah_ph_test_water_after_cleaning', 'type', 'created_at'])
+            ->select(['id', 'site_id', 'material_id', 'user_id', 'description', 'selvah_ph_test_water', 'selvah_ph_test_water_after_cleaning', 'type', 'created_at'])
             ->with(['site', 'user', 'material', 'material.zone'])
             ->orderBy($this->sortField, $this->sortDirection);
     }
 
     /**
+     * Map the data returned to the Excel doc.
+     *
      * @param Cleaning $row
      */
     public function map($row): array
@@ -60,6 +97,13 @@ class CleaningsExport implements
             $row->description,
             $row->user->full_name,
         ];
+
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege') && !$this->isSelvah) {
+            array_push($data,
+                $row->site->name,
+                $row->selvah_ph_test_water,
+                $row->selvah_ph_test_water_after_cleaning);
+        }
 
         if ($this->isSelvah) {
             array_push($data,
@@ -76,6 +120,8 @@ class CleaningsExport implements
     }
 
     /**
+     * Create the headings used in the Excel doc.
+     *
      * @return array
      */
     public function headings(): array
@@ -87,6 +133,10 @@ class CleaningsExport implements
             'Description',
             'Créateur'
         ];
+
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege') && !$this->isSelvah) {
+            array_push($headings, 'Site', 'Test PH de l\'eau', 'Test PH de l\'eau après nettoyage');
+        }
 
         if ($this->isSelvah) {
             array_push($headings, 'Test PH de l\'eau', 'Test PH de l\'eau après nettoyage');
@@ -101,6 +151,8 @@ class CleaningsExport implements
     }
 
     /**
+     * Create the columns size used in the Excel doc.
+     *
      * @return array
      */
     public function columnWidths(): array
@@ -120,12 +172,21 @@ class CleaningsExport implements
             $data['I'] = 17;
         }
 
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege') && !$this->isSelvah) {
+            $data['H'] = 17;
+            $data['I'] = 17;
+            $data['J'] = 17;
+        }
+
         return $data;
     }
 
     /**
+     * Create the default style used in the whole Excel doc.
+     *
      * @param Style $defaultStyle
-     * @return array[]
+     *
+     * @return array
      */
     public function defaultStyles(Style $defaultStyle): array
     {
@@ -139,8 +200,10 @@ class CleaningsExport implements
     }
 
     /**
+     * Create the style for the Excel doc.
      *
      * @param Worksheet $sheet
+     *
      * @return void
      *
      * @throws Exception
@@ -150,6 +213,10 @@ class CleaningsExport implements
         $lastColumn = 'G';
         if ($this->isSelvah) {
             $lastColumn = 'I';
+        }
+
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege') && !$this->isSelvah) {
+            $lastColumn = 'J';
         }
         // Change worksheet title
         $sheet->setTitle('Nettoyages');

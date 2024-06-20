@@ -6,9 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "abbasudo/pulse-users": "^0.6.0",
         "anhskohbo/no-captcha": "^3.6.0",
         "chrysanthos/pulse-requests": "^1.0.5",
-        "abbasudo/pulse-users": "^0.6.0",
         "endroid/qr-code": "^5.0.9",
         "guzzlehttp/guzzle": "^7.8.1",
         "kirkbushell/eloquence": "^11.0.3",

@@ -31,12 +31,6 @@
             @endcanany
         </div>
         <div class="mb-4">
-            @if (getPermissionsTeamId() == settings('site_id_selvah') && auth()->user()->can('export', \BDS\Models\Cleaning::class))
-                <x-button type="button" class="btn btn-success gap-2" wire:click="exportLastWeek" spinner>
-                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
-                    Exporter la semaine dernière
-                </x-button>
-            @endif
             @if (settings('cleaning_create_enabled', true) && auth()->user()->can('create', \BDS\Models\Cleaning::class))
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>

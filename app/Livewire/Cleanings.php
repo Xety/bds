@@ -23,6 +23,7 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Cleanings extends Component
 {
@@ -252,6 +253,11 @@ class Cleanings extends Component
                         $partQuery->where('name', 'LIKE', '%' . $search . '%');
                     });
                 })
+                ->when($this->filters['site'], function ($query, $search) {
+                    return $query->whereHas('site', function ($partQuery) use ($search) {
+                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                    });
+                })
                 ->when($this->filters['creator'], function ($query, $search) {
                     return $query->whereHas('user', function ($partQuery) use ($search) {
                         $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
@@ -361,10 +367,18 @@ class Cleanings extends Component
         $this->form->materialsSearchable = $materials;
     }
 
-    public function exportSelected()
+    /**
+     * Export the selected rows into an Excel file.
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function exportSelected(): BinaryFileResponse
     {
         $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
-        //dd($this->selectedRowsQuery->get()->pluck('id')->toArray());
+
         return Excel::download(
             new CleaningsExport(
                 $this->selectedRowsQuery->get()->pluck('id')->toArray(),
