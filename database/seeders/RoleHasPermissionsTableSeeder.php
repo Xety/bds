@@ -35,6 +35,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'view cleaning',
         'export cleaning',
         'search cleaning',
+        'generate-plan cleaning',
 
         // Incident
         'viewAny incident',
@@ -120,6 +121,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'update cleaning',
         'delete cleaning',
         'export cleaning',
+        'generate-plan cleaning',
 
         // Incident
         'viewAny incident',
@@ -508,6 +510,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'create cleaning',
         'update cleaning',
         'search cleaning',
+        'generate-plan cleaning',
 
         // Calendar
         'viewAny calendar',
@@ -550,6 +553,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'create cleaning',
         'update cleaning',
         'search cleaning',
+        'generate-plan cleaning',
 
         // Calendar
         'viewAny calendar',
@@ -592,6 +596,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         'export cleaning',
         'create cleaning',
         'update cleaning',
+        'generate-plan cleaning',
 
         // Calendar
         'viewAny calendar',
@@ -706,6 +711,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'delete cleaning',
             'export cleaning',
             'search cleaning',
+            'generate-plan cleaning',
 
             // Incident
             'viewAny incident',

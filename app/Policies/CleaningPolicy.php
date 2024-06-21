@@ -78,6 +78,6 @@ class CleaningPolicy
      */
     public function generatePlan(User $user): bool
     {
-        return $user->can('generatePlan cleaning');
+        return $user->can('generate-plan cleaning');
     }
 }

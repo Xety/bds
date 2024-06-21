@@ -360,6 +360,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'generate-plan cleaning',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut générer le plan de nettoyage.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'viewAny site',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut voir les nettoyages.',

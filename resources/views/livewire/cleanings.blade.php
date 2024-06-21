@@ -31,6 +31,12 @@
             @endcanany
         </div>
         <div class="mb-4">
+            @if(Gate::allows('generatePlan', \BDS\Models\Cleaning::class) && settings('cleaning_create_enabled', true))
+                <x-button type="button" class="btn btn-success gap-2" wire:click="generatePlan" spinner>
+                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
+                    Generer le Plan de Nettoyage
+                </x-button>
+            @endcan
             @if (settings('cleaning_create_enabled', true) && auth()->user()->can('create', \BDS\Models\Cleaning::class))
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
