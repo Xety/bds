@@ -1,7 +1,7 @@
 {
     "name": "xety/bds",
     "type": "project",
-    "description": "The skeleton application for the Selvah application.",
+    "description": "The skeleton application for the BDS application.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {

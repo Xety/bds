@@ -3,6 +3,7 @@
 namespace BDS\Livewire;
 
 use BDS\Exports\CleaningsExport;
+use BDS\Exports\CleaningsPlanExport;
 use BDS\Livewire\Forms\CleaningForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -377,6 +378,8 @@ class Cleanings extends Component
      */
     public function exportSelected(): BinaryFileResponse
     {
+        $this->authorize('export', Cleaning::class);
+
         $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
 
         return Excel::download(
@@ -386,6 +389,26 @@ class Cleanings extends Component
                 $this->sortDirection,
                 $site
             ),
+            'nettoyages-' . Str::slug($site->name) . '.xlsx'
+        );
+    }
+
+    /**
+     * Export the selected rows into an Excel file.
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function generatePlan(): BinaryFileResponse
+    {
+        $this->authorize('generate-plan', Cleaning::class);
+
+        $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
+
+        return Excel::download(
+            new CleaningsPlanExport($site),
             'nettoyages-' . Str::slug($site->name) . '.xlsx'
         );
     }
