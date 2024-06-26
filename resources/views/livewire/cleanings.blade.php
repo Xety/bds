@@ -33,7 +33,7 @@
         <div class="mb-4">
             @if(Gate::allows('generatePlan', \BDS\Models\Cleaning::class) && settings('cleaning_create_enabled', true))
                 <x-button type="button" class="btn btn-info gap-2" wire:click="generatePlan" spinner>
-                    <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
+                    <x-icon name="fas-file-lines" class="h-5 w-5"></x-icon>
                     Générer le Plan de Nettoyage
                 </x-button>
             @endcan

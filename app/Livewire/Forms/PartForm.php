@@ -35,6 +35,8 @@ class PartForm extends Form
 
     public Collection|array $recipientsMultiSearchable = [];
 
+    public Collection|array $suppliersSearchable = [];
+
     /**
      * Selected materials ids
      *

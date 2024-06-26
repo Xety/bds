@@ -2,6 +2,8 @@
 
 namespace BDS\Livewire\Traits;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\WithPagination;
 
 trait WithPerPagePagination
@@ -33,11 +35,11 @@ trait WithPerPagePagination
     /**
      * Apply the pagination to the query.
      *
-     * @param mixed $query The query to apply the pagination.
+     * @param Builder $query The query to apply the pagination.
      *
-     * @return mixed
+     * @return LengthAwarePaginator
      */
-    public function applyPagination($query)
+    public function applyPagination(Builder $query): LengthAwarePaginator
     {
         return $query->paginate($this->perPage);
     }

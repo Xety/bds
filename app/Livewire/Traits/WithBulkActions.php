@@ -2,6 +2,8 @@
 
 namespace BDS\Livewire\Traits;
 
+use BDS\Models\PartEntry;
+use BDS\Models\PartExit;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
@@ -117,13 +119,29 @@ trait WithBulkActions
             ->unless($this->selectAll, function($query) {
                 $query->whereKey($this->selected);
 
-                if ($this->hasSite) {
-                    $query->where('site_id', getPermissionsTeamId());
+                if (!$this->hasSite) {
+                    return $query;
                 }
+
+                if ($this->model === PartEntry::class || $this->model === PartExit::class) {
+                    return $query->whereHas('part', function ($partQuery) {
+                        $partQuery->where('site_id', getPermissionsTeamId());
+                    });
+                }
+
+                return $query->where('site_id', getPermissionsTeamId());
             }, function($query) {
-                if ($this->hasSite) {
-                    $query->where('site_id', getPermissionsTeamId());
+                if (!$this->hasSite) {
+                    return $query;
                 }
+
+                if ($this->model === PartEntry::class || $this->model === PartExit::class) {
+                    return $query->whereHas('part', function ($partQuery) {
+                        $partQuery->where('site_id', getPermissionsTeamId());
+                    });
+                }
+
+                return $query->where('site_id', getPermissionsTeamId());
             });
     }
 

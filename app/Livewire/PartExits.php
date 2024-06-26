@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Exports\PartExitsExport;
 use BDS\Livewire\Forms\PartExitForm;
 use BDS\Livewire\Traits\WithCachedRows;
 use BDS\Livewire\Traits\WithSorting;
@@ -12,14 +13,18 @@ use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Maintenance;
 use BDS\Models\Part;
 use BDS\Models\PartExit;
+use BDS\Models\Site;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PartExits extends Component
 {
@@ -207,21 +212,7 @@ class PartExits extends Component
     public function render(): View
     {
         return view('livewire.part-exits', [
-            'partExits' => $this->rows,
-            'parts' => Part::query()
-                ->with(['site' => function ($query) {
-                    $query->select('id', 'name');
-                }])
-                ->select('id', 'name')
-                ->get()
-                ->toArray(),
-            'maintenances' => Maintenance::query()
-                ->with(['material', 'material.zone', 'material.zone.site'])
-                ->whereRelation('material.zone.site', 'id', getPermissionsTeamId())
-                ->select('id')
-                ->orderBy('id', 'desc')
-                ->get()
-                ->toArray()
+            'partExits' => $this->rows
         ]);
     }
 
@@ -403,5 +394,30 @@ class PartExits extends Component
             ->merge($selectedOption);
 
         $this->form->maintenancesSearchable = $maintenances;
+    }
+
+    /**
+     * Export the selected rows into an Excel file.
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function exportSelected(): BinaryFileResponse
+    {
+        $this->authorize('export', PartExit::class);
+
+        $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
+
+        return Excel::download(
+            new PartExitsExport(
+                $this->selectedRowsQuery->get()->pluck('id')->toArray(),
+                $this->sortField,
+                $this->sortDirection,
+                $site
+            ),
+            'pieces-detachees-sorties-' . Str::slug($site->name) . '.xlsx'
+        );
     }
 }

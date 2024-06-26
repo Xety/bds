@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Exports\PartsExport;
 use BDS\Livewire\Traits\WithConvertEmptyStringsToNull;
 use BDS\Models\Site;
 use BDS\Models\Supplier;
@@ -11,8 +12,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 use ReflectionException;
 use BDS\Livewire\Forms\PartForm;
 use BDS\Livewire\Traits\WithBulkActions;
@@ -25,6 +28,7 @@ use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Material;
 use BDS\Models\Part;
 use BDS\Models\User;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Parts extends Component
 {
@@ -251,18 +255,8 @@ class Parts extends Component
      */
     public function render(): View
     {
-        $suppliers = Supplier::query()
-            ->where('site_id', getPermissionsTeamId())
-            ->select(['id', 'name', 'site_id'])
-            ->orderBy('name')
-            ->get()
-            ->toArray();
-
-        //array_unshift($suppliers, ['id' => '', 'name' => 'Aucun fournisseur']);
-
         return view('livewire.parts', [
-            'parts' => $this->rows,
-            'suppliers' => $suppliers,
+            'parts' => $this->rows
         ]);
     }
 
@@ -359,6 +353,7 @@ class Parts extends Component
         $this->form->reset();
         $this->searchMaterials();
         $this->searchRecipients();
+        $this->searchSupplier();
 
         $this->showModal = true;
     }
@@ -384,6 +379,7 @@ class Parts extends Component
         $this->form->setPart($part, $materials, $recipients);
         $this->searchMaterials();
         $this->searchRecipients();
+        $this->searchSupplier();
 
         $this->showModal = true;
     }
@@ -488,5 +484,54 @@ class Parts extends Component
             ->merge($selectedOption);
 
         $this->form->recipientsMultiSearchable = $recipients;
+    }
+
+    /**
+     * Function to search suppliers in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchSupplier(string $value = ''): void
+    {
+        $selectedOption = Supplier::where('id', $this->form->supplier_id)->get();
+
+        $suppliers = Supplier::query()
+            ->with(['site'])
+            ->whereRelation('site', 'id', getPermissionsTeamId())
+            ->where('name', 'like', "%$value%");
+
+        $suppliers = $suppliers->take(10)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->suppliersSearchable = $suppliers;
+    }
+
+    /**
+     * Export the selected rows into an Excel file.
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function exportSelected(): BinaryFileResponse
+    {
+        $this->authorize('export', Part::class);
+
+        $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
+
+        return Excel::download(
+            new PartsExport(
+                $this->selectedRowsQuery->get()->pluck('id')->toArray(),
+                $this->sortField,
+                $this->sortDirection,
+                $site
+            ),
+            'pieces-detachees-' . Str::slug($site->name) . '.xlsx'
+        );
     }
 }

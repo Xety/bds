@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Exports\SuppliersExport;
 use BDS\Livewire\Forms\SupplierForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -9,6 +10,7 @@ use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Site;
 use BDS\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
@@ -16,8 +18,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Suppliers extends Component
 {
@@ -261,5 +266,30 @@ class Suppliers extends Component
         $this->success($this->flashMessages[$this->isCreating ? 'create' : 'update']['success'], ['name' => $model->name]);
 
         $this->showModal = false;
+    }
+
+    /**
+     * Export the selected rows into an Excel file.
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function exportSelected(): BinaryFileResponse
+    {
+        $this->authorize('export', Supplier::class);
+
+        $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
+
+        return Excel::download(
+            new SuppliersExport(
+                $this->selectedRowsQuery->get()->pluck('id')->toArray(),
+                $this->sortField,
+                $this->sortDirection,
+                $site
+            ),
+            'fournisseurs-' . Str::slug($site->name) . '.xlsx'
+        );
     }
 }

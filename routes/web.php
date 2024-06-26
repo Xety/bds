@@ -39,21 +39,21 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::post('login', [BDS\Http\Controllers\Auth\LoginController::class, 'login']);
 
     // Password Reset Routes
-    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')
+    Route::get('password/reset', [BDS\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])
         ->name('auth.password.request');
-    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')
+    Route::post('password/email', [BDS\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])
         ->name('auth.password.email');
-    Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')
+    Route::get('password/reset/{token}', [BDS\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])
         ->name('auth.password.reset');
-    Route::post('password/reset', 'ResetPasswordController@reset')
+    Route::post('password/reset', [BDS\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])
         ->name('auth.password.update');
-    Route::get('password/setup/{id}/{hash}', 'PasswordController@showSetupForm')
+    Route::get('password/setup/{id}/{hash}', [BDS\Http\Controllers\Auth\PasswordController::class, 'showSetupForm'])
         ->name('auth.password.setup');
-    Route::post('password/setup/{id}/{hash}', 'PasswordController@setup')
+    Route::post('password/setup/{id}/{hash}', [BDS\Http\Controllers\Auth\PasswordController::class, 'setup'])
         ->name('auth.password.create');
-    Route::get('password/resend', 'PasswordController@showResendRequestForm')
+    Route::get('password/resend', [BDS\Http\Controllers\Auth\PasswordController::class, 'showResendRequestForm'])
         ->name('auth.password.resend.request');
-    Route::post('password/resend', 'PasswordController@resend')
+    Route::post('password/resend', [BDS\Http\Controllers\Auth\PasswordController::class, 'resend'])
         ->name('auth.password.resend');
 });
 

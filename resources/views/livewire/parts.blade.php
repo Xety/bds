@@ -379,16 +379,40 @@
         <x-input wire:model="form.reference" name="form.reference" label="Référence" placeholder="Référence de la pièce détachée..." type="text" />
 
         @php $message = "Sélectionner le fournisseur de la pièce détachée. (Si le fournisseur n'est pas dans la liste, vous devez le créer via la Gestion des Fournisseurs)";@endphp
-        <x-select
-            :options="$suppliers"
-            icon="fas-shop"
-            class="select-primary"
-            wire:model="form.supplier_id"
-            name="form.supplier_id"
+        <x-choices
             label="Fournisseur"
             :label-info="$message"
-            placeholder="Sélectionnez le Fournisseur"
-        />
+            wire:model="form.supplier_id"
+            :options="$form->suppliersSearchable"
+            search-function="searchSupplier"
+            no-result-text="Aucun résultat..."
+            debounce="300ms"
+            min-chars="2"
+            single
+            searchable>
+
+            {{-- Item slot--}}
+            @scope('item', $option)
+            <x-list-item :item="$option">
+                <x-slot:avatar>
+                    <x-icon name="fas-shop" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                </x-slot:avatar>
+
+                <x-slot:value>
+                    {{ $option->name }}
+                </x-slot:value>
+
+                <x-slot:sub-value>
+                    {{ $option->site->name }}
+                </x-slot:sub-value>
+            </x-list-item>
+            @endscope
+
+            {{-- Selection slot--}}
+            @scope('selection', $option)
+            {{ $option->name }} ({{ $option->site->name }})
+            @endscope
+        </x-choices>
 
         <x-input icon-right="fas-euro-sign" wire:model="form.price" name="form.price" label="Prix" placeholder="Prix de la pièce détachée..." type="number" min="0" step="0.01"  />
 

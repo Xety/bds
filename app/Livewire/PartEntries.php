@@ -2,15 +2,18 @@
 
 namespace BDS\Livewire;
 
+use BDS\Exports\PartEntriesExport;
 use BDS\Livewire\Forms\PartEntryForm;
 use BDS\Livewire\Traits\WithFilters;
 use BDS\Livewire\Traits\WithToast;
+use BDS\Models\Site;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -19,6 +22,8 @@ use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithPerPagePagination;
 use BDS\Models\Part;
 use BDS\Models\PartEntry;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PartEntries extends Component
 {
@@ -206,14 +211,7 @@ class PartEntries extends Component
     public function render(): View
     {
         return view('livewire.part-entries', [
-            'partEntries' => $this->rows,
-            'parts' => Part::query()
-                ->with(['site' => function ($query) {
-                    $query->select('id', 'name');
-                }])
-                ->select('id', 'name')
-                ->get()
-                ->toArray()
+            'partEntries' => $this->rows
         ]);
     }
 
@@ -360,5 +358,30 @@ class PartEntries extends Component
             ->merge($selectedOption);
 
         $this->form->partsSearchable = $parts;
+    }
+
+    /**
+     * Export the selected rows into an Excel file.
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function exportSelected(): BinaryFileResponse
+    {
+        $this->authorize('export', PartEntry::class);
+
+        $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
+
+        return Excel::download(
+            new PartEntriesExport(
+                $this->selectedRowsQuery->get()->pluck('id')->toArray(),
+                $this->sortField,
+                $this->sortDirection,
+                $site
+            ),
+            'pieces-detachees-entrees-' . Str::slug($site->name) . '.xlsx'
+        );
     }
 }
