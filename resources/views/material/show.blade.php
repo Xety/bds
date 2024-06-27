@@ -54,7 +54,7 @@
                                                         icon-class="inline h-4 w-4"
                                                         tooltip
                                                         tooltip-content="Modifier ce matériel"
-                                                        link="{{  route('materials.index', ['editId' => $material->getKey(), 'editing' => 'true']) }}"
+                                                        link="{{  route('materials.index', ['materialId' => $material->getKey(), 'editing' => 'true']) }}"
                                                         class="text-blue-500" />
                                                 @endcan
                                                 @can('generateQrCode', $material)
@@ -162,7 +162,7 @@
                                     <div class="inline-block">
                                         @if ($material->cleaning_alert)
                                             <code class="code rounded-sm">
-                                                {{ collect(\BDS\Models\Material::CLEANING_TYPES)->sole('id', $material->cleaning_alert_frequency_type)['name'] }}
+                                                {{ $material->cleaning_alert_frequency_type->label() }}
                                             </code>
                                         @endif
                                     </div>

@@ -105,11 +105,10 @@
                     </x-table.cell>
                     <x-table.cell>
                         <x-select
-                            :options="\BDS\Models\Incident::IMPACT"
+                            :options="\BDS\Enums\Incident\Impacts::toSelectArray()"
                             class="select-primary"
                             wire:model.live="filters.impact"
                             name="filters.impact"
-                            placeholder="Tous"
                         />
                     </x-table.cell>
                     <x-table.cell>
@@ -214,18 +213,9 @@
                         {{ $incident->started_at->translatedFormat( 'D j M Y H:i') }}
                     </x-table.cell>
                     <x-table.cell>
-                        @switch($incident->impact)
-                            @case("mineur")
-                                    <span class="font-bold text-yellow-500">{{ collect(\BDS\Models\Incident::IMPACT)->sole('id', $incident->impact)['name'] }}</span>
-                                @break
-
-                            @case("moyen")
-                                    <span class="font-bold text-orange-500">{{ collect(\BDS\Models\Incident::IMPACT)->sole('id', $incident->impact)['name'] }}</span>
-                                @break
-
-                            @default
-                                    <span class="font-bold text-red-500">{{ collect(\BDS\Models\Incident::IMPACT)->sole('id', $incident->impact)['name'] }}</span>
-                        @endswitch
+                        <span class="font-bold {{ $incident->impact->color() }}">
+                            {{ $incident->impact->label() }}
+                        </span>
                     </x-table.cell>
                     <x-table.cell>
                         @if ($incident->is_finished)
@@ -364,7 +354,7 @@
 
         @php $message = "Sélectionnez l'impact de l'incident :<br><b>Mineur:</b> Incident légé sans impact sur la production.<br><b>Moyen:</b> Incident moyen ayant entrainé un arrêt partiel et/ou une perte de produit.<br><b>Critique:</b> Incident grave ayant impacté la production et/ou un arrêt.";@endphp
         <x-select
-            :options="\BDS\Models\Incident::IMPACT"
+            :options="\BDS\Enums\Incident\Impacts::toSelectArray(false)"
             class="select-primary"
             wire:model="form.impact"
             name="form.impact"

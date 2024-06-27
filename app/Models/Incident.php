@@ -2,6 +2,7 @@
 
 namespace BDS\Models;
 
+use BDS\Enums\Incident\Impacts;
 use BDS\Observers\IncidentObserver;
 use Eloquence\Behaviours\CountCache\CountedBy;
 use Eloquence\Behaviours\CountCache\HasCounts;
@@ -14,24 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Incident extends Model
 {
     use HasCounts;
-
-    /**
-     * All impact with their labels.
-     */
-    public const IMPACT = [
-        [
-            'id' => 'mineur',
-            'name' => 'Mineur'
-        ],
-        [
-            'id' => 'moyen',
-            'name' => 'Moyen'
-        ],
-        [
-            'id' => 'critique',
-            'name' => 'Critique'
-        ]
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -61,6 +44,7 @@ class Incident extends Model
     protected function casts(): array
     {
         return [
+            'impact' => Impacts::class,
             'started_at' => 'datetime',
             'finished_at' => 'datetime',
             'is_finished' => 'boolean',

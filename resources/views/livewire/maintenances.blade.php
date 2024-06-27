@@ -102,20 +102,18 @@
                     </x-table.cell>
                     <x-table.cell>
                         <x-select
-                            :options="\BDS\Models\Maintenance::TYPES"
+                            :options="\BDS\Enums\Maintenance\Types::toSelectArray()"
                             class="select-primary"
                             wire:model.live="filters.type"
                             name="filters.type"
-                            placeholder="Tous"
                         />
                     </x-table.cell>
                     <x-table.cell>
                         <x-select
-                            :options="\BDS\Models\Maintenance::REALIZATIONS"
+                            :options="\BDS\Enums\Maintenance\Realizations::toSelectArray()"
                             class="select-primary"
                             wire:model.live="filters.realization"
                             name="filters.realization"
-                            placeholder="Tous"
                         />
                     </x-table.cell>
                     <x-table.cell>
@@ -227,20 +225,14 @@
                         </span>
                     </x-table.cell>
                     <x-table.cell>
-                        @if ($maintenance->type === 'curative')
-                            <span class="font-bold text-red-500">Curative</span>
-                        @else
-                            <span class="font-bold text-green-500">Préventive</span>
-                        @endif
+                        <span class="font-bold {{ $maintenance->type->color() }}">
+                            {{ $maintenance->type->label() }}
+                        </span>
                     </x-table.cell>
                     <x-table.cell>
-                        @if ($maintenance->realization === 'external')
-                            <span class="font-bold text-red-500">Externe</span>
-                        @elseif ($maintenance->realization === 'internal')
-                            <span class="font-bold text-green-500">Interne</span>
-                        @else
-                            <span class="font-bold text-yellow-500">Interne et Externe</span>
-                        @endif
+                        <span class="font-bold {{ $maintenance->realization->color() }}">
+                            {{ $maintenance->realization->label() }}
+                        </span>
                     </x-table.cell>
                     <x-table.cell class="capitalize">
                         {{ $maintenance->started_at->translatedFormat( 'D j M Y H:i') }}
@@ -260,7 +252,7 @@
                 <x-table.row>
                     <x-table.cell colspan="13">
                         <div class="text-center p-2">
-                            <span class="text-muted">Aucune maintenance trouvé...</span>
+                            <span class="text-muted">Aucune maintenance trouvée...</span>
                         </div>
                     </x-table.cell>
                 </x-table.row>
@@ -388,7 +380,7 @@
 
         @php $message = "Sélectionnez le type de la maintenance :<br><b>Curative:</b> Maintenance servant à réparer un accident.<br><b>Préventive:</b> Maintenance servant à éviter un accident.";@endphp
         <x-select
-            :options="\BDS\Models\Maintenance::TYPES"
+            :options="\BDS\Enums\Maintenance\Types::toSelectArray(false)"
             class="select-primary"
             wire:model="form.type"
             name="form.type"
@@ -399,7 +391,7 @@
 
         @php $message = "Sélectionnez la réalisation :<br><b>Interne:</b> Réalisé par un opérateur.<br><b>Externe:</b> Réalisé par une entreprise extérieur.<br><b>Interne et Externe:</b> Réalisé par une entreprise extérieur et un/des opérateur(s).";@endphp
         <x-select
-            :options="\BDS\Models\Maintenance::REALIZATIONS"
+            :options="\BDS\Enums\Maintenance\Realizations::toSelectArray(false)"
             class="select-primary"
             wire:model.live="form.realization"
             name="form.realization"

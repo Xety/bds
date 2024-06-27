@@ -2,6 +2,7 @@
 
 namespace BDS\Models;
 
+use BDS\Enums\Material\CleaningTypes;
 use BDS\Observers\MaterialObserver;
 use Eloquence\Behaviours\CountCache\CountedBy;
 use Eloquence\Behaviours\CountCache\HasCounts;
@@ -17,24 +18,6 @@ class Material extends Model
 {
     use HasCounts;
     use MaterialPresenter;
-
-    /**
-     * All cleaning types with their labels.
-     */
-    public const CLEANING_TYPES = [
-        [
-            'id' => 'daily',
-            'name' => 'Jour(s)'
-        ],
-        [
-            'id' => 'monthly',
-            'name' => 'Mois'
-        ],
-        [
-            'id' => 'yearly',
-            'name' => 'An(s)'
-        ]
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -69,6 +52,7 @@ class Material extends Model
     protected function casts(): array
     {
         return [
+            'cleaning_alert_frequency_type' => CleaningTypes::class,
             'selvah_cleaning_test_ph_enabled' => 'boolean',
             'cleaning_alert' => 'boolean',
             'cleaning_alert_email' => 'boolean',

@@ -3,7 +3,6 @@ namespace Tests\Feature\Controllers\Auth;
 
 use BDS\Models\User;
 use BDS\Notifications\Auth\RegisteredNotification;
-use BDS\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -71,7 +70,7 @@ class PasswordControllerTest extends TestCase
             'password_confirmation' => 'Ab123456+'
         ]);
 
-        $response->assertRedirect(RouteServiceProvider::HOME);
+        $response->assertRedirect('/');
     }
 
     public function test_show_resend_request_form_can_be_rendered(): void

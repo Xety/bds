@@ -2,8 +2,8 @@
 
 namespace BDS\Livewire\Forms;
 
+use BDS\Enums\Incident\Impacts;
 use BDS\Models\Incident;
-use BDS\Models\Material;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
@@ -40,10 +40,8 @@ class IncidentForm extends Form
     {
         return [
             'material_id' => 'required|exists:materials,id',
-            'description' => 'nullable',
-            'impact' => 'required|in:' . collect(Incident::IMPACT)->map(function ($item) {
-                    return $item['id'];
-                })->sort()->values()->implode(','),
+            'description' => 'required',
+            'impact' => ['required', Rule::enum(Impacts::class)],
             'is_finished' => 'required|boolean',
             'started_at' => 'required|date_format:"d-m-Y H:i"',
             'finished_at' => 'exclude_if:is_finished,false|date_format:"d-m-Y H:i"|required',
@@ -82,7 +80,7 @@ class IncidentForm extends Form
             'started_at' => $incident->started_at->format('d-m-Y H:i'),
             'is_finished' => $incident->is_finished,
             'finished_at' => $incident->finished_at?->format('d-m-Y H:i'),
-            'impact' => $incident->impact
+            'impact' => $incident->impact->value
         ]);
     }
 

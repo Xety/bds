@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire\Forms;
 
+use BDS\Enums\Material\CleaningTypes;
 use BDS\Models\Material;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
@@ -63,9 +64,11 @@ class MaterialForm extends Form
             'cleaning_alert' => 'required|boolean',
             'cleaning_alert_email' => 'exclude_if:cleaning_alert,false|boolean|required',
             'cleaning_alert_frequency_repeatedly' => 'exclude_if:cleaning_alert,false|numeric|between:1,365|required',
-            'cleaning_alert_frequency_type' => 'exclude_if:cleaning_alert,false|in:' . collect(Material::CLEANING_TYPES)->map(function ($item) {
-                    return $item['id'];
-                })->sort()->values()->implode(',') . '|required',
+            'cleaning_alert_frequency_type' => [
+                'exclude_if:cleaning_alert,false',
+                Rule::enum(CleaningTypes::class),
+                'required'
+            ],
         ];
     }
 
@@ -101,7 +104,7 @@ class MaterialForm extends Form
             'cleaning_alert' => $material->cleaning_alert,
             'cleaning_alert_email' => $material->cleaning_alert_email,
             'cleaning_alert_frequency_repeatedly' => $material->cleaning_alert_frequency_repeatedly,
-            'cleaning_alert_frequency_type' => $material->cleaning_alert_frequency_type
+            'cleaning_alert_frequency_type' => $material->cleaning_alert_frequency_type->value
         ]);
 
         // Selvah

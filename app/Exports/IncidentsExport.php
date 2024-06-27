@@ -1,8 +1,7 @@
 <?php
 namespace BDS\Exports;
 
-use BDS\Models\Cleaning;
-use BDS\Models\Material;
+use BDS\Models\Incident;
 use BDS\Models\Site;
 use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -17,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class CleaningsPlanExport implements
+class IncidentsExport implements
     FromQuery,
     WithStyles,
     WithMapping,
@@ -25,6 +24,28 @@ class CleaningsPlanExport implements
     WithHeadings,
     WithDefaultStyles
 {
+
+    /**
+     * The selected rows by their ids.
+     *
+     * @var array
+     */
+    private array $selected;
+
+    /**
+     * The field to sort by.
+     *
+     * @var string
+     */
+    private string $sortField;
+
+    /**
+     * The direction of the ordering.
+     *
+     * @var string
+     */
+    private string $sortDirection;
+
     /**
      * The actual site.
      *
@@ -32,17 +53,12 @@ class CleaningsPlanExport implements
      */
     private Site $site;
 
-    /**
-     * Whatever the site is Selvah or not.
-     *
-     * @var bool
-     */
-    private bool $isSelvah;
-
-    public function __construct(Site $site)
+    public function __construct(array $selected, string $sortField, string $sortDirection, Site $site)
     {
+        $this->selected = $selected;
+        $this->sortField = $sortField;
+        $this->sortDirection = $sortDirection;
         $this->site = $site;
-        $this->isSelvah = $site->id === settings('site_id_selvah');
     }
 
     /**
@@ -52,51 +68,37 @@ class CleaningsPlanExport implements
      */
     public function query(): Builder
     {
-        return Material::query()
-            ->select([
-                'id',
-                'name',
-                'description',
-                'zone_id',
-                'selvah_cleaning_test_ph_enabled',
-                'cleaning_alert',
-                'cleaning_alert_email',
-                'cleaning_alert_frequency_repeatedly',
-                'cleaning_alert_frequency_type',
-                'last_cleaning_at',
-                'last_cleaning_alert_send_at'
-            ])
-            ->whereRelation('zone.site', 'id', $this->site->id)
-            ->where('cleaning_alert', '=', true)
-            ->with(['zone'])
-            ->orderBy('cleaning_alert_frequency_type')
-            ->orderBy('cleaning_alert_frequency_repeatedly');
+        return Incident::query()
+            ->whereKey($this->selected)
+            ->with('material', 'user', 'site', 'material.zone')
+            ->orderBy($this->sortField, $this->sortDirection);
     }
 
     /**
      * Map the data returned to the Excel doc.
      *
-     * @param Material $row
+     * @param Incident $row
      */
     public function map($row): array
     {
         $data = [
-            $row->getKey(),
-            $row->name,
-            $row->description,
-            $row->zone->name,
-            "Tout les  $row->cleaning_alert_frequency_repeatedly " . $row->cleaning_alert_frequency_type->label(),
-            $row->cleaning_alert_email ? 'Oui' : 'Non',
-
+            $row->getKey()
         ];
 
-        if ($this->isSelvah) {
-            $data[] = $row->selvah_cleaning_test_ph_enabled ? 'Oui' : 'Non';
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
+            $data[] = $row->site->name;
         }
 
         array_push($data,
-            $row->last_cleaning_at?->format('d-m-Y H:i'),
-            $row->last_cleaning_alert_send_at?->format('d-m-Y H:i')
+            $row->maintenance ? $row->maintenance->getKey() : '',
+            $row->material->name,
+            $row->material->zone->name,
+            $row->user->full_name,
+            $row->description,
+            $row->impact,
+            $row->started_at->format('d-m-Y H:i'),
+            $row->finished_at ? 'Oui' :  'Non',
+            $row->finished_at?->format('d-m-Y H:i')
         );
 
         return $data;
@@ -110,22 +112,29 @@ class CleaningsPlanExport implements
     public function headings(): array
     {
         $headings = [
-            'ID',
-            'Nom du Matériel',
-            'Description',
-            'Zone',
-            'Fréquence de Nettoyage',
-            'Alerte par Email'
+            'ID'
         ];
 
-        if ($this->isSelvah) {
-            $headings[] = 'Test PH obligatoire';
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
+            $headings[] = 'Site';
         }
-        array_push($headings, 'Dernier Nettoyage', 'Alerte de dernier nettoyage');
+
+        array_push(
+            $headings,
+            'Maintenance n°',
+            'Matériel',
+            'Zone',
+            'Créateur',
+            'Description',
+            'Impact',
+            'Créé le',
+            'Résolu',
+            'Résolu le'
+        );
 
         return [
             [strtoupper($this->site->name)],
-            ['Plan de Nettoyage'],
+            ['Incidents'],
             $headings
         ];
     }
@@ -139,17 +148,19 @@ class CleaningsPlanExport implements
     {
         $data = [
             'A' => 6,
-            'B' => 30,
-            'C' => 60,
-            'D' => 20,
-            'E' => 20,
+            'B' => 20,
+            'C' => 20,
+            'D' => 17,
+            'E' => 17,
             'F' => 17,
             'G' => 17,
             'H' => 17,
+            'I' => 17,
+            'J' => 17,
         ];
 
-        if ($this->isSelvah) {
-            $data['I'] = 17;
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
+            $data['K'] = 17;
         }
 
         return $data;
@@ -184,14 +195,13 @@ class CleaningsPlanExport implements
      */
     public function styles(Worksheet $sheet): void
     {
-        $lastColumn = 'H';
+        $lastColumn = 'J';
 
-        if ($this->isSelvah) {
-            $lastColumn = 'I';
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
+            $lastColumn = 'K';
         }
-
         // Change worksheet title
-        $sheet->setTitle('Plan de Nettoyage');
+        $sheet->setTitle('Incidents');
 
         // SITE NAME
         $sheet->getRowDimension('1')
@@ -212,7 +222,7 @@ class CleaningsPlanExport implements
             ->getAllBorders()
             ->setBorderStyle(Border::BORDER_MEDIUM);
 
-        // FICHE NETTOYAGE
+        // FICHE FOURNISSEURS
         $sheet->getRowDimension('2')
             ->setRowHeight(40);
         $sheet->mergeCells('A2:' . $lastColumn . '2');
@@ -251,7 +261,7 @@ class CleaningsPlanExport implements
             ->setBorderStyle(Border::BORDER_MEDIUM);
 
         // ROWS
-        for ($i = 4; $i <= $this->query()->get()->count() + 3; $i++) {
+        for ($i = 4; $i <= count($this->selected) + 3; $i++) {
             $sheet->getStyle('A' . $i . ':' . $lastColumn . $i)
                 ->getBorders()
                 ->getAllBorders()

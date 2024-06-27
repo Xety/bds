@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Exports\MaintenancesExport;
 use BDS\Livewire\Forms\MaintenanceForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -15,6 +16,7 @@ use BDS\Models\Incident;
 use BDS\Models\Maintenance;
 use BDS\Models\Material;
 use BDS\Models\Part;
+use BDS\Models\Site;
 use BDS\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Query\Builder;
@@ -22,8 +24,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Maintenances extends Component
 {
@@ -548,5 +553,30 @@ class Maintenances extends Component
             ->merge($selectedOption);
 
         $this->form->partsSearchable = $parts;
+    }
+
+    /**
+     * Export the selected rows into an Excel file.
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function exportSelected(): BinaryFileResponse
+    {
+        $this->authorize('export', Maintenance::class);
+
+        $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
+
+        return Excel::download(
+            new MaintenancesExport(
+                $this->selectedRowsQuery->get()->pluck('id')->toArray(),
+                $this->sortField,
+                $this->sortDirection,
+                $site
+            ),
+            'maintenances-' . Str::slug($site->name) . '.xlsx'
+        );
     }
 }

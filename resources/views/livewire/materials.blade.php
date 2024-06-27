@@ -388,7 +388,7 @@
 
             @php $message = "Veuillez renseigner la fréquence de répétition de nettoyage. <br>Exemple: tout les 2 <b>jours</b>";@endphp
             <x-select
-                :options="\BDS\Models\Material::CLEANING_TYPES"
+                :options="\BDS\Enums\Material\CleaningTypes::toSelectArray(false)"
                 class="select-primary"
                 wire:model.live="form.cleaning_alert_frequency_type"
                 name="form.cleaning_alert_frequency_type"
@@ -399,7 +399,7 @@
 
             @if($form->cleaning_alert_frequency_repeatedly && $form->cleaning_alert_frequency_type)
                 <p class="my-3">
-                    La fréquence de nettoyage sera : <span class="font-bold lowercase">Tout les {{ $form->cleaning_alert_frequency_repeatedly }} {{ collect(\BDS\Models\Material::CLEANING_TYPES)->sole('id', $form->cleaning_alert_frequency_type)['name'] }}</span>
+                    La fréquence de nettoyage sera : <span class="font-bold lowercase">Tout les {{ $form->cleaning_alert_frequency_repeatedly }} {{ $form->cleaning_alert_frequency_type }}</span>
                 </p>
             @endif
         @endif

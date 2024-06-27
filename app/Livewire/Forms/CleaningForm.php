@@ -93,7 +93,7 @@ class CleaningForm extends Form
             'description' => $cleaning->description,
             'selvah_ph_test_water' => $cleaning->selvah_ph_test_water,
             'selvah_ph_test_water_after_cleaning' => $cleaning->selvah_ph_test_water_after_cleaning,
-            'type' => $cleaning->type
+            'type' => $cleaning->type->value
         ]);
     }
 

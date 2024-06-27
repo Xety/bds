@@ -2,6 +2,8 @@
 
 namespace BDS\Livewire\Forms;
 
+use BDS\Enums\Maintenance\Realizations;
+use BDS\Enums\Maintenance\Types;
 use BDS\Events\Part\AlertEvent;
 use BDS\Events\Part\CriticalAlertEvent;
 use BDS\Models\Incident;
@@ -9,6 +11,7 @@ use BDS\Models\Maintenance;
 use BDS\Models\Part;
 use BDS\Models\PartExit;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Livewire\Form;
 
 class MaintenanceForm extends Form
@@ -64,12 +67,8 @@ class MaintenanceForm extends Form
             'material_id' => 'present|numeric|exists:materials,id|nullable',
             'description' => 'required',
             'reason' => 'required',
-            'type' => 'required|in:' . collect(Maintenance::TYPES)->map(function ($item) {
-                    return $item['id'];
-                })->sort()->values()->implode(','),
-            'realization' => 'required|in:' . collect(Maintenance::REALIZATIONS)->map(function ($item) {
-                    return $item['id'];
-                })->sort()->values()->implode(','),
+            'type' => ['required', Rule::enum(Types::class)],
+            'realization' => ['required', Rule::enum(Realizations::class)],
             'operators' => 'required_if:realization,internal,both',
             'companies' => 'required_if:realization,external,both',
             'is_finished' => 'required|boolean',
@@ -134,7 +133,7 @@ class MaintenanceForm extends Form
             'description' => $maintenance->description,
             'reason' => $maintenance->reason,
             'type' => $maintenance->type,
-            'realization' => $maintenance->realization,
+            'realization' => $maintenance->realization->value,
             'incidents' => $maintenance->incidents()->pluck('id')->toArray(),
             'operators' => $maintenance->operators()->pluck('id')->toArray(),
             'companies' => $maintenance->companies()->pluck('id')->toArray(),

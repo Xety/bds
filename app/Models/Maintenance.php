@@ -2,6 +2,8 @@
 
 namespace BDS\Models;
 
+use BDS\Enums\Maintenance\Realizations;
+use BDS\Enums\Maintenance\Types;
 use BDS\Observers\MaintenanceObserver;
 use Eloquence\Behaviours\CountCache\CountedBy;
 use Eloquence\Behaviours\CountCache\HasCounts;
@@ -18,20 +20,6 @@ class Maintenance extends Model
 {
     use HasCounts;
     use MaintenancePresenter;
-
-    /**
-     * All types with their labels. (Used for radio buttons)
-     */
-    public const TYPES = [
-        [
-            'id' => 'curative',
-            'name' => 'Curative'
-        ],
-        [
-            'id' => 'preventive',
-            'name' => 'Préventive'
-        ],
-    ];
 
     /**
      * All realizations with their labels. (Used for radio buttons)
@@ -90,6 +78,8 @@ class Maintenance extends Model
     protected function casts(): array
     {
         return [
+            'type' => Types::class,
+            'realization' => Realizations::class,
             'started_at' => 'datetime',
             'finished_at' => 'datetime',
             'is_finished' => 'boolean',

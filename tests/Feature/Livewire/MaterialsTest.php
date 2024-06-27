@@ -238,7 +238,7 @@ class MaterialsTest extends TestCase
     {
         $this->actingAs(User::find(1));
 
-        Livewire::withQueryParams(['edit' => 'true', 'editid' => '1'])
+        Livewire::withQueryParams(['edit' => 'true', 'materialId' => '1'])
             ->test(Materials::class)
             ->assertSet('isCreating', false)
             ->assertSet('showModal', true);
