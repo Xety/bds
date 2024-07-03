@@ -10,14 +10,6 @@
                         </svg>
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]">
-                        @can('export', \BDS\Models\Activity::class)
-                            <li>
-                                <button type="button" class="text-blue-500" wire:click="exportSelected()">
-                                    <x-icon name="fas-download" class="h-5 w-5"></x-icon>
-                                    Exporter
-                                </button>
-                            </li>
-                        @endcan
                         @if(Gate::allows('delete',\BDS\Models\Activity::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">

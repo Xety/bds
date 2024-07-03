@@ -4,16 +4,10 @@ namespace BDS\Models\Presenters;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use BDS\Models\Session;
+use Laravolt\Avatar\Facade as Avatar;
 
 trait UserPresenter
 {
-    /**
-     * The default avatar used when there is no avatar for the user.
-     *
-     * @var string
-     */
-    protected string $defaultAvatar = '/images/avatar.png';
-
     /**
      * Get the user's avatar.
      *
@@ -22,7 +16,9 @@ trait UserPresenter
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->defaultAvatar
+            get: function() {
+                return Avatar::create($this->full_name)->toBase64();
+            }
         );
     }
 

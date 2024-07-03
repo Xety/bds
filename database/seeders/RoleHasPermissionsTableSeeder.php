@@ -16,6 +16,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         // Site
         'viewAny site',
         'view site',
+        'export site',
         'search site',
 
         // Zone
@@ -681,6 +682,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'create site',
             'update site',
             'delete site',
+            'export site',
             'search site',
 
             // Zone
@@ -800,7 +802,6 @@ class RoleHasPermissionsTableSeeder extends Seeder
             'viewAny activity',
             'view activity',
             'delete activity',
-            'export activity',
             'search activity',
 
             // Selvah CorrespondenceSheet

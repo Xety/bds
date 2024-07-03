@@ -95,7 +95,7 @@ class IncidentsExport implements
             $row->material->zone->name,
             $row->user->full_name,
             $row->description,
-            $row->impact,
+            $row->impact->label(),
             $row->started_at->format('d-m-Y H:i'),
             $row->finished_at ? 'Oui' :  'Non',
             $row->finished_at?->format('d-m-Y H:i')
@@ -148,7 +148,7 @@ class IncidentsExport implements
     {
         $data = [
             'A' => 6,
-            'B' => 20,
+            'B' => 17,
             'C' => 20,
             'D' => 17,
             'E' => 17,

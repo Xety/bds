@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire;
 
+use BDS\Exports\MaterialsExport;
 use BDS\Livewire\Forms\MaterialForm;
 use BDS\Livewire\Traits\WithBulkActions;
 use BDS\Livewire\Traits\WithCachedRows;
@@ -12,6 +13,7 @@ use BDS\Livewire\Traits\WithSorting;
 use BDS\Livewire\Traits\WithToast;
 use BDS\Models\Material;
 use BDS\Models\Part;
+use BDS\Models\Site;
 use BDS\Models\User;
 use BDS\Models\Zone;
 use Carbon\Carbon;
@@ -21,9 +23,12 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 use ReflectionException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Materials extends Component
 {
@@ -422,5 +427,30 @@ class Materials extends Component
             ->merge($selectedOption);
 
         $this->form->recipientsMultiSearchable = $recipients;
+    }
+
+    /**
+     * Export the selected rows into an Excel file.
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function exportSelected(): BinaryFileResponse
+    {
+        $this->authorize('export', Material::class);
+
+        $site = Site::find(getPermissionsTeamId(), ['id', 'name']);
+
+        return Excel::download(
+            new MaterialsExport(
+                $this->selectedRowsQuery->get()->pluck('id')->toArray(),
+                $this->sortField,
+                $this->sortDirection,
+                $site
+            ),
+            'materiels-' . Str::slug($site->name) . '.xlsx'
+        );
     }
 }

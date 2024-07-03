@@ -1,7 +1,6 @@
 <?php
 namespace BDS\Exports;
 
-use BDS\Models\Maintenance;
 use BDS\Models\Site;
 use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -16,7 +15,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class MaintenancesExport implements
+class SitesExport implements
     FromQuery,
     WithStyles,
     WithMapping,
@@ -68,39 +67,40 @@ class MaintenancesExport implements
      */
     public function query(): Builder
     {
-        return Maintenance::query()
+        return Site::query()
             ->whereKey($this->selected)
-            ->with('material', 'user', 'site', 'material.zone')
+            ->with('managers')
             ->orderBy($this->sortField, $this->sortDirection);
     }
 
     /**
      * Map the data returned to the Excel doc.
      *
-     * @param Maintenance $row
+     * @param Site $row
      */
     public function map($row): array
     {
         $data = [
-            $row->getKey()
+            $row->getKey(),
+            $row->name
         ];
 
-        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $data[] = $row->site->name;
+        $managers = '';
+        foreach ($row->managers as $manager) {
+            $managers .= $manager->full_name . PHP_EOL;
         }
 
         array_push($data,
-            $row->gmao_id,
-            $row->material->name,
-            $row->material->zone->name,
-            $row->user->full_name,
-            $row->description,
-            $row->reason,
-            $row->type->label(),
-            $row->realization->label(),
-            $row->started_at->format('d-m-Y H:i'),
-            $row->finished_at ? 'Oui' :  'Non',
-            $row->finished_at?->format('d-m-Y H:i')
+            $managers,
+            $row->zone_count,
+            $row->email,
+            $row->office_phone,
+            $row->cell_phone,
+            $row->address,
+            $row->zip_code,
+            $row->city,
+            $row->created_at->format('d-m-Y H:i'),
+            $row->updated_at?->format('d-m-Y H:i')
         );
 
         return $data;
@@ -114,31 +114,23 @@ class MaintenancesExport implements
     public function headings(): array
     {
         $headings = [
-            'ID'
+            'ID',
+            'Nom',
+            'Responsables',
+            'Nb de Zone',
+            'Email',
+            'Tel bureau',
+            'Tel portable',
+            'Adresse',
+            'Code Postal',
+            'Ville',
+            'Créé le',
+            'Mis à jour le'
         ];
-
-        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $headings[] = 'Site';
-        }
-
-        array_push(
-            $headings,
-            'GMAO ID',
-            'Matériel',
-            'Zone',
-            'Créateur',
-            'Description',
-            'Reason',
-            'Type',
-            'Realisation',
-            'Créée le',
-            'Résolu',
-            'Finie le'
-        );
 
         return [
             [strtoupper($this->site->name)],
-            ['Maintenances'],
+            ['Sites'],
             $headings
         ];
     }
@@ -153,21 +145,17 @@ class MaintenancesExport implements
         $data = [
             'A' => 6,
             'B' => 17,
-            'C' => 20,
+            'C' => 17,
             'D' => 17,
-            'E' => 17,
+            'E' => 25,
             'F' => 17,
             'G' => 17,
-            'H' => 17,
+            'H' => 25,
             'I' => 17,
-            'J' => 17,
+            'J' => 20,
             'K' => 17,
             'L' => 17,
         ];
-
-        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $data['M'] = 17;
-        }
 
         return $data;
     }
@@ -203,11 +191,8 @@ class MaintenancesExport implements
     {
         $lastColumn = 'L';
 
-        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $lastColumn = 'M';
-        }
         // Change worksheet title
-        $sheet->setTitle('Maintenances');
+        $sheet->setTitle('Sites');
 
         // SITE NAME
         $sheet->getRowDimension('1')

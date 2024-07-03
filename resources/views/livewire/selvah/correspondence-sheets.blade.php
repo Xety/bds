@@ -57,7 +57,7 @@
                         <div class="tooltip" data-tip="{{ $online ? $sheet->user->full_name.' est en ligne' : $sheet->user->full_name.' est hors ligne' }}" >
                             <div class="avatar {{ $online ? 'online' : 'offline' }}">
                                 <div class="mask mask-squircle w-12 h-12 {{ $online ? 'tooltip' : '' }}">
-                                    <img src="{{ asset($sheet->user->avatar) }}" alt="Avatar de {{ $sheet->user->full_name }}"/>
+                                    <img src="{{ $sheet->user->avatar }}" alt="Avatar de {{ $sheet->user->full_name }}"/>
                                 </div>
                             </div>
                         </div>

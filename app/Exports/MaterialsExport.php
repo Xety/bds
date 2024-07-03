@@ -1,7 +1,7 @@
 <?php
 namespace BDS\Exports;
 
-use BDS\Models\Maintenance;
+use BDS\Models\Material;
 use BDS\Models\Site;
 use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -16,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class MaintenancesExport implements
+class MaterialsExport implements
     FromQuery,
     WithStyles,
     WithMapping,
@@ -53,12 +53,20 @@ class MaintenancesExport implements
      */
     private Site $site;
 
+    /**
+     * Whatever the site is Selvah or not.
+     *
+     * @var bool
+     */
+    private bool $isSelvah;
+
     public function __construct(array $selected, string $sortField, string $sortDirection, Site $site)
     {
         $this->selected = $selected;
         $this->sortField = $sortField;
         $this->sortDirection = $sortDirection;
         $this->site = $site;
+        $this->isSelvah = $site->id === settings('site_id_selvah');
     }
 
     /**
@@ -68,39 +76,51 @@ class MaintenancesExport implements
      */
     public function query(): Builder
     {
-        return Maintenance::query()
+        return Material::query()
             ->whereKey($this->selected)
-            ->with('material', 'user', 'site', 'material.zone')
+            ->with('zone', 'zone.site', 'user')
             ->orderBy($this->sortField, $this->sortDirection);
     }
 
     /**
      * Map the data returned to the Excel doc.
      *
-     * @param Maintenance $row
+     * @param Material $row
      */
     public function map($row): array
     {
         $data = [
-            $row->getKey()
+            $row->getKey(),
+            $row->name,
+            $row->description,
+            $row->zone->name,
+            $row->user->full_name,
         ];
 
-        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $data[] = $row->site->name;
+        if (getPermissionsTeamId() === settings('site_id_verdun_siege') && !$this->isSelvah) {
+            $data[] = $row->zone->site->name;
         }
 
         array_push($data,
-            $row->gmao_id,
-            $row->material->name,
-            $row->material->zone->name,
-            $row->user->full_name,
-            $row->description,
-            $row->reason,
-            $row->type->label(),
-            $row->realization->label(),
-            $row->started_at->format('d-m-Y H:i'),
-            $row->finished_at ? 'Oui' :  'Non',
-            $row->finished_at?->format('d-m-Y H:i')
+            $row->qrcode_flash_count,
+            $row->incident_count,
+            $row->part_count,
+            $row->maintenance_count,
+            $row->cleaning_count,
+        );
+
+        if ($this->isSelvah) {
+            $data[] = $row->selvah_cleaning_test_ph_enabled ? 'Oui' : 'Non';
+        }
+
+        array_push($data,
+            $row->cleaning_alert ? 'Oui' : 'Non',
+            $row->cleaning_alert_email ? 'Oui' : 'Non',
+            "Tout les  $row->cleaning_alert_frequency_repeatedly " . $row->cleaning_alert_frequency_type->label(),
+            $row->last_cleaning_at?->format('d-m-Y H:i'),
+            $row->last_cleaning_alert_send_at?->format('d-m-Y H:i'),
+            $row->created_at->format('d-m-Y H:i'),
+            $row->updated_at?->format('d-m-Y H:i')
         );
 
         return $data;
@@ -114,31 +134,35 @@ class MaintenancesExport implements
     public function headings(): array
     {
         $headings = [
-            'ID'
-        ];
-
-        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $headings[] = 'Site';
-        }
-
-        array_push(
-            $headings,
-            'GMAO ID',
-            'Matériel',
+            'ID',
+            'Nom',
+            'Description',
             'Zone',
             'Créateur',
-            'Description',
-            'Reason',
-            'Type',
-            'Realisation',
-            'Créée le',
-            'Résolu',
-            'Finie le'
+            'Nb flash QR Code',
+            'Nb d\'incidents',
+            'Nb pièces d\'étachées',
+            'Nb de maintenances',
+            'Nb de nettoyages',
+        ];
+
+        if ($this->isSelvah) {
+            $headings[] = 'Test PH obligatoire';
+        }
+        array_push(
+            $headings,
+            'Alerte nettoyage',
+            'Alerte nettoyage Email',
+            'Fréquence',
+            'Dernier Nettoyage',
+            'Alerte de dernier nettoyage',
+            'Créé le',
+            'Mis à jour le'
         );
 
         return [
             [strtoupper($this->site->name)],
-            ['Maintenances'],
+            ['Matériels'],
             $headings
         ];
     }
@@ -152,9 +176,9 @@ class MaintenancesExport implements
     {
         $data = [
             'A' => 6,
-            'B' => 17,
-            'C' => 20,
-            'D' => 17,
+            'B' => 30,
+            'C' => 50,
+            'D' => 20,
             'E' => 17,
             'F' => 17,
             'G' => 17,
@@ -163,10 +187,15 @@ class MaintenancesExport implements
             'J' => 17,
             'K' => 17,
             'L' => 17,
+            'M' => 17,
+            'N' => 17,
+            'O' => 17,
+            'P' => 17,
+            'Q' => 17
         ];
 
-        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $data['M'] = 17;
+        if ($this->isSelvah) {
+            $data['R'] = 17;
         }
 
         return $data;
@@ -201,13 +230,13 @@ class MaintenancesExport implements
      */
     public function styles(Worksheet $sheet): void
     {
-        $lastColumn = 'L';
+        $lastColumn = 'Q';
 
-        if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $lastColumn = 'M';
+        if ($this->isSelvah) {
+            $lastColumn = 'R';
         }
         // Change worksheet title
-        $sheet->setTitle('Maintenances');
+        $sheet->setTitle('Matériels');
 
         // SITE NAME
         $sheet->getRowDimension('1')
@@ -228,7 +257,7 @@ class MaintenancesExport implements
             ->getAllBorders()
             ->setBorderStyle(Border::BORDER_MEDIUM);
 
-        // FICHE FOURNISSEURS
+        // FICHE NETTOYAGE
         $sheet->getRowDimension('2')
             ->setRowHeight(40);
         $sheet->mergeCells('A2:' . $lastColumn . '2');

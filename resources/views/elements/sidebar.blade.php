@@ -205,7 +205,7 @@
                 <x-slot:trigger>
                     <label tabindex="0" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
-                            <img src="{{ asset(Auth::user()->avatar) }}"  alt="User avatar" />
+                            <img src="{{ Auth::user()->avatar }}"  alt="User avatar" />
                         </div>
                     </label>
                 </x-slot:trigger>

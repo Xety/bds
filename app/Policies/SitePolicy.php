@@ -54,6 +54,14 @@ class SitePolicy
     }
 
     /**
+     * Determine whether the user can export the model.
+     */
+    public function export(User $user): bool
+    {
+        return $user->can('export site');
+    }
+
+    /**
      * Determine whether the user can search in the model.
      */
     public function search(User $user): bool

@@ -2,6 +2,7 @@
 
 namespace BDS\Livewire\Traits;
 
+use BDS\Models\Material;
 use BDS\Models\PartEntry;
 use BDS\Models\PartExit;
 use Illuminate\Database\Eloquent\Builder;
@@ -129,6 +130,10 @@ trait WithBulkActions
                     });
                 }
 
+                if ($this->model === Material::class) {
+                    return $query->whereRelation('zone.site', 'id', getPermissionsTeamId());
+                }
+
                 return $query->where('site_id', getPermissionsTeamId());
             }, function($query) {
                 if (!$this->hasSite) {
@@ -139,6 +144,10 @@ trait WithBulkActions
                     return $query->whereHas('part', function ($partQuery) {
                         $partQuery->where('site_id', getPermissionsTeamId());
                     });
+                }
+
+                if ($this->model === Material::class) {
+                    return $query->whereRelation('zone.site', 'id', getPermissionsTeamId());
                 }
 
                 return $query->where('site_id', getPermissionsTeamId());

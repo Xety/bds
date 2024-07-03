@@ -34,14 +34,6 @@ class ActivityPolicy
     }
 
     /**
-     * Determine whether the user can export models.
-     */
-    public function export(User $user): bool
-    {
-        return $user->can('export activity');
-    }
-
-    /**
      * Determine whether the user can search in the model.
      */
     public function search(User $user): bool

@@ -16,6 +16,7 @@
         "laravel/pulse": "^1.2.3",
         "laravel/tinker": "^2.9.0",
         "laravel/ui": "^4.5.2",
+        "laravolt/avatar": "^5.1",
         "league/flysystem-aws-s3-v3": "^3.28.0",
         "livewire/livewire": "^3.5.0",
         "livewire/volt": "^1.6.5",

@@ -144,7 +144,7 @@
                             <div class="tooltip" data-tip="{{ $online ? $user->full_name.' est en ligne' : $user->full_name.' est hors ligne' }}" >
                                 <div class="avatar {{ $online ? 'online' : 'offline' }}">
                                     <div class="mask mask-squircle w-12 h-12 {{ $online ? 'tooltip' : '' }}">
-                                        <img src="{{ asset($user->avatar) }}" alt="Avatar de {{ $user->full_name }}"/>
+                                        <img src="{{ $user->avatar }}" alt="Avatar de {{ $user->full_name }}"/>
                                     </div>
                                 </div>
                             </div>

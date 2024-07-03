@@ -56,7 +56,8 @@ class Material extends Model
             'selvah_cleaning_test_ph_enabled' => 'boolean',
             'cleaning_alert' => 'boolean',
             'cleaning_alert_email' => 'boolean',
-            'last_cleaning_at' => 'datetime'
+            'last_cleaning_at' => 'datetime',
+            'last_cleaning_alert_send_at' => 'datetime'
         ];
     }
 

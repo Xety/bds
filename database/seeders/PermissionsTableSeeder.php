@@ -402,6 +402,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'name' => 'export site',
+                'guard_name' => 'web',
+                'description' => 'L\'utilisateur peut exporter les sites.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'search site',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut rechercher des sites.',
@@ -883,13 +890,6 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'delete activity',
                 'guard_name' => 'web',
                 'description' => 'L\'utilisateur peut supprimer une activité.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'export activity',
-                'guard_name' => 'web',
-                'description' => 'L\'utilisateur peut exporter les activités.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

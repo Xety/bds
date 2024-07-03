@@ -132,7 +132,7 @@ class MaintenanceForm extends Form
             'material_id' => $maintenance->material_id,
             'description' => $maintenance->description,
             'reason' => $maintenance->reason,
-            'type' => $maintenance->type,
+            'type' => $maintenance->type->value,
             'realization' => $maintenance->realization->value,
             'incidents' => $maintenance->incidents()->pluck('id')->toArray(),
             'operators' => $maintenance->operators()->pluck('id')->toArray(),
