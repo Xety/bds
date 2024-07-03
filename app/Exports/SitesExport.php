@@ -142,7 +142,7 @@ class SitesExport implements
      */
     public function columnWidths(): array
     {
-        $data = [
+        return [
             'A' => 6,
             'B' => 17,
             'C' => 17,
@@ -156,8 +156,6 @@ class SitesExport implements
             'K' => 17,
             'L' => 17,
         ];
-
-        return $data;
     }
 
     /**
