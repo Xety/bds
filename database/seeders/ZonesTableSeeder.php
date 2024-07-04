@@ -114,7 +114,7 @@ class ZonesTableSeeder extends Seeder
             array (
                 'created_at' => '2023-08-09 22:02:34',
                 'id' => 10,
-                'material_count' => 0,
+                'material_count' => 1,
                 'name' => '1 ère Pression',
                 'parent_id' => 9,
                 'allow_material' => true,
@@ -246,7 +246,7 @@ class ZonesTableSeeder extends Seeder
             array (
                 'created_at' => '2023-08-09 22:02:34',
                 'id' => 23,
-                'material_count' => 0,
+                'material_count' => 2,
                 'name' => 'Silo 1971',
                 'parent_id' => 22,
                 'allow_material' => false,

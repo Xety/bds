@@ -317,7 +317,6 @@ class PartExits extends Component
         $this->form->setPartExit($partExit);
         $this->form->isCreating = false;
 
-        $this->searchPart();
         $this->searchMaintenance();
 
         $this->showModal = true;

@@ -2,6 +2,9 @@
 
 namespace BDS\Observers;
 
+use BDS\Models\Cleaning;
+use BDS\Models\Incident;
+use BDS\Models\Maintenance;
 use Illuminate\Support\Facades\Auth;
 use BDS\Models\Material;
 
@@ -20,11 +23,20 @@ class MaterialObserver
      */
     public function deleting(Material $material): void
     {
+        // Detach all parts related to the material
         $parts = $material->parts;
-
         foreach ($parts as $part) {
             $part->materials()->detach($material->getKey());
         }
+
+        // Delete all incidents related to the material
+        Incident::destroy($material->incidents->pluck('id')->toArray());
+
+        // Delete all maintenances related to the material
+        Maintenance::destroy($material->maintenances->pluck('id')->toArray());
+
+        // Delete all cleanings related to the material
+        Cleaning::destroy($material->cleanings->pluck('id')->toArray());
     }
 
     /**
