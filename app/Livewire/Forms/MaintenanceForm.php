@@ -18,7 +18,7 @@ class MaintenanceForm extends Form
 {
     public ?Maintenance $maintenance;
 
-    public ?int $gmao_id = null;
+    public ?string $gmao_id = null;
 
     public ?int $material_id = null;
 

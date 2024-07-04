@@ -198,9 +198,11 @@
                         @endif
                     </x-table.cell>
                     <x-table.cell>
-                        <a class="link link-hover link-primary font-bold" href="{{ $maintenance->material->show_url }}">
-                            {{ $maintenance->material->name }}
-                        </a>
+                        @if($maintenance->material)
+                            <a class="link link-hover link-primary font-bold" href="{{ $maintenance->material->show_url }}">
+                                {{ $maintenance->material->name }}
+                            </a>
+                        @endif
                     </x-table.cell>
                     @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
                         <x-table.cell>

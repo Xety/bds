@@ -22,24 +22,6 @@ class Maintenance extends Model
     use MaintenancePresenter;
 
     /**
-     * All realizations with their labels. (Used for radio buttons)
-     */
-    public const REALIZATIONS = [
-        [
-            'id' => 'internal',
-            'name' => 'Interne'
-        ],
-        [
-            'id' => 'external',
-            'name' => 'Externe'
-        ],
-        [
-            'id' => 'both',
-            'name' => 'Interne et Externe'
-        ],
-    ];
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
