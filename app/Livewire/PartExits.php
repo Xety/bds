@@ -253,7 +253,8 @@ class PartExits extends Component
                 })
                 ->when($this->filters['user'], function ($query, $search) {
                     return $query->whereHas('user', function ($partQuery) use ($search) {
-                        $partQuery->where('name', 'LIKE', '%' . $search . '%');
+                        $partQuery->where('first_name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('last_name', 'LIKE', '%' . $search . '%');
                     });
                 })
                 ->when($this->filters['description'], fn($query, $search) => $query->where('description', 'LIKE', '%' . $search . '%'))
