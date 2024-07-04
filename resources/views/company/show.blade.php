@@ -113,12 +113,11 @@
                                         </a>
                                     </x-table.cell>
                                     <x-table.cell>
-                                        @unless (is_null($maintenance->gmao_id))
-                                            <code
-                                                class="code rounded-sm">
+                                        @if ($maintenance->gmao_id)
+                                            <code class="code rounded-sm">
                                                 {{ $maintenance->gmao_id }}
                                             </code>
-                                        @endunless
+                                        @endif
                                     </x-table.cell>
                                     <x-table.cell>
                                         @unless (is_null($maintenance->material_id))
