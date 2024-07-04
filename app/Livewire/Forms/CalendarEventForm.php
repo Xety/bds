@@ -8,7 +8,7 @@ use Livewire\Form;
 
 class CalendarEventForm extends Form
 {
-    public ?CalendarEvent $calendarEvent;
+    public ?CalendarEvent $calendarEvent = null;
 
     public ?string $name = null;
 

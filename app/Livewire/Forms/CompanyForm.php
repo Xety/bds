@@ -8,7 +8,7 @@ use Livewire\Form;
 
 class CompanyForm extends Form
 {
-    public ?Company $company;
+    public ?Company $company = null;
 
     public ?string $name = null;
 
