@@ -143,20 +143,14 @@
                                             {{ $maintenance->user->full_name }}
                                         </a></x-table.cell>
                                     <x-table.cell>
-                                        @if ($maintenance->type === 'curative')
-                                            <span class="font-bold text-red-500">Curative</span>
-                                        @else
-                                            <span class="font-bold text-green-500">Préventive</span>
-                                        @endif
+                                        <span class="font-bold {{ $maintenance->type->color() }}">
+                                            {{ $maintenance->type->label() }}
+                                        </span>
                                     </x-table.cell>
                                     <x-table.cell>
-                                        @if ($maintenance->realization === 'external')
-                                            <span class="font-bold text-red-500">Externe</span>
-                                        @elseif ($maintenance->realization === 'internal')
-                                            <span class="font-bold text-green-500">Interne</span>
-                                        @else
-                                            <span class="font-bold text-yellow-500">Interne et Externe</span>
-                                        @endif
+                                        <span class="font-bold {{ $maintenance->realization->color() }}">
+                                            {{ $maintenance->realization->label() }}
+                                        </span>
                                     </x-table.cell>
                                     <x-table.cell class="capitalize">
                                         {{ $maintenance->started_at?->translatedFormat( 'D j M Y H:i') }}

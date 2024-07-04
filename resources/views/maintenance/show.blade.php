@@ -63,34 +63,18 @@
                 <div class="col-span-12 md:col-span-6 2xl:col-span-4">
                     <div class="inline-block font-bold min-w-[120px]">Type : </div>
                     <div class="inline-block prose">
-                        @if ($maintenance->type === 'curative')
-                            <code class="text-red-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                Curative
-                            </code>
-                        @else
-                            <code class="text-green-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                Préventive
-                            </code>
-                        @endif
+                        <code class="{{ $maintenance->type->color() }} bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                            {{ $maintenance->type->label() }}
+                        </code>
                     </div>
                 </div>
 
                 <div class="col-span-12 md:col-span-6 2xl:col-span-4">
                     <div class="inline-block font-bold min-w-[120px]">Réalisation : </div>
                     <div class="inline-block prose">
-                        @if ($maintenance->realization === 'external')
-                            <code class="text-red-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                Externe
-                            </code>
-                        @elseif ($maintenance->realization === 'internal')
-                            <code class="text-green-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                Interne
-                            </code>
-                        @else
-                            <code class="text-yellow-500 bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                Interne et Externe
-                            </code>
-                        @endif
+                        <code class="{{ $maintenance->realization->color() }} bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                            {{ $maintenance->realization->label() }}
+                        </code>
                     </div>
                 </div>
 
@@ -273,13 +257,9 @@
                                             <x-table.cell
                                                 class="capitalize">{{ $incident->started_at->translatedFormat( 'D j M Y H:i') }}</x-table.cell>
                                             <x-table.cell>
-                                                @if ($incident->impact == 'mineur')
-                                                    <span class="font-bold text-yellow-500">Mineur</span>
-                                                @elseif ($incident->impact == 'moyen')
-                                                    <span class="font-bold text-orange-500">Moyen</span>
-                                                @else
-                                                    <span class="font-bold text-red-500">Critique</span>
-                                                @endif
+                                                <span class="font-bold {{ $incident->impact->color() }}">
+                                                    {{ $incident->impact->label() }}
+                                                </span>
                                             </x-table.cell>
                                             <x-table.cell>
                                                 @if ($incident->is_finished)

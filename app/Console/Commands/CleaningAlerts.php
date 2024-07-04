@@ -34,7 +34,7 @@ class CleaningAlerts extends Command
 
         // Filter only the expired cleaning.
         $cleaningsExpired = $materials->filter(function ($material) {
-            $days = config('bds.cleaning.multipliers.' . $material->cleaning_alert_frequency_type) * $material->cleaning_alert_frequency_repeatedly;
+            $days = config('bds.cleaning.multipliers.' . $material->cleaning_alert_frequency_type->value) * $material->cleaning_alert_frequency_repeatedly;
 
             // If the last cleaning at is null that mean there's no cleaning at all, so return directly true.
             if ($material->last_cleaning_at === null) {

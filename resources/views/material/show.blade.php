@@ -581,7 +581,7 @@
                                             {{ $cleaning->type->label() }}
                                         </x-table.cell>
                                         <x-table.cell>
-                                            @if ($cleaning->type == 'weekly' && $cleaning->ph_test_water !== null)
+                                            @if ($cleaning->type->value == 'weekly' && $cleaning->ph_test_water !== null)
                                                 <code class="code rounded-sm">
                                                     @if ($cleaning->ph_test_water !== $cleaning->ph_test_water_after_cleaning)
                                                         <span class="font-bold text-red-500">
@@ -596,7 +596,7 @@
                                             @endif
                                         </x-table.cell>
                                         <x-table.cell>
-                                            @if ($cleaning->type == 'weekly' && $cleaning->ph_test_water_after_cleaning !== null)
+                                            @if ($cleaning->type->value == 'weekly' && $cleaning->ph_test_water_after_cleaning !== null)
                                                 <code class="code rounded-sm">
                                                     @if ($cleaning->ph_test_water_after_cleaning !== $cleaning->ph_test_water)
                                                         <span class="font-bold text-red-500">
