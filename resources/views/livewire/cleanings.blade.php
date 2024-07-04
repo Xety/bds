@@ -187,7 +187,7 @@
                     </x-table.cell>
                     @if(session('current_site_id') == 2)
                         <x-table.cell>
-                            @if ($cleaning->type == 'weekly' && $cleaning->selvah_ph_test_water !== null)
+                            @if ($cleaning->type->value == 'weekly' && $cleaning->selvah_ph_test_water !== null)
                                 <code class="code rounded-sm">
                                     @if ($cleaning->selvah_ph_test_water !== $cleaning->selvah_ph_test_water_after_cleaning)
                                         <span class="font-bold text-red-500">
@@ -202,16 +202,16 @@
                             @endif
                         </x-table.cell>
                         <x-table.cell>
-                            @if ($cleaning->type == 'weekly' && $cleaning->selvah_ph_test_water_after_cleaning !== null)
+                            @if ($cleaning->type->value == 'weekly' && $cleaning->selvah_ph_test_water_after_cleaning !== null)
                                 <code class="code rounded-sm">
                                     @if ($cleaning->selvah_ph_test_water_after_cleaning !== $cleaning->selvah_ph_test_water)
                                         <span class="font-bold text-red-500">
-                                        {{ $cleaning->selvah_ph_test_water_after_cleaning }}
-                                    </span>
+                                            {{ $cleaning->selvah_ph_test_water_after_cleaning }}
+                                        </span>
                                     @else
                                         <span class="font-bold text-green-500">
-                                        {{ $cleaning->selvah_ph_test_water_after_cleaning }}
-                                    </span>
+                                            {{ $cleaning->selvah_ph_test_water_after_cleaning }}
+                                        </span>
                                     @endif
                                 </code>
                             @endif
