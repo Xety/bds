@@ -338,7 +338,15 @@ class DashboardController extends Controller
             'Parts.count.total_part_out_of_stock.'. $site,
             config('bds.cache.parts.total_part_out_of_stock'),
             function () {
-                return number_format(PartExit::sum(DB::raw('number')));
+                return number_format(
+                    PartExit::query()
+                        ->whereHas('part', function($query) {
+                            if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+                                $query->where('site_id', getPermissionsTeamId());
+                            }
+                        })
+                        ->sum(DB::raw('number'))
+                );
             }
         );
         $viewDatas[] = 'totalPartOutOfStock';
@@ -348,7 +356,15 @@ class DashboardController extends Controller
             'Parts.count.total_part_get_in_stock.'. $site,
             config('bds.cache.parts.total_part_get_in_stock'),
             function () {
-                return number_format(PartEntry::sum(DB::raw('number')));
+                return number_format(
+                    PartEntry::query()
+                        ->whereHas('part', function($query) {
+                            if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
+                                $query->where('site_id', getPermissionsTeamId());
+                            }
+                        })
+                        ->sum(DB::raw('number'))
+                );
             }
         );
         $viewDatas[] = 'totalPartGetInStock';
