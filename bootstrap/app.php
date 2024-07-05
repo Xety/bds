@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -55,4 +56,17 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->error("Vous n'avez pas l'autorisation d'accéder à cette page !");
             }
         });
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        // Users Deactivate
+        $schedule->command('users:deactivate')->everyFifteenMinutes();
+
+        if (\Illuminate\Support\Facades\App::environment() == 'production') {
+            // Backup Database
+            $schedule->command('backup:clean')->daily()->at('01:00');
+            $schedule->command('backup:run')->daily()->at('01:30');
+
+            // Cleaning Alerts
+            //$schedule->command('cleaning:alert')->everyFifteenMinutes();
+        }
     })->create();
