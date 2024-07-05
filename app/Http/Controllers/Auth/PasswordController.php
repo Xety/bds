@@ -12,7 +12,6 @@ use Illuminate\View\View;
 use BDS\Http\Controllers\Controller;
 use BDS\Models\User;
 use BDS\Models\Validators\PasswordResetValidator;
-use BDS\Providers\RouteServiceProvider;
 
 class PasswordController extends Controller
 {
@@ -23,7 +22,7 @@ class PasswordController extends Controller
      *
      * @var string
      */
-    protected string $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = '/';
 
     /**
      * Create a new controller instance.
