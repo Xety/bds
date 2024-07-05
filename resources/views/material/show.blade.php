@@ -585,12 +585,12 @@
                                                 <code class="code rounded-sm">
                                                     @if ($cleaning->selvah_ph_test_water !== $cleaning->selvah_ph_test_water_after_cleaning)
                                                         <span class="font-bold text-red-500">
-                                                        {{ $cleaning->selvah_ph_test_water }}
-                                                    </span>
+                                                            {{ $cleaning->selvah_ph_test_water }}
+                                                        </span>
                                                     @else
                                                         <span class="font-bold text-green-500">
-                                                        {{ $cleaning->selvah_ph_test_water }}
-                                                    </span>
+                                                            {{ $cleaning->selvah_ph_test_water }}
+                                                        </span>
                                                     @endif
                                                 </code>
                                             @endif
@@ -600,12 +600,12 @@
                                                 <code class="code rounded-sm">
                                                     @if ($cleaning->selvah_ph_test_water_after_cleaning !== $cleaning->selvah_ph_test_water)
                                                         <span class="font-bold text-red-500">
-                                                        {{ $cleaning->selvah_ph_test_water_after_cleaning }}
-                                                    </span>
+                                                            {{ $cleaning->selvah_ph_test_water_after_cleaning }}
+                                                        </span>
                                                     @else
                                                         <span class="font-bold text-green-500">
-                                                        {{ $cleaning->selvah_ph_test_water_after_cleaning }}
-                                                    </span>
+                                                            {{ $cleaning->selvah_ph_test_water_after_cleaning }}
+                                                        </span>
                                                     @endif
                                                 </code>
                                             @endif
