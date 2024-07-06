@@ -38,6 +38,8 @@ class MaterialForm extends Form
     // Options list
     public Collection|array $recipientsMultiSearchable = [];
 
+    public Collection|array $zonesSearchable = [];
+
     /**
      * Rules used for validating the model.
      *

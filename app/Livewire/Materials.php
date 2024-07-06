@@ -252,12 +252,7 @@ class Materials extends Component
     public function render(): View
     {
         return view('livewire.materials', [
-            'materials' => $this->rows,
-            'users' => User::pluck('username', 'id')->toArray(),
-            'zones' => Zone::where('site_id', getPermissionsTeamId())
-                ->where('allow_material', true)
-                ->orderBy('name')
-                ->get()
+            'materials' => $this->rows
         ]);
     }
 
@@ -329,6 +324,7 @@ class Materials extends Component
         $this->form->reset();
         $this->form->zone_id = $zone->id;
         $this->searchRecipients();
+        $this->searchZone();
 
         $this->showModal = true;
     }
@@ -352,6 +348,7 @@ class Materials extends Component
 
         $this->form->setMaterial($material, $recipients);
         $this->searchRecipients();
+        $this->searchZone();
 
         $this->showModal = true;
     }
@@ -427,6 +424,31 @@ class Materials extends Component
             ->merge($selectedOption);
 
         $this->form->recipientsMultiSearchable = $recipients;
+    }
+
+    /**
+     * Function to search zones in form.
+     *
+     * @param string $value
+     *
+     * @return void
+     */
+    public function searchZone(string $value = ''): void
+    {
+        $selectedOption = Zone::where('id', $this->form->zone_id)->get();
+
+        $zones = Zone::query()
+            ->with(['parent', 'site'])
+            ->where('allow_material', true)
+            ->where('name', 'like', "%$value%")
+            ->whereRelation('site', 'id', getPermissionsTeamId());
+
+        $zones = $zones->take(10)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
+
+        $this->form->zonesSearchable = $zones;
     }
 
     /**

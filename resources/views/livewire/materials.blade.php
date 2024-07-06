@@ -314,15 +314,46 @@
         <x-input wire:model="form.name" name="form.name" label="Nom" placeholder="Nom..." type="text" />
 
         @php $message = "Sélectionnez la zone dans laquelle le matériel appartient.";@endphp
-        <x-select
-            :options="$zones"
-            class="select-primary"
-            wire:model="form.zone_id"
-            name="form.zone_id"
+        <x-choices
             label="Zone"
             :label-info="$message"
-            placeholder="Sélectionnez la Zone"
-        />
+            wire:model="form.zone_id"
+            :options="$form->zonesSearchable"
+            search-function="searchZone"
+            no-result-text="Aucun résultat..."
+            debounce="300ms"
+            min-chars="2"
+            single
+            searchable>
+
+            {{-- Item slot--}}
+            @scope('item', $option)
+            <x-list-item :item="$option">
+                <x-slot:avatar>
+                    <x-icon name="fas-map-signs" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                </x-slot:avatar>
+
+                <x-slot:value>
+                    {{ $option->name }} ({{ $option->id }})
+                </x-slot:value>
+
+                <x-slot:sub-value>
+                    {{ $option->site->name }}
+                </x-slot:sub-value>
+
+                @if($option->parent)
+                    <x-slot:actions>
+                        {{ $option->parent->name }}
+                    </x-slot:actions>
+                @endif
+            </x-list-item>
+            @endscope
+
+            {{-- Selection slot--}}
+            @scope('selection', $option)
+            {{ $option->name }} ({{ $option->id }})
+            @endscope
+        </x-choices>
 
         @php $message = "Veuillez décrire au mieux le matériel.";@endphp
         <x-textarea wire:model="form.description" name="form.description" label="Description du matériel" placeholder="Description du matériel..." rows="3" :label-info="$message" />
