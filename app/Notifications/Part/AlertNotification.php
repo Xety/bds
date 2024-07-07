@@ -46,7 +46,7 @@ class AlertNotification extends Notification
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage())
-            ->line(new HtmlString('Vous recevez cet email à la suite d\'une <strong>alerte critique</strong> de stock sur la pièce suivante:'))
+            ->line(new HtmlString('Vous recevez cet email à la suite d\'une <strong>alerte critique</strong> de stock sur la pièce suivante :'))
             ->line(new HtmlString('<p class="light-layer">' . $this->part->name . '</p>'))
             ->line(new HtmlString('Il reste actuellement <strong>' . $this->part->stock_total . '</strong> pièce(s) en stock pour une alerte critique à <strong>' . $this->part->number_critical_minimum . '</strong> pièce(s).'))
             ->action('Voir la pièce détachée', $this->part->show_url)

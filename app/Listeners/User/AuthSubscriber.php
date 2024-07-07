@@ -3,9 +3,7 @@
 namespace BDS\Listeners\User;
 
 use Illuminate\Events\Dispatcher;
-use Illuminate\Support\Facades\Notification;
 use BDS\Events\Auth\RegisteredEvent;
-use BDS\Notifications\Auth\RegisteredNotification;
 
 class AuthSubscriber
 {

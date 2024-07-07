@@ -2,8 +2,8 @@
 
 namespace BDS\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use BDS\Http\Controllers\Controller;
 use BDS\Models\Zone;
 
 class ZoneController extends Controller
@@ -35,5 +35,22 @@ class ZoneController extends Controller
         );
 
         return view('zone.index', compact('breadcrumbs'));
+    }
+
+    /**
+     * Show the zone.
+     *
+     * @param Zone $zone The zone model to show.
+     *
+     * @return View|RedirectResponse
+     */
+    public function show(Zone $zone): View|RedirectResponse
+    {
+        $this->authorize('view', $zone);
+
+
+
+
+        return view('zone.show', compact('breadcrumbs', 'zone'));
     }
 }

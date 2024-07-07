@@ -27,7 +27,7 @@ class PartController extends Controller
     /**
      * Show all the materials.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index(): View
     {
@@ -43,7 +43,7 @@ class PartController extends Controller
      *
      * @param Part $part The part model to show.
      *
-     * @return \Illuminate\View\View|Illuminate\Http\RedirectResponse
+     * @return View|RedirectResponse
      */
     public function show(Part $part): View|RedirectResponse
     {
@@ -59,7 +59,7 @@ class PartController extends Controller
         $chart = Cache::remember(
             'Part.part-entries.part-exits.count.last_12months.' . $part->getKey(),
             config('bds.cache.parts.part_entries_part_exits_count_last_12_months'),
-            function () use($part) {
+            function() use($part) {
                 $partsEntriesData = [];
                 $partsExitsData = [];
                 $monthsData = [];
@@ -86,6 +86,7 @@ class PartController extends Controller
                 $array['months'] = array_reverse($monthsData);
                 $array['parts-entries'] = array_reverse($partsEntriesData);
                 $array['parts-exits'] = array_reverse($partsExitsData);
+
                 return $array;
             }
         );
