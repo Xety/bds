@@ -17,7 +17,7 @@ class AlertNotification extends Notification
      */
     public function __construct(
         public Part $part,
-        private readonly bool $critical
+        private bool $critical = false
     )
     {
     }
