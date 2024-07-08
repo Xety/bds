@@ -19,7 +19,7 @@
     {{-- Footer --}}
     <x-slot:footer>
         <x-mail::footer>
-            © {{ date('Y') }} {{ isset($part) ? $part->site->name : config('bds.info.full_name') }}. Tous droits réservés.
+            © {{ date('Y') }} {{ config('bds.info.full_name') }}. Tous droits réservés.
         </x-mail::footer>
     </x-slot:footer>
 </x-mail::layout>
