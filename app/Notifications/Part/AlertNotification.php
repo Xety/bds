@@ -16,8 +16,8 @@ class AlertNotification extends Notification
      * Create a new notification instance.
      */
     public function __construct(
-        public Part $part,
-        private bool $critical = false
+        private Part $part,
+        private bool $critical
     )
     {
     }

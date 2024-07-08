@@ -41,7 +41,6 @@
 @else
 @lang('Cordialement'),<br>
 L'équipe de la {{ config('bds.info.full_name') }}
-    {{ isset($part) ? $part->site->name : 'TEST' }}
 @endif
 
 {{-- Subcopy --}}

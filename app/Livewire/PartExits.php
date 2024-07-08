@@ -402,7 +402,7 @@ class PartExits extends Component
             ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
 
         $maintenances = $maintenances->take(10)
-            ->orderBy('id')
+            ->orderByDesc('id')
             ->get()
             ->merge($selectedOption);
 
