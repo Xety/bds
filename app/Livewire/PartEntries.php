@@ -108,6 +108,13 @@ class PartEntries extends Component
     public null|int $partId = null;
 
     /**
+     * Whatever the partId is verified.
+     *
+     * @var false
+     */
+    public bool $isPartVerified = false;
+
+    /**
      * Array of allowed fields.
      *
      * @var array
@@ -187,7 +194,6 @@ class PartEntries extends Component
             $this->viewOtherSitePartEntry = true;
         }
 
-
         // Check if the create option is set into the url, and if yes, open the Create Modal (if the user has the permissions).
         if ($this->creating === true && $this->partId !== null) {
             // Must check the site_id of the part, to be sure the user does not try to use a part from another site.
@@ -196,9 +202,11 @@ class PartEntries extends Component
                 ->first();
 
             if ($part) {
-                $this->create();
+                $this->isPartVerified = true;
 
-                $this->form->part_id = $part->id;
+                $this->create();
+            } else {
+                $this->isPartVerified = false;
             }
         }
     }
@@ -287,6 +295,10 @@ class PartEntries extends Component
 
         $this->form->reset();
         $this->form->isCreating = true;
+
+        if ($this->isPartVerified) {
+            $this->form->part_id = (int)$this->partId;
+        }
 
         $this->search();
 

@@ -110,6 +110,13 @@ class PartExits extends Component
     public null|int $partId = null;
 
     /**
+     * Whatever the partId is verified.
+     *
+     * @var false
+     */
+    public bool $isPartVerified = false;
+
+    /**
      * Array of allowed fields.
      *
      * @var array
@@ -197,9 +204,11 @@ class PartExits extends Component
                 ->first();
 
             if ($part) {
-                $this->create();
+                $this->isPartVerified = true;
 
-                $this->form->part_id = $part->id;
+                $this->create();
+            } else {
+                $this->isPartVerified = false;
             }
         }
     }
@@ -293,6 +302,10 @@ class PartExits extends Component
 
         $this->form->reset();
         $this->form->isCreating = true;
+
+        if ($this->isPartVerified) {
+            $this->form->part_id = (int)$this->partId;
+        }
 
         $this->searchPart();
         $this->searchMaintenance();
