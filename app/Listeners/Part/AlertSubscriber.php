@@ -49,7 +49,7 @@ class AlertSubscriber
     {
         $partExit = $event->partExit;
 
-        $part = Part::where('id', $partExit->part_id)->first();
+        $part = Part::with('site')->where('id', $partExit->part_id)->first();
 
         if ($part->number_critical_minimum >= $part->stock_total) {
             return $this->sendNotifications($part, true);

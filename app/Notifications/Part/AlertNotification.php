@@ -16,8 +16,8 @@ class AlertNotification extends Notification
      * Create a new notification instance.
      */
     public function __construct(
-        private Part $part,
-        private bool $critical
+        public Part $part,
+        private readonly bool $critical
     )
     {
     }
@@ -51,7 +51,7 @@ class AlertNotification extends Notification
             ->line(new HtmlString('Il reste actuellement <strong>' . $this->part->stock_total . '</strong> pièce(s) en stock pour une alerte critique à <strong>' . $this->part->number_critical_minimum . '</strong> pièce(s).'))
             ->action('Voir la pièce détachée', $this->part->show_url)
             ->level('primary')
-            ->subject('Alert de Stock - ' . config('app.name'));
+            ->subject('Alerte de Stock - ' . $this->part->site->name);
     }
 
     /**
