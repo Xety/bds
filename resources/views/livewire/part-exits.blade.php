@@ -222,46 +222,46 @@
     <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer une Sortie' : 'Editer la Sortie' }}">
 
         {{-- Only display those fields for the creating modal --}}
-        @if ($form->isCreating)
-           @php $message = "Sélectionnez la pièce détachée auquelle appartient la sortie.";@endphp
-        {{--@else
+        @if ($isCreating)
+            @php $message = "Sélectionnez la pièce détachée auquelle appartient la sortie.";@endphp
+        @else
             @php $message = "Vous ne pouvez pas modifier la pièce détachée lors de l'édition. Celle-ci est affichée à but informatif.";@endphp
-        @endif --}}
-            <x-choices
-                label="Pièce Détachée"
-                :label-info="$message"
-                wire:model="form.part_id"
-                :options="$form->partsSearchable"
-                search-function="searchPart"
-                no-result-text="Aucun résultat..."
-                debounce="300ms"
-                min-chars="2"
-                single
-                searchable>
-
-                {{-- Item slot--}}
-                @scope('item', $option)
-                <x-list-item :item="$option">
-                    <x-slot:avatar>
-                        <x-icon name="fas-gear" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
-                    </x-slot:avatar>
-
-                    <x-slot:value>
-                        {{ $option->name }} ({{ $option->id }})
-                    </x-slot:value>
-
-                    <x-slot:sub-value>
-                        {{ $option->site->name }}
-                    </x-slot:sub-value>
-                </x-list-item>
-                @endscope
-
-                {{-- Selection slot--}}
-                @scope('selection', $option)
-                {{ $option->name }} ({{ $option->id }})
-                @endscope
-            </x-choices>
         @endif
+        <x-choices
+            label="Pièce Détachée"
+            :label-info="$message"
+            wire:model="form.part_id"
+            :options="$form->partsSearchable"
+            search-function="searchPart"
+            no-result-text="Aucun résultat..."
+            debounce="300ms"
+            min-chars="2"
+            single
+            :disabled="!$isCreating"
+            searchable>
+
+            {{-- Item slot--}}
+            @scope('item', $option)
+            <x-list-item :item="$option">
+                <x-slot:avatar>
+                    <x-icon name="fas-gear" class="bg-blue-100 p-2 w-8 h-8 rounded-full" />
+                </x-slot:avatar>
+
+                <x-slot:value>
+                    {{ $option->name }} ({{ $option->id }})
+                </x-slot:value>
+
+                <x-slot:sub-value>
+                    {{ $option->site->name }}
+                </x-slot:sub-value>
+            </x-list-item>
+            @endscope
+
+            {{-- Selection slot--}}
+            @scope('selection', $option)
+            {{ $option->name }} ({{ $option->id }})
+            @endscope
+        </x-choices>
 
         @php $message = "Sélectionnez la maintenance auquelle appartient la sortie.<br>Si la sortie n'est pas liée à une maintenance, sélectionnez <b>\"Aucune maintenance\"</b>";@endphp
         <x-choices
