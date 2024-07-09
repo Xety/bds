@@ -45,7 +45,7 @@ return [
 
         // Maintenances
         'materials' => [
-            'materials_incidents_maintenances_cleanings_count_last_12_months' => 1
+            'materials_incidents_maintenances_cleanings_count_last_12_months' => 3600
         ]
     ],
 
