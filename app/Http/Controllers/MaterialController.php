@@ -2,8 +2,13 @@
 
 namespace BDS\Http\Controllers;
 
-use BDS\Models\Site;
+use BDS\Models\Cleaning;
+use BDS\Models\Incident;
+use BDS\Models\Maintenance;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use BDS\Models\Material;
 
@@ -57,9 +62,52 @@ class MaterialController extends Controller
 
         $breadcrumbs = $this->breadcrumbs->addCrumb($material->name, $material->show_url);
 
+        // Chart for Incidents, Maintenances & Cleanings.
+        $chart = Cache::remember(
+            'Material.incidents.maintenances.cleanings.count.last_12months.' . $material->getKey(),
+            config('bds.cache.materials_incidents_maintenances_cleanings_count_last_12_months'),
+            function() use($material) {
+                $incidentsData = [];
+                $maintenancesData = [];
+                $cleaningsData = [];
+                $monthsData = [];
+                $array = [];
+                $months = 11;
+
+                for ($i = 0; $i <= $months; $i++) {
+                    $lastXMonthsText = Carbon::now()->startOfMonth()->subMonths($i)->translatedFormat('F Y');
+                    $monthsData[$i] = ucfirst($lastXMonthsText);
+
+                    $startXMonthsAgo = Carbon::now()->startOfMonth()->subMonthsNoOverflow($i)->toDateString();
+                    $endXMonthsAgo = Carbon::now()->subMonthsNoOverflow($i)->endOfMonth()->toDateString();
+
+                    $incidentsData[$i] = Incident::where('material_id', $material->getKey())
+                        ->whereDate('created_at', '>=', $startXMonthsAgo)
+                        ->whereDate('created_at', '<=', $endXMonthsAgo)
+                        ->count();
+
+                    $maintenancesData[$i] = Maintenance::where('material_id', $material->getKey())
+                        ->whereDate('created_at', '>=', $startXMonthsAgo)
+                        ->whereDate('created_at', '<=', $endXMonthsAgo)
+                        ->count();
+
+                    $cleaningsData[$i] = Cleaning::where('material_id', $material->getKey())
+                        ->whereDate('created_at', '>=', $startXMonthsAgo)
+                        ->whereDate('created_at', '<=', $endXMonthsAgo)
+                        ->count();
+                }
+                $array['months'] = array_reverse($monthsData);
+                $array['incidents'] = array_reverse($incidentsData);
+                $array['maintenances'] = array_reverse($maintenancesData);
+                $array['cleanings'] = array_reverse($cleaningsData);
+
+                return $array;
+            }
+        );
+
         return view(
             'material.show',
-            compact('breadcrumbs', 'material', 'parts', 'incidents', 'maintenances', 'cleanings')
+            compact('breadcrumbs', 'material', 'parts', 'incidents', 'maintenances', 'cleanings', 'chart')
         );
     }
 }

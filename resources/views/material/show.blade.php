@@ -5,6 +5,82 @@
     <x-meta title="{{ $material->name }}"/>
 @endpush
 
+@push('scripts')
+    @vite('resources/js/apexcharts.js')
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            let settings = {
+                chart: {
+                    height: '420px',
+                    toolbar: {
+                        show: false
+                    }
+                },
+                series: [
+                    {
+                        name: 'Incidents',
+                        data: {!! json_encode($chart['incidents']) !!},
+                        color: '#ff5861'
+                    },
+                    {
+                        name: 'Maintenances',
+                        data: {!! json_encode($chart['maintenances']) !!},
+                        color: '#ffbe00'
+                    },
+                    {
+                        name: 'Nettoyages',
+                        data: {!! json_encode($chart['cleanings']) !!},
+                        color: '#00a96e'
+                    }
+                ],
+                grid: {
+                    show: true,
+                    borderColor: '#F3F4F6',
+                    strokeDashArray: 1,
+                    padding: {
+                        left: 35,
+                        bottom: 15
+                    }
+                },
+                xaxis: {
+                    categories: {!! json_encode($chart['months']) !!},
+                    labels: {
+                        style: {
+                            fontSize: '14px',
+                            fontWeight: 500,
+                        },
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        style: {
+                            fontSize: '14px',
+                            fontWeight: 500,
+                        }
+                    },
+                },
+                markers: {
+                    size: 5,
+                    strokeColors: '#ffffff',
+                    hover: {
+                        size: undefined,
+                        sizeOffset: 3
+                    }
+                },
+                legend: {
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    fontFamily: 'Inter, sans-serif',
+                }
+            };
+
+            let chart = new ApexCharts(document.querySelector("#chart"), settings);
+            chart.render();
+        });
+    </script>
+@endpush
+
 @section('content')
     <x-breadcrumbs :breadcrumbs="$breadcrumbs"/>
 
@@ -172,6 +248,26 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+            <div class="col-span-12">
+                <div class="flex flex-col justify-between shadow-md border rounded-lg p-6 h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold sm:text-2xl">
+                                Incidents, Maintenances & Nettoyages pour {{ $material->name }}
+                            </span>
+                            <h3 class="text-base font-light text-gray-500">
+                                Historique sur les 12 derniers mois
+                            </h3>
+                        </div>
+                        <div class="flex items-center justify-end">
+                            <x-icon name="fas-chart-line" class="h-12 w-12 text-cyan-500"></x-icon>
+                        </div>
+                    </div>
+
+                    <div id="chart" height="420px"></div>
                 </div>
             </div>
 

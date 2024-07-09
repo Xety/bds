@@ -41,6 +41,11 @@ return [
             'total_part_out_of_stock' => 3600,
             'total_part_get_in_stock' => 3600,
             'part_entries_part_exits_count_last_12_months' => 3600
+        ],
+
+        // Maintenances
+        'materials' => [
+            'materials_incidents_maintenances_cleanings_count_last_12_months' => 1
         ]
     ],
 
