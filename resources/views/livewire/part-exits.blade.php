@@ -223,8 +223,8 @@
 
         {{-- Only display those fields for the creating modal --}}
         @if ($form->isCreating)
-         {{--   @php $message = "Sélectionnez la pièce détachée auquelle appartient la sortie.";@endphp
-        @else
+           @php $message = "Sélectionnez la pièce détachée auquelle appartient la sortie.";@endphp
+        {{--@else
             @php $message = "Vous ne pouvez pas modifier la pièce détachée lors de l'édition. Celle-ci est affichée à but informatif.";@endphp
         @endif --}}
             <x-choices
