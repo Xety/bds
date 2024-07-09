@@ -3,7 +3,6 @@
 namespace BDS\Notifications\Auth;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\HtmlString;
 use BDS\Models\User;
 
-class RegisteredNotification extends Notification implements ShouldQueue
+class RegisteredNotification extends Notification
 {
     use Queueable;
 
