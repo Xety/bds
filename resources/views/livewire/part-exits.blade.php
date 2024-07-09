@@ -222,8 +222,11 @@
     <x-modal wire:model="showModal" title="{{ $isCreating ? 'Créer une Sortie' : 'Editer la Sortie' }}">
 
         {{-- Only display those fields for the creating modal --}}
-        {{-- @if ($isCreating) --}}
-            @php $message = "Sélectionnez la pièce détachée auquelle appartient la sortie.";@endphp
+        @if ($form->isCreating)
+         {{--   @php $message = "Sélectionnez la pièce détachée auquelle appartient la sortie.";@endphp
+        @else
+            @php $message = "Vous ne pouvez pas modifier la pièce détachée lors de l'édition. Celle-ci est affichée à but informatif.";@endphp
+        @endif --}}
             <x-choices
                 label="Pièce Détachée"
                 :label-info="$message"
@@ -258,7 +261,7 @@
                 {{ $option->name }} ({{ $option->id }})
                 @endscope
             </x-choices>
-        {{-- @endif --}}
+        @endif
 
         @php $message = "Sélectionnez la maintenance auquelle appartient la sortie.<br>Si la sortie n'est pas liée à une maintenance, sélectionnez <b>\"Aucune maintenance\"</b>";@endphp
         <x-choices

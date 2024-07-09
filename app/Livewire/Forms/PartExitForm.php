@@ -145,13 +145,13 @@ class PartExitForm extends Form
             'description'
         ]));
 
-        if ($partExit->part->number_warning_enabled) {
+        /*if ($partExit->part->number_warning_enabled) {
             event(new AlertEvent($partExit));
         }
 
         if ($partExit->part->number_critical_enabled) {
             event(new CriticalAlertEvent($partExit));
-        }
+        }*/
 
         // Log Activity
         if (settings('activity_log_enabled', true)) {
