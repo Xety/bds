@@ -162,6 +162,8 @@
                                     <x-table.heading>Sortie par</x-table.heading>
                                     <x-table.heading>Description</x-table.heading>
                                     <x-table.heading>Nombre</x-table.heading>
+                                    <x-table.heading>Prix Unitaire</x-table.heading>
+                                    <x-table.heading>Prix Total</x-table.heading>
                                     <x-table.heading>Créé le</x-table.heading>
                                 </x-slot>
 
@@ -194,6 +196,16 @@
                                             <x-table.cell class="prose">
                                                 <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
                                                     {{ $partExit->number }}
+                                                </code>
+                                            </x-table.cell>
+                                            <x-table.cell class="prose">
+                                                <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                    {{ $partExit->price }}
+                                                </code>
+                                            </x-table.cell>
+                                            <x-table.cell class="prose">
+                                                <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                    {{ number_format($partExit->number * $partExit->price, 2) }}
                                                 </code>
                                             </x-table.cell>
                                             <x-table.cell class="capitalize">
