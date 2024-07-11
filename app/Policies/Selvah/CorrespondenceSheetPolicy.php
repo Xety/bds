@@ -14,7 +14,7 @@ class CorrespondenceSheetPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('viewAny selvah correspondence sheet') && getPermissionsTeamId() === settings('site_id_selvah');
+        return $user->can('viewAny selvah correspondence sheet') && getPermissionsTeamId() === settings('site_id_selvah') && settings('selvah_correspondence_sheet_manage_enabled');
     }
 
     /**
