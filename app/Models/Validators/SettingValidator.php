@@ -114,6 +114,11 @@ class SettingValidator
             'calendar_event_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
+
+            // Activity
+            'activity_log_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
         ];
 
         return FacadeValidator::make($data, $rules);
