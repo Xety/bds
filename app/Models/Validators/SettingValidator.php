@@ -66,6 +66,15 @@ class SettingValidator
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
 
+            //Part Entry
+            'part_entry_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            //Part Exit
+            'part_exit_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+
             // User
             'user_manage_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
@@ -74,10 +83,37 @@ class SettingValidator
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
 
+            // Supplier
+            'supplier_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'supplier_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
 
-            // SELVAH
-            'production_objective_delivered' => 'integer',
-            'production_objective_todo' => 'integer',
+            // Company
+            'company_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'company_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+
+            // Calendar
+            'calendar_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'calendar_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+
+            // Calendar Event
+            'calendar_event_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
+            'calendar_event_create_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ],
         ];
 
         return FacadeValidator::make($data, $rules);
@@ -120,6 +156,11 @@ class SettingValidator
             'permission_create_enabled' => [
                 Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
             ],
+
+            // Selvah Correspondance Sheets
+            'selvah_correspondence_sheet_manage_enabled' => [
+                Rule::in([0, 1, "0", "1", true, false, "on", "true", "false", null]),
+            ]
         ];
 
         return FacadeValidator::make($data, $rules);
