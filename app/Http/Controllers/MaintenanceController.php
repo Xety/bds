@@ -4,6 +4,7 @@ namespace BDS\Http\Controllers;
 
 use BDS\Models\Maintenance;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Number;
 use Illuminate\View\View;
 
 class MaintenanceController extends Controller
@@ -50,6 +51,12 @@ class MaintenanceController extends Controller
         $partExits = $maintenance->partExits()->paginate(25, ['*'], 'part-exits');
         $incidents = $maintenance->incidents()->orderByDesc('created_at')->paginate(25, ['*'], 'incidents');
 
-        return view('maintenance.show', compact('breadcrumbs', 'maintenance', 'partExits', 'incidents'));
+        $partCount = 0;
+        foreach ($partExits as $partExit) {
+            $partCount += $partExit->price * $partExit->number;
+        }
+        $partCount = Number::format($partCount, precision: 2);
+
+        return view('maintenance.show', compact('breadcrumbs', 'maintenance', 'partExits', 'incidents', 'partCount'));
     }
 }

@@ -200,12 +200,12 @@
                                             </x-table.cell>
                                             <x-table.cell class="prose">
                                                 <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                                    {{ $partExit->price }}
+                                                    {{ $partExit->price }} €
                                                 </code>
                                             </x-table.cell>
                                             <x-table.cell class="prose">
                                                 <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                                    {{ number_format($partExit->number * $partExit->price, 2) }}
+                                                    {{ number_format($partExit->number * $partExit->price, 2) }} €
                                                 </code>
                                             </x-table.cell>
                                             <x-table.cell class="capitalize">
@@ -221,6 +221,21 @@
                                             </x-table.cell>
                                         </x-table.row>
                                     @endforelse
+                                    <x-table.row>
+                                        <x-table.cell></x-table.cell>
+                                        <x-table.cell></x-table.cell>
+                                        <x-table.cell></x-table.cell>
+                                        <x-table.cell></x-table.cell>
+                                        <x-table.cell></x-table.cell>
+                                        <x-table.cell></x-table.cell>
+                                        <x-table.cell></x-table.cell>
+                                        <x-table.cell class="prose">
+                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                {{ $partCount }} €
+                                            </code>
+                                        </x-table.cell>
+                                        <x-table.cell></x-table.cell>
+                                    </x-table.row>
                                 </x-slot>
                             </x-table.table>
 
