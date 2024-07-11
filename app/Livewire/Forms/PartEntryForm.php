@@ -14,7 +14,7 @@ class PartEntryForm extends Form
 
     public ?int $number = null;
 
-    public ?int $order_id = null;
+    public ?string $order_id = null;
 
     public bool $isCreating = false;
 
