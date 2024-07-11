@@ -221,21 +221,23 @@
                                             </x-table.cell>
                                         </x-table.row>
                                     @endforelse
-                                    <x-table.row>
-                                        <x-table.cell></x-table.cell>
-                                        <x-table.cell></x-table.cell>
-                                        <x-table.cell></x-table.cell>
-                                        <x-table.cell></x-table.cell>
-                                        <x-table.cell></x-table.cell>
-                                        <x-table.cell></x-table.cell>
-                                        <x-table.cell></x-table.cell>
-                                        <x-table.cell class="prose">
-                                            <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
-                                                {{ $partCount }} €
-                                            </code>
-                                        </x-table.cell>
-                                        <x-table.cell></x-table.cell>
-                                    </x-table.row>
+                                    @if($partExits->isNotEmpty())
+                                            <x-table.row>
+                                                <x-table.cell></x-table.cell>
+                                                <x-table.cell></x-table.cell>
+                                                <x-table.cell></x-table.cell>
+                                                <x-table.cell></x-table.cell>
+                                                <x-table.cell></x-table.cell>
+                                                <x-table.cell></x-table.cell>
+                                                <x-table.cell></x-table.cell>
+                                                <x-table.cell class="prose">
+                                                    <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                        {{ $partCount }} €
+                                                    </code>
+                                                </x-table.cell>
+                                                <x-table.cell></x-table.cell>
+                                            </x-table.row>
+                                    @endif
                                 </x-slot>
                             </x-table.table>
 
