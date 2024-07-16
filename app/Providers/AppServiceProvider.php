@@ -55,7 +55,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Subscribers
         Event::subscribe(AlertCleaningSubscriber::class);
-        Event::subscribe(AlertPartSubscriber::class);
+        //Event::subscribe(AlertPartSubscriber::class);
         Event::subscribe(SiteSubscriber::class);
         Event::subscribe(AuthSubscriber::class);
 

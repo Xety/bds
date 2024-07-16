@@ -3,12 +3,14 @@
 namespace BDS\Notifications\Part;
 
 use Illuminate\Bus\Queueable;
+
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 use BDS\Models\Part;
 
-class AlertNotification extends Notification
+class AlertNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -29,11 +31,7 @@ class AlertNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        if ($this->critical === true) {
-            return ['mail'];
-        }
-
-        return ['database'];
+        return $this->critical === true ? ['mail'] : ['database'];
     }
 
     /**
@@ -43,7 +41,7 @@ class AlertNotification extends Notification
      *
      * @return MailMessage
      */
-    public function toMail($notifiable): MailMessage
+    public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage())
             ->line(new HtmlString('Vous recevez cet email à la suite d\'une <strong>alerte critique</strong> de stock sur la pièce suivante :'))
