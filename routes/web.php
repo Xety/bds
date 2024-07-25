@@ -73,6 +73,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Documentation Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('documentation', [BDS\Http\Controllers\DocumentationController::class, 'index'])
+        ->name('documentation.index');
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Routes
     |--------------------------------------------------------------------------
     */

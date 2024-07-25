@@ -195,6 +195,10 @@
                 </x-menu-sub>
             @endcan
 
+            <x-menu-separator  />
+                <x-menu-item title="Documentation" icon="fas-file-lines" link="{{ route('documentation.index') }}" class="text-left hover:bg-base-200 active:!bg-base-200 focus:!bg-base-200 hover:text-neutral active:!text-neutral hover:dark:bg-neutral active:dark:!bg-neutral hover:dark:text-inherit active:dark:!text-inherit"/>
+
+
             <x-menu-separator hr-class="lg:hidden my-0" />
         </x-menu>
 

@@ -91,8 +91,8 @@ class MaintenancesExport implements
 
         array_push($data,
             $row->gmao_id,
-            $row->material->name,
-            $row->material->zone->name,
+            $row->material?->name,
+            $row->material?->zone->name,
             $row->user->full_name,
             $row->description,
             $row->reason,

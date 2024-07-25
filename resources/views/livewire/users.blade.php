@@ -262,7 +262,7 @@
 
         <div>
             <x-alert type="info" class="max-w-lg mt-4" title="Information">
-                Le ou les rôle(s) sélectionné(s) seront appliqué <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
+                Le ou les rôle(s) sélectionné(s) seront appliqué(s) <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
             </x-alert>
         </div>
         @php $message = "Sélectionnez le/les rôle(s) de l'utilisateur.";@endphp
@@ -286,16 +286,16 @@
             <div>
                 <x-alert type="info" class="max-w-lg mt-4" title="Information">
                     La ou les permission(s) sélectionnée(s) seront appliquée(s) <span class="font-bold italic">uniquement</span> sur le site <span class="font-bold">{{ $site->name }}</span>.
-                    <span class="block font-bold">Note: Privilégiez toujours les rôles aux permissions directs dans la mesure du possible.</span>
+                    <span class="block font-bold">Note: Privilégiez toujours les rôles aux permissions directes dans la mesure du possible.</span>
                 </x-alert>
             </div>
-            @php $message = "Sélectionnez la/les permission(s) direct(s) de l'utilisateur.";@endphp
+            @php $message = "Sélectionnez la/les permission(s) directe(s) de l'utilisateur.";@endphp
             <x-select
                 :options="$permissions"
                 class="select-primary tooltip tooltip-top"
                 wire:model="form.permissions"
                 name="form.permissions"
-                label="Permissions direct"
+                label="Permissions directes"
                 option-label="name"
                 option-value="name"
                 :label-info="$message"
