@@ -399,7 +399,7 @@ class PartExits extends Component
             ->whereHas('material', function ($query) use ($value) {
                 $query->where('name', 'LIKE', '%' . $value . '%');
             })
-            ->where('id', 'like', "%$value%")
+            //->where('id', 'like', "%$value%")
             ->whereRelation('material.zone.site', 'id', getPermissionsTeamId());
 
         $maintenances = $maintenances->take(10)
