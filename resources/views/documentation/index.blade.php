@@ -43,13 +43,11 @@
                         </a>
                         <ol class="list-decimal ps-10">
                             <li>
-                                <a class="link link-primary" href="#">Créer un Site</a>
-                            </li>
-                            <li>
                                 <a class="link link-primary" href="#">Assigner des managers à un Site</a>
                             </li>
                         </ol>
                     </li>
+
                 </ul>
 
                 <ul class="ps-10">
@@ -99,9 +97,9 @@
                                     notion très importante dans la gestion des permissions.
                                 </p>
                             </li>
-
                         </ul>
                     </li>
+
                 </ul>
 
             </div>
