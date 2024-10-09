@@ -516,7 +516,7 @@ class Maintenances extends Component
             ->whereRelation('zone.site', 'id', getPermissionsTeamId())
             ->where('name', 'like', "%$value%");
 
-        $materials = $materials->take(10)
+        $materials = $materials->take(20)
             ->orderBy('name')
             ->get()
             ->merge($selectedOption);

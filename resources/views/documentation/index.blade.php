@@ -100,6 +100,28 @@
                         </ul>
                     </li>
 
+                    <li>
+                        <h2 class="mt-10 text-primary text-3xl" id="permission_roles">
+                            <x-icon name="fas-map-marker-alt" class="h-6 w-6 inline"></x-icon> Sites
+                        </h2>
+                        <p>
+                            La gestion des sites est, comme l'intégralité des fonctionnalités du site, soumise à authorisations. Les sites sont la racine de toute les fonctionnalités présentes sur le site.
+                            Une fois le site créé,
+                        </p>
+                        <p>
+                            Voici un diagramme explicatif des rôles et permissions :
+                            <img src="{{ asset('images/documentation/permissions_roles.png') }}" alt="Diagramme des rôles et permissions" class="block mb-5">
+                        </p>
+
+                        <ul class="ps-10">
+                            <li>
+                                <h3 class="mr-5 text-primary text-2xl" id="assign_permissions_to_role">
+                                    Assigner une Permission à un Rôle
+                                </h3>
+                            </li>
+                        </ul>
+                    </li>
+
                 </ul>
 
             </div>
