@@ -1,8 +1,8 @@
 @extends('layouts.app')
-{!! config(['app.title' => 'Gérer le Planing']) !!}
+{!! config(['app.title' => 'Gérer le Planning']) !!}
 
 @push('meta')
-    <x-meta title="Gérer le Planing" />
+    <x-meta title="Gérer le Planning" />
 @endpush
 
 @section('content')

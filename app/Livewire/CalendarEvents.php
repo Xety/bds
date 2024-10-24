@@ -163,7 +163,7 @@ class CalendarEvents extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = CalendarEvent::query()
-            ->with('site')
+            ->with('site', 'user')
             ->where('site_id', getPermissionsTeamId());
 
         if (Gate::allows('search', CalendarEvent::class)) {

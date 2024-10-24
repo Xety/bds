@@ -16,6 +16,7 @@ use BDS\Policies\Selvah\CorrespondenceSheetPolicy;
 use BDS\Settings\Settings;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
@@ -41,6 +42,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Models
+        Model::preventLazyLoading();
+
         // Routes
         Route::namespace('BDS\Http\Controllers');
         Route::pattern('id', '[0-9]+');

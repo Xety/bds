@@ -386,11 +386,11 @@
                                         <x-table.cell>{{ $incident->getKey() }}</x-table.cell>
                                         <x-table.cell>
                                             <a class="link link-hover link-primary font-bold"
-                                               href="{{ $incident->material->show_url }}">
-                                                {{ $incident->material->name }}
+                                               href="{{ $material->show_url }}">
+                                                {{ $material->name }}
                                             </a>
                                         </x-table.cell>
-                                        <x-table.cell>{{ $incident->material->zone->name }}</x-table.cell>
+                                        <x-table.cell>{{ $material->zone->name }}</x-table.cell>
                                         <x-table.cell>
                                             <a class="link link-hover link-primary font-bold" href="{{ $incident->user->show_url }}">
                                                 {{ $incident->user->full_name }}
@@ -471,12 +471,10 @@
                                             @endif
                                         </x-table.cell>
                                         <x-table.cell>
-                                            @unless (is_null($maintenance->material_id))
-                                                <a class="link link-hover link-primary font-bold"
-                                                   href="{{ $maintenance->material->show_url }}">
-                                                    {{ $maintenance->material->name }}
-                                                </a>
-                                            @endunless
+                                            <a class="link link-hover link-primary font-bold"
+                                               href="{{ $material->show_url }}">
+                                                {{ $material->name }}
+                                            </a>
                                         </x-table.cell>
                                         <x-table.cell>
                                         <span class="tooltip tooltip-top" data-tip="{{ $maintenance->description }}">
@@ -656,12 +654,12 @@
                                         <x-table.cell>{{ $cleaning->getKey() }}</x-table.cell>
                                         <x-table.cell>
                                             <a class="link link-hover link-primary font-bold"
-                                               href="{{ $cleaning->material->show_url }}">
-                                                {{ $cleaning->material->name }}
+                                               href="{{ $material->show_url }}">
+                                                {{ $material->name }}
                                             </a>
                                         </x-table.cell>
                                         <x-table.cell>
-                                            {{ $cleaning->material->zone->name }}
+                                            {{ $material->zone->name }}
                                         </x-table.cell>
                                         <x-table.cell>
                                             <a class="link link-hover text-primary font-bold" href="{{ route('users.show', $cleaning->user) }}">

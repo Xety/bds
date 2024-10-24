@@ -138,7 +138,7 @@ class Activities extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Activity::query()
-            ->with('site');
+            ->with('site', 'subject', 'causer');
 
         if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
             $query->where('site_id', getPermissionsTeamId());
