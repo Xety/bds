@@ -17,7 +17,7 @@
                         class="absolute top-0 left-0 w-full h-full bg-repeat rounded-xl opacity-40 bg-[url('/images/bds/overlay.png')]"></span>
                     <span
                         class="absolute top-0 left-0 w-full h-full bg-cover rounded-xl opacity-40 bg-gradient-to-tl from-gray-900 to-gray-900"></span>
-                    <h1 class="relative text-5xl mb-4 text-base-100 dark:text-primary-content uppercase font-bds z-1">
+                    <h1 class="relative text-5xl mb-4 text-base-100 dark:text-primary-content uppercase font-racing z-1">
                         Bienvenue<br>
                         à la<br>
                         <img src="{{ asset('images/logos/bds_blanc2.png') }}" alt="Coopérative Bourgogne du Sud Logo"
@@ -33,7 +33,7 @@
                 <div
                     class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <h2 class="text-xl font-bold">
-                        <i class="fa-solid fa-shield-halved"></i> Les règles de sécurité au sein des silos
+                        <x-icon name="fas-shield-halved" class="h-6 w-6 inline"></x-icon> Les règles de sécurité au sein des silos
                     </h2>
                     <div class="divider"></div>
 
@@ -58,7 +58,7 @@
                 <div
                     class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <h2 class="text-xl font-bold">
-                        <i class="fa-solid fa-code-fork"></i> Les règles de circulation au sein des silos
+                        <x-icon name="fas-code-fork" class="h-6 w-6 inline"></x-icon> Les règles de circulation au sein des silos
                     </h2>
                     <div class="divider"></div>
 
@@ -80,7 +80,7 @@
                 <div
                     class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <h2 class="text-xl font-bold">
-                        <i class="fa-solid fa-users"></i> Les règles de bonne conduite dans l'entreprise
+                        <x-icon name="fas-users" class="h-6 w-6 inline"></x-icon> Les règles de bonne conduite dans l'entreprise
                     </h2>
                     <div class="divider"></div>
 
@@ -112,7 +112,7 @@
                 <div
                     class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
                     <h2 class="text-xl font-bold">
-                        <i class="fa-solid fa-phone"></i> Les numéros utiles en cas de problème
+                        <x-icon name="fas-phone" class="h-6 w-6 inline"></x-icon> Les numéros utiles en cas de problème
                     </h2>
                     <div class="divider"></div>
 
@@ -133,6 +133,26 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="col-span-12">
+                <div
+                    class="p-6 shadow-md border rounded-lg h-full border-gray-200 dark:border-gray-700 bg-base-100 dark:bg-base-300">
+                    <h2 class="text-xl font-bold">
+                        <x-icon name="fas-handshake" class="h-6 w-6 inline"></x-icon> Nous recrutons !
+                    </h2>
+                    <div class="divider"></div>
+                    <div class="text-center">
+                        <p class="mb-3">
+                            Envie de transformer votre expérience saisonnière en une opportunité à long terme ? Nous recrutons pour des postes évolutifs. Intégrez notre entreprise et grandissez avec nous !
+                        </p>
+                        <a href="https://alliancebfc.softy.pro/offres" target="_blank" class="btn btn-primary">
+                            <x-icon name="fas-file-alt" class="h-5 w-5"></x-icon>
+                            Consulter les offres
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
