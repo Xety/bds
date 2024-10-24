@@ -152,7 +152,8 @@ class Sites extends Component
         return view('livewire.sites', [
             'sites' => $this->rows,
             'users' => User::whereRelation('sites', 'site_id', $this->form->site?->id)
-                ->select(['id', DB::raw('CONCAT(first_name, " ", last_name) AS name')])
+                ->with('roles')
+                ->select(['id', DB::raw('CONCAT(first_name, " ", last_name) AS name'), 'first_name', 'last_name'])
                 ->get()
                 ->toArray()
         ]);
