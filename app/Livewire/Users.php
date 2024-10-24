@@ -179,7 +179,7 @@ class Users extends Component
         $roles = Role::where('site_id', getPermissionsTeamId())
             ->orWhereNull('site_id')
             ->where('level', '<=', auth()->user()->level)
-            ->select(['name'])
+            ->select(['name', 'color'])
             ->orderBy('name')
             ->get()
             ->toArray();

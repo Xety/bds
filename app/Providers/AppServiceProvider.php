@@ -44,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Models
         Model::preventLazyLoading();
+        Model::preventAccessingMissingAttributes();
 
         // Routes
         Route::namespace('BDS\Http\Controllers');

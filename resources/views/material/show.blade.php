@@ -180,7 +180,7 @@
                                 <div class="col-span-12 flex items-center">
                                     <div class="inline-block font-bold min-w-[140px]">Test PH :</div>
                                     <div class="inline-block">
-                                        @if ($material->cleaning_test_ph_enabled)
+                                        @if ($material->selvah_cleaning_test_ph_enabled)
                                             <code class="code rounded-sm">
                                                 Activé
                                             </code>

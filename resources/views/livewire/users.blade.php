@@ -158,7 +158,7 @@
                     <x-table.cell>{{ $user->email }}</x-table.cell>
                     <x-table.cell>
                         @forelse ($user->roles as $role)
-                            <span class="block font-bold" style="{{ $role->formatted_color }};">
+                            <span class="block font-bold" style="{{ $role->formatted_color }}">
                                 {{ $role->name }}
                             </span>
                         @empty
