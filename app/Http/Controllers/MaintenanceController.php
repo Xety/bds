@@ -48,8 +48,8 @@ class MaintenanceController extends Controller
             $maintenance->show_url
         );
 
-        $partExits = $maintenance->partExits()->paginate(25, ['*'], 'part-exits');
-        $incidents = $maintenance->incidents()->orderByDesc('created_at')->paginate(25, ['*'], 'incidents');
+        $partExits = $maintenance->partExits()->with('part', 'user')->paginate(25, ['*'], 'part-exits');
+        $incidents = $maintenance->incidents()->with('material', 'material.zone', 'user')->orderByDesc('created_at')->paginate(25, ['*'], 'incidents');
 
         $partCount = 0;
         foreach ($partExits as $partExit) {
