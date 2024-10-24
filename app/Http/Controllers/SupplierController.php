@@ -54,7 +54,7 @@ class SupplierController extends Controller
             $supplier->show_url
         );
 
-        $parts = $supplier->parts()->paginate(25, ['*'], 'parts');
+        $parts = $supplier->parts()->with('site')->paginate(25, ['*'], 'parts');
 
         return view('supplier.show', compact('breadcrumbs', 'supplier', 'parts'));
     }

@@ -233,7 +233,7 @@ class PartExits extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = PartExit::query()
-            ->with('part', 'user', 'maintenance');
+            ->with('part', 'part.site', 'user', 'maintenance');
 
         // If the user does not have the permissions to see parts exits from others sites
         // add a where condition to display only the part exits from the current site.
