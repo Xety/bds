@@ -24,8 +24,8 @@
                              class="inline-block w-28 relative z-1 mb-4 mt-4">
                     </h1>
                     <span class="text-base-100 font-bold dark:text-primary-content relative z-1">
-                    Afin de faciliter votre arrivée et votre intégration dans l'entreprise, veuillez prendre connaissance des informations ci-dessous.
-                </span>
+                        Pour vous accompagner au mieux dans votre arrivée et votre intégration au sein de l'entreprise, merci de consulter les informations ci-dessous.
+                    </span>
                 </div>
             </div>
 
