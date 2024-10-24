@@ -16,7 +16,7 @@ class ListZonesWithMaterials extends Component
     public function render(): View
     {
         $zones = Zone::query()
-            ->with('materials', 'children', 'children.materials')
+            ->with('materials', 'materials.zone', 'children', 'children.materials')
             ->whereRelation('site', 'id', getPermissionsTeamId())
             ->whereNull('parent_id')
             ->get();
