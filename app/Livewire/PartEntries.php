@@ -231,7 +231,7 @@ class PartEntries extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = PartEntry::query()
-            ->with('part', 'user');
+            ->with('part', 'part.site', 'user');
 
         // If the user does not have the permissions to see parts entries from others sites
         // add a where condition to display only the part entries from the current site.

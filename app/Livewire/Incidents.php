@@ -232,7 +232,7 @@ class Incidents extends Component
     public function getRowsQueryProperty(): Builder
     {
         $query = Incident::query()
-            ->with('material', 'user', 'site');
+            ->with('material', 'user', 'site', 'maintenance');
 
         if (getPermissionsTeamId() !== settings('site_id_verdun_siege')) {
             $query->where('site_id', getPermissionsTeamId());

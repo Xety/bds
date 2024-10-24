@@ -172,11 +172,9 @@
                                         <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $partExit->getKey() }}">
                                             <x-table.cell>{{ $partExit->getKey() }}</x-table.cell>
                                             <x-table.cell>
-                                                @unless (is_null($partExit->maintenance))
-                                                    <a class="link link-hover link-primary tooltip tooltip-right" href="{{ $partExit->maintenance->show_url }}"  data-tip="Voir la fiche Maintenance">
-                                                        <span class="font-bold">{{ $partExit->maintenance->getKey() }}</span>
-                                                    </a>
-                                                @endunless
+                                                <a class="link link-hover link-primary tooltip tooltip-right" href="{{ $maintenance->show_url }}"  data-tip="Voir la fiche Maintenance">
+                                                    <span class="font-bold">{{ $maintenance->getKey() }}</span>
+                                                </a>
                                             </x-table.cell>
                                             <x-table.cell>
                                                 <a class="link link-hover link-primary font-bold" href="{{ $partExit->part->show_url }}">
