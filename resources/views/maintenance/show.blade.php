@@ -234,6 +234,7 @@
                                                 <x-table.cell></x-table.cell>
                                                 <x-table.cell></x-table.cell>
                                                 <x-table.cell></x-table.cell>
+                                                <x-table.cell></x-table.cell>
                                                 <x-table.cell class="prose">
                                                     <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
                                                         {{ $partCount }} €
