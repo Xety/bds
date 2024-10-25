@@ -159,6 +159,7 @@
                                     <x-table.heading>#Id</x-table.heading>
                                     <x-table.heading>Maintenance n°</x-table.heading>
                                     <x-table.heading>Pièce Détachée</x-table.heading>
+                                    <x-table.heading>Référence</x-table.heading>
                                     <x-table.heading>Sortie par</x-table.heading>
                                     <x-table.heading>Description</x-table.heading>
                                     <x-table.heading>Nombre</x-table.heading>
@@ -180,6 +181,11 @@
                                                 <a class="link link-hover link-primary font-bold" href="{{ $partExit->part->show_url }}">
                                                     {{ $partExit->part->name }}
                                                 </a>
+                                            </x-table.cell>
+                                            <x-table.cell>
+                                                <code class="text-neutral-content bg-[color:var(--tw-prose-pre-bg)] rounded-sm">
+                                                    {{ $partExit->part->reference }}
+                                                </code>
                                             </x-table.cell>
                                             <x-table.cell>
                                                 <a class="link link-hover link-primary font-bold" href="{{ $partExit->user->show_url }}">
