@@ -43,8 +43,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Models
-        //Model::preventLazyLoading();
-        //Model::preventAccessingMissingAttributes();
+        Model::preventLazyLoading();
+        Model::preventAccessingMissingAttributes();
 
         // Routes
         Route::namespace('BDS\Http\Controllers');
