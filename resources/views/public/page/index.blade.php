@@ -53,8 +53,8 @@
         </div>
     </div>
 
-    <div class="fill-primary">
-        <svg fill="primaryColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+    <div class="absolute w-full -bottom-0.5 left-0 fill-primary transform rotate-180">
+        <svg class="relative block h-[85px] w-full left-1/2" style="transform: translateX(-50%) rotateY(180deg);" fill="primaryColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
             <path d="M0,6V0h1000v100L0,6z"></path>
         </svg>
     </div>
@@ -62,10 +62,10 @@
 
 
 </section>
-<section>
-    <div class="bg-primary p-[5%] pt-[10%]">
+<section class="relative">
+    <div class="bg-primary px-[5%] py-[10%]">
         <div class="grid grid-cols-12">
-            <div class="col-span-12 lg:col-span-6">
+            <div class="col-span-12 lg:col-span-6 mb-5">
                 <div class="flex flex-col">
                     <div class="mb-2">
                         <h4 class="text-white text-xl italic">Cap Vers l'Avenir</h4>
@@ -91,14 +91,85 @@
                         </p>
                     </div>
                     <div>
-                        <a href="#" class="btn">
+                        <a href="#" class="btn text-primary">
                             En savoir plus <x-icon name="fas-arrow-right" class="h-5 w-5"></x-icon>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="col-span-12 lg:col-span-6">
+                <div class="grid grid-cols-12">
+                    <div class="col-start-2 col-span-7 mb-[-20%]">
+                        <img class="inline-block shadow-xl rounded border-4 border-white" src="{{ asset('images/bds/sun-setting-mountains-covering-vineyard-with-light-1024x684.jpg') }}" alt="Vignes avec soleil">
+                    </div>
+                    <div class="col-start-5 col-span-7">
+                        <img class="inline-block shadow-xl rounded border-4 border-white" src="{{ asset('images/bds/Gaec_Presles_01-1024x768.jpg') }}" alt="Gaec Presles">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute w-full -bottom-0.5 left-0 fill-white transform rotate-180">
+            <svg class="relative block h-[40px] w-full left-1/2" style="transform: translateX(-50%) rotateY(180deg);" fill="primaryColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                <path d="M0,6V0h1000v100L0,6z"></path>
+            </svg>
+        </div>
+    </div>
+</section>
+<section class="relative">
+    <div class="bg-[#1b252f] px-[5%] py-[15%]">
+        <div class="absolute w-full -top-0.5 left-0 fill-white">
+            <svg class="relative block h-[40px] w-full left-1/2" style="transform: translateX(-50%) rotateY(180deg);" fill="primaryColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                <path d="M0,6V0h1000v100L0,6z"></path>
+            </svg>
+        </div>
 
+        <div class="grid grid-cols-12 mb-8">
+            <div class="col-span-12">
+                <h4 class="font-racing text-6xl lg:text-8xl text-primary text-center uppercase mb-4">Cap vers l'avenir</h4>
+            </div>
+            <div class="col-span-12 lg:col-span-6">
+                <div class="font-racing text-5xl text-white uppercase text-center">
+                    3 metiers majeurs
+                </div>
+            </div>
+            <div class="col-span-6 hidden lg:block">
+                <div class="divider divider-neutral w-2/3 text-center"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-12 lg:col-span-4">
+                <a class="flex flex-col group shadow-lg" href="#">
+                    <div class="relative overflow-hidden">
+                        <img class="bg-fixed bg-center bg-no-repeat bg-cover group-hover:transform group-hover:scale-125 transition-all duration-300" src="{{ asset('images/bds/sun-setting-mountains-covering-vineyard-with-light-1024x684.jpg') }}" alt="Métier De La Vigne">
+                        <div class="bg-gray-800 opacity-30 absolute h-full w-full top-0 left-0"></div>
+                    </div>
+                    <div class=" bg-white group-hover:bg-[#A50343] text-[#A50343] group-hover:text-white text-center py-5 transition-all duration-300">
+                        <h2 class="font-racing bold text-xl">Métier De La Vigne</h2>
+                    </div>
+                </a>
+            </div>
+            <div class="col-span-12 lg:col-span-4">
+                <a class="flex flex-col group shadow-lg" href="#">
+                    <div class="relative overflow-hidden">
+                        <img class="bg-fixed bg-center bg-no-repeat bg-cover group-hover:transform group-hover:scale-125 transition-all duration-300" src="{{ asset('images/bds/la_vigne_le_vin_bourgogne_du_sud_coop_elevage.jpg') }}" alt="Metier de l'élevage">
+                        <div class="bg-gray-800 opacity-30 absolute h-full w-full top-0 left-0"></div>
+                    </div>
+                    <div class=" bg-white group-hover:bg-[#97B816] text-[#97B816] group-hover:text-white text-center py-5 transition-all duration-300">
+                        <h2 class="font-racing bold text-xl">Métier De L'élevage</h2>
+                    </div>
+                </a>
+            </div>
+            <div class="col-span-12 lg:col-span-4">
+                <a class="flex flex-col group shadow-lg" href="#">
+                    <div class="relative overflow-hidden">
+                        <img class="bg-fixed bg-center bg-no-repeat bg-cover group-hover:transform group-hover:scale-125 transition-all duration-300" src="{{ asset('images/bds/bds.jpg') }}" alt="Métier Des Grandes Cultures">
+                        <div class="bg-gray-800 opacity-30 absolute h-full w-full top-0 left-0"></div>
+                    </div>
+                    <div class=" bg-white group-hover:bg-[#FFCC00] text-[#FFCC00] group-hover:text-white text-center py-5 transition-all duration-300">
+                        <h2 class="font-racing bold text-xl">Métier Des Grandes Cultures</h2>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
