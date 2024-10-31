@@ -38,7 +38,7 @@
     </div>
 </footer>
 
-<footer class="footer text-base bg-[#1b252f] text-white border-base-300 border-t border-opacity-50 px-10 py-4">
+<footer class="footer overflow-hidden text-base bg-[#1b252f] text-white border-base-300 border-t border-opacity-50 px-10 py-4">
     <aside class="grid-flow-col items-center">
         <img src="{{ asset('images/logos/cbds_324x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-14">
         <p>

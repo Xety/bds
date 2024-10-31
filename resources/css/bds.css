@@ -72,9 +72,9 @@ details > summary::-webkit-details-marker {
 /**
  * Menu
  */
-.menu-title {
+/*.menu-title {
     @apply text-[hsl(var(--nc)/0.6)];
-}
+}*/
 
 .menu-link {
     @apply hover:bg-base-200 focus:!bg-base-200 hover:text-neutral focus:!text-neutral dark:hover:bg-base-100 dark:focus:!bg-base-100 dark:hover:text-neutral-content dark:focus:!text-neutral-content;
