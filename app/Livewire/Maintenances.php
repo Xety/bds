@@ -418,7 +418,8 @@ class Maintenances extends Component
     {
         // Besides the search results, you must include on demand selected option
         if (!empty($this->form->operators)) {
-            $selectedOption = User::whereIn('id', $this->form->operators)->get();
+            $selectedOption = User::with(['roles', 'sites'])
+                ->whereIn('id', $this->form->operators)->get();
         } else {
             $selectedOption = [];
         }
@@ -450,12 +451,14 @@ class Maintenances extends Component
     {
         // Besides the search results, you must include on demand selected option
         if (!empty($this->form->companies)) {
-            $selectedOption = Company::whereIn('id', $this->form->companies)->get();
+            $selectedOption = Company::with('site')
+                ->whereIn('id', $this->form->companies)->get();
         } else {
             $selectedOption = [];
         }
 
-        $companies = Company::where('site_id', getPermissionsTeamId())
+        $companies = Company::with('site')
+            ->where('site_id', getPermissionsTeamId())
             ->where('name', 'like', "%$value%");
 
         $companies = $companies->take(10)
@@ -477,7 +480,8 @@ class Maintenances extends Component
     {
         // Besides the search results, you must include on demand selected option
         if (!empty($this->form->incidents)) {
-            $selectedOption = Incident::whereIn('id', $this->form->incidents)->get();
+            $selectedOption = Incident::with('material', 'material.zone')
+                ->whereIn('id', $this->form->incidents)->get();
         } else {
             $selectedOption = [];
         }
@@ -510,7 +514,8 @@ class Maintenances extends Component
      */
     public function searchMaterial(string $value = ''): void
     {
-        $selectedOption = Material::where('id', $this->form->material_id)->get();
+        $selectedOption = Material::with(['zone', 'zone.site'])
+            ->where('id', $this->form->material_id)->get();
 
         $materials = Material::query()
             ->with(['zone', 'zone.site'])
@@ -536,7 +541,8 @@ class Maintenances extends Component
     {
         // Besides the search results, you must include on demand selected option
         if (!empty($this->form->parts)) {
-            $selectedOption = Part::whereIn('id', collect($this->form->parts)->map(function ($item) {
+            $selectedOption = Part::with(['site'])
+                ->whereIn('id', collect($this->form->parts)->map(function ($item) {
                 return $item['part_id'];
             })->sort()->values())->get();
         } else {
