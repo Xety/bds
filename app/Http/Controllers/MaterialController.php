@@ -55,7 +55,7 @@ class MaterialController extends Controller
     {
         $this->authorize('view', $material);
 
-        $parts = $material->parts()->with('supplier', 'site')->paginate(25, ['*'], 'parts');
+        $parts = $material->parts()->with('supplier', 'site')->orderByDesc('created_at')->paginate(25, ['*'], 'parts');
         $incidents = $material->incidents()->with('user')->orderByDesc('created_at')->paginate(25, ['*'], 'incidents');
         $maintenances = $material->maintenances()->with('user')->orderByDesc('created_at')->paginate(25, ['*'], 'maintenances');
         $cleanings = $material->cleanings()->with('user')->orderByDesc('created_at')->paginate(25, ['*'], 'cleanings');

@@ -48,7 +48,7 @@ class CompanyController extends Controller
             $company->show_url
         );
 
-        $maintenances = $company->maintenances()->paginate(25, ['*'], 'parts');
+        $maintenances = $company->maintenances()->orderByDesc('created_at')->paginate(25, ['*'], 'parts');
 
         return view('company.show', compact('breadcrumbs', 'company', 'maintenances'));
     }

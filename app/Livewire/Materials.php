@@ -418,7 +418,7 @@ class Materials extends Component
                     ->orWhere('last_name', 'like', "%$value%");
             });
 
-        $recipients = $recipients->take(5)
+        $recipients = $recipients->take(10)
             ->orderBy('first_name')
             ->get()
             ->merge($selectedOption);
