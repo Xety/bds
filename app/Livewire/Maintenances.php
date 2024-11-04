@@ -483,6 +483,7 @@ class Maintenances extends Component
         }
 
         $incidents = Incident::query()
+            ->with('material', 'material.zone')
             ->whereRelation('material.zone', 'site_id', getPermissionsTeamId())
             ->where(function ($partQuery) use ($value) {
                 $partQuery
