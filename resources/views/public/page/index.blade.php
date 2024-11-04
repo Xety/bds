@@ -115,6 +115,7 @@
         </div>
     </div>
 </section>
+
 <section class="relative">
     <div class="bg-[#1b252f] px-[5%] py-[15%]">
         <div class="absolute w-full -top-0.5 left-0 fill-white">
@@ -171,6 +172,64 @@
                     </div>
                 </a>
             </div>
+        </div>
+
+        <div class="absolute w-full -bottom-0.5 left-0 fill-white transform rotate-180">
+            <svg class="relative block h-[40px] w-full left-1/2" style="transform: translateX(-50%) rotateY(180deg);" fill="primaryColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                <path d="M0,6V0h1000v100L0,6z"></path>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<section class="relative">
+    <div class="bg-primary px-[5%] py-[10%]">
+        <div class="absolute w-full -top-0.5 left-0 fill-white">
+            <svg class="relative block h-[40px] w-full left-1/2" style="transform: translateX(-50%) rotateY(180deg);" fill="primaryColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                <path d="M0,6V0h1000v100L0,6z"></path>
+            </svg>
+        </div>
+
+        <div class="grid grid-cols-12 mb-8 gap-4">
+            <div class="col-span-12 lg:col-span-6">
+                <div class="grid grid-cols-12">
+                    <div class="col-start-2 col-span-8 mb-[-20%]">
+                        <img class="inline-block shadow-xl rounded border-4 border-white" src="{{ asset('images/bds/Escape-Game-AS-10-1024x768.jpg') }}" alt="Escape game">
+                    </div>
+                    <div class="col-start-5 col-span-8">
+                        <img class="inline-block shadow-xl rounded border-4 border-white" src="{{ asset('images/bds/successful-happy-business-team-1024x683.jpg') }}" alt="Business team">
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-12 lg:col-span-6 content-center">
+                <div class="flex flex-col">
+                    <div class="font-racing text-6xl text-white uppercase text-center">
+                        Notre politique RSE
+                    </div>
+                    <div class="hidden lg:block justify-items-center">
+                        <div class="divider w-2/3"></div>
+                    </div>
+                    <div class="mb-6">
+                        <p class="text-white italic text-xl text-justify">
+                            Nous avons interrogé nos parties prenantes pour comprendre leurs attentes et regarder comment nous pouvons progresser
+                            ensemble. Cet exercice, pilier d’une démarche RSE robuste, nous a donné une bonne vision des enjeux sur lesquels nous
+                            allons nous engager (ou poursuivre nos actions déjà entreprises) dans les prochaines années. Nous sommes conscients que
+                            nous ne pouvons pas tout faire tout de suite, notre feuille de route fixe notre programme pour les prochaines années.
+                        </p>
+                    </div>
+                    <div class="self-end">
+                        <a href="#" class="btn text-primary">
+                            En savoir plus <x-icon name="fas-arrow-right" class="h-5 w-5"></x-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute w-full -bottom-0.5 left-0 fill-white transform rotate-180">
+            <svg class="relative block h-[40px] w-full left-1/2" style="transform: translateX(-50%) rotateY(180deg);" fill="primaryColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                <path d="M0,6V0h1000v100L0,6z"></path>
+            </svg>
         </div>
     </div>
 </section>

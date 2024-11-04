@@ -1,28 +1,29 @@
-<footer class="relative footer text-base bg-[#1b252f] text-white p-10 pt-[15%] lg:pt-[5%]">
+<footer class="relative footer justify-items-center text-base bg-[#1b252f] text-white p-10 pt-[15%] lg:pt-[5%]">
     <div class="absolute w-full -top-0.5 left-0 fill-white">
         <svg class="relative block h-[40px] w-full left-1/2" style="transform: translateX(-50%) rotateY(180deg);" fill="primaryColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
             <path d="M0,6V0h1000v100L0,6z"></path>
         </svg>
     </div>
     <nav>
-        <h6 class="footer-title">Services</h6>
-        <a class="link link-hover">Branding</a>
-        <a class="link link-hover">Design</a>
-        <a class="link link-hover">Marketing</a>
-        <a class="link link-hover">Advertisement</a>
-    </nav>
-    <nav>
-        <h6 class="footer-title">Company</h6>
-        <a class="link link-hover">About us</a>
+        <h6 class="footer-title">Le Groupe</h6>
+        <a class="link link-hover">Chiffres clés</a>
+        <a class="link link-hover">Le Comité de Direction</a>
+        <a class="link link-hover">Notre Politique RSE</a>
         <a class="link link-hover">Contact</a>
-        <a class="link link-hover">Jobs</a>
-        <a class="link link-hover">Press kit</a>
     </nav>
     <nav>
-        <h6 class="footer-title">Legal</h6>
-        <a class="link link-hover">Terms of use</a>
-        <a class="link link-hover">Privacy policy</a>
-        <a class="link link-hover">Cookie policy</a>
+        <h6 class="footer-title">Nos Filiales</h6>
+        <a class="link link-hover">Filiales Vin & Vignes</a>
+        <a class="link link-hover">Filiales Elevages</a>
+        <a class="link link-hover">Filiales Agroalimentaires</a>
+        <a class="link link-hover">Filiales Grandes Cultures</a>
+    </nav>
+    <nav>
+        <h6 class="footer-title">Coopérer</h6>
+        <a class="link link-hover">L'Alliance BFC</a>
+        <a class="link link-hover">Nous Autrement</a>
+        <a class="link link-hover">MaCoopEnLigne</a>
+        <a class="link link-hover">Espace Bourgogne du Sud</a>
     </nav>
 </footer>
 
