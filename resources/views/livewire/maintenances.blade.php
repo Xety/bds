@@ -442,7 +442,7 @@
 
                 {{-- Selection slot--}}
                 @scope('selection', $option)
-                {{ $option->full_name }}
+                    {{ $option->full_name }}
                 @endscope
             </x-choices>
         @endif

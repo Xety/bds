@@ -372,7 +372,8 @@ class Incidents extends Component
      */
     public function searchMaintenance(string $value = ''): void
     {
-        $selectedOption = Maintenance::where('id', $this->form->maintenance_id)->get();
+        $selectedOption = Maintenance::with(['material', 'material.zone.site'])
+            ->where('id', $this->form->maintenance_id)->get();
 
         $maintenances = Maintenance::query()
             ->with(['material', 'material.zone.site'])
@@ -396,7 +397,8 @@ class Incidents extends Component
      */
     public function searchMaterial(string $value = ''): void
     {
-        $selectedOption = Material::where('id', $this->form->material_id)->get();
+        $selectedOption = Material::with(['zone', 'zone.site'])
+            ->where('id', $this->form->material_id)->get();
 
         $materials = Material::query()
             ->with(['zone', 'zone.site'])

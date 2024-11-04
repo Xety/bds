@@ -353,14 +353,15 @@ class Cleanings extends Component
      */
     public function search(string $value = ''): void
     {
-        $selectedOption = Material::where('id', $this->form->material_id)->get();
+        $selectedOption = Material::with(['zone', 'zone.site'])
+            ->where('id', $this->form->material_id)->get();
 
         $materials = Material::query()
             ->with(['zone', 'zone.site'])
             ->where('name', 'like', "%$value%")
             ->whereRelation('zone.site', 'id', getPermissionsTeamId());
 
-        $materials = $materials->take(5)
+        $materials = $materials->take(10)
             ->orderBy('name')
             ->get()
             ->merge($selectedOption);

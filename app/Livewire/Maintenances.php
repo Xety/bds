@@ -418,14 +418,14 @@ class Maintenances extends Component
     {
         // Besides the search results, you must include on demand selected option
         if (!empty($this->form->operators)) {
-            $selectedOption = User::with(['roles', 'sites'])
+            $selectedOption = User::with('roles', 'sites')
                 ->whereIn('id', $this->form->operators)->get();
         } else {
             $selectedOption = [];
         }
 
         $operators = User::query()
-            ->with(['roles', 'sites'])
+            ->with('roles', 'sites')
             ->whereRelation('sites', 'site_id', getPermissionsTeamId())
             ->where(function($query) use ($value) {
                 return $query->where('first_name', 'like', "%$value%")
