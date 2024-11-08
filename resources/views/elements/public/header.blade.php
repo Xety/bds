@@ -19,10 +19,6 @@
             <a href="{{ route('public.page.index') }}">
                 <img src="{{ asset('images/logos/cbds_324x383.png') }}" alt="Coopérative Bourgogne du Sud Logo" class="inline-block w-20">
             </a>
-            <div class="divider lg:divider-horizontal"></div>
-            <a href="#">
-                <img src="{{ asset('images/logos/alliance_bfc.png') }}" alt="Alliance BFC Logo" class="inline-block h-10">
-            </a>
         </div>
         <!-- Center -->
         <div class="navbar-center lg:hidden">
@@ -32,7 +28,6 @@
         </div>
         <div class="navbar-center hidden lg:flex">
             <ul class="menu menu-horizontal text-xl z-10 text-primary">
-                <!-- Navbar menu content here -->
                 <li>
                     <div class="dropdown dropdown-bottom dropdown-hover">
                         <div tabindex="0" class="font-racing">Le Groupe</div>
@@ -43,32 +38,37 @@
                                 <div class="flex flex-row">
                                     <nav class="flex flex-col min-w-40">
                                         <h6 class="uppercase opacity-80 font-bold mb-2">
-                                            <a class="link link-hover" href="#">
-                                                Qui sommes-nous ?
-                                            </a>
+                                            Qui sommes-nous ?
                                         </h6>
-                                        <a class="link link-hover">Chiffres clés</a>
-                                    </nav>
-                                    <nav class="flex flex-col min-w-40">
-                                        <h6 class="uppercase opacity-80 font-bold mb-2">
-                                            <a class="link link-hover" href="#">
-                                                Gouvernance
-                                            </a>
-                                        </h6>
+                                        <a class="link link-hover" href="{{ route('public.page.notre-histoire') }}">
+                                            Notre histoire
+                                        </a>
+                                        <a class="link link-hover">
+                                            Chiffres clés
+                                        </a>
                                         <a class="link link-hover">
                                             Le Comité de Direction
                                         </a>
                                     </nav>
                                     <nav class="flex flex-col min-w-40">
                                         <h6 class="uppercase opacity-80 font-bold mb-2">
-                                            <a class="link link-hover" href="#">
-                                                Nos Filiales
-                                            </a>
+                                            Nos Filiales
                                         </h6>
                                         <a class="link link-hover">Filiales Vin & Vignes</a>
                                         <a class="link link-hover">Filiales Elevages</a>
                                         <a class="link link-hover">Filiales Agroalimentaires</a>
                                         <a class="link link-hover">Filiales Grandes Cultures</a>
+                                    </nav>
+                                    <nav class="flex flex-col min-w-40">
+                                        <h6 class="uppercase opacity-80 font-bold mb-2">
+                                            Coopérer
+                                        </h6>
+                                        <a class="link link-hover text-[#0A9F9D] font-bold" href="https://alliance-bfc.fr/" target="_blank">
+                                            <img src="{{ asset('images/bds/cropped-logo_alliance-192x192.png') }}" alt="Alliance BFC Logo" class="inline-block h-8"> L'Alliance BFC
+                                        </a>
+                                        <a class="link link-hover text-[#47b36e] font-bold" href="https://www.nousautrement.fr/" target="_blank">
+                                            <img src="{{ asset('images/bds/logo-na-vert.svg') }}" alt="Nous Autrement Logo" class="inline-block h-6"> Nous Autrement
+                                        </a>
                                     </nav>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                                         </g>
                                     </g>
                                 </g>
-                                </svg>
+                            </svg>
                             MaCoopEnLigne
                         </a>
                     </li>

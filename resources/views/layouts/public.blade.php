@@ -35,6 +35,7 @@ Conçu et développé par Emeric Fèvre.
                 document.documentElement.dataset.theme = 'light';
             }
         </script>
+        <script>document.documentElement.classList.add('js')</script>
 
         <!-- Embed Styles -->
         @stack('style')
@@ -47,7 +48,7 @@ Conçu et développé par Emeric Fèvre.
         <!-- Embed Scripts -->
         @stack('scriptsTop')
     </head>
-    <body>
+    <body class="overflow-x-hidden">
         <div class="drawer">
             <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content flex flex-col">
@@ -79,5 +80,7 @@ Conçu et développé par Emeric Fèvre.
         <!-- Embed Scripts -->
         @stack('scripts')
 
+
+        <script src="https://unpkg.com/taos@1.0.5/dist/taos.js"></script>
     </body>
 </html>

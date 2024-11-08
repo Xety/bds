@@ -33,14 +33,18 @@ use Illuminate\Support\Facades\Route;
 | Public Namespace
 |--------------------------------------------------------------------------
 */
-Route::group(['namespace' => 'Public'], function () {
+Route::group(['namespace' => 'Public', 'prefix' => 'public'], function () {
     /*
     |--------------------------------------------------------------------------
     | Page Routes
     |--------------------------------------------------------------------------
     */
-    Route::get('/public', [BDS\Http\Controllers\Public\PageController::class, 'index'])
+    Route::get('/', [BDS\Http\Controllers\Public\PageController::class, 'index'])
         ->name('public.page.index');
+    Route::view('/notre-histoire', 'public.page.notre-histoire')
+        ->name('public.page.notre-histoire');
+    Route::view('/metiers-de-lelevage', 'public.page.metiers-de-lelevage')
+        ->name('public.page.metiers-de-lelevage');
 });
 
 /*

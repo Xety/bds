@@ -4,14 +4,19 @@ import forms from '@tailwindcss/forms';
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: ['class', '[data-theme="dark"]'],
-    content: [
-        "./app/**/*.php",
-        "./config/*.php",
-        './resources/views/**/*.blade.php',
-        "./resources/js/**/*.js",
-        "./resources/js/Components/**/*.vue",
-        './storage/framework/views/*.php',
-    ],
+    content: {
+        relative: true,
+        transform: (content) => content.replace(/taos:/g, ''),
+        files: [
+            './src/*.{html,js}',
+            "./app/**/*.php",
+            "./config/*.php",
+            './resources/views/**/*.blade.php',
+            "./resources/js/**/*.js",
+            "./resources/js/Components/**/*.vue",
+            './storage/framework/views/*.php',
+        ],
+    },
 
     theme: {
         extend: {
@@ -43,7 +48,8 @@ export default {
 
     plugins: [
         require('@tailwindcss/typography'),
-        require('daisyui')
+        require('daisyui'),
+        require('taos/plugin')
     ],
 
     daisyui: {
@@ -76,6 +82,12 @@ export default {
             }
         ],
     },
+
+    safelist: [
+        '!duration-[0ms]',
+        '!delay-[0ms]',
+        'html.js :where([class*="taos:"]:not(.taos-init))'
+    ],
 
     // BYPASS TO COMPILE FULL CLASSES FOR DEV
     /*safelist: [
