@@ -116,5 +116,7 @@ class ZoneForm extends Form
                 ->withProperties(['old' => $activityLog['old'], 'attributes' => $zone->toArray()])
                 ->log('L\'utilisateur :causer.full_name à mis à jour la zone :subject.name.');
         }
+
+        return $zone;
     }
 }
