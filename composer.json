@@ -24,7 +24,7 @@
         "maatwebsite/excel": "3.1.55",
         "mallardduck/blade-boxicons": "^2.4.0",
         "masmerise/livewire-toaster": "^2.2.1",
-        "owenvoke/blade-fontawesome": "^2.6.0",
+        "owenvoke/blade-fontawesome": "^2.6",
         "saade/blade-iconsax": "^1.2.0",
         "schmeits/pulse-database-table-info": "^1.6.0",
         "spatie/laravel-activitylog": "^4.8.0",
