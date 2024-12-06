@@ -106,11 +106,12 @@ class PartsExport implements
             $row->reference,
             $row->supplier->name,
             $row->price . '€',
+            (string)$row->stock_total,
+            $row->stock_total * $row->price . '€',
             $row->number_warning_enabled ? 'Oui' : 'Non',
             $row->number_warning_minimum,
             $row->number_critical_enabled ? 'Oui' : 'Non',
             $row->number_critical_minimum,
-            (string)$row->stock_total,
             (string)$row->part_entry_total,
             (string)$row->part_exit_total,
             (string)$row->part_entry_count,
@@ -150,12 +151,13 @@ class PartsExport implements
             'Créateur',
             'Référence',
             'Fournisseur',
-            'Prix',
+            'Prix (U)',
+            'Nb en stock',
+            'Prix des pièces en stock',
             'Alerte activée',
             'Qt minimum pour l\'alerte',
             'Alerte critique activée',
             'Qt minimum pour l\'alerte critique',
-            'Nb en stock',
             'Nb total de pièce entrée',
             'Nb total de pièce sortie',
             'Nb total d\'entrée',
@@ -207,11 +209,12 @@ class PartsExport implements
             'U' => 17,
             'V' => 17,
             'W' => 17,
-            'X' => 17
+            'X' => 17,
+            'Y' => 17
         ];
 
         if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $data['Y'] = 17;
+            $data['Z'] = 17;
         }
 
         return $data;
@@ -246,10 +249,10 @@ class PartsExport implements
      */
     public function styles(Worksheet $sheet): void
     {
-        $lastColumn = 'X';
+        $lastColumn = 'Y';
 
         if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
-            $lastColumn = 'Y';
+            $lastColumn = 'Z';
         }
         // Change worksheet title
         $sheet->setTitle('Pièces Détachées');
