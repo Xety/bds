@@ -6,28 +6,23 @@ use BDS\Models\Site;
 use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithDefaultStyles;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Cell\Cell;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PartsExport extends DefaultValueBinder implements
+class PartsExport implements
     FromQuery,
     WithStyles,
     WithMapping,
     WithColumnWidths,
     WithHeadings,
-    WithDefaultStyles,
-    WithCustomValueBinder
+    WithDefaultStyles
 {
 
     /**
@@ -110,9 +105,9 @@ class PartsExport extends DefaultValueBinder implements
             $row->user->full_name,
             $row->reference,
             $row->supplier->name,
-            $row->price,
+            number_format($row->price, 2, ',', ' ') . '€',
             (string)$row->stock_total,
-            $row->stock_total * $row->price,
+            number_format($row->stock_total * $row->price, 2, ',', ' ') . '€',
             $row->number_warning_enabled ? 'Oui' : 'Non',
             $row->number_warning_minimum,
             $row->number_critical_enabled ? 'Oui' : 'Non',
@@ -158,7 +153,7 @@ class PartsExport extends DefaultValueBinder implements
             'Fournisseur',
             'Prix Unité (€)',
             'Nb en stock',
-            'Prix des pièces en stock ( €)',
+            'Prix des pièces en stock (€)',
             'Alerte activée',
             'Qt minimum pour l\'alerte',
             'Alerte critique activée',
@@ -326,23 +321,5 @@ class PartsExport extends DefaultValueBinder implements
                 ->getAllBorders()
                 ->setBorderStyle(Border::BORDER_THIN);
         }
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function bindValue(Cell $cell, $value): bool
-    {
-        if (is_numeric($value)) {
-            $cell->setValueExplicit(
-                $value,
-                DataType::TYPE_NUMERIC
-            );
-
-            return true;
-        }
-
-        // else return default behavior
-        return parent::bindValue($cell, $value);
     }
 }
