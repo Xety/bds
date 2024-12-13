@@ -5,10 +5,26 @@
     <x-meta title="Metiers de L'élevage"/>
 @endpush
 
+@push('scripts')
+    <script src="https://unpkg.com/waypoints@4.0.1/lib/noframework.waypoints.min.js"></script>
+    <script type="text/javascript">
+        new Waypoint({
+            element: document.getElementById('nutricoop'),
+            offset: '60%',
+            handler: function(direction) {
+                const progress = document.getElementsByClassName('progress-bar');
+
+                for (let i = 0; i < progress.length; i++) {
+                    progress[i].style.width = progress[i].getAttribute('aria-valuenow') + '%';
+                }
+            }
+        });
+    </script>
+@endpush
 
 @section('content')
 <section class="relative">
-    <div class="bg-[url('/images/bds/metiers_de_elevage.jpg')] bg-fixed bg-center bg-no-repeat bg-cover min-h-dvh">
+    <div class="bg-[url('/images/public/metiers_de_elevage.jpg')] bg-fixed bg-center bg-no-repeat bg-cover min-h-dvh">
         <div class="bg-gray-800 opacity-60 absolute h-full w-full top-0 left-0"></div>
         <div class="flex flex-col relative min-h-dvh items-center justify-center">
             <div class="delay-[300ms] duration-[600ms] taos:translate-y-[-200px] taos:opacity-0" data-taos-offset="500">
@@ -99,6 +115,38 @@
                     class="inline-block delay-[300ms] duration-[600ms] taos:[transform:translate3d(200px,200px,0)] taos:opacity-0" data-taos-offset="200"
                     src="{{ asset('images/bds/nutricoop-1024x750.png') }}"
                     alt="Nutricoop">
+            </div>
+            <div class="col-span-12 lg:col-span-6 mb-5 content-center">
+                <div id="nutricoop" class="flex flex-col gap-4">
+                    <div>
+                        <span class="flex justify-between">
+                            Local <span class="italic">100%</span>
+                        </span>
+                        <div class="bg-white rounded h-4">
+                            <div aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar rounded bg-[#97B816] h-4 transition-all duration-1000 ease-linear" style="width: 0; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="flex justify-between">
+                            Qualité <span class="italic">100%</span>
+                        </span>
+                        <div class="bg-white rounded h-4">
+                            <div aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar rounded bg-[#97B816] h-4 transition-all duration-1000 ease-linear" style="width: 0; transition: width 0.6s;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="flex justify-between">
+                            Engagement <span class="italic">100%</span>
+                        </span>
+                        <div class="bg-white rounded h-4">
+                            <div aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar rounded bg-[#97B816] h-4 transition-all duration-1000 ease-linear" style="width: 0; transition: width 0.9s;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-16 italic">
+                    Une unité de stockage de matières premières au cœur de la zone de notre coopérative permet de fournir également de manière efficace,
+                    une large gamme de matières premières et de céréales aux éleveurs.
+                </div>
             </div>
         </div>
 

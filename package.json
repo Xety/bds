@@ -27,6 +27,7 @@
         "@marcreichel/alpine-auto-animate": "^1.1.0",
         "apexcharts": "^4.1.0",
         "flatpickr": "^4.6.13",
+        "leaflet": "^1.9.4",
         "print-js": "^1.6.0",
         "taos": "^1.0.5"
     }
