@@ -58,11 +58,6 @@
     color: #fff
 }
 
-.map-popup .h6 {
-    margin: 1rem 0;
-    color: oklch(var(--p))
-}
-
 .map-popup .open {
     color: oklch(var(--su))
 }

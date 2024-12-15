@@ -561,8 +561,31 @@
             groups['usine'] = new L.FeatureGroup(group).addTo(map);
             bounds.extend(groups['usine'].getBounds());
 
+            // ACTIVITES VIGNES
+            html = '';
+            html += '<div class="leaflet-marker-icon-inner" style="background-color:#a50343"></div>';
+            html += '<div class="leaflet-marker-icon-open" style="background-color:#a50343"></div>';
+            icons[5] = L.divIcon({
+                html: html,
+                iconSize: [20, 20],
+                iconAnchor: [12, 12],
+            });
+            group = [];
+
+            //  FICHET
+            marker = L.marker([46.967943, 4.795307], {icon: icons[5]});
+            marker.addTo(map);
+            marker.on('click', function(e) {
+                clickMarker(e.target, 17);
+            });
+            group.push(marker);
+
+            groups['activite-vigne'] = new L.FeatureGroup(group).addTo(map);
+            bounds.extend(groups['activite-vigne'].getBounds());
+
 
             map.fitBounds(bounds, {padding: [100, 100]});
+
 
             map.on('popupopen', function(e) {
                 const el = document.querySelector('.leaflet-popup');
@@ -584,6 +607,12 @@
                 }
 
                 e.popup.update();
+            });
+
+            map.on('popupclose', function(e) {
+                document.querySelectorAll('.leaflet-marker-icon').forEach(function(el) {
+                    el.classList.remove('leaflet-marker-clicked');
+                });
             });
 
 
@@ -618,6 +647,9 @@
                         map.addLayer(groups['usine']);
                         bounds.extend(groups['usine'].getBounds());
 
+                        map.addLayer(groups['activite-vigne']);
+                        bounds.extend(groups['activite-vigne'].getBounds());
+
                         map.flyToBounds(bounds, { padding: [100, 100]});
                     }
                 });
@@ -646,12 +678,6 @@
                     },
                 })*/
             }
-
-            map.on('popupclose', function(e) {
-                document.querySelectorAll('.leaflet-marker-icon').forEach(function(el) {
-                    el.classList.remove('leaflet-marker-clicked');
-                });
-            });
 
         });
     </script>
@@ -696,7 +722,7 @@
             </li>
             <li class="swiper-slide">
                 <button class="filter " data-slug="activite-vigne">
-                    <span class="color" style="background:#3498db"></span>
+                    <span class="color" style="background:#a50343"></span>
                     <span>Activité vigne</span>
                 </button>
             </li>
@@ -713,130 +739,99 @@
 
 
 
-<div id="popup-21" class="map-popup simplebar-scrollable-y" data-simplebar="init">
+<div id="popup-21" class="map-popup simplebar-scrollable-y">
     <div class="simplebar-wrapper" style="margin: -16px;">
         <div class="simplebar-mask">
             <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-                <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto;">
-                    <div class="simplebar-content" style="padding: 16px;">
-                        <div class="bar" style="background-color:#feba00"></div>
-                        <h2 class="text-2xl text-primary mb-2">
-                            Les hays
+                <div class="simplebar-content-wrapper"  style="height: auto;">
+                    <div class="border-l-8 border-[#feba00] p-4">
+                        <h2 class="text-2xl text-primary mb-2 font-racing uppercase">
+                            VERDUN SUR LE DOUBS
                         </h2>
-                        <div class="type">Silos de collecte</div>
+                        <div class="text-gray-400">
+                            Silos de collecte
+                        </div>
                         <div class="buttons">
-                            <a class="btn btn-sm btn-primary btn-outline" href="http://maps.google.com/?q=Les hays, 13 Route du Moulin, 39120 Les Hays, France, 39120 Les Hays" target="_blank" rel="nofollow noopener">
-                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="13.25" height="13.25" viewBox="0 0 13.25 13.25">
-                                    <g>
-                                        <path d="M6.969 3.96a.667.667 0 00-.48 1.129l.862.862H4.294a.667.667 0 000 1.333h3.057l-.862.862-.017.017a.667.667 0 00.96.925l2-2a.668.668 0 000-.943l-2-2a.664.664 0 00-.463-.185"></path>
-                                        <path d="M6.627 1.333a.4.4 0 01.288.119L11.8 6.34a.407.407 0 010 .576L6.915 11.8a.407.407 0 01-.576 0L1.453 6.915a.407.407 0 010-.576L6.34 1.453a.4.4 0 01.288-.119m0-1.334A1.733 1.733 0 005.4.511L.51 5.395a1.741 1.741 0 000 2.462L5.4 12.74a1.739 1.739 0 002.461 0l4.879-4.883a1.741 1.741 0 000-2.462L7.857.51A1.733 1.733 0 006.626 0"></path>
-                                    </g>
-                                </svg>
+                            <a class="btn btn-sm btn-primary btn-outline" href="http://maps.google.com/?q=Les hays, 13 Route du Moulin, 39120 Les Hays, France, 39120 Les Hays" target="_blank">
+                                <x-icon name="fas-location-arrow" class="h-4 w-4 inline"></x-icon>
                                 Itinéraire
                             </a>
                             <a class="btn btn-sm btn-primary btn-outline" href="tel:03 84 81 41 94">
-                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="19.998" height="19.999" viewBox="0 0 19.998 19.999">
-                                    <path d="M19.932 14.558a3.812 3.812 0 00-.086-.381 1.976 1.976 0 00-1.585-1.392l-4.331-.721a2.014 2.014 0 00-1.905.729c-.058.073-.114.149-.226.273a9.088 9.088 0 01-4.831-4.92c.1-.069.2-.143.3-.22a2.013 2.013 0 00.721-1.877l-.671-4.255A1.985 1.985 0 005.982.206 3.918 3.918 0 005.44.069a4.54 4.54 0 00-3.764 1.043A4.778 4.778 0 00.006 4.88 15.542 15.542 0 0015.118 20h.13a4.77 4.77 0 003.618-1.661 4.569 4.569 0 001.066-3.781zm-2.579 2.472a2.77 2.77 0 01-2.182.969A13.543 13.543 0 011.999 4.827a2.789 2.789 0 01.975-2.2 2.528 2.528 0 011.657-.632 2.6 2.6 0 01.447.04 1.722 1.722 0 01.259.067l.666 4.269c-.05.04-.1.078-.158.116a2.027 2.027 0 00-.75 2.5 11.352 11.352 0 005.9 5.905 2.03 2.03 0 002.507-.749l.093-.115 4.32.681a1.84 1.84 0 01.041.184 2.571 2.571 0 01-.603 2.137z"></path>
-                                </svg>
+                                <x-icon name="fas-phone" class="h-4 w-4 inline"></x-icon>
                                 Appeler
                             </a>
                             <a class="btn btn-sm btn-primary btn-outline" href="mailto:lisa.hays@terrecomtoise.com">
-                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
-                                    <path d="M15 0H5a5.006 5.006 0 00-5 5v6a5.006 5.006 0 005 5h10a5.006 5.006 0 005-5V5a5.006 5.006 0 00-5-5zM5 2h10s2.189.688 2.68 1.678l-6.016 4.01a2.992 2.992 0 01-3.328 0L2.32 3.678A2.994 2.994 0 015 2zm10 12H5a3 3 0 01-3-3V5.868l5.226 3.484a4.984 4.984 0 005.547 0L18 5.868V11a3 3 0 01-3 3z"></path>
-                                </svg>
+                                <x-icon name="fas-envelope" class="h-4 w-4 inline"></x-icon>
                                 Contact
                             </a>
                         </div>
-                        <h3 class="h6">Détails</h3>
-                        <div class="group schedules">
-                            <ul>
-                                <li class="item">
-                                    <a href="javascript:void(0);" onclick="displayDays(event)">
-                                        <div class="label flex">
-                                            <div class="left">Horaires</div>
-                                            <div class="right"><svg fill="currentColor" stroke="currentcolor" xmlns="http://www.w3.org/2000/svg" width="7.717" height="4.717" viewBox="0 0 7.717 4.717">
-                                                    <path d="M7.12 1.119l-3 3a.333.333 0 01-.471 0l-3-3A.333.333 0 011.12.648l2.764 2.764L6.648.648a.333.333 0 11.471.471z"></path>
-                                                </svg></div>
-                                        </div>
-                                        <div class="value">
-                                            <table>
-                                                <tbody>
-                                                <tr class="day-1 hide">
-                                                    <td class="text-left">Lundi</td>
-                                                    <td class="text-right">09:00-12:00</td>
-                                                    <td class="text-right">13:30-17:00</td>
-                                                </tr>
-                                                <tr class="day-2 hide">
-                                                    <td class="text-left">Mardi</td>
-                                                    <td class="text-right">09:00-12:00</td>
-                                                    <td class="text-right">13:30-17:00</td>
-                                                </tr>
-                                                <tr class="day-3 hide">
-                                                    <td class="text-left">Mercredi</td>
-                                                    <td class="text-right">09:00-12:00</td>
-                                                    <td class="text-right">13:30-17:00</td>
-                                                </tr>
-                                                <tr class="day-4 hide">
-                                                    <td class="text-left">Jeudi</td>
-                                                    <td class="text-right">09:00-12:00</td>
-                                                    <td class="text-right">13:30-17:00</td>
-                                                </tr>
-                                                <tr class="day-5 active">
-                                                    <td class="text-left">Vendredi</td>
-                                                    <td class="text-right">09:00-12:00</td>
-                                                    <td class="text-right">13:30-17:00</td>
-                                                </tr>
-                                                <tr class="day-6 hide">
-                                                    <td class="text-left">Samedi</td>
-                                                    <td class="text-right" colspan="2">Fermé</td>
-                                                </tr>
-                                                <tr class="day-7 hide">
-                                                    <td class="text-left">Dimanche</td>
-                                                    <td class="text-right" colspan="2">Fermé</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="info">
-                                            <span class="open">Ouvert</span>
-                                            <span class="next">(Ferme dans 2 heures)</span>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="group">
-                            <ul>
-                                <li class="item">
-                                    <a href="tel:03 84 81 41 94">
-                                        <div class="label">Téléphone</div>
-                                        <div class="value">03 84 81 41 94</div>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a class="flex" href="http://maps.google.com/?q=Les hays, 13 Route du Moulin, 39120 Les Hays, France, 39120 Les Hays" target="_blank" rel="nofollow noopener">
-                                        <div class="left">
-                                            <div class="label">Adresse</div>
-                                            <div class="value">13 Route du Moulin, 39120 Les Hays, France</div>
-                                        </div>
-                                        <div class="right">
-                                            <div class="icon destination"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="13.25" height="13.25" viewBox="0 0 13.25 13.25">
-                                                    <g>
-                                                        <path d="M6.969 3.96a.667.667 0 00-.48 1.129l.862.862H4.294a.667.667 0 000 1.333h3.057l-.862.862-.017.017a.667.667 0 00.96.925l2-2a.668.668 0 000-.943l-2-2a.664.664 0 00-.463-.185"></path>
-                                                        <path d="M6.627 1.333a.4.4 0 01.288.119L11.8 6.34a.407.407 0 010 .576L6.915 11.8a.407.407 0 01-.576 0L1.453 6.915a.407.407 0 010-.576L6.34 1.453a.4.4 0 01.288-.119m0-1.334A1.733 1.733 0 005.4.511L.51 5.395a1.741 1.741 0 000 2.462L5.4 12.74a1.739 1.739 0 002.461 0l4.879-4.883a1.741 1.741 0 000-2.462L7.857.51A1.733 1.733 0 006.626 0"></path>
-                                                    </g>
-                                                </svg></div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <h3 class="text-xl">
-                            Personnels
+                        <h3 class="text-primary text-lg">
+                            Détails
                         </h3>
-                        <div class="group commerciaux">
+                        <div class="p-4 mb-4 shadow-lg rounded-lg">
+                            <div class="mb-2 text-primary">
+                                Horaires
+                            </div>
+                            <ul class="flex flex-col gap-2 text-gray-600">
+                                <li class="flex justify-between">
+                                    <div>Lundi</div>
+                                    <div>08:00 12:30 - 13:30 18:00</div>
+                                </li>
+                                <li class="flex justify-between">
+                                    <div>Mardi</div>
+                                    <div>08:00 12:30 - 13:30 18:00</div>
+                                </li>
+                                <li class="flex justify-between">
+                                    <div>Mercredi</div>
+                                    <div>08:00 12:30 - 13:30 18:00</div>
+                                </li>
+                                <li class="flex justify-between">
+                                    <div>Jeudi</div>
+                                    <div>08:00 12:30 - 13:30 18:00</div>
+                                </li>
+                                <li class="flex justify-between">
+                                    <div>Vendredi</div>
+                                    <div>08:00 12:30 - 13:30 18:00</div>
+                                </li>
+                                <li class="flex justify-between">
+                                    <div>Samedi</div>
+                                    <div>Fermé</div>
+                                </li>
+                                <li class="flex justify-between">
+                                    <div>Dimanche</div>
+                                    <div>Fermé</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-4 mb-4 shadow-lg rounded-lg">
+                            <ul class="flex flex-col gap-2">
+                                <li class="[&:not(:first-child)]:pt-2 [&:not(:first-child)]:mt-2 [&:not(:first-child)]:border-t border-gray-300">
+                                    <a href="tel:03 84 81 41 94">
+                                        <div  class="mb-2 text-primary">Téléphone</div>
+                                        <div class="text-gray-600">03 84 81 41 94</div>
+                                    </a>
+                                </li>
+                                <li class="[&:not(:first-child)]:pt-2 [&:not(:first-child)]:mt-2 [&:not(:first-child)]:border-t border-gray-300">
+                                    <a class="flex justify-between items-center" href="http://maps.google.com/?q=Les hays, 13 Route du Moulin, 39120 Les Hays, France, 39120 Les Hays" target="_blank" rel="nofollow noopener">
+                                        <div>
+                                            <div class="mb-2 text-primary">Adresse</div>
+                                            <div class="text-gray-600">13 Route du Moulin, 39120 Les Hays, France</div>
+                                        </div>
+                                        <div>
+                                            <div class="icon destination">
+                                                <x-icon name="fas-location-arrow" class="h-3 w-3 inline"></x-icon>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <h3 class="text-primary text-lg">
+                            Collaborateurs
+                        </h3>
+                        <div class="p-4 mb-4 shadow-lg rounded-lg last:mb-0">
                             <ul>
-                                <li class="item">
+                                <li class="[&:not(:first-child)]:pt-2 [&:not(:first-child)]:mt-2 [&:not(:first-child)]:border-t border-gray-300 ">
                                     <div class="flex justify-start items-center">
                                         <div class="avatar mr-3">
                                             <div class="w-16 rounded-full bg-primary">
@@ -849,7 +844,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="item">
+                                <li class="[&:not(:first-child)]:pt-2 [&:not(:first-child)]:mt-2 [&:not(:first-child)]:border-t border-gray-300">
                                     <div class="flex justify-start items-center">
                                         <div class="avatar mr-3">
                                             <div class="w-16 rounded-full bg-primary">
@@ -862,7 +857,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="item">
+                                <li class="[&:not(:first-child)]:pt-2 [&:not(:first-child)]:mt-2 [&:not(:first-child)]:border-t border-gray-300">
                                     <div class="flex justify-start items-center">
                                         <div class="avatar mr-3">
                                             <div class="w-16 rounded-full bg-primary">
