@@ -27,6 +27,30 @@ use Illuminate\Support\Facades\Route;
                 ->toMail($user);
 });*/
 
+
+/*
+|--------------------------------------------------------------------------
+| Public Namespace
+|--------------------------------------------------------------------------
+*/
+Route::group(['namespace' => 'Public', 'prefix' => 'public'], function () {
+    /*
+    |--------------------------------------------------------------------------
+    | Page Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/', [BDS\Http\Controllers\Public\PageController::class, 'index'])
+        ->name('public.page.index');
+    Route::view('/sites', 'public.page.sites')
+        ->name('public.page.sites');
+    Route::view('/notre-histoire', 'public.page.notre-histoire')
+        ->name('public.page.notre-histoire');
+    Route::view('/metiers-de-lelevage', 'public.page.metiers-de-lelevage')
+        ->name('public.page.metiers-de-lelevage');
+    Route::view('/metiers-des-grandes-cultures', 'public.page.metiers-des-grandes-cultures')
+        ->name('public.page.metiers-des-grandes-cultures');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Auth Namespace

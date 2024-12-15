@@ -1,0 +1,242 @@
+{
+    "siege-social" : {
+        "1": {
+            "id" : 1,
+            "name" : "Siège Social",
+            "type" : "Siège Social",
+            "coordinates" : "46.890320, 5.028053",
+            "phone" : "03 85 91 93 00",
+            "email" : "siege@bourgognedusud.coop",
+            "address" : "6 Avenue du président Borgeot, 71350 Verdun-sur-le-Doubs",
+            "opening_hours" : [
+                {
+                    "monday" : "08:00 12:30 - 13:30 18:00",
+                    "tuesday" : "08:00 12:30 - 13:30 18:00",
+                    "wednesday" : "08:00 12:30 - 13:30 18:00",
+                    "thursday" : "08:00 12:30 - 13:30 18:00",
+                    "friday" : "08:00 12:30 - 13:30 18:00",
+                    "saturday" : "Fermé",
+                    "sunday" : "Fermé"
+                }
+            ],
+            "employees" : [
+                {
+                    "name" : "Bertrand Combemorel",
+                    "function" : "Directeur Général",
+                    "email" : "b.combemorel@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                },
+                {
+                    "name" : "Yann Joly",
+                    "function" : "Directeur Général Délégué",
+                    "email" : "y.joly@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                }
+            ]
+        }
+    },
+
+
+
+    "gamm-vert" : {
+        "1": {
+            "id" : 1,
+            "name" : "Verdun sur le Doubs",
+            "type" : "Gamm Vert",
+            "coordinates" : "46.892028, 5.024346",
+            "phone" : "03 85 91 51 31",
+            "email" : "depot112@bourgognedusud.coop",
+            "address" : "19 Av. Valéry Giscard d'Estaing, 71350 Verdun-sur-le-Doubs",
+            "opening_hours" : [
+                {
+                    "monday" : "Fermé",
+                    "tuesday" : "09:00–12:00, 14:00–18:30",
+                    "wednesday" : "09:00–12:00, 14:00–18:30",
+                    "thursday" : "09:00–12:00, 14:00–18:30",
+                    "friday" : "09:00–12:00, 14:00–18:30",
+                    "saturday" : "09:00–12:00, 14:00–18:30",
+                    "sunday" : "Fermé"
+                }
+            ],
+            "employees" : [
+                {
+                    "name" : "Bertrand Combemorel",
+                    "function" : "Directeur Général",
+                    "email" : "b.combemorel@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                },
+                {
+                    "name" : "Yann Joly",
+                    "function" : "Directeur Général Délégué",
+                    "email" : "y.joly@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                }
+            ]
+        }
+    },
+
+
+
+    "silos" : {
+        "1": {
+            "id" : 1,
+            "name" : "Chalon Nord",
+            "type" : "Silo",
+            "coordinates" : "46.802799, 4.869835",
+            "phone" : "03 85 43 10 32",
+            "email" : "depot149@bourgognedusud.coop",
+            "address" : "Rue des Frères Lumière, 71100 Chalon-sur-Saône",
+            "opening_hours" : [
+                {
+                    "monday" : "08:00–12:00, 13:30–17:30",
+                    "tuesday" : "08:00–12:00, 13:30–17:30",
+                    "wednesday" : "08:00–12:00, 13:30–17:30",
+                    "thursday" : "08:00–12:00, 13:30–17:30",
+                    "friday" : "08:00–12:00, 13:30–17:30",
+                    "saturday" : "Fermé",
+                    "sunday" : "Fermé"
+                }
+            ],
+            "employees" : [
+                {
+                    "name" : "Rossignol Fabrice",
+                    "function" : "Responsable Silo",
+                    "email" : "f.rossignol@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                }
+            ]
+        },
+        "2": {
+            "id" : 2,
+            "name" : "Chalon Sud",
+            "type" : "Silo",
+            "coordinates" : "46.758015, 4.870060",
+            "phone" : "03 85 43 10 32",
+            "email" : "depotXXX@bourgognedusud.coop",
+            "address" : "Zone d'activité Portuaires, 71380 Saint-Marcel",
+            "opening_hours" : [
+                {
+                    "monday" : "08:00–12:00, 13:30–17:30",
+                    "tuesday" : "08:00–12:00, 13:30–17:30",
+                    "wednesday" : "08:00–12:00, 13:30–17:30",
+                    "thursday" : "08:00–12:00, 13:30–17:30",
+                    "friday" : "08:00–12:00, 13:30–17:30",
+                    "saturday" : "Fermé",
+                    "sunday" : "Fermé"
+                }
+            ],
+            "employees" : [
+                {
+                    "name" : "Langlois Dominique",
+                    "function" : "Responsable Silo",
+                    "email" : "d.langlois@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                }
+            ]
+        }
+    },
+
+
+    "usines" : {
+        "1": {
+            "id" : 1,
+            "name" : "Extrusel",
+            "type" : "Usine",
+            "coordinates" : "46.801969, 4.871449",
+            "phone" : "03 85 97 05 05",
+            "email" : "depot149@bourgognedusud.coop",
+            "address" : "Rue des Frères Lumière, 71100 Chalon-sur-Saône",
+            "opening_hours" : [
+                {
+                    "monday" : "08:00–12:00, 13:30–17:30",
+                    "tuesday" : "08:00–12:00, 13:30–17:30",
+                    "wednesday" : "08:00–12:00, 13:30–17:30",
+                    "thursday" : "08:00–12:00, 13:30–17:30",
+                    "friday" : "08:00–12:00, 13:30–17:30",
+                    "saturday" : "Fermé",
+                    "sunday" : "Fermé"
+                }
+            ],
+            "employees" : [
+                {
+                    "name" : "Lequeu Franck",
+                    "function" : "Responsable Production",
+                    "email" : "f.lequeu@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                },
+                {
+                    "name" : "Pissenem Damien",
+                    "function" : "Adjoint Responsable Production",
+                    "email" : "d.pissenem@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                }
+            ]
+        },
+        "2": {
+            "id" : 2,
+            "name" : "Selvah",
+            "type" : "Usine",
+            "coordinates" : "46.873835, 5.061098",
+            "phone" : "03 85 43 10 32",
+            "email" : "",
+            "address" : "Zone d'activité Portuaires, 71380 Saint-Marcel",
+            "opening_hours" : [
+                {
+                    "monday" : "08:00–12:00, 13:30–17:30",
+                    "tuesday" : "08:00–12:00, 13:30–17:30",
+                    "wednesday" : "08:00–12:00, 13:30–17:30",
+                    "thursday" : "08:00–12:00, 13:30–17:30",
+                    "friday" : "08:00–12:00, 13:30–17:30",
+                    "saturday" : "Fermé",
+                    "sunday" : "Fermé"
+                }
+            ],
+            "employees" : [
+                {
+                    "name" : "Lequeu Franck",
+                    "function" : "Responsable Production",
+                    "email" : "f.lequeu@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                },
+                {
+                    "name" : "Fevre Emeric",
+                    "function" : "Adjoint Responsable Production",
+                    "email" : "e.fevre@bourgognedusud.coop"
+                }
+            ]
+        }
+    },
+
+
+
+    "activites-vigne" : {
+        "1": {
+            "id" : 1,
+            "name" : "Fichet",
+            "type" : "Activité Vigne",
+            "coordinates" : "46.967943, 4.795307",
+            "phone" : "03 80 21 23 78",
+            "email" : "siege@bourgognedusud.coop",
+            "address" : "42 Imp. du Pré des Taupes, 21190 Meursault",
+            "opening_hours" : [
+                {
+                    "monday" : "08:00 12:30 - 13:30 18:00",
+                    "tuesday" : "08:00 12:30 - 13:30 18:00",
+                    "wednesday" : "08:00 12:30 - 13:30 18:00",
+                    "thursday" : "08:00 12:30 - 13:30 18:00",
+                    "friday" : "08:00 12:30 - 13:30 18:00",
+                    "saturday" : "Fermé",
+                    "sunday" : "Fermé"
+                }
+            ],
+            "employees" : [
+                {
+                    "name" : "Bertrand Combemorel",
+                    "function" : "Directeur Général",
+                    "email" : "b.combemorel@bourgognedusud.coop",
+                    "phone" : "06 12 34 56 78"
+                }
+            ]
+        }
+    }
+}
