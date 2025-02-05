@@ -33,14 +33,16 @@ new class extends Component {
                         'lang' => 'fr'
                     ]);
 
-                    dd($response->getBody()->getContents());
-
                     $response = json_decode($response->getBody()->getContents());
                 } catch (\Illuminate\Http\Client\ConnectionException $e ) { }
 
                 return $response;
             }
         );
+
+        if (is_array($this->weather)) {
+            $this->weather =  json_decode(json_encode($this->weather));
+        }
 
     }
 }; ?>
