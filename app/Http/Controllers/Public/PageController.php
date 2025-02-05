@@ -27,7 +27,7 @@ class PageController extends Controller
      */
     public function sites()
     {
-        $sites = File::json(resource_path('js\sites.json'));
+        $sites = File::json(resource_path('js/sites.json'));
 
         return response()->json($sites);
     }
