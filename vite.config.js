@@ -6,10 +6,12 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/bds.css',
+                'resources/css/leaflet.css',
                 'resources/js/bds.js',
                 'resources/js/calendars.js',
                 'resources/js/apexcharts.js',
                 'resources/js/chart.js',
+                'resources/js/leaflet.js'
             ],
             refresh: true,
         })
