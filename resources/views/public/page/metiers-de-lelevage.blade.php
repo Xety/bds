@@ -53,17 +53,17 @@
             <div class="col-span-12 mb-5 content-center delay-[300ms] duration-[600ms] taos:translate-x-[-200px] taos:opacity-0" data-taos-offset="200">
                 <div class="flex flex-col">
                     <div class="mb-2">
-                        <h4 class="text-white text-xl italic">L'élevage Au Sein De La Coopérative Bourgogne Du Sud</h4>
+                        <h4 class="text-white text-2xl italic">L'élevage Au Sein De La Coopérative Bourgogne Du Sud</h4>
                     </div>
                     <div class="mb-6">
                         <h2 class="uppercase text-6xl text-white font-racing">propose une approche globale des exploitations</h2>
                     </div>
                     <div class="mb-6 flex flex-col lg:flex-row gap-4 text-justify">
-                        <p class="text-white italic">
+                        <p class="text-white italic text-xl">
                             En effet ce service ne cesse de se développer. Les experts du service travaillent sur plusieurs problématiques. Les problématiques de productions et conservations des fourrages,
                             mais aussi les problématiques de suivi zootechnique des élevages, en passant par des solutions d’hygiène pour les élevages.
                         </p>
-                        <p class="text-white italic">
+                        <p class="text-white italic text-xl">
                             Nous proposons une offre importante en équipement et matériel d’élevage. Tout ça associé à un conseil personnalisé, qui vient compléter les prestations du service.
                         </p>
                     </div>
@@ -94,7 +94,7 @@
                         <h2 class="uppercase text-6xl text-white font-racing">chez bourgogne du sud</h2>
                     </div>
                     <div class="mb-6 flex flex-col lg:flex-row gap-4 text-justify">
-                        <p class="text-white italic">
+                        <p class="text-white italic text-xl">
                             Nous proposons aussi une offre très complète en aliments. Elle comprend nos partenaires locaux (PHILICOT et SANDERS).
                             Mais aussi une offre Mash spécifique de qualité, NUTRICOOP, créée et développée par notre coopérative.
                         </p>
@@ -103,7 +103,7 @@
                         <h2 class="uppercase text-6xl text-white font-racing">nutricoop</h2>
                     </div>
                     <div class="mb-6 flex flex-col lg:flex-row gap-4 text-justify">
-                        <p class="text-white italic">
+                        <p class="text-white italic text-xl">
                             NUTRICOOP respecte des cahiers des charges des filières locales, et s’appuie sur nos ressources locales et originales :
                             les Expellors de colza et soja, issus de notre unité de trituration de Chalon-sur-Saône (EXTRUSEL).
                         </p>

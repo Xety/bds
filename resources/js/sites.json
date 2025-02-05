@@ -1,242 +1,1461 @@
 {
-    "siege-social" : {
-        "1": {
-            "id" : 1,
-            "name" : "Siège Social",
+    "siege-social" : [
+        {
+            "name" : "Siège Bourgogne du Sud",
             "type" : "Siège Social",
-            "coordinates" : "46.890320, 5.028053",
+            "color" : "#e02a18",
+            "coordinates" : {
+                "lat" : "46.890320",
+                "long" : "5.028053"
+            },
             "phone" : "03 85 91 93 00",
             "email" : "siege@bourgognedusud.coop",
             "address" : "6 Avenue du président Borgeot, 71350 Verdun-sur-le-Doubs",
-            "opening_hours" : [
-                {
-                    "monday" : "08:00 12:30 - 13:30 18:00",
-                    "tuesday" : "08:00 12:30 - 13:30 18:00",
-                    "wednesday" : "08:00 12:30 - 13:30 18:00",
-                    "thursday" : "08:00 12:30 - 13:30 18:00",
-                    "friday" : "08:00 12:30 - 13:30 18:00",
-                    "saturday" : "Fermé",
-                    "sunday" : "Fermé"
-                }
-            ],
+            "opening_hours" : {
+                "lundi" : "08:00 12:30 - 13:30 18:00",
+                "mardi" : "08:00 12:30 - 13:30 18:00",
+                "mercredi" : "08:00 12:30 - 13:30 18:00",
+                "jeudi" : "08:00 12:30 - 13:30 18:00",
+                "vendredi" : "08:00 12:30 - 13:30 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
             "employees" : [
                 {
-                    "name" : "Bertrand Combemorel",
-                    "function" : "Directeur Général",
-                    "email" : "b.combemorel@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
                 },
                 {
-                    "name" : "Yann Joly",
-                    "function" : "Directeur Général Délégué",
-                    "email" : "y.joly@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
+                    "name" : "JOLY Yann",
+                    "function" : "Directeur Général Délégué"
                 }
             ]
         }
-    },
+    ],
 
 
 
-    "gamm-vert" : {
-        "1": {
-            "id" : 1,
+    "gamm-vert" : [
+        {
+            "name" : "Beaune",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "47.020127",
+                "long" : "4.858570"
+            },
+            "phone" : "03 80 24 13 89",
+            "email" : "gv.beaune@bourgognedusud.coop",
+            "address" : "41 Imp. Jean-Baptiste Gambut, 21200 Vignoles",
+            "opening_hours" : {
+                "lundi" : "09:00 - 12:00, 14:00 - 19:00",
+                "mardi" : "09:00 - 12:00, 14:00 - 19:00",
+                "mercredi" : "09:00 - 12:00, 14:00 - 19:00",
+                "jeudi" : "09:00 - 12:00, 14:00 - 19:00",
+                "vendredi" : "09:00 - 19:00",
+                "samedi" : "09:00 - 19:00",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Blanzy",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.705543",
+                "long" : "4.410957"
+            },
+            "phone" : "03 85 68 03 99",
+            "address" : "Rue Claude Boucher, 71450 Blanzy",
+            "opening_hours" : {
+                "lundi" : "14:00 - 18:00",
+                "mardi" : "08:30 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:30 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:30 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:30 - 12:00, 14:00 - 18:00",
+                "samedi" : "08:30 - 12:00, 14:00 - 18:00",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Bligny sur Ouche",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "47.107600",
+                "long" : "4.658938"
+            },
+            "phone" : "03 80 20 11 24",
+            "email" : "depot128@bourgognedusud.coop",
+            "address" : "Rte d'Arnay, 21360 Bligny-sur-Ouche",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Buxy",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.716038",
+                "long" : "4.704890"
+            },
+            "phone" : "03 85 92 14 56",
+            "email" : "depot147@bourgognedusud.coop",
+            "address" : "Rte de Givry, 71390 Buxy",
+            "opening_hours" : {
+                "lundi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:30",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:30",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Chagny",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.907061",
+                "long" : "4.763383"
+            },
+            "phone" : "03 85 92 14 56",
+            "email" : "depot111lisa@bourgognedusud.coop",
+            "address" : "Route de Demigny, Chem. de la Grangerie, 71150 Chagny",
+            "opening_hours" : {
+                "lundi" : "09:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:00",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Cluny",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.422058",
+                "long" : "4.664506"
+            },
+            "phone" : "03 85 59 27 89",
+            "email" : "depot318gvse@bourgognedusud.coop",
+            "address" : "La Gare, 71250 Cluny",
+            "opening_hours" : {
+                "lundi" : "09:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:00",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Montpont en Bresse",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.549644",
+                "long" : "5.161850"
+            },
+            "phone" : "03 85 72 93 34",
+            "email" : "depot309@bourgognedusud.coop",
+            "address" : "Les Courtelets, 71470 Montpont-en-Bresse",
+            "opening_hours" : {
+                "lundi" : "Fermé",
+                "mardi" : "08:30 - 12:00, 14:00 - 17:30",
+                "mercredi" : "08:30 - 12:00, 14:00 - 17:30",
+                "jeudi" : "08:30 - 12:00, 14:00 - 17:30",
+                "vendredi" : "08:30 - 12:00, 14:00 - 17:30",
+                "samedi" : "08:30 - 12:00, 14:00 - 17:30",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Nolay",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.947904",
+                "long" : "4.642818"
+            },
+            "phone" : "03 80 21 73 13",
+            "email" : "depot127@bourgognedusud.coop",
+            "address" : "Rte de Beaune, 21340 La Rochepot",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Pierre de Bresse",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.881663",
+                "long" : "5.260933"
+            },
+            "phone" : "03 85 76 84 00",
+            "email" : "depot105@bourgognedusud.coop",
+            "address" : "8 Av. de la Gare, 71270 Pierre-de-Bresse",
+            "opening_hours" : {
+                "lundi" : "08:30 - 12:00, 14:00 - 18:30",
+                "mardi" : "08:30 - 12:00, 14:00 - 18:30",
+                "mercredi" : "08:30 - 12:00, 14:00 - 18:30",
+                "jeudi" : "08:30 - 12:00, 14:00 - 18:30",
+                "vendredi" : "08:30 - 12:00, 14:00 - 18:30",
+                "samedi" : "08:30 - 12:00, 14:00 - 18:30",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Romenay",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.502323",
+                "long" : "5.058676"
+            },
+            "phone" : "03 85 40 31 49",
+            "email" : "depot303@bourgognedusud.coop",
+            "address" : "Les Benoîts, 71470 Romenay",
+            "opening_hours" : {
+                "lundi" : "Fermé",
+                "mardi" : "08:30 - 12:00, 14:00 - 17:30",
+                "mercredi" : "08:30 - 12:00, 14:00 - 17:30",
+                "jeudi" : "08:30 - 12:00, 14:00 - 17:30",
+                "vendredi" : "08:30 - 12:00, 14:00 - 17:30",
+                "samedi" : "08:30 - 12:00, 14:00 - 17:00",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Seurre",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.989348",
+                "long" : "5.147728"
+            },
+            "phone" : "03 80 20 47 68",
+            "email" : "depot165@bourgognedusud.coop",
+            "address" : "Imp. du Faubourg Saint-Georges, 21250 Seurre",
+            "opening_hours" : {
+                "lundi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:30",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:30",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Saint Gengoux le National",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.611321",
+                "long" : "4.661913"
+            },
+            "phone" : "03 85 92 67 46",
+            "email" : "depot116@bourgognedusud.coop",
+            "address" : "Rue des Tanneries, 71460 Saint-Gengoux-le-national",
+            "opening_hours" : {
+                "lundi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:30",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:30",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Saint Germain du Plain",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.706006",
+                "long" : "5.002776"
+            },
+            "phone" : "03 85 47 31 38",
+            "email" : "lisa304@bourgognedusud.coop",
+            "address" : "Imp. des Vernes, 71370 Saint-Germain-du-Plain",
+            "opening_hours" : {
+                "lundi" : "Fermé",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:00",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Saint Leger sur Dheune",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.855921",
+                "long" : "4.641632"
+            },
+            "phone" : "03 85 45 33 65",
+            "email" : "depot119@bourgognedusud.coop",
+            "address" : "Rte de Chagny, 71510 Saint-Léger-sur-Dheune",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Saint Marcel",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.778775",
+                "long" : "4.894535"
+            },
+            "phone" : "03 85 96 70 16",
+            "email" : "depot124@bourgognedusud.coop",
+            "address" : "2 Rue du Dr Jeannin, 71380 Saint-Marcel",
+            "opening_hours" : {
+                "lundi" : "Fermé",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:30",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:30",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Tournus",
+            "type" : "Gamm Vert",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.573665",
+                "long" : "4.904457"
+            },
+            "phone" : "03 85 51 26 22",
+            "email" : "depot307@bourgognedusud.coop",
+            "address" : "38 Av. du Clos Mouron, 71700 Tournus",
+            "opening_hours" : {
+                "lundi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:30",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:30",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
             "name" : "Verdun sur le Doubs",
             "type" : "Gamm Vert",
-            "coordinates" : "46.892028, 5.024346",
+            "color" : "#006c50",
+            "coordinates" : {
+                "lat" : "46.892028",
+                "long" : "5.024346"
+            },
             "phone" : "03 85 91 51 31",
             "email" : "depot112@bourgognedusud.coop",
             "address" : "19 Av. Valéry Giscard d'Estaing, 71350 Verdun-sur-le-Doubs",
-            "opening_hours" : [
-                {
-                    "monday" : "Fermé",
-                    "tuesday" : "09:00–12:00, 14:00–18:30",
-                    "wednesday" : "09:00–12:00, 14:00–18:30",
-                    "thursday" : "09:00–12:00, 14:00–18:30",
-                    "friday" : "09:00–12:00, 14:00–18:30",
-                    "saturday" : "09:00–12:00, 14:00–18:30",
-                    "sunday" : "Fermé"
-                }
-            ],
+            "opening_hours" : {
+                "lundi" : "Fermé",
+                "mardi" : "09:00 - 12:00, 14:00 - 18:30",
+                "mercredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "jeudi" : "09:00 - 12:00, 14:00 - 18:30",
+                "vendredi" : "09:00 - 12:00, 14:00 - 18:30",
+                "samedi" : "09:00 - 12:00, 14:00 - 18:30",
+                "dimanche" : "Fermé"
+            },
             "employees" : [
                 {
-                    "name" : "Bertrand Combemorel",
-                    "function" : "Directeur Général",
-                    "email" : "b.combemorel@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
-                },
-                {
-                    "name" : "Yann Joly",
-                    "function" : "Directeur Général Délégué",
-                    "email" : "y.joly@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
                 }
             ]
         }
-    },
+    ],
 
 
 
-    "silos" : {
-        "1": {
-            "id" : 1,
+    "silos" : [
+        {
+            "name" : "Beaune",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "47.019326",
+                "long" : "4.864878"
+            },
+            "phone" : "03 80 25 06 77",
+            "address" : "Rue Gaston Chevrolet, 21200 Beaune",
+            "opening_hours" : {
+                "lundi" : "08:00–12:00, 14:00–18:00",
+                "mardi" : "08:00–12:00, 14:00–18:00",
+                "mercredi" : "08:00–12:00, 14:00–18:00",
+                "jeudi" : "08:00–12:00, 14:00–18:00",
+                "vendredi" : "08:00–12:00, 14:00–18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "GATEAU Christophe",
+                    "function" : "Responsable Silo"
+                },
+                {
+                    "name" : "GALOPIN David",
+                    "function" : "Adjoint Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Bligny sur Ouche",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "47.107465",
+                "long" : "4.659509"
+            },
+            "phone" : "03 80 20 09 64",
+            "address" : "21 Rte d'Arnay, 21360 Bligny-sur-Ouche",
+            "opening_hours" : {
+                "lundi" : "08:00–12:00, 14:00–18:00",
+                "mardi" : "08:00–12:00, 14:00–18:00",
+                "mercredi" : "08:00–12:00, 14:00–18:00",
+                "jeudi" : "08:00–12:00, 14:00–18:00",
+                "vendredi" : "08:00–12:00, 14:00–18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "GATEAU Christophe",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Branges",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.655116",
+                "long" : "5.191087"
+            },
+            "phone" : "03 85 75 86 81",
+            "address" : "ZI Les Sennecières, 71500 LOUHANS",
+            "opening_hours" : {
+                "lundi" : "08:00–12:00, 14:00–18:00",
+                "mardi" : "08:00–12:00, 14:00–18:00",
+                "mercredi" : "08:00–12:00, 14:00–18:00",
+                "jeudi" : "08:00–12:00, 14:00–18:00",
+                "vendredi" : "08:00–12:00, 14:00–18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "GUILLOT Thierry",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
             "name" : "Chalon Nord",
             "type" : "Silo",
-            "coordinates" : "46.802799, 4.869835",
-            "phone" : "03 85 43 10 32",
-            "email" : "depot149@bourgognedusud.coop",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.802799",
+                "long" : "4.869835"
+            },
+            "phone" : "03 85 97 05 05",
             "address" : "Rue des Frères Lumière, 71100 Chalon-sur-Saône",
-            "opening_hours" : [
-                {
-                    "monday" : "08:00–12:00, 13:30–17:30",
-                    "tuesday" : "08:00–12:00, 13:30–17:30",
-                    "wednesday" : "08:00–12:00, 13:30–17:30",
-                    "thursday" : "08:00–12:00, 13:30–17:30",
-                    "friday" : "08:00–12:00, 13:30–17:30",
-                    "saturday" : "Fermé",
-                    "sunday" : "Fermé"
-                }
-            ],
+            "opening_hours" : {
+                "lundi" : "08:00–12:00, 13:30–17:30",
+                "mardi" : "08:00–12:00, 13:30–17:30",
+                "mercredi" : "08:00–12:00, 13:30–17:30",
+                "jeudi" : "08:00–12:00, 13:30–17:30",
+                "vendredi" : "08:00–12:00, 13:30–17:30",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
             "employees" : [
                 {
-                    "name" : "Rossignol Fabrice",
-                    "function" : "Responsable Silo",
-                    "email" : "f.rossignol@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
+                    "name" : "ROSSIGNOL Fabrice",
+                    "function" : "Responsable Silo"
                 }
             ]
         },
-        "2": {
-            "id" : 2,
+        {
             "name" : "Chalon Sud",
             "type" : "Silo",
-            "coordinates" : "46.758015, 4.870060",
-            "phone" : "03 85 43 10 32",
-            "email" : "depotXXX@bourgognedusud.coop",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.758015",
+                "long" : "4.870060"
+            },
+            "phone" : "03 85 42 50 50",
             "address" : "Zone d'activité Portuaires, 71380 Saint-Marcel",
-            "opening_hours" : [
-                {
-                    "monday" : "08:00–12:00, 13:30–17:30",
-                    "tuesday" : "08:00–12:00, 13:30–17:30",
-                    "wednesday" : "08:00–12:00, 13:30–17:30",
-                    "thursday" : "08:00–12:00, 13:30–17:30",
-                    "friday" : "08:00–12:00, 13:30–17:30",
-                    "saturday" : "Fermé",
-                    "sunday" : "Fermé"
-                }
-            ],
+            "opening_hours" : {
+                "lundi" : "08:00–12:00, 13:30–17:30",
+                "mardi" : "08:00–12:00, 13:30–17:30",
+                "mercredi" : "08:00–12:00, 13:30–17:30",
+                "jeudi" : "08:00–12:00, 13:30–17:30",
+                "vendredi" : "08:00–12:00, 13:30–17:30",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
             "employees" : [
                 {
-                    "name" : "Langlois Dominique",
-                    "function" : "Responsable Silo",
-                    "email" : "d.langlois@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
-                }
-            ]
-        }
-    },
-
-
-    "usines" : {
-        "1": {
-            "id" : 1,
-            "name" : "Extrusel",
-            "type" : "Usine",
-            "coordinates" : "46.801969, 4.871449",
-            "phone" : "03 85 97 05 05",
-            "email" : "depot149@bourgognedusud.coop",
-            "address" : "Rue des Frères Lumière, 71100 Chalon-sur-Saône",
-            "opening_hours" : [
-                {
-                    "monday" : "08:00–12:00, 13:30–17:30",
-                    "tuesday" : "08:00–12:00, 13:30–17:30",
-                    "wednesday" : "08:00–12:00, 13:30–17:30",
-                    "thursday" : "08:00–12:00, 13:30–17:30",
-                    "friday" : "08:00–12:00, 13:30–17:30",
-                    "saturday" : "Fermé",
-                    "sunday" : "Fermé"
-                }
-            ],
-            "employees" : [
-                {
-                    "name" : "Lequeu Franck",
-                    "function" : "Responsable Production",
-                    "email" : "f.lequeu@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
-                },
-                {
-                    "name" : "Pissenem Damien",
-                    "function" : "Adjoint Responsable Production",
-                    "email" : "d.pissenem@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
+                    "name" : "LANGLOIS Dominique",
+                    "function" : "Responsable Silo"
                 }
             ]
         },
-        "2": {
-            "id" : 2,
-            "name" : "Selvah",
-            "type" : "Usine",
-            "coordinates" : "46.873835, 5.061098",
-            "phone" : "03 85 43 10 32",
-            "email" : "",
-            "address" : "Zone d'activité Portuaires, 71380 Saint-Marcel",
-            "opening_hours" : [
-                {
-                    "monday" : "08:00–12:00, 13:30–17:30",
-                    "tuesday" : "08:00–12:00, 13:30–17:30",
-                    "wednesday" : "08:00–12:00, 13:30–17:30",
-                    "thursday" : "08:00–12:00, 13:30–17:30",
-                    "friday" : "08:00–12:00, 13:30–17:30",
-                    "saturday" : "Fermé",
-                    "sunday" : "Fermé"
-                }
-            ],
+        {
+            "name" : "Crissey",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.815198",
+                "long" : "4.863918"
+            },
+            "phone" : "03 85 46 50 96",
+            "address" : "22 rue Ferré, 71530 CRISSEY",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
             "employees" : [
                 {
-                    "name" : "Lequeu Franck",
-                    "function" : "Responsable Production",
-                    "email" : "f.lequeu@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
+                    "name" : "DEMONT Cyril",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Gergy",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.897208",
+                "long" : "4.947286"
+            },
+            "phone" : "06 88 84 49 62",
+            "address" : "11 rte Osnay - Raconnay, 71590 GERGY",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "GATEAU Christophe",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Jully les Buxy",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.702876",
+                "long" : "4.720747"
+            },
+            "phone" : "03 85 92 08 77",
+            "address" : "Les Theurots, 71390 JULLY LES BUXY",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "FLATOT Pierre",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Labergement les Seurre",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "47.006151",
+                "long" : "5.064483"
+            },
+            "phone" : "03 80 21 06 49",
+            "address" : "Chemin Départ. 973, 21820 LABERGEMENT LES SEURRE",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "BIROTEAU Rodolphe",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Lays sur le Doubs",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.918967",
+                "long" : "5.254981"
+            },
+            "phone" : "03 85 72 84 27",
+            "address" : "6 Rue des Corbots, 71270 Lays-sur-le-Doubs",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "BLAND Arnaud",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Lessard en Bresse",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.742006",
+                "long" : "5.094341"
+            },
+            "phone" : "03 85 96 47 42",
+            "address" : "La Corvée, 71440 Lessard-en-Bresse",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "VACHET Franck",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Mervans",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.815748",
+                "long" : "5.172731"
+            },
+            "phone" : "03 85 76 13 08",
+            "address" : "12 Rue de Buxy, 71310 Mervans",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "GONIN-PALTHEY Michel",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Meursanges",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.988124",
+                "long" : "4.949231"
+            },
+            "phone" : "03 80 26 63 91",
+            "address" : "11 Rue des Vignes, 21200 Meursanges",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "GATEAU Christophe",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Montpont en Bresse",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.549734",
+                "long" : "5.161107"
+            },
+            "phone" : "03 85 72 99 68",
+            "address" : "SudLes Courtelets, 71470 MONTPONT EN BRESSE",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "TERRIER Francis",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Nolay",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.948494",
+                "long" : "4.643295"
+            },
+            "phone" : "03 80 21 85 45",
+            "address" : "25 Av. Eugène Spuller, 21340 Nolay",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "PETEUIL Thomas",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Pagny le Château",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "47.042324",
+                "long" : "5.176685"
+            },
+            "phone" : "03 80 10 09 09",
+            "address" : "Technoport de Pagny, 21250 PAGNY LE CHÂTEAU",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "CHERVEAU Yves",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Pierre de Bresse",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.872152",
+                "long" : "5.276704"
+            },
+            "phone" : "03 85 76 23 75",
+            "address" : "35 Rte de Louhans, 71270 Pierre-de-Bresse",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "BONIN Julien",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Romenay",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.501882",
+                "long" : "5.058965"
+            },
+            "phone" : "03 85 40 31 49",
+            "address" : "251 Rte de Sermoyer, 71470 Romenay",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "BORDET Clément",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Saint Gengoux le National",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.604934",
+                "long" : "4.669431"
+            },
+            "phone" : "03 85 92 62 87",
+            "address" : "1 Terre Rebourgeon, 71460 Saint-Gengoux-le-national",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        },
+        {
+            "name" : "Saint Germain du Plain",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.705789",
+                "long" : "5.002355"
+            },
+            "phone" : "03 85 47 39 39",
+            "address" : "1 Imp. des Vernes, 71370 Saint-Germain-du-Plain",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "CRENIAUT Jérôme",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Saint Leger sur Dheune",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.856176",
+                "long" : "4.641547"
+            },
+            "phone" : "03 85 45 33 65",
+            "address" : "Rte de Chagny, 71510 ST LEGER / DHEUNE",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "GRIFFON Philippe",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Saint Martin en Bresse",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.815712",
+                "long" : "5.068114"
+            },
+            "phone" : "03 85 47 73 28",
+            "address" : "13 Rte de Mervans, 71620 Saint-Martin-en-Bresse",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "SAGETAT Pierre",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Sennecey le Grand",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.642214",
+                "long" : "4.875473"
+            },
+            "phone" : "03 85 44 78 29",
+            "address" : "8 Imp. de la Croisette, 71240 Sennecey-le-Grand",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "SALAMAGNE Jacques",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Seurre",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.995644",
+                "long" : "5.150008"
+            },
+            "phone" : "03 80 20 47 28",
+            "address" : "11 rue Mail, 21250 SEURRE",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "VIEILLARD Damien",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Simandre",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.615337",
+                "long" : "4.992433"
+            },
+            "phone" : "03 85 40 20 74",
+            "address" : "433 Rte des Fontaines, 71290 Simandre",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "JANDOT Sébastien",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Simard",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.724197",
+                "long" : "5.189868"
+            },
+            "phone" : "03 85 72 20 12",
+            "address" : "25 Rte de la Gare, 71330 Simard",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "VITTOZ Eric",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Tournus",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.552958",
+                "long" : "4.910878"
+            },
+            "phone" : "03 85 32 19 34",
+            "address" : "Chem. des Joncs, 71700 Tournus",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "FLAGEL Arnaud",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Tronchy",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.733599",
+                "long" : "5.077143"
+            },
+            "phone" : "03 85 96 41 05",
+            "address" : "Chp des Oies, 71440 Tronchy",
+            "opening_hours" : {
+                "lundi" : "Période de collecte",
+                "mardi" : "Période de collecte",
+                "mercredi" : "Période de collecte",
+                "jeudi" : "Période de collecte",
+                "vendredi" : "Période de collecte",
+                "samedi" : "Période de collecte",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "VACHET Franck",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        },
+        {
+            "name" : "Verdun sur le Doubs",
+            "type" : "Silo",
+            "color" : "#feba00",
+            "coordinates" : {
+                "lat" : "46.891040",
+                "long" : "5.028434"
+            },
+            "phone" : "03 85 91 93 19",
+            "address" : "6 av. du Président Borgeot, 71350 VERDUN SUR LE DOUBS",
+            "opening_hours" : {
+                "lundi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mardi" : "08:00 - 12:00, 14:00 - 18:00",
+                "mercredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "jeudi" : "08:00 - 12:00, 14:00 - 18:00",
+                "vendredi" : "08:00 - 12:00, 14:00 - 18:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "HUARD Frédéric",
+                    "function" : "Responsable Silo"
+                }
+            ]
+        }
+    ],
+
+
+    "usines" : [
+        {
+            "name" : "Extrusel",
+            "type" : "Usine",
+            "color" : "#89afd0",
+            "coordinates" : {
+                "lat" : "46.801969",
+                "long" : "4.871449"
+            },
+            "phone" : "03 85 91 93 07",
+            "email" : "extrusel@bourgognedusud.coop",
+            "address" : "Rue des Frères Lumière, 71100 Chalon-sur-Saône",
+            "opening_hours" : {
+                "lundi" : "08:00–12:00, 13:30–17:30",
+                "mardi" : "08:00–12:00, 13:30–17:30",
+                "mercredi" : "08:00–12:00, 13:30–17:30",
+                "jeudi" : "08:00–12:00, 13:30–17:30",
+                "vendredi" : "08:00–12:00, 13:30–17:30",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "LEQUEU Franck",
+                    "function" : "Responsable Production"
                 },
                 {
-                    "name" : "Fevre Emeric",
-                    "function" : "Adjoint Responsable Production",
-                    "email" : "e.fevre@bourgognedusud.coop"
+                    "name" : "PISSENEM Damien",
+                    "function" : "Adjoint Responsable Production"
                 }
             ]
-        }
-    },
-
-
-
-    "activites-vigne" : {
-        "1": {
-            "id" : 1,
-            "name" : "Fichet",
-            "type" : "Activité Vigne",
-            "coordinates" : "46.967943, 4.795307",
-            "phone" : "03 80 21 23 78",
-            "email" : "siege@bourgognedusud.coop",
-            "address" : "42 Imp. du Pré des Taupes, 21190 Meursault",
-            "opening_hours" : [
-                {
-                    "monday" : "08:00 12:30 - 13:30 18:00",
-                    "tuesday" : "08:00 12:30 - 13:30 18:00",
-                    "wednesday" : "08:00 12:30 - 13:30 18:00",
-                    "thursday" : "08:00 12:30 - 13:30 18:00",
-                    "friday" : "08:00 12:30 - 13:30 18:00",
-                    "saturday" : "Fermé",
-                    "sunday" : "Fermé"
-                }
-            ],
+        },
+        {
+            "name" : "Moulin Jannet & Fils",
+            "type" : "Usine",
+            "color" : "#89afd0",
+            "coordinates" : {
+                "lat" : "46.494770",
+                "long" : "5.203094"
+            },
+            "phone" : "04 74 52 91 50",
+            "address" : "Le Tillet, 01560 CURCIAT DONGALON",
+            "opening_hours" : {
+                "lundi" : "08:00–12:00, 13:30–17:30",
+                "mardi" : "08:00–12:00, 13:30–17:30",
+                "mercredi" : "08:00–12:00, 13:30–17:30",
+                "jeudi" : "08:00–12:00, 13:30–17:30",
+                "vendredi" : "08:00–12:00, 13:30–17:30",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
             "employees" : [
                 {
-                    "name" : "Bertrand Combemorel",
-                    "function" : "Directeur Général",
-                    "email" : "b.combemorel@bourgognedusud.coop",
-                    "phone" : "06 12 34 56 78"
+                    "name" : "BARON Cyril",
+                    "function" : "Responsable Production"
+                }
+            ]
+        },
+        {
+            "name" : "Selvah",
+            "type" : "Usine",
+            "color" : "#89afd0",
+            "coordinates" : {
+                "lat" : "46.873835",
+                "long" : "5.061098"
+            },
+            "phone" : "03 85 43 10 32",
+            "address" : "N73, 71350 Ciel",
+            "opening_hours" : {
+                "lundi" : "08:00–12:00, 13:30–17:30",
+                "mardi" : "08:00–12:00, 13:30–17:30",
+                "mercredi" : "08:00–12:00, 13:30–17:30",
+                "jeudi" : "08:00–12:00, 13:30–17:30",
+                "vendredi" : "08:00–12:00, 13:30–17:30",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "LEQUEU Franck",
+                    "function" : "Responsable Production"
+                },
+                {
+                    "name" : "FEVRE Emeric",
+                    "function" : "Adjoint Responsable Production"
+                }
+            ]
+        },
+        {
+            "name" : "Val Union BFC Semences",
+            "type" : "Usine",
+            "color" : "#89afd0",
+            "coordinates" : {
+                "lat" : "46.875712",
+                "long" : "5.060862"
+            },
+            "phone" : "03 85 91 79 66",
+            "address" : "N73, 71350 Ciel",
+            "opening_hours" : {
+                "lundi" : "08:00 - 15:00",
+                "mardi" : "08:00 - 15:00",
+                "mercredi" : "08:00 - 15:00",
+                "jeudi" : "08:00 - 15:00",
+                "vendredi" : "08:00 - 15:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "ALLAIN Matthieu",
+                    "function" : "Responsable Production"
                 }
             ]
         }
-    }
+    ],
+
+
+
+    "activites-vigne" : [
+        {
+            "name" : "Fichet",
+            "type" : "Activité Vigne",
+            "color" : "#a50343",
+            "coordinates" : {
+                "lat" : "46.967943",
+                "long" : "4.795307"
+            },
+            "phone" : "03 80 21 23 78",
+            "address" : "42 Imp. du Pré des Taupes, 21190 Meursault",
+            "opening_hours" : {
+                "lundi" : "08:00 12:30 - 13:30 17:30",
+                "mardi" : "08:00 12:30 - 13:30 17:30",
+                "mercredi" : "08:00 12:30 - 13:30 17:30",
+                "jeudi" : "08:00 12:30 - 13:30 17:30",
+                "vendredi" : "08:00 12:30 - 13:30 17:00",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "DEMONTMEROT Julien",
+                    "function" : "Responsable Exploitation"
+                }
+            ]
+        },
+        {
+            "name" : "Viti Vini Services",
+            "type" : "Activité Vigne",
+            "color" : "#a50343",
+            "coordinates" : {
+                "lat" : "46.274916",
+                "long" : "4.780898"
+            },
+            "phone" : "03 85 27 05 27",
+            "address" : "625 Rte de Juliénas, 71680 Vinzelles",
+            "opening_hours" : {
+                "lundi" : "08:00 12:00 - 13:30 17:30",
+                "mardi" : "08:00 12:00 - 13:30 17:30",
+                "mercredi" : "08:00 12:00 - 13:30 17:30",
+                "jeudi" : "08:00 12:00 - 13:30 17:30",
+                "vendredi" : "08:00 12:00 - 13:30 16:30",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "DEMONTMEROT Julien",
+                    "function" : "Responsable Exploitation"
+                }
+            ]
+        },
+        {
+            "name" : "P.B Regnier",
+            "type" : "Activité Vigne",
+            "color" : "#a50343",
+            "coordinates" : {
+                "lat" : "47.232135",
+                "long" : "4.983558"
+            },
+            "phone" : "03 80 58 51 93",
+            "address" : "4 Route nationale 74, 21220 Brochon",
+            "opening_hours" : {
+                "lundi" : "08:00 12:00 - 13:30 17:30",
+                "mardi" : "08:00 12:00 - 13:30 17:30",
+                "mercredi" : "08:00 12:00 - 13:30 17:30",
+                "jeudi" : "08:00 12:00 - 13:30 17:30",
+                "vendredi" : "08:00 12:00 - 13:30 17:30",
+                "samedi" : "Fermé",
+                "dimanche" : "Fermé"
+            },
+            "employees" : [
+                {
+                    "name" : "COMBEMOREL Bertrand",
+                    "function" : "Directeur Général"
+                }
+            ]
+        }
+    ]
 }

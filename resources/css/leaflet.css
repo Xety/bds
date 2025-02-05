@@ -273,6 +273,10 @@
     background-color: transparent
 }
 
+#map .leaflet-pane {
+    @apply z-0;
+}
+
 /* --------------------------------------------- */
 
 #filters {
