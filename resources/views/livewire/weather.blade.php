@@ -33,6 +33,8 @@ new class extends Component {
                         'lang' => 'fr'
                     ]);
 
+                    dd($response->getBody()->getContents());
+
                     $response = json_decode($response->getBody()->getContents());
                 } catch (\Illuminate\Http\Client\ConnectionException $e ) { }
 
@@ -45,7 +47,6 @@ new class extends Component {
 
 <div>
     @if($weather && !isset($weather->error))
-        {{dd($weather)}}
         <div class="flex items-center w-max tooltip tooltip-bottom" data-tip="{{ $weather->current->condition->text }}">
             <div>
                 <img class="w-14 h-14" src="{{ $weather?->current->condition->icon }}" alt="{{ $weather?->current->condition->text }}">
