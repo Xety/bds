@@ -21,7 +21,7 @@
         "livewire/livewire": "^3.5.0",
         "livewire/volt": "^1.6.5",
         "maantje/pulse-database": "^0.2.0",
-        "maatwebsite/excel": "3.1.55",
+        "maatwebsite/excel": "^3.1.62",
         "mallardduck/blade-boxicons": "^2.4.0",
         "masmerise/livewire-toaster": "^2.2.1",
         "owenvoke/blade-fontawesome": "^2.6",
