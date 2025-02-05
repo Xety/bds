@@ -36,18 +36,17 @@
         <div class="mx-auto grid default:grid-cols-12 default:gap-6">
             <livewire:pulse.servers cols="full" />
 
-            <livewire:pulse.usage cols="6" />
+            <livewire:pulse.usage cols="4" rows="2" />
 
-             {{-- <livewire:requests cols="4"/> --}}
+            <livewire:requests cols="4"/>
+
+            <livewire:pulse.cache cols="4" />
+
+            <livewire:pulse.slow-queries cols="8" />
 
             <livewire:pulse.exceptions cols="6" />
 
-            <livewire:pulse.slow-queries cols="6" />
-
             <livewire:pulse.slow-requests cols="6" />
-
-
-            <livewire:pulse.cache cols="12" />
 
             <livewire:pulse_active_session cols='4' rows='2' />
 
@@ -55,7 +54,7 @@
 
             <livewire:pulse.table-info cols='4' rows='2' />
 
-            {{-- <livewire:database cols='6' title="Active threads" :values="['Threads_connected', 'Threads_running']" :graphs="[
+            <livewire:database cols='6' title="Active threads" :values="['Threads_connected', 'Threads_running']" :graphs="[
     'avg' => ['Threads_connected' => '#9333ea', 'Threads_running' => '#3c5dff'],
 ]" />
 
@@ -63,7 +62,7 @@
 
             <livewire:database cols='full' title="Innodb" :values="['Innodb_buffer_pool_reads', 'Innodb_buffer_pool_read_requests', 'Innodb_buffer_pool_pages_total']" :graphs="[
     'avg' => ['Innodb_buffer_pool_reads' => '#9333ea', 'Innodb_buffer_pool_read_requests' => '#3c5dff'],
-]" /> --}}
+]" />
         </div>
     </section>
 @endsection

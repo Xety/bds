@@ -217,13 +217,13 @@ return [
             ],
         ],
 
-        Recorders\UserJobs::class => [
+        /*Recorders\UserJobs::class => [
             'enabled' => env('PULSE_USER_JOBS_ENABLED', true),
             'sample_rate' => env('PULSE_USER_JOBS_SAMPLE_RATE', 1),
             'ignore' => [
                 // '/^Package\\\\Jobs\\\\/',
             ],
-        ],
+        ],*/
 
         Recorders\UserRequests::class => [
             'enabled' => env('PULSE_USER_REQUESTS_ENABLED', true),
