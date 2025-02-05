@@ -36,11 +36,11 @@
         <div class="mx-auto grid default:grid-cols-12 default:gap-6">
             <livewire:pulse.servers cols="full" />
 
-            <livewire:pulse.usage cols="4" rows="2" />
+            <livewire:pulse.usage cols="6" rows="2" />
 
-            <livewire:requests cols="4"/>
+            {{-- <livewire:requests cols="4"/> --}}
 
-            <livewire:pulse.cache cols="4" />
+            <livewire:pulse.cache cols="6" />
 
             <livewire:pulse.slow-queries cols="8" />
 
