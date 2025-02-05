@@ -45,6 +45,7 @@ new class extends Component {
 
 <div>
     @if($weather && !isset($weather->error))
+        {{dd($weather)}}
         <div class="flex items-center w-max tooltip tooltip-bottom" data-tip="{{ $weather->current->condition->text }}">
             <div>
                 <img class="w-14 h-14" src="{{ $weather?->current->condition->icon }}" alt="{{ $weather?->current->condition->text }}">
