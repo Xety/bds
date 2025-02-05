@@ -9,9 +9,9 @@ new class extends Component {
     /**
      * All the sites that below to the authenticated user.
      *
-     * @var null|stdClass
+     * @var null|stdClass|array
      */
-    public null|stdClass $weather = null;
+    public null|stdClass|array $weather = null;
 
 
     public function mount(): void
