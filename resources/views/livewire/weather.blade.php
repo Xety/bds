@@ -39,11 +39,6 @@ new class extends Component {
                 return $response;
             }
         );
-
-        if (is_array($this->weather)) {
-            $this->weather =  json_decode(json_encode($this->weather));
-        }
-
     }
 }; ?>
 
