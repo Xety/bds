@@ -18,7 +18,7 @@ class SetCurrentSitePermission
     public function handle(Request $request, Closure $next): mixed
     {
         if (!empty(auth()->user())) {
-            app(\Spatie\Permission\PermissionRegistrar::class)->setPermissionsTeamId(session('current_site_id'));
+            app(\Spatie\Permission\PermissionRegistrar::class)->setPermissionsTeamId((int) session('current_site_id'));
 
             // unset cached model relations so new team relations will get reloaded
             auth()->user()->unsetRelation('roles');

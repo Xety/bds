@@ -25,7 +25,7 @@ class SetCurrentSite
             }
 
             session()->put([
-                'current_site_id' => $siteId
+                'current_site_id' => (int) $siteId
             ]);
             // Set the site id for the settings too.
             //settings()->setSiteId($siteId);
