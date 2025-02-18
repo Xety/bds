@@ -14,8 +14,8 @@ class Settings
         'model_id' => null
     ];
 
-    /** @var null|string|int */
-    protected mixed $siteId = null;
+    /** @var null|int */
+    protected null|int $siteId = null;
 
     public function __construct(
         protected Cache $cache,
@@ -63,11 +63,11 @@ class Settings
     /**
      * Set the site id to the settings.
      *
-     * @param int|string|null|Model $id
+     * @param int|null|Model $id
      *
      * @return Settings
      */
-    public function setSiteId(Model|string|int|null $id): self
+    public function setSiteId(Model|int|null $id): self
     {
         if ($id instanceof Model) {
             $id = $id->getKey();

@@ -18,7 +18,7 @@
                                 </button>
                             </li>
                         @endcan
-                        @if (auth()->user()->can('delete', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
+                        @if (auth()->user()->can('delete', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== (int)settings('site_id_verdun_siege'))
                             <li>
                                 <button type="button" class="text-red-500" wire:click="$toggle('showDeleteModal')">
                                     <x-icon name="fas-trash-can" class="h-5 w-5"></x-icon>
@@ -31,13 +31,13 @@
             @endcanany
         </div>
         <div class="mb-4">
-            @if(Gate::allows('generatePlan', \BDS\Models\Cleaning::class) && settings('cleaning_create_enabled', true))
+            @if(Gate::allows('generatePlan', \BDS\Models\Cleaning::class) && (int)settings('cleaning_create_enabled', true))
                 <x-button type="button" class="btn btn-info gap-2" wire:click="generatePlan" spinner>
                     <x-icon name="fas-file-lines" class="h-5 w-5"></x-icon>
                     Générer le Plan de Nettoyage
                 </x-button>
             @endcan
-            @if (settings('cleaning_create_enabled', true) && auth()->user()->can('create', \BDS\Models\Cleaning::class))
+            @if ((int)settings('cleaning_create_enabled', true) && auth()->user()->can('create', \BDS\Models\Cleaning::class))
                 <x-button type="button" class="btn btn-success gap-2" wire:click="create" spinner>
                     <x-icon name="fas-plus" class="h-5 w-5"></x-icon>
                     Nouveau Nettoyage
@@ -55,13 +55,13 @@
                     </label>
                 </x-table.heading>
             @endcanany
-            @if(Gate::allows('update', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
+            @if(Gate::allows('update', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== (int)settings('site_id_verdun_siege'))
                 <x-table.heading>Actions</x-table.heading>
             @endif
             <x-table.heading sortable wire:click="sortBy('id')" :direction="$sortField === 'id' ? $sortDirection : null">#Id</x-table.heading>
             <x-table.heading sortable wire:click="sortBy('material_id')" :direction="$sortField === 'material_id' ? $sortDirection : null">Matériel</x-table.heading>
             <x-table.heading>Zone</x-table.heading>
-            @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+            @if(getPermissionsTeamId() === (int)settings('site_id_verdun_siege'))
                 <x-table.heading sortable wire:click="sortBy('site_id')" :direction="$sortField === 'site_id' ? $sortDirection : null">Site</x-table.heading>
             @endif
             <x-table.heading sortable wire:click="sortBy('user_id')" :direction="$sortField === 'user_id' ? $sortDirection : null">Créateur</x-table.heading>
@@ -69,7 +69,7 @@
             <x-table.heading sortable wire:click="sortBy('type')" :direction="$sortField === 'type' ? $sortDirection : null">Fréquence</x-table.heading>
             {{var_dump(getPermissionsTeamId())}}
                 {{var_dump(settings('site_id_selvah'))}}
-                @if(getPermissionsTeamId() === settings('site_id_selvah'))
+                @if(getPermissionsTeamId() === (int)settings('site_id_selvah'))
                 <x-table.heading sortable wire:click="sortBy('ph_test_water')" :direction="$sortField === 'ph_test_water' ? $sortDirection : null">PH de l'eau</x-table.heading>
                 <x-table.heading sortable wire:click="sortBy('ph_test_water_after_cleaning')" :direction="$sortField === 'ph_test_water_after_cleaning' ? $sortDirection : null">PH de l'eau <br>après nettoyage</x-table.heading>
             @endif
@@ -82,7 +82,7 @@
                     @canany(['export', 'delete'], \BDS\Models\Cleaning::class)
                         <x-table.cell></x-table.cell>
                     @endcanany
-                    @if(Gate::allows('update', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== settings('site_id_verdun_siege'))
+                    @if(Gate::allows('update', \BDS\Models\Cleaning::class) && getPermissionsTeamId() !== (int)settings('site_id_verdun_siege'))
                         <x-table.cell></x-table.cell>
                     @endif
                     <x-table.cell>
@@ -94,7 +94,7 @@
                     <x-table.cell>
                         <x-input wire:model.live.debounce.400ms="filters.zone" name="filters.zone" type="text" />
                     </x-table.cell>
-                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                    @if(getPermissionsTeamId() === (int)settings('site_id_verdun_siege'))
                         <x-table.cell>
                             <x-input wire:model.live.debounce.400ms="filters.site" name="filters.site" type="text" />
                         </x-table.cell>
@@ -113,7 +113,7 @@
                             name="filters.type"
                         />
                     </x-table.cell>
-                    @if(getPermissionsTeamId() === settings('site_id_selvah'))
+                    @if(getPermissionsTeamId() === (int)settings('site_id_selvah'))
                         <x-table.cell></x-table.cell>
                         <x-table.cell></x-table.cell>
                     @endif
@@ -167,7 +167,7 @@
                     <x-table.cell>
                         {{ $cleaning->material->zone->name }}
                     </x-table.cell>
-                    @if(getPermissionsTeamId() === settings('site_id_verdun_siege'))
+                    @if(getPermissionsTeamId() === (int)settings('site_id_verdun_siege'))
                         <x-table.cell>
                             <a class="link link-hover link-primary font-bold" href="{{ $cleaning->site->show_url }}">
                                 {{ $cleaning->site->name }}
@@ -320,7 +320,7 @@
             placeholder="Sélectionnez la fréquence"
         />
 
-        @if ($form->type == 'weekly' && $materialCleaningTestPhEnabled && getPermissionsTeamId() === settings('site_id_selvah'))
+        @if ($form->type == 'weekly' && $materialCleaningTestPhEnabled && getPermissionsTeamId() === (int)settings('site_id_selvah'))
             <div class="divider text-base-content text-opacity-70 uppercase">SELVAH</div>
 
             @php $message = "Veuillez renseigner le PH de l'eau du réseau.";@endphp
