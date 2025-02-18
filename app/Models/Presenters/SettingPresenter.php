@@ -13,7 +13,7 @@ trait SettingPresenter
     public function value(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => unserialize($value),
+            //get: fn (string $value) => unserialize($value),
             set: fn (mixed $value) => serialize($value),
         );
     }

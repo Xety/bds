@@ -38,13 +38,12 @@ class Settings
                 ->where('key', $key)
                 ->where('site_id', $this->siteId)
                 ->where('model_type', $this->context['model_type'])
-                ->where('model_id', $this->context['model_id'])
-                ->first();
-            //dd($query);
-            return $query;
+                ->where('model_id', $this->context['model_id']);
+
+            return $query->value('value');
         });
 
-        return $value ?? null;
+        return $value ? unserialize($value) : null;
     }
 
     /**
