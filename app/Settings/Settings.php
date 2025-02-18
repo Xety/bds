@@ -40,7 +40,7 @@ class Settings
                 ->where('model_type', $this->context['model_type'])
                 ->where('model_id', $this->context['model_id']);
 
-            return $query->value('value');
+            return serialize($query->value('value'));
         });
 
         return $value ? unserialize($value) : null;
