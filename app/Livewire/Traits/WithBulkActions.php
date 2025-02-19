@@ -5,6 +5,7 @@ namespace BDS\Livewire\Traits;
 use BDS\Models\Material;
 use BDS\Models\PartEntry;
 use BDS\Models\PartExit;
+use BDS\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
@@ -111,6 +112,11 @@ trait WithBulkActions
     {
         // For Verdun site, we can export all rows.
         if (getPermissionsTeamId() === settings('site_id_verdun_siege')) {
+            $this->hasSite = false;
+        }
+
+        // User model has no site
+        if ($this->model === User::class) {
             $this->hasSite = false;
         }
 
