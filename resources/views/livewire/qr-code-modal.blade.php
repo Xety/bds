@@ -5,7 +5,7 @@
                 <div class="mb-3">
                     Le QR Code que vous venez de scanner correspond au matériel :
                 </div>
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center text-center">
                     <x-icon name="fas-microchip" class="w-16 h-16"></x-icon>
                     <span class="block font-bold text-2xl">
                         {{ $model?->name }}
