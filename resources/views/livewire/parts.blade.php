@@ -416,6 +416,22 @@
 
         <x-input icon-right="fas-euro-sign" wire:model="form.price" name="form.price" label="Prix" placeholder="Prix de la pièce détachée..." type="number" min="0" step="0.01"  />
 
+        @if(getPermissionsTeamId() === settings('site_id_maintenance_bds'))
+            @php $message = "Sélectionnez la/les sites où vous souhaitez rechercher des matériels.";@endphp
+            <x-select
+                :options="$sites"
+                class="select-primary tooltip tooltip-top"
+                wire:model.live="form.sites"
+                name="form.sites"
+                label="Filtrer les matériels par site"
+                option-label="name"
+                option-value="id"
+                :label-info="$message"
+                size="5"
+                multiple
+            />
+        @endif
+
         @php
             $message = "Sélectionnez les matériéls auquel appartient la pièce détachée." .
             (getPermissionsTeamId() == settings('site_id_maintenance_bds') ?

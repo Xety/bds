@@ -255,8 +255,16 @@ class Parts extends Component
      */
     public function render(): View
     {
+
+        $sites = Site::query()
+            ->select(['id', 'name'])
+            ->orderBy('name')
+            ->get()
+            ->toArray();
+
         return view('livewire.parts', [
-            'parts' => $this->rows
+            'parts' => $this->rows,
+            'sites' => $sites
         ]);
     }
 
@@ -444,6 +452,12 @@ class Parts extends Component
         // Only the maintenance site can access to all materials from all sites.
         if(getPermissionsTeamId() !== settings('site_id_maintenance_bds')) {
             $materials->whereRelation('zone.site', 'id', getPermissionsTeamId());
+        } elseif (!empty($this->form->sites)) {
+            // If the user has selectionned one or more sites, apply them to the search query.
+            $sites = $this->form->sites;
+            $materials->whereRelation('zone.site', function($query) use ($sites) {
+                return $query->whereIn('id', $sites);
+            });
         }
 
         $materials = $materials->take(20)
